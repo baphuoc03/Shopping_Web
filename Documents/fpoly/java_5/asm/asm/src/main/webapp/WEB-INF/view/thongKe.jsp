@@ -275,7 +275,7 @@
         $scope.fillChart = function (id, xAxis, data, title) {
             Highcharts.chart(id, {
                 chart: {
-                    type: "line",
+                    type: "column",
                     // width : 2000
                 },
                 title: {
