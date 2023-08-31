@@ -61,4 +61,6 @@ public class TaiKhoanModel {
             joinColumns = { @JoinColumn(name = "voucher") },
             inverseJoinColumns = { @JoinColumn(name = "taikhoan") })
     private Set<VoucherModel> vouchers;
+
+
 }
