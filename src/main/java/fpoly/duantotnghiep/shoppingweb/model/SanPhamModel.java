@@ -61,8 +61,10 @@ public class SanPhamModel {
     @Column(name = "trangthai")
     private Boolean trangThai;
 
-    @OneToMany(mappedBy = "sanPham")
+    @OneToMany(mappedBy = "sanPham",fetch = FetchType.EAGER)
     private List<AnhModel> Images;
 
+    @OneToMany(mappedBy = "sanPham",fetch = FetchType.EAGER)
+    private List<NhanXetModel> nhanXet;
 
 }

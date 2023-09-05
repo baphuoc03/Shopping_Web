@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class AnhModel {
 
     @ManyToOne
     @JoinColumn(name = "sanpham")
+    @JsonBackReference
     private SanPhamModel sanPham;
 
     @Column(name = "ten")
