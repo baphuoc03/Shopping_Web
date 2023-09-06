@@ -8,6 +8,8 @@ import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.ITaiKhoanService;
 import fpoly.duantotnghiep.shoppingweb.util.SocketUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +22,7 @@ public class SanPhamRestController {
     private ITaiKhoanService service;
 
     @PostMapping("add")
+    @Transactional(rollbackFor =  {Exception.class, Throwable.class})
     public SanPhamModel add(){
         SanPhamModel sanPhamModel = new SanPhamModel();
 

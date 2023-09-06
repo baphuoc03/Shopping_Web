@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.util;
 
+import fpoly.duantotnghiep.shoppingweb.ShoppingwebApplication;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.TaiKhoanDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.model.TaiKhoanModel;
 import fpoly.duantotnghiep.shoppingweb.model.ThongBaoModel;
@@ -14,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,33 +25,59 @@ import java.util.List;
 public class SocketUtil {
 
     @Autowired
-    static SimpMessagingTemplate simpMessagingTemplate;
+    private SimpMessagingTemplate simpMessagingTemplate;
     @Autowired
-    private static ITaiKhoanService taiKhoanService;
+    private ITaiKhoanService taiKhoanService;
     @Autowired
-    private static IThongBaoService thongBaoService;
+    private IThongBaoService thongBaoService;
     @Autowired
-    private static IThongBaoNhanService thongBaoNhanService;
+    private IThongBaoNhanService thongBaoNhanService;
+
+    private static SimpMessagingTemplate staticSimpMessagingTemplate;
+    private static ITaiKhoanService staticTaiKhoanService;
+    private static IThongBaoService staticThongBaoService;
+    private static IThongBaoNhanService staticThongBaoNhanService;
 
     public static void sendNotification(ThongBaoModel thongBaoModel) {
 
-        List<TaiKhoanDtoResponse> danhSachTaiKhoanHasRoleAdmin = taiKhoanService.getByRoleAdmin();
+        List<TaiKhoanDtoResponse> danhSachTaiKhoanHasRoleAdmin = staticTaiKhoanService.getByRoleAdmin();
 
         List<ThongBaoNhanModel> thongBaoNhanModels = new ArrayList<>();
-        thongBaoService.save(thongBaoModel);
+        staticThongBaoService.save(thongBaoModel);
 
         for (TaiKhoanDtoResponse t : danhSachTaiKhoanHasRoleAdmin) {
-            TaiKhoanModel taiKhoan = taiKhoanService.findById(t.getId());
+            TaiKhoanModel taiKhoan = staticTaiKhoanService.findById(t.getId());
             thongBaoNhanModels.add(new ThongBaoNhanModel(null, thongBaoModel, taiKhoan, false));
         }
 
 
-        thongBaoNhanModels = thongBaoNhanService.saveAll(thongBaoNhanModels);
+        thongBaoNhanModels = staticThongBaoNhanService.saveAll(thongBaoNhanModels);
 
         thongBaoNhanModels.forEach(t -> {
-            simpMessagingTemplate.convertAndSend("/topic/" + t.getNguoiNhan().getId(), t);
+            staticSimpMessagingTemplate.convertAndSend("/" + t.getNguoiNhan().getId(), t);
         });
 
     }
 
+    ////////////////////????//////////////////////////////////////////////////////////////////////////////
+
+    @Autowired
+    public void setStaticSimpMessagingTemplate(SimpMessagingTemplate staticSimpMessagingTemplate) {
+        SocketUtil.staticSimpMessagingTemplate = staticSimpMessagingTemplate;
+    }
+
+    @Autowired
+    public void setStaticTaiKhoanService(ITaiKhoanService staticTaiKhoanService) {
+        SocketUtil.staticTaiKhoanService = staticTaiKhoanService;
+    }
+
+    @Autowired
+    public void setStaticThongBaoService(IThongBaoService staticThongBaoService) {
+        SocketUtil.staticThongBaoService = staticThongBaoService;
+    }
+
+    @Autowired
+    public void setStaticThongBaoNhanService(IThongBaoNhanService staticThongBaoNhanService) {
+        SocketUtil.staticThongBaoNhanService = staticThongBaoNhanService;
+    }
 }
