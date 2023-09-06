@@ -18,6 +18,6 @@ public class NotificationConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.setApplicationDestinationPrefixes("/notification");
-//        registry.enableSimpleBroker("/topx");
+//        registry.enableSimpleBroker("/top");
     }
 }
