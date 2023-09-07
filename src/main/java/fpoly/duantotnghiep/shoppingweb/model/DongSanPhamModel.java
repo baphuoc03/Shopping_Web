@@ -32,4 +32,8 @@ public class DongSanPhamModel {
 
     @Column(name = "ngaycapnhat")
     private Date ngayCapNhat;
+
+    public DongSanPhamModel(String id) {
+        this.id = id;
+    }
 }

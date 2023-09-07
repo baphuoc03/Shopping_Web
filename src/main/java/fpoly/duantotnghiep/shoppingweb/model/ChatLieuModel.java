@@ -32,4 +32,8 @@ public class ChatLieuModel {
 
     @Column(name = "ngaycapnhat")
     private Date ngayCapNhat;
+
+    public ChatLieuModel(String id) {
+        this.id = id;
+    }
 }

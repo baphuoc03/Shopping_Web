@@ -32,4 +32,8 @@ public class KieuDangModel {
 
     @Column(name = "ngaycapnhat")
     private Date ngayCapNhat;
+
+    public KieuDangModel(String id) {
+        this.id = id;
+    }
 }
