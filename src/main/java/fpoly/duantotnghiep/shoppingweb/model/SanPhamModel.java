@@ -9,6 +9,7 @@ import lombok.ToString;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -62,7 +63,7 @@ public class SanPhamModel {
     private Boolean trangThai;
 
     @OneToMany(mappedBy = "sanPham",fetch = FetchType.EAGER)
-    private List<AnhModel> Images;
+    private Set<AnhModel> Images;
 
     @OneToMany(mappedBy = "sanPham",fetch = FetchType.EAGER)
     private List<NhanXetModel> nhanXet;
