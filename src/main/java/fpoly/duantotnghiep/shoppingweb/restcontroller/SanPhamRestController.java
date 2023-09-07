@@ -29,7 +29,7 @@ public class SanPhamRestController {
     public ResponseEntity<?> delete(@PathVariable("id")String ma){
 
         if(!sanPhamService.existsById(ma)){//Kiểm tra xem mã tồn tại ko
-            return ResponseEntity.status(404).body("Mã sản phẩm không hợp lệ");
+            return ResponseEntity.ok().build();
         }
 
         sanPhamService.deleteById(ma);
