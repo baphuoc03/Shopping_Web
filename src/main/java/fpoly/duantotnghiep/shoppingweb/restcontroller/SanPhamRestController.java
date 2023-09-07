@@ -8,8 +8,11 @@ import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.ITaiKhoanService;
 import fpoly.duantotnghiep.shoppingweb.util.SocketUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,24 +22,23 @@ import java.util.Date;
 public class SanPhamRestController {
 
     @Autowired
-    private ITaiKhoanService service;
+    private ISanPhamService sanPhamService;
 
-    @PostMapping("add")
-    @Transactional(rollbackFor =  {Exception.class, Throwable.class})
-    public SanPhamModel add(){
-        SanPhamModel sanPhamModel = new SanPhamModel();
+    @DeleteMapping("delete/{id}")
+    @Transactional(rollbackFor =  {Exception.class, Throwable.class})//Khi có lỗi sẽ rollback
+    public ResponseEntity<?> delete(@PathVariable("id")String ma){
 
-        service.getByRoleAdmin().forEach(t -> System.out.println(t.getId()+" - "+t.getVaiTro()));
+        if(!sanPhamService.existsById(ma)){//Kiểm tra xem mã tồn tại ko
+            return ResponseEntity.status(404).body("Mã sản phẩm không hợp lệ");
+        }
 
-        sanPhamModel.setMa("111");
-        sanPhamModel.setTen("san pham 1");
+        sanPhamService.deleteById(ma);
 
-        TaiKhoanModel taiKhoanModel = new TaiKhoanModel();
-        taiKhoanModel.setId("afc0b6cc-4c66-11ee-b10b-d69e940a783b");
+        //Tạo và gửi thông báo
+        ThongBaoModel thongBao = new ThongBaoModel(null,null, ThongBaoType.Add.name(),"Thêm mới sản phẩm",new Date(),null);
+        SocketUtil.sendNotification(thongBao);
 
-        SocketUtil.sendNotification(new ThongBaoModel(null,taiKhoanModel, ThongBaoType.Add.name(),"Thêm mới sản phẩm",new Date(),"aa"));
-
-        return sanPhamModel;
+        return ResponseEntity.ok("Xóa thành công");
     }
 
 }
