@@ -43,21 +43,23 @@ public class SanPhamDtoRequest {
         SanPhamModel model = new SanPhamModel();
         model.setMa(ma);
         model.setTen(ten);
-        model.setMauSac(new MauSacModel(mauSac));
-        model.setDongSanPham(new DongSanPhamModel(dongSanPham));
-        model.setKieuDang(new KieuDangModel(kieuDang));
-        model.setChatLieu(new ChatLieuModel(chatLieu));
+        if(mauSac != null && !mauSac.isBlank()) model.setMauSac(new MauSacModel(mauSac));
+        if(dongSanPham != null && !dongSanPham.isBlank()) model.setDongSanPham(new DongSanPhamModel(dongSanPham));
+        if(kieuDang != null && !kieuDang.isBlank()) model.setKieuDang(new KieuDangModel(kieuDang));
+        if(chatLieu != null && !chatLieu.isBlank()) model.setChatLieu(new ChatLieuModel(chatLieu));
         model.setGiaNhap(giaNhap);
         model.setGiaBan(giaBan);
         model.setMoTa(moTa);
         model.setNgayTao(ngayTao);
         model.setNgayCapNhat(ngayCapNhat);
         model.setHienThi(hienThi);
-        Set<AnhModel> images = anh.stream().map(anh -> {
-            AnhModel img = new AnhModel();
-            img.setTen(anh);
-            return img;
-        }).collect(Collectors.toSet());
+        if(anh!=null) {
+            Set<AnhModel> images = anh.stream().map(anh -> {
+                AnhModel img = new AnhModel();
+                img.setTen(anh);
+                return img;
+            }).collect(Collectors.toSet());
+        }
 
         return model;
     }

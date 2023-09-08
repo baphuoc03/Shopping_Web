@@ -33,16 +33,18 @@ public class SanPhamDtoResponse {
     public SanPhamDtoResponse(SanPhamModel model){
         ma = model.getMa();
         ten = model.getTen();
-        mauSac = model.getMauSac().getTen();
-        dongSanPham = model.getDongSanPham().getTen();
-        kieuDang = model.getKieuDang().getTen();
-        chatLieu = model.getChatLieu().getTen();
+        mauSac = model.getMauSac() == null ? "" : model.getMauSac().getTen();
+        dongSanPham = model.getDongSanPham()== null ? "" : model.getDongSanPham().getTen();
+        kieuDang = model.getKieuDang()== null ? "" : model.getKieuDang().getTen();
+        chatLieu = model.getChatLieu()== null ? "" : model.getChatLieu().getTen();
         giaNhap = model.getGiaNhap();
         giaBan = model.getGiaBan();
         moTa = model.getMoTa();
         ngayTao = model.getNgayTao();
         ngayCapNhat = model.getNgayCapNhat();
         hienThi = model.getHienThi();
+
+        if(model.getImages() != null)
         anh = model.getImages().stream().map(img -> img.getTen()).collect(Collectors.toSet());
     }
 }

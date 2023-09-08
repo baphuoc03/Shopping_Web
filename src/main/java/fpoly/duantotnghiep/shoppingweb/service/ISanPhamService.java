@@ -13,7 +13,8 @@ public interface ISanPhamService {
 
     List<SanPhamDtoResponse> saveAll(List<SanPhamDtoRequest> sanPham);
 
-    SanPhamDtoResponse save(SanPhamModel entity);
+
+    SanPhamDtoResponse save(SanPhamDtoRequest entity);
 
     boolean existsById(String s);
 
