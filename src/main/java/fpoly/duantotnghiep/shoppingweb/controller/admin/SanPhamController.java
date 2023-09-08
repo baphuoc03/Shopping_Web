@@ -7,10 +7,15 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("${admin.domain}/product")
@@ -29,12 +34,14 @@ public class SanPhamController {
         return "test";
     }
     @PostMapping("add")
-    public String add(@Valid @ModelAttribute SanPhamDtoRequest sanPham, BindingResult result){
+    public String add(@Valid @ModelAttribute SanPhamDtoRequest sanPham, BindingResult result,
+                      @RequestParam("img") List<MultipartFile> file) throws IOException {
 
         if(result.hasErrors()){
             return "test";
         }
 
+        sanPham.setAnh(file);
         sanPhamService.save(sanPham);
 
         return "redirect:/view-all";

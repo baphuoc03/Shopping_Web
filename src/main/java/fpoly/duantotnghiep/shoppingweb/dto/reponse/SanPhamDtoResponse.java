@@ -1,11 +1,13 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
+import fpoly.duantotnghiep.shoppingweb.model.AnhModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Comparator;
 import java.util.List;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -28,7 +30,7 @@ public class SanPhamDtoResponse {
     private Date ngayTao;
     private Date ngayCapNhat;
     private Boolean hienThi;
-    private Set<String> anh;
+    private Set<AnhDtoResponse> anh;
 
     public SanPhamDtoResponse(SanPhamModel model){
         ma = model.getMa();
@@ -45,6 +47,12 @@ public class SanPhamDtoResponse {
         hienThi = model.getHienThi();
 
         if(model.getImages() != null)
-        anh = model.getImages().stream().map(img -> img.getTen()).collect(Collectors.toSet());
+        anh = model.getImages().stream()
+                .sorted(Comparator.comparing(AnhModel::getViTriAnh))
+                .map(img -> {
+                    AnhDtoResponse anh = new AnhDtoResponse(img.getTen(),img.getViTriAnh());
+                    return anh;
+                })
+                .collect(Collectors.toSet());
     }
 }
