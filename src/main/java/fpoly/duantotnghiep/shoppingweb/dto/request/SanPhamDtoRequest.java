@@ -1,9 +1,15 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Value;
+import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,13 +20,18 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Data
 public class SanPhamDtoRequest {
+    @NotBlank(message = "Không để trống mã")
+    @Size(max = 50, message = "Mã không quá 50 ký tự")
     private String ma;
+    @NotBlank(message = "Không để trống tên")
+    @Size(max = 50, message = "Tên không quá 50 ký tự")
     private String ten;
     private String mauSac;
     private String dongSanPham;
     private String kieuDang;
     private String chatLieu;
     private BigDecimal giaNhap;
+    @NotNull(message = "Không để trống giá bán")
     private BigDecimal giaBan;
     private String moTa;
     private Date ngayTao;

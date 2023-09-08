@@ -1,4 +1,4 @@
-package fpoly.duantotnghiep.shoppingweb.restcontroller;
+package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.enumtype.ThongBaoType;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
