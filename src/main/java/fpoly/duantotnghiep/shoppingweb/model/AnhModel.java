@@ -27,6 +27,4 @@ public class AnhModel {
     @Column(name = "ten")
     private String ten;
 
-    @Column(name = "vitrianh")
-    private Integer viTriAnh;
 }

@@ -44,7 +44,7 @@ public class SanPhamDtoRequest {
     private Date ngayTao;
     private Date ngayCapNhat;
     private Boolean hienThi;
-    private Set<AnhDtoRequest> anh;
+    private Set<String> anh;
 
     public SanPhamModel mapToModel(){
         SanPhamModel model = new SanPhamModel();
@@ -63,8 +63,7 @@ public class SanPhamDtoRequest {
         if(anh!=null) {
             Set<AnhModel> images = anh.stream().map(anh -> {
                 AnhModel img = new AnhModel();
-                img.setTen(anh.getTen());
-                img.setViTriAnh(anh.getViTriAnh());
+                img.setTen(anh);
                 return img;
             }).collect(Collectors.toSet());
         }
@@ -73,16 +72,16 @@ public class SanPhamDtoRequest {
     }
 
     public void setAnh(List<MultipartFile> file) throws IOException {
-        Set<AnhDtoRequest> setAnh = new HashSet<>();
+        Set<String> setAnh = new HashSet<>();
 
         int i=0;
         for (MultipartFile f: file) {
             byte[] bytes = f.getBytes();
-            String imgName = "imgProduct"+this.ma+i;
             String typeImg = f.getContentType().split("/")[f.getContentType().split("/").length-1];
-            Path path = Paths.get("src/main/resources/static/images/" + imgName+"."+typeImg);
+            String imgName = "imgProduct"+this.ma+i+"."+typeImg;
+            Path path = Paths.get("src/main/resources/static/images/" + imgName);
             Files.write(path, bytes);
-            setAnh.add(new AnhDtoRequest(imgName,i));
+            setAnh.add(imgName);
             i++;
         }
 
