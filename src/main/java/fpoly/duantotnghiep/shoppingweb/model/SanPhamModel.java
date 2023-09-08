@@ -53,7 +53,7 @@ public class SanPhamModel {
     @Column(name = "ngaytao")
     private Date ngayTao;
 
-    @Column(name = "ngaycapnhat")
+    @Column(name = "ngaycapnhat",columnDefinition="DATETIME default CURRENT_TIMESTAMP")
     private Date ngayCapNhat;
 
     @Column(name = "hienthi")

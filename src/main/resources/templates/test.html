@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" >
     <title>Title</title>
 </head>
 <body>
-
+<form th:action="@{|/admin/product/${method}|}" th:object="${sanPham}" method="post">
+    Mã: <input th:field="*{ma}" />
+    Ten: <input th:field="*{ten}" />
+    Gia nhap: <input th:field="*{giaNhap}" />
+    Gia ban: <input th:field="*{giaBan}" />
+    Mo ta: <input th:field="*{moTa}" />
+    hien thi: <input th:field="*{hienThi}" type="radio" th:value="0" /> <input th:field="*{hienThi}" type="radio" th:value="0" />
+    <input type="submit" value="add">
+</form>
 </body>
 </html>
