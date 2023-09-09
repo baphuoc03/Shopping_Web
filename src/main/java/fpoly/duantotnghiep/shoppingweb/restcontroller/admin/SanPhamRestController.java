@@ -32,10 +32,12 @@ public class SanPhamRestController {
             return ResponseEntity.status(404).body("Mã sản phẩm không hợp lệ");
         }
 
+        String tenSanPham = sanPhamService.findByMa(ma).getMa() + " - " + sanPhamService.findByMa(ma).getTen();
+
         sanPhamService.deleteById(ma);
 
         //Tạo và gửi thông báo
-        ThongBaoModel thongBao = new ThongBaoModel(null,null, ThongBaoType.Add.name(),"Thêm mới sản phẩm",new Date(),null);
+        ThongBaoModel thongBao = new ThongBaoModel(null,null, ThongBaoType.Delete.name(),"Xóa sản phẩm: "+tenSanPham,new Date(),null);
         SocketUtil.sendNotification(thongBao);
 
         return ResponseEntity.ok("Xóa thành công");

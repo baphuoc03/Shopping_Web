@@ -1,7 +1,10 @@
 package fpoly.duantotnghiep.shoppingweb.controller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
+import fpoly.duantotnghiep.shoppingweb.enumtype.ThongBaoType;
+import fpoly.duantotnghiep.shoppingweb.model.ThongBaoModel;
 import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
+import fpoly.duantotnghiep.shoppingweb.util.SocketUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +49,10 @@ public class SanPhamController {
         if (result.hasErrors()) {
             return "test";
         }
+
+        String tenSanPham = sanPham.getMa() + " - " +sanPham.getTen();
+        ThongBaoModel thongBao = new ThongBaoModel(null,null, ThongBaoType.Add.name(),"Thêm mới sản phẩm: "+tenSanPham,new Date(),null);
+        SocketUtil.sendNotification(thongBao);
 
         sanPham.setAnh(file);
         sanPhamService.save(sanPham);

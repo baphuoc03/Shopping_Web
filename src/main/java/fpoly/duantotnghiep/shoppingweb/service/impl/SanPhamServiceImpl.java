@@ -41,7 +41,9 @@ public class SanPhamServiceImpl implements ISanPhamService {
 
     @Override
     public SanPhamDtoResponse save(SanPhamDtoRequest entity) {
-        SanPhamModel model = sanPhamRepository.save(entity.mapToModel());
+        SanPhamModel model = entity.mapToModel();
+        model.setTrangThai(true);
+        model = sanPhamRepository.save(model);
         return new SanPhamDtoResponse(model);
     }
 
