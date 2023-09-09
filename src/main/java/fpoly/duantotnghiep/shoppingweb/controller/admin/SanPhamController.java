@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.controller.admin;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.MauSacDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,6 +34,7 @@ public class SanPhamController {
         request.setAttribute("method", "add");
         return "test";
     }
+
     @PostMapping("add")
     public String add(@Valid @ModelAttribute SanPhamDtoRequest sanPham, BindingResult result,
                       @RequestParam("img") List<MultipartFile> file) throws IOException {
