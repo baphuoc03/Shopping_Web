@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("${admin.domain}/product")
+@RequestMapping("${admin.domain}/san-pham")
 public class SanPhamController {
 
     @Autowired
@@ -27,17 +27,23 @@ public class SanPhamController {
     @Autowired
     private ISanPhamService sanPhamService;
 
-    @GetMapping("view-add")
-    public String viewAdd(@ModelAttribute("sanPham")SanPhamDtoRequest sanPham){
+    @GetMapping("")
+    public String hienThi() {
+        return "/admin/sanPham";
+    }
+
+    @GetMapping("them")
+    public String viewAdd(@ModelAttribute("sanPham") SanPhamDtoRequest sanPham) {
 //        request.setAttribute("sanPham", new SanPhamDtoRequest());
         request.setAttribute("method", "add");
-        return "test";
+        return "/admin/formSanPham";
     }
+
     @PostMapping("add")
     public String add(@Valid @ModelAttribute SanPhamDtoRequest sanPham, BindingResult result,
                       @RequestParam("img") List<MultipartFile> file) throws IOException {
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "test";
         }
 
