@@ -1,12 +1,14 @@
-var app = angular.module('product-admin', []);
-app.controller('ctrl', function ($scope, $http) {
+var app = angular.module('chiTietSP-app', []);
+app.controller('chiTietSP-ctrl', function ($scope, $http) {
 
+    const pathName = window.location.pathname.split('/');
+    const idSP = pathName[pathName.length - 1]
 
     $scope.items =[];
     $scope.form ={};
 
     $scope.getAll = function (){
-        $http.get("/admin/san-pham/get-all").then(r => {
+        $http.get("/admin/san-pham/"+idSP+"/get-all").then(r => {
             console.log(r.data)
             $scope.items = r.data;
         }).catch(e => console.log(e))

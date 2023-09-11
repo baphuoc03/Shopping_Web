@@ -24,7 +24,7 @@ public class NhanXetModel {
     private TaiKhoanModel taiKhoan;
 
     @ManyToOne
-    @JoinColumn(name = "SanPham")
+    @JoinColumn(name = "sanpham")
     private SanPhamModel sanPham;
 
     @Column(name = "rating")
@@ -33,7 +33,7 @@ public class NhanXetModel {
     @Column(name = "tieude")
     private String tieuDe;
 
-    @Column(name = "NoiDung")
+    @Column(name = "noidung")
     private String noiDung;
 
     @Column(name = "thoigian")

@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("${admin.domain}/mau-sac")
 public class MauSacController {
     @GetMapping("")
-    public String show(){
+    public String show() {
         return "/admin/mauSac";
     }
 }
+

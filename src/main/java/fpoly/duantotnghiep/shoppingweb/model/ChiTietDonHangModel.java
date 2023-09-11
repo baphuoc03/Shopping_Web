@@ -38,4 +38,5 @@ public class ChiTietDonHangModel {
     @Column(name = "dongiasaugiam")
     private BigDecimal donGiaSauGiam;
 
+
 }

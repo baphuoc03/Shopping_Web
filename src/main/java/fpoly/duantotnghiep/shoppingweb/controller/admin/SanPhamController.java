@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.controller.admin;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.MauSacDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.enumtype.ThongBaoType;
 import fpoly.duantotnghiep.shoppingweb.model.ThongBaoModel;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,19 +37,20 @@ public class SanPhamController {
         return "/admin/sanPham";
     }
 
-    @GetMapping("them")
+    @GetMapping("add")
     public String viewAdd(@ModelAttribute("sanPham") SanPhamDtoRequest sanPham) {
 //        request.setAttribute("sanPham", new SanPhamDtoRequest());
-        request.setAttribute("method", "add");
+        request.setAttribute("method","add");
+        request.setAttribute("action", "add");
         return "/admin/formSanPham";
     }
 
     @PostMapping("add")
     public String add(@Valid @ModelAttribute SanPhamDtoRequest sanPham, BindingResult result,
-                      @RequestParam("img") List<MultipartFile> file) throws IOException {
+                      @RequestParam(value = "img",required = false) List<MultipartFile> file) throws IOException {
 
         if (result.hasErrors()) {
-            return "test";
+            return "/admin/sanPham";
         }
 
         String tenSanPham = sanPham.getMa() + " - " +sanPham.getTen();
@@ -55,8 +58,40 @@ public class SanPhamController {
         SocketUtil.sendNotification(thongBao);
 
         sanPham.setAnh(file);
+//        sanPham.setNgayTao(new Date());
+        sanPham.setNgayCapNhat(new Date());
         sanPhamService.save(sanPham);
+        System.out.println("aaa");
+        return "redirect:/admin/san-pham";
+    }
 
-        return "redirect:/view-all";
+    @GetMapping("update/{ma}")
+    public String viewUpdate(Model model,
+                             @PathVariable("ma")String ma) {
+//        request.setAttribute("sanPham", new SanPhamDtoRequest());
+        model.addAttribute("sanPham" , sanPhamService.findDtoRequetsByMa(ma));
+        request.setAttribute("method","put");
+        request.setAttribute("action", "update/"+ma);
+        return "/admin/formSanPham";
+    }
+    @PutMapping("update/{ma}")
+    public String update(@Valid @ModelAttribute SanPhamDtoRequest sanPham, BindingResult result,
+                         @PathVariable("ma")String ma,
+                         @RequestParam(value = "img",required = false) List<MultipartFile> file) throws IOException {
+
+        if (result.hasErrors()) {
+            request.setAttribute("method","put");
+            request.setAttribute("action", "update/"+ma);
+            return "/admin/sanPham";
+        }
+        sanPham.setMa(ma);
+        String tenSanPham = sanPham.getMa() + " - " +sanPham.getTen();
+        ThongBaoModel thongBao = new ThongBaoModel(null,null, ThongBaoType.Upadte.name(),"Cập nhật mới sản phẩm: "+tenSanPham,new Date(),null);
+        SocketUtil.sendNotification(thongBao);
+        sanPham.setAnh(file);
+//        sanPham.setNgayCapNhat(new Date());
+        sanPhamService.update(sanPham);
+
+        return "redirect:/admin/san-pham";
     }
 }

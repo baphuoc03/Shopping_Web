@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -36,7 +37,15 @@ public class ChiTietSanPhamModel {
     @Column(name = "ngaytao")
     private Date ngayTao;
 
-    @Column(name = "ngaycapnhat")
+    @Column(name = "ngaycapnhap")
     private Date ngayCapNhat;
+
+    @OneToMany(mappedBy = "chiTietSanPham",fetch = FetchType.EAGER)
+    private List<ChiTietDonHangModel> chiTietDonHangList;
+
+    public Boolean kiemTraCoTrongDonHang(){
+        if(chiTietDonHangList.size()==0)return false;
+        else return true;
+    }
 
 }
