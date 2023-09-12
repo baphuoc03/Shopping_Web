@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
@@ -34,10 +36,16 @@ public class ChiTietSanPhamModel {
     @Column(name = "soluong")
     private Long soLuong;
 
+    @Column(name = "trangthai")
+    private Boolean trangThai;
+
     @Column(name = "ngaytao")
+    @CreationTimestamp
     private Date ngayTao;
 
     @Column(name = "ngaycapnhap")
+    @UpdateTimestamp
+    @CreationTimestamp
     private Date ngayCapNhat;
 
     @OneToMany(mappedBy = "chiTietSanPham",fetch = FetchType.EAGER)

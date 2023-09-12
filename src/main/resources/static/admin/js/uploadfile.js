@@ -2646,7 +2646,7 @@ $("#multiplefileupload").fileinput(
         deleteUrl: "#",
         initialPreviewAsData: true,
         overwriteInitial: false,
-        dropZoneTitle: '<div class="upload-area"><i class="far fa-images"></i><p>Chọn hoặc thả file có đuôi .jpg, .png, .gif</p> <div> <button type="button">Chọn File</button> </div></div>',
+        dropZoneTitle: '<div class="upload-area"><i class="far fa-images"></i><p>Chọn hoặc thả file có đuôi .jpeg,.jpg, .png, .gif</p> <div> <button type="button">Chọn File</button> </div></div>',
         dropZoneClickTitle: "",
         browseOnZoneClick: true,
         showRemove: false,

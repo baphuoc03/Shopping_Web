@@ -99,7 +99,8 @@ public class SanPhamDtoRequest {
                 String typeImg = f.getContentType().split("/")[f.getContentType().split("/").length - 1];
                 String imgName = "imgProduct" + this.ma + i + "." + typeImg;
                 Path path = Paths.get("src/main/resources/static/admin/images/" + imgName);
-                Files.write(path, bytes);
+                Path path1 = Files.write(path, bytes);
+                System.out.println(path1.getFileName());
                 setAnh.add(imgName);
                 i++;
             }

@@ -72,8 +72,8 @@
                                 <tr ng-repeat="p in items" style="cursor: pointer">
                                     <td ng-click="getChiTietSP(p.ma)">{{$index + 1}}</td>
                                     <td ng-click="getChiTietSP(p.ma)">
-                                        <img ng-if="p.anh[0] != null" src="/admin/images/{{p.anh[0]}}" class="imgProduct">
-                                        <img ng-if="p.anh[0] == null" src="/admin/images/envato.png" class="imgProduct">
+                                        <img ng-if="p.anh[0] != null" src="/image/loadImage/{{p.anh[0]}}" class="imgProduct">
+                                        <img ng-if="p.anh[0] == null" src="/image/loadImage/envato.png" class="imgProduct">
                                     </td>
                                     <td ng-click="getChiTietSP(p.ma)"> {{p.ma}} - {{p.ten}}</td>
                                     <td ng-click="getChiTietSP(p.ma)">{{p.mauSac}}</td>
