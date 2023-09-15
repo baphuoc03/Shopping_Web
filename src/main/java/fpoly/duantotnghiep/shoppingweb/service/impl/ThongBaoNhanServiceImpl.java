@@ -22,4 +22,9 @@ public class ThongBaoNhanServiceImpl implements IThongBaoNhanService {
     public ThongBaoNhanModel save(ThongBaoNhanModel thongBaoNhanModel) {
         return thongBaoNhanRepository.save(thongBaoNhanModel);
     }
+
+    @Override
+    public List<ThongBaoNhanModel> getAllByNguoiNhanId(String idNguoiNhan) {
+        return thongBaoNhanRepository.getAllByNguoiNhanIdOrderByThongBaoGuiDesc(idNguoiNhan);
+    }
 }

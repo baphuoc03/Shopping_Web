@@ -33,7 +33,7 @@
             </div>
             <!-- end page title -->
 
-            <div class="row" ng-app="product-admin" ng-controller="ctrl">
+            <div class="row" ng-app="product-admin'" ng-controller="ctrl">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
@@ -65,7 +65,7 @@
                                     <th>Dòng Sản Phẩm</th>
                                     <th>Giá Bán</th>
                                     <th>Số Lượng</th>
-                                    <th>Trạng Thái</th>
+                                    <th>Đăng bán</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -80,9 +80,10 @@
                                     <td ng-click="getChiTietSP(p.ma)">{{p.dongSanPham}}</td>
                                     <td ng-click="getChiTietSP(p.ma)">{{p.giaBan}}</td>
                                     <td ng-click="getChiTietSP(p.ma)">{{p.soLuong}}</td>
-                                    <td ng-click="getChiTietSP(p.ma)">
-                                        <input type="checkbox" ng-if="p.hienThi == 1" checked>
-                                        <input type="checkbox" ng-if="p.hienThi == 0">
+                                    <td>
+                                        <input type="checkbox" id="switch{{p.ma}}" switch="none" ng-if="p.hienThi == 1" checked ng-click="updateTrangThaiHienThi('switch' + p.ma,p.ma)"/>
+                                        <input type="checkbox" id="switch{{p.ma}}" switch="none" ng-if="p.hienThi == 0" ng-click="updateTrangThaiHienThi('switch' + p.ma,p.ma)"/>
+                                        <label for="switch{{p.ma}}" data-on-label="Bật" data-off-label="Tắt"></label>
                                     </td>
                                     <td >
                                         <div class="dropdown">

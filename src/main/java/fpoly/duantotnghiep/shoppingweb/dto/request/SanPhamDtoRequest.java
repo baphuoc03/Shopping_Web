@@ -1,10 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,6 +33,7 @@ public class SanPhamDtoRequest {
     private String chatLieu;
     private BigDecimal giaNhap;
     @NotNull(message = "Không để trống giá bán")
+    @Min(value = 10000,message = "Giá bán phải lớn hơn 10.000đ ")
     private BigDecimal giaBan;
     private String moTa;
     private Date ngayTao;

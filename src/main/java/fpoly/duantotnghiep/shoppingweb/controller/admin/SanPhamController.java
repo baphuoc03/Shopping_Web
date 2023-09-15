@@ -46,22 +46,27 @@ public class SanPhamController {
     }
 
     @PostMapping("add")
-    public String add(@Valid @ModelAttribute SanPhamDtoRequest sanPham, BindingResult result,
+    public String add(@Valid @ModelAttribute("sanPham") SanPhamDtoRequest sanPham, BindingResult result,
                       @RequestParam(value = "img",required = false) List<MultipartFile> file) throws IOException {
+        file.forEach(f -> {
+                System.out.println(f.getOriginalFilename());
+
+        });
 
         if (result.hasErrors()) {
-            return "/admin/sanPham";
+            request.setAttribute("method","add");
+            request.setAttribute("action", "add");
+            return "admin/formSanPham";
         }
+
 
         String tenSanPham = sanPham.getMa() + " - " +sanPham.getTen();
         ThongBaoModel thongBao = new ThongBaoModel(null,null, ThongBaoType.Add.name(),"Thêm mới sản phẩm: "+tenSanPham,new Date(),null);
         SocketUtil.sendNotification(thongBao);
 
         sanPham.setAnh(file);
-//        sanPham.setNgayTao(new Date());
         sanPham.setNgayCapNhat(new Date());
         sanPhamService.save(sanPham);
-        System.out.println("aaa");
         return "redirect:/admin/san-pham";
     }
 
@@ -75,7 +80,7 @@ public class SanPhamController {
         return "/admin/formSanPham";
     }
     @PutMapping("update/{ma}")
-    public String update(@Valid @ModelAttribute SanPhamDtoRequest sanPham, BindingResult result,
+    public String update(@Valid @ModelAttribute("sanPham") SanPhamDtoRequest sanPham, BindingResult result,
                          @PathVariable("ma")String ma,
                          @RequestParam(value = "img",required = false) List<MultipartFile> file) throws IOException {
 
@@ -84,6 +89,7 @@ public class SanPhamController {
             request.setAttribute("action", "update/"+ma);
             return "/admin/sanPham";
         }
+
         sanPham.setMa(ma);
         String tenSanPham = sanPham.getMa() + " - " +sanPham.getTen();
         ThongBaoModel thongBao = new ThongBaoModel(null,null, ThongBaoType.Upadte.name(),"Cập nhật mới sản phẩm: "+tenSanPham,new Date(),null);

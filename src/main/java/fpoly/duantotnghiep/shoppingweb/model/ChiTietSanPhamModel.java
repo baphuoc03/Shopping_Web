@@ -45,7 +45,6 @@ public class ChiTietSanPhamModel {
 
     @Column(name = "ngaycapnhap")
     @UpdateTimestamp
-    @CreationTimestamp
     private Date ngayCapNhat;
 
     @OneToMany(mappedBy = "chiTietSanPham",fetch = FetchType.EAGER)

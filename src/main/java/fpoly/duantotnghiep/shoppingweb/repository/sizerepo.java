@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface sizerepo extends JpaRepository<SizeModel,Float> {
     @Query("""
-SELECT c.size FROM ChiTietSanPhamModel c 
-WHERE c.sanPham.ma <> ?1
+SELECT s FROM SizeModel s 
+WHERE s NOT IN (SELECT c.size FROM ChiTietSanPhamModel c 
+                            WHERE c.sanPham.ma = ?1)
 """)
     List<SizeModel> getAllNotInSanPham(String maSP);
 }

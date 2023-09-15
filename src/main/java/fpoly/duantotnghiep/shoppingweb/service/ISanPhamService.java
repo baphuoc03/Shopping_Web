@@ -24,4 +24,6 @@ public interface ISanPhamService {
     boolean existsById(String s);
 
     void deleteById(String s) throws IOException;
+
+    Integer updateTrangThaiHIenThi(Boolean trangThai, String ma);
 }

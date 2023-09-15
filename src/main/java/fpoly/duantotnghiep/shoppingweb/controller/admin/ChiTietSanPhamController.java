@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.controller.admin;
 
+import fpoly.duantotnghiep.shoppingweb.repository.sizerepo;
 import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,15 @@ public class ChiTietSanPhamController {
     private ISanPhamService sanPhamService;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private sizerepo sizerepo;
 
     @GetMapping
     public String getChiTietSanPhamView(@PathVariable("maSP")String maSP){
         request.setAttribute("sanPham",sanPhamService.findByMa(maSP).getTen());
+        request.setAttribute("sizes",sizerepo.findAll());
         return "admin/chiTietSanPham";
     }
+
 
 }

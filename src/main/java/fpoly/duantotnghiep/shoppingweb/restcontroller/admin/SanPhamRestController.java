@@ -49,4 +49,12 @@ public class SanPhamRestController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("update-TrangThai-HienThi/{id}")
+    public ResponseEntity<?> updateTrangThaiHienThi(@PathVariable("id")String ma,@RequestBody Boolean trangThai){
+        if(!sanPhamService.existsById(ma)){//Kiểm tra xem mã tồn tại ko
+            return ResponseEntity.status(404).body("Mã sản phẩm không hợp lệ");
+        }
+        return ResponseEntity.ok(sanPhamService.updateTrangThaiHIenThi(trangThai,ma));
+    }
+
 }

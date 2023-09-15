@@ -49,7 +49,12 @@
 <!-- ============================================================== -->
 <div class="main-content" layout:fragment="content">
     <div class="page-content">
-
+        <style>
+            .er{
+                color: red;
+                font-size: 13px;
+            }
+        </style>
         <link th:href="@{/admin/css/fileupload.css}" rel="stylesheet" type="text/css"/>
 
         <div class="container-fluid">
@@ -97,7 +102,7 @@
                     <div class="card">
 
                             <div class="card-header">
-                                <i style="float: right" th:if="*{ngayCapNhat!=null}"
+                                <i style="float: right" th:if="${method == 'put'}"
                                    th:text="'Cập nhật lần cuối: ' + ${#dates.format(sanPham.NgayCapNhat, 'dd-MM-yyyy HH:mm:ss')} "></i>
                             </div>
                             <div class="card-body">
@@ -107,10 +112,12 @@
                                         <div class="mb-3">
                                             <label for="ma">Mã Sản Phẩm</label>
                                             <input th:field="*{ma}" id="ma" class="form-control">
+                                            <i th:errors="*{ma}" class="er"></i>
                                         </div>
                                         <div class="mb-3">
                                             <label for="productname">Tên Sản Phẩm</label>
                                             <input id="productname" th:field="*{ten}" class="form-control">
+                                            <i th:errors="*{ten}" class="er"></i>
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Màu Sắc</label>
@@ -128,11 +135,12 @@
                                         <div class="mb-3">
                                             <label for="manufacturerbrand">Giá Bán</label>
                                             <input id="manufacturerbrand" th:field="*{giaBan}" class="form-control">
+                                            <i th:errors="*{giaBan}" class="er"></i>
                                         </div>
                                         <div class="mb-3">
                                             <label>Trạng thái</label>
                                             <input th:field="*{hienThi}" type="radio" th:value="1"/>Hiện bán
-                                            <input th:field="*{hienThi}" type="radio" th:value="0" checked/>Ẩn
+                                            <input th:field="*{hienThi}" th:checked="true" type="radio" th:value="0" />Ẩn
                                         </div>
                                     </div>
 
