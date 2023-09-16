@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -44,14 +45,10 @@ public class KhuyenMaiModel {
 
     @Column(name = "ngaycapnhat")
     private Date ngayCapNhat;
-
     @ManyToMany
     @JoinTable(name = "khuyenmai_sanpham",
             joinColumns = { @JoinColumn(name = "sanpham") },
             inverseJoinColumns = { @JoinColumn(name = "khuyenmai") })
-    private Set<SanPhamModel> sanPham;
+    private List<SanPhamModel> sanPham;
 
-    public void setLoai(KhuyenMaiType type) {
-        this.loai = type.name();
-    }
 }

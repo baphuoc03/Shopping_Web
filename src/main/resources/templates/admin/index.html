@@ -17,6 +17,11 @@
     <link th:href="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css}" rel="stylesheet"
           type="text/css"/>
 
+    <!--    angularJS-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <!--    icon-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- preloader css -->
     <link rel="stylesheet" th:href="@{/admin/assets/css/preloader.min.css}" type="text/css"/>
 
@@ -300,7 +305,6 @@
                                     </div>
                                 </div>
                             </a>
-
                             <a href="#!" class="text-reset notification-item">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
@@ -420,13 +424,13 @@
                     <li class="menu-title" data-key="t-pages">Ưu Đãi</li>
 
                     <li>
-                        <a href="layouts-horizontal.html">
+                        <a th:href="@{/admin/khuyen-mai}">
                             <i data-feather="layout"></i>
                             <span data-key="t-horizontal">Khuyến Mại</span>
                         </a>
                     </li>
                     <li>
-                        <a href="layouts-horizontal.html">
+                        <a th:href="@{/admin/voucher}">
                             <i data-feather="layout"></i>
                             <span data-key="t-horizontal">Voucher</span>
                         </a>
@@ -1751,30 +1755,8 @@
 <script th:src="@{/admin/assets/js/app.js}"></script>
 
 
-
-<!--aaaaaaaaaaaaaaaaaaaaa-->
-
-<!-- apexcharts -->
-<!--<script th:src="@{/admin/assets/libs/apexcharts/apexcharts.min.js}"></script>-->
-
-<!--&lt;!&ndash; Plugins js}&ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js}"></script>-->
-<!--<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js}"></script>-->
-<!--&lt;!&ndash; dashboard init &ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/js/pages/dashboard.init.js}"></script>-->
-
-<!--<script th:src="@{/admin/assets/js/app.js}"></script>-->
-
-<!--&lt;!&ndash; select 2 plugin &ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/libs/select2/js/select2.min.js}"></script>-->
-
-<!--&lt;!&ndash; dropzone plugin &ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/libs/dropzone/min/dropzone.min.js}"></script>-->
-
-<!--&lt;!&ndash; init js} &ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/js/pages/ecommerce-select2.init.js}"></script>-->
-
-<!--<script th:src="@{/admin/assets/js/app.js}"></script>-->
+<!--angularJS-->
+<script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>
 </body>
 
 </html>
