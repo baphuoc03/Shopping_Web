@@ -29,19 +29,21 @@ public class MauSacController {
     private IMauSacService service;
 
     @GetMapping("find-all")
-    public List<MauSacDTOResponse> findAll(){
+    public List<MauSacDTOResponse> findAll() {
         return service.findAll();
     }
 
     @GetMapping("view-alll")
-    public String viewAdd(@ModelAttribute("mauSac")MauSacDTORequest mauSac){
-        request.setAttribute("method","add");
+    public String viewAdd(@ModelAttribute("mauSac") MauSacDTORequest mauSac) {
+        request.setAttribute("method", "add");
         return "test";
     }
+
     @PostMapping("add")
     public ResponseEntity<?> add(@RequestBody MauSacDTORequest mauSac) throws IOException {
         System.out.println(mauSac.mapToModel().toString());
-        return  ResponseEntity.ok(service.save(mauSac));
+        return ResponseEntity.ok(service.save(mauSac));
     }
+
 
 }
