@@ -1,10 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
 import fpoly.duantotnghiep.shoppingweb.enumtype.KhuyenMaiType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,7 +42,7 @@ public class VoucherModel {
     @Column(name = "soluong")
     private Long soLuong;
 
-    public void setLoai(KhuyenMaiType type) {
-        this.loai = type.name();
-    }
+    @Column(name = "mucgiamtoida")
+    private Long mucGiamToiDa;
+
 }

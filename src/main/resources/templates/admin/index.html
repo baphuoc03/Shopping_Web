@@ -17,6 +17,11 @@
     <link th:href="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css}" rel="stylesheet"
           type="text/css"/>
 
+    <!--    angularJS-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <!--    icon-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- preloader css -->
     <link rel="stylesheet" th:href="@{/admin/assets/css/preloader.min.css}" type="text/css"/>
 
@@ -268,8 +273,65 @@
                                     <div class="flex-grow-1">
                                         <h6 class="mb-1">{{t.thongBaoGui.taiKhoanGui.hoVaTen}}</h6>
                                         <div class="font-size-13 text-muted">
+<<<<<<< HEAD
                                             <p class="mb-1">{{t.thongBaoGui.noiDung}}</p>
                                             <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>{{t.thongBaoGui.thoiGianGui | date:'yyyy-MM-dd HH:mm:ss'}}</span></p>
+=======
+                                            <p class="mb-1">It will seem like simplified English.</p>
+                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>1 hours
+                                                        ago</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#!" class="text-reset notification-item">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 avatar-sm me-3">
+                                            <span class="avatar-title bg-primary rounded-circle font-size-16">
+                                                <i class="bx bx-cart"></i>
+                                            </span>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">Your order is placed</h6>
+                                        <div class="font-size-13 text-muted">
+                                            <p class="mb-1">If several languages coalesce the grammar</p>
+                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>3 min
+                                                        ago</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#!" class="text-reset notification-item">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 avatar-sm me-3">
+                                            <span class="avatar-title bg-success rounded-circle font-size-16">
+                                                <i class="bx bx-badge-check"></i>
+                                            </span>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">Your item is shipped</h6>
+                                        <div class="font-size-13 text-muted">
+                                            <p class="mb-1">If several languages coalesce the grammar</p>
+                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>3 min
+                                                        ago</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#!" class="text-reset notification-item">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <img th:src="@{/admin/assets/images/users/avatar-6.jpg}"
+                                             class="rounded-circle avatar-sm"
+                                             alt="user-pic">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">Salena Layfield</h6>
+                                        <div class="font-size-13 text-muted">
+                                            <p class="mb-1">As a skeptical Cambridge friend of mine occidental.</p>
+                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>1 hours
+                                                        ago</span></p>
+>>>>>>> tuandv
                                         </div>
                                     </div>
                                 </div>
@@ -376,13 +438,13 @@
                     <li class="menu-title" data-key="t-pages">Ưu Đãi</li>
 
                     <li>
-                        <a href="layouts-horizontal.html">
+                        <a th:href="@{/admin/khuyen-mai}">
                             <i data-feather="layout"></i>
                             <span data-key="t-horizontal">Khuyến Mại</span>
                         </a>
                     </li>
                     <li>
-                        <a href="layouts-horizontal.html">
+                        <a th:href="@{/admin/voucher}">
                             <i data-feather="layout"></i>
                             <span data-key="t-horizontal">Voucher</span>
                         </a>
@@ -618,6 +680,7 @@
 <script src="/admin/js/thongBao.js"></script>
 
 
+<<<<<<< HEAD
 
 <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js'></script>
@@ -651,6 +714,10 @@
 <!--<script th:src="@{/admin/assets/js/pages/ecommerce-select2.init.js}"></script>-->
 
 <!--<script th:src="@{/admin/assets/js/app.js}"></script>-->
+=======
+<!--angularJS-->
+<script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>
+>>>>>>> tuandv
 </body>
 
 </html>
