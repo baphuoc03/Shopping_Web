@@ -30,4 +30,8 @@ public class MauSacModel {
 
     @Column(name = "ngaycapnhat")
     private Date ngayCapNhat;
+
+    public MauSacModel(String ma) {
+        this.ma = ma;
+    }
 }

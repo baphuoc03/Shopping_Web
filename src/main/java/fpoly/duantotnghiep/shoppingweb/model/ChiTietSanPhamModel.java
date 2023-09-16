@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -33,10 +36,23 @@ public class ChiTietSanPhamModel {
     @Column(name = "soluong")
     private Long soLuong;
 
+    @Column(name = "trangthai")
+    private Boolean trangThai;
+
     @Column(name = "ngaytao")
+    @CreationTimestamp
     private Date ngayTao;
 
-    @Column(name = "ngaycapnhat")
+    @Column(name = "ngaycapnhap")
+    @UpdateTimestamp
     private Date ngayCapNhat;
+
+    @OneToMany(mappedBy = "chiTietSanPham",fetch = FetchType.EAGER)
+    private List<ChiTietDonHangModel> chiTietDonHangList;
+
+    public Boolean kiemTraCoTrongDonHang(){
+        if(chiTietDonHangList.size()==0)return false;
+        else return true;
+    }
 
 }

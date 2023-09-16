@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import lombok.AllArgsConstructor;
@@ -25,5 +26,6 @@ public class VaiTroModel {
 
     @OneToMany(mappedBy = "vaiTro",fetch = FetchType.LAZY)
     @ToString.Exclude
+    @JsonBackReference
     private List<TaiKhoanModel> danhSachTaiKhoan;
 }
