@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,18 +29,19 @@ public class SanPhamServiceImpl implements ISanPhamService {
     @Override
     public List<SanPhamDtoResponse> findAll() {
         return sanPhamRepository.findAll().stream()
-                .filter(s -> s.getTrangThai()==true)
+                .filter(s -> s.getTrangThai() == true)
                 .map(s -> new SanPhamDtoResponse(s))
                 .collect(Collectors.toList());
     }
+
     @Override
-    public SanPhamDtoResponse findByMa(String ma){
+    public SanPhamDtoResponse findByMa(String ma) {
         SanPhamModel sanPhamModel = sanPhamRepository.findById(ma).get();
         return new SanPhamDtoResponse(sanPhamModel);
     }
 
     @Override
-    public SanPhamDtoRequest findDtoRequetsByMa(String ma){
+    public SanPhamDtoRequest findDtoRequetsByMa(String ma) {
         SanPhamModel sanPhamModel = sanPhamRepository.findById(ma).get();
         return new SanPhamDtoRequest(sanPhamModel);
     }
@@ -55,6 +57,12 @@ public class SanPhamServiceImpl implements ISanPhamService {
     }
 
     @Override
+    public List<SanPhamModel> findListById(List<String> ma) {
+        List<SanPhamModel> listSanPhamModels = sanPhamRepository.findByMaIn(ma);
+        return listSanPhamModels;
+    }
+
+    @Override
     public SanPhamDtoResponse save(SanPhamDtoRequest entity) {
         SanPhamModel model = entity.mapToModel();
         List<AnhModel> imgs = model.getImages();
@@ -63,6 +71,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
         anhService.saveAll(imgs);
         return new SanPhamDtoResponse(model);
     }
+
     @Override
     public SanPhamDtoResponse update(SanPhamDtoRequest entity) throws IOException {
         ProductUtil.deleteImg(findDtoRequetsByMa(entity.getMa()).getAnh());
@@ -84,12 +93,12 @@ public class SanPhamServiceImpl implements ISanPhamService {
     public void deleteById(String s) throws IOException {
 
         SanPhamModel model = sanPhamRepository.findById(s).get();
-        Boolean checkCTSPInSanPham = model.getCtsp().stream().allMatch(c -> c.kiemTraCoTrongDonHang()==false);
+        Boolean checkCTSPInSanPham = model.getCtsp().stream().allMatch(c -> c.kiemTraCoTrongDonHang() == false);
         ProductUtil.deleteImg(model.getImages().stream().map(img -> img.getTen()).collect(Collectors.toList()));
-        if(model.getCtsp().size()==0 || checkCTSPInSanPham==true){
+        if (model.getCtsp().size() == 0 || checkCTSPInSanPham == true) {
             anhService.deleteBySanPham(model);
             sanPhamRepository.deleteById(s);
-        }else{
+        } else {
             model.setTrangThai(false);
             sanPhamRepository.save(model);
         }

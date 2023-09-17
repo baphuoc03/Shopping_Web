@@ -30,10 +30,10 @@ public class KhuyenMaiModel {
 
     @Column(name = "mucgiam")
     private Double mucGiam;
-
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaybatdau")
     private Date ngayBatDau;
-
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngayketthuc")
     private Date ngayKetThuc;
 
@@ -47,8 +47,8 @@ public class KhuyenMaiModel {
     private Date ngayCapNhat;
     @ManyToMany
     @JoinTable(name = "khuyenmai_sanpham",
-            joinColumns = { @JoinColumn(name = "sanpham") },
-            inverseJoinColumns = { @JoinColumn(name = "khuyenmai") })
+            joinColumns = {@JoinColumn(name = "sanpham")},
+            inverseJoinColumns = {@JoinColumn(name = "khuyenmai")})
     private List<SanPhamModel> sanPham;
 
 }

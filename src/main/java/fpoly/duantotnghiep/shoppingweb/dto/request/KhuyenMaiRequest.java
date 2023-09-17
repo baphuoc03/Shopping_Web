@@ -2,10 +2,13 @@ package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.KhuyenMaiModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -23,8 +26,10 @@ public class KhuyenMaiRequest {
 
     private Double mucGiam;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngayBatDau;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngayKetThuc;
 
     private Boolean trangThai;

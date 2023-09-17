@@ -32,10 +32,10 @@ public class VoucherModel {
 
     @Column(name = "giatritoithieu")
     private BigDecimal giaTriToiThieu;
-
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaybatdau")
     private Date ngayBatDau;
-
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngayketthuc")
     private Date ngayKetThuc;
 

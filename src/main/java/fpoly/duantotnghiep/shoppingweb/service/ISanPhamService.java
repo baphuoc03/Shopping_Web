@@ -3,10 +3,12 @@ package fpoly.duantotnghiep.shoppingweb.service;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
 
+@Service
 public interface ISanPhamService {
     List<SanPhamDtoResponse> findAll();
 
@@ -16,6 +18,7 @@ public interface ISanPhamService {
 
     List<SanPhamDtoResponse> saveAll(List<SanPhamDtoRequest> sanPham);
 
+    List<SanPhamModel> findListById(List<String> ma);
 
     SanPhamDtoResponse save(SanPhamDtoRequest entity);
 
