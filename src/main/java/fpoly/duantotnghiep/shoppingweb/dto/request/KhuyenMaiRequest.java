@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -53,5 +54,21 @@ public class KhuyenMaiRequest {
         model.setNgayCapNhat(ngayCapNhat);
         model.setSanPham(sanPham);
         return model;
+    }
+
+    @Override
+    public String toString() {
+        return "KhuyenMaiRequest{" +
+                "ma='" + ma + '\'' +
+                ", ten='" + ten + '\'' +
+                ", loai='" + loai + '\'' +
+                ", mucGiam=" + mucGiam +
+                ", ngayBatDau=" + ngayBatDau +
+                ", ngayKetThuc=" + ngayKetThuc +
+                ", trangThai=" + trangThai +
+                ", ngayTao=" + ngayTao +
+                ", ngayCapNhat=" + ngayCapNhat +
+                ", sanPham=" +
+                sanPham.stream().map(s -> s.getMa() + " - " +s.getTen()).collect(Collectors.joining());
     }
 }

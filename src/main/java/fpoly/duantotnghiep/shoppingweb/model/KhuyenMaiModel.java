@@ -47,8 +47,8 @@ public class KhuyenMaiModel {
     private Date ngayCapNhat;
     @ManyToMany
     @JoinTable(name = "khuyenmai_sanpham",
-            joinColumns = {@JoinColumn(name = "sanpham")},
-            inverseJoinColumns = {@JoinColumn(name = "khuyenmai")})
+            joinColumns = {@JoinColumn(name = "khuyenmai")},
+            inverseJoinColumns = {@JoinColumn(name = "sanpham")})
     private List<SanPhamModel> sanPham;
 
 }

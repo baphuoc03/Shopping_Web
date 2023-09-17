@@ -50,6 +50,7 @@ public class KhuyenMaiController {
 
         khuyenMaiRequest.setMa(code());
         khuyenMaiRequest.setSanPham(a);
+        System.out.println(khuyenMaiRequest.toString());
         khuyenMaiService.save(khuyenMaiRequest);
 
         return "/admin/KhuyenMai";
