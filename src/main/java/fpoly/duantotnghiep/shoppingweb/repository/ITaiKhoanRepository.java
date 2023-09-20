@@ -9,10 +9,21 @@ import java.util.List;
 public interface ITaiKhoanRepository extends JpaRepository<TaiKhoanModel,String> {
 
     @Query(value = """
-    SELECT t.id,v.Ten,t.Username,t.HoVaTen,t.GioiTinh,t.NgaySinh,t.SoDienThoai,t.Email,t.AnhDaiDien FROM shopping_web.TaiKhoan t
-    join VaiTro v on t.VaiTro = v.Ma
-    WHERE v.Ma = 'ADMIN';
-""",nativeQuery = true)
+    SELECT new fpoly.duantotnghiep.shoppingweb.dto.reponse.TaiKhoanDtoResponse(t) FROM TaiKhoanModel t
+    WHERE t.vaiTro.ma = 'ADMIN'
+""")
     List<TaiKhoanDtoResponse> getByRoleAdmin();
+
+    @Query(value = """
+    SELECT new fpoly.duantotnghiep.shoppingweb.dto.reponse.TaiKhoanDtoResponse(t) FROM TaiKhoanModel t
+    WHERE t.vaiTro.ma <> 'CUST'
+""")
+    List<TaiKhoanDtoResponse> getTaiKhoanNhanVien();
+
+    @Query(value = """
+    SELECT new fpoly.duantotnghiep.shoppingweb.dto.reponse.TaiKhoanDtoResponse(t) FROM TaiKhoanModel t
+    WHERE t.vaiTro.ma = 'CUST'
+""")
+    List<TaiKhoanDtoResponse> getTaiKhoanKhachHang();
 
 }
