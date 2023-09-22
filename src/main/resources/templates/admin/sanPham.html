@@ -2,22 +2,15 @@
 <html lang="en" xmlns:th="http:/www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/admin/index}">
-<head>
-    <meta charset="utf-8"/>
-    <title>Dashboard | Dason - Admin & Dashboard Template</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
-    <meta content="Themesbrand" name="author"/>
-    <!-- App favicon -->
-</head>
-
 <body data-topbar="dark">
-
-
-<!-- ============================================================== -->
-<!-- Start right Content here -->
-<!-- ============================================================== -->
 <div class="main-content" layout:fragment="content">
+
+    <style>
+        .imgProduct {
+            width: 100px;
+            height: 70px;
+        }
+    </style>
 
     <div class="page-content">
         <div class="container-fluid">
@@ -40,13 +33,13 @@
             </div>
             <!-- end page title -->
 
-            <div class="row">
+            <div class="row" ng-app="product-admin" ng-controller="ctrl">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-6">
-                                    <a th:href="@{/admin/san-pham/them}">
+                                    <a th:href="@{/admin/san-pham/add}">
                                         <button type="button" class="btn btn-primary">Thêm Sản Phẩm
                                         </button>
                                     </a>
@@ -72,23 +65,37 @@
                                     <th>Dòng Sản Phẩm</th>
                                     <th>Giá Bán</th>
                                     <th>Số Lượng</th>
-                                    <th>Trạng Thái</th>
+                                    <th>Đăng bán</th>
                                 </tr>
                                 </thead>
-
-
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Giày màu mè</td>
-                                    <td>Màu mè</td>
-                                    <td>oke</td>
-                                    <td>oke oke oek</td>
-                                    <td>oke hạd</td>
-                                    <td>1000</td>
-                                    <td>2943</td>
-                                    <td>23</td>
-                                    <td>hết</td>
+                                <tr ng-repeat="p in items" style="cursor: pointer">
+                                    <td ng-click="getChiTietSP(p.ma)">{{$index + 1}}</td>
+                                    <td ng-click="getChiTietSP(p.ma)">
+                                        <img ng-if="p.anh[0] != null" src="/image/loadImage/{{p.anh[0]}}" class="imgProduct">
+                                        <img ng-if="p.anh[0] == null" src="/image/loadImage/envato.png" class="imgProduct">
+                                    </td>
+                                    <td ng-click="getChiTietSP(p.ma)"> {{p.ma}} - {{p.ten}}</td>
+                                    <td ng-click="getChiTietSP(p.ma)">{{p.mauSac}}</td>
+                                    <td ng-click="getChiTietSP(p.ma)">{{p.dongSanPham}}</td>
+                                    <td ng-click="getChiTietSP(p.ma)">{{p.giaBan}}</td>
+                                    <td ng-click="getChiTietSP(p.ma)">{{p.soLuong}}</td>
+                                    <td>
+                                        <input type="checkbox" id="switch{{p.ma}}" switch="none" ng-if="p.hienThi == 1" checked ng-click="updateTrangThaiHienThi('switch' + p.ma,p.ma)"/>
+                                        <input type="checkbox" id="switch{{p.ma}}" switch="none" ng-if="p.hienThi == 0" ng-click="updateTrangThaiHienThi('switch' + p.ma,p.ma)"/>
+                                        <label for="switch{{p.ma}}" data-on-label="Bật" data-off-label="Tắt"></label>
+                                    </td>
+                                    <td >
+                                        <div class="dropdown">
+                                            <span data-bs-toggle="dropdown" aria-expanded="false" >
+                                                ...
+                                            </span>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="/admin/san-pham/update/{{p.ma}}">Sửa</a></li>
+                                                <li><span class="dropdown-item" style="cursor: pointer" ng-click="delete(p.ma)">Xóa</span></li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -144,8 +151,8 @@
             </div>
         </div>
     </footer>
+
 </div>
 <!-- end main content-->
 </body>
-
 </html>

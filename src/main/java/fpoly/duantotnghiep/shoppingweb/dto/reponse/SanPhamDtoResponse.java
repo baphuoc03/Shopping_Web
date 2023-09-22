@@ -30,7 +30,8 @@ public class SanPhamDtoResponse {
     private Date ngayTao;
     private Date ngayCapNhat;
     private Boolean hienThi;
-    private Set<String> anh;
+    private List<String> anh;
+    private Long soLuong;
 
     public SanPhamDtoResponse(SanPhamModel model){
         ma = model.getMa();
@@ -45,11 +46,12 @@ public class SanPhamDtoResponse {
         ngayTao = model.getNgayTao();
         ngayCapNhat = model.getNgayCapNhat();
         hienThi = model.getHienThi();
-
         if(model.getImages() != null)
         anh = model.getImages().stream()
-                .sorted(Comparator.comparing(AnhModel::getId))
+//                .sorted(Comparator.comparing(AnhModel::getId))
                 .map(img -> img.getTen())
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
+
+        soLuong = model.getSoLuongSanPham();
     }
 }

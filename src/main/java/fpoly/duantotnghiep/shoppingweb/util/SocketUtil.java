@@ -40,6 +40,10 @@ public class SocketUtil {
 
     public static void sendNotification(ThongBaoModel thongBaoModel) {
 
+        TaiKhoanModel taiKhoanGui = new TaiKhoanModel();
+        taiKhoanGui.setId("afc05e0c-4c66-11ee-b10b-d69e940a783b");
+        thongBaoModel.setTaiKhoanGui(taiKhoanGui);
+
         List<TaiKhoanDtoResponse> danhSachTaiKhoanHasRoleAdmin = staticTaiKhoanService.getByRoleAdmin();
 
         List<ThongBaoNhanModel> thongBaoNhanModels = new ArrayList<>();

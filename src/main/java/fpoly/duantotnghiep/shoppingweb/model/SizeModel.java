@@ -30,4 +30,5 @@ public class SizeModel {
 
     @Column(name = "ngaycapnhat")
     private Date ngayCapNhat;
+
 }

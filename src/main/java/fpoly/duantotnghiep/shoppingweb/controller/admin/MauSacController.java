@@ -18,32 +18,13 @@ import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.util.List;
 
-@RestController
-
+@Controller
+@RequestMapping("${admin.domain}/mau-sac")
 public class MauSacController {
 
-    @Autowired
-    private HttpServletRequest request;
-
-    @Autowired
-    private IMauSacService service;
-
-    @GetMapping("find-all")
-    public List<MauSacDTOResponse> findAll() {
-        return service.findAll();
+    @GetMapping("")
+    public String show() {
+        return "/admin/mauSac";
     }
-
-    @GetMapping("view-alll")
-    public String viewAdd(@ModelAttribute("mauSac") MauSacDTORequest mauSac) {
-        request.setAttribute("method", "add");
-        return "test";
-    }
-
-    @PostMapping("add")
-    public ResponseEntity<?> add(@RequestBody MauSacDTORequest mauSac) throws IOException {
-        System.out.println(mauSac.mapToModel().toString());
-        return ResponseEntity.ok(service.save(mauSac));
-    }
-
-
 }
+

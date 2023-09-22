@@ -41,17 +41,23 @@
     <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>
     <!-- App Css-->
 </head>
-
+<style></style>
 <body data-topbar="dark">
 
 <!-- ============================================================== -->
 <!-- Start right Content here -->
 <!-- ============================================================== -->
 <div class="main-content" layout:fragment="content">
-
     <div class="page-content">
-        <div class="container-fluid">
+        <style>
+            .er{
+                color: red;
+                font-size: 13px;
+            }
+        </style>
+        <link th:href="@{/admin/css/fileupload.css}" rel="stylesheet" type="text/css"/>
 
+        <div class="container-fluid">
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -72,51 +78,54 @@
 
             <div class="row">
                 <div class="col-12">
+                    <form th:action="@{|/admin/san-pham/${action}|}" th:object="${sanPham}" th:method="${method}" enctype="multipart/form-data">
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title mb-0">Product Images</h4>
                         </div>
                         <div class="card-body">
-                            <form action="/" method="post" class="dropzone">
-                                <div class="fallback">
-                                    <input name="file" type="file" multiple/>
-                                </div>
-
-                                <div class="dz-message needsclick">
-                                    <div class="mb-3">
-                                        <i class="display-4 text-muted bx bxs-cloud-upload"></i>
+                            <section class="bg-diffrent">
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-xl-12">
+                                            <div class="file-upload-contain ">
+                                                <input id="multiplefileupload" type="file" accept=".jpg,.gif,.png" name="img"
+                                                       multiple/>
+                                            </div>
+                                        </div>
                                     </div>
-
-                                    <h4>Drop files here or click to upload.</h4>
                                 </div>
-                            </form>
+                            </section>
                         </div>
-
                     </div> <!-- end card-->
                     <div class="card">
-                        <div class="card-header">
-                            <!-- <h4 class="card-title">Basic Information</h4>
-                            <p class="card-title-desc">Fill all information below</p> -->
-                        </div>
-                        <div class="card-body">
 
-                            <form th:action="@{|/admin/product/${method}|}" th:object="${sanPham}" method="post" enctype="multipart/form-data">
+                            <div class="card-header">
+                                <i style="float: right" th:if="${method == 'put'}"
+                                   th:text="'Cập nhật lần cuối: ' + ${#dates.format(sanPham.NgayCapNhat, 'dd-MM-yyyy HH:mm:ss')} "></i>
+                            </div>
+                            <div class="card-body">
+
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label for="ma">Mã Sản Phẩm</label>
                                             <input th:field="*{ma}" id="ma" class="form-control">
+                                            <i th:errors="*{ma}" class="er"></i>
                                         </div>
                                         <div class="mb-3">
                                             <label for="productname">Tên Sản Phẩm</label>
-                                            <input id="productname" th:field="*{ten}"class="form-control">
+                                            <input id="productname" th:field="*{ten}" class="form-control">
+                                            <i th:errors="*{ten}" class="er"></i>
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Màu Sắc</label>
-                                            <select class="form-control select2">
-                                                <option>Select</option>
-                                                <option value="FA">Fashion</option>
-                                                <option value="EL">Electronic</option>
+                                            <select class="form-control select2" th:field="*{mauSac}">
+                                                <option th:value="'000000'">Đen</option>
+                                                <option th:value="ff0000">Đỏ</option>
+                                                <option th:value="ffd900">Vàng</option>
+                                                <option th:value="ffffff">Trắng</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
@@ -125,43 +134,46 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="manufacturerbrand">Giá Bán</label>
-                                            <input id="manufacturerbrand" th:field="*{giaBan}"class="form-control">
+                                            <input id="manufacturerbrand" th:field="*{giaBan}" class="form-control">
+                                            <i th:errors="*{giaBan}" class="er"></i>
                                         </div>
                                         <div class="mb-3">
-                                            <label >Trạng thái</label>
-                                            <input th:field="*{hienThi}" type="radio" th:value="0" />Hiện bán
-                                            <input th:field="*{hienThi}" type="radio" th:value="1" />Ẩn
+                                            <label>Trạng thái</label>
+                                            <input th:field="*{hienThi}" type="radio" th:value="1"/>Hiện bán
+                                            <input th:field="*{hienThi}" th:checked="true" type="radio" th:value="0" />Ẩn
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="control-label">Dòng Sản Phẩm</label>
-                                            <select class="form-control select2">
-                                                <option>Select</option>
-                                                <option value="FA">Fashion</option>
-                                                <option value="EL">Electronic</option>
+                                            <select class="form-control select2" th:field="*{dongSanPham}">
+                                                <option th:value="1515fb6a-ab38-49f2-a30f-9b6b6183efb6">1970s</option>
+                                                <option th:value="3eaa9fca-4f86-11ee-8a18-ee19b027b30c">All Star
+                                                </option>
+                                                <option th:value="3eaaba28-4f86-11ee-8a18-ee19b027b30c">Dép</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Kiểu Dáng</label>
-                                            <select class="form-control select2">
-                                                <option>Select</option>
-                                                <option value="FA">Fashion</option>
-                                                <option value="EL">Electronic</option>
+                                            <select class="form-control select2" th:field="*{kieuDang}">
+                                                <!--                                                <option>-&#45;&#45;&#45;&#45;</option>-->
+                                                <option th:value="6d66f1f1-f7c9-4a3c-a5cf-93618827fdb4">Cổ thấp</option>
+                                                <option th:value="ba6fa368-4f85-11ee-8a18-ee19b027b30c">Cổ cao</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Chất Liệu</label>
-                                            <select class="form-control select2">
-                                                <option>Select</option>
-                                                <option value="FA">Fashion</option>
-                                                <option value="EL">Electronic</option>
+                                            <select class="form-control select2" th:field="*{chatLieu}">
+                                                <!--                                                <option>-&#45;&#45;&#45;&#45;</option>-->
+                                                <option th:value="57870680-8db5-49a4-9bd1-e38e7815ff94">Vải</option>
+                                                <option th:value="8e0af9da-4f85-11ee-8a18-ee19b027b30c">Da</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
                                             <label for="productdesc">Mô tả</label>
-                                            <textarea class="form-control" th:field="*{moTa}" id="productdesc" rows="5"></textarea>
+                                            <textarea class="form-control" th:field="*{moTa}" id="productdesc"
+                                                      rows="5"></textarea>
                                         </div>
 
                                     </div>
@@ -172,19 +184,17 @@
                                         Changes
                                     </button>
                                     <button type="button"
-                                            class="btn btn-secondary waves-effect waves-light" type>Cancel
+                                            class="btn btn-secondary waves-effect waves-light">Cancel
                                     </button>
                                 </div>
-                            </form>
 
-                        </div>
+                            </div>
                     </div>
+                    </form>
                 </div>
             </div>
             <!-- end row -->
-
         </div>
-
         <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
@@ -207,36 +217,36 @@
 </div>
 <!-- end main content-->
 <!-- JAVASCRIPT -->
-<script th:src="@{/admin/assets/libs/jquery/jquery.min.js}"></script>
-<script th:src="@{/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/admin/assets/libs/metismenu/metisMenu.min.js}"></script>
-<script th:src="@{/admin/assets/libs/simplebar/simplebar.min.js}"></script>
-<script th:src="@{/admin/assets/libs/node-waves/waves.min.js}"></script>
-<script th:src="@{/admin/assets/libs/feather-icons/feather.min.js}"></script>
-<!-- pace js} -->
-<script th:src="@{/admin/assets/libs/pace-js/pace.min.js}"></script>
+<!--<script th:src="@{/admin/assets/libs/jquery/jquery.min.js}"></script>-->
+<!--<script th:src="@{/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>-->
+<!--<script th:src="@{/admin/assets/libs/metismenu/metisMenu.min.js}"></script>-->
+<!--<script th:src="@{/admin/assets/libs/simplebar/simplebar.min.js}"></script>-->
+<!--<script th:src="@{/admin/assets/libs/node-waves/waves.min.js}"></script>-->
+<!--<script th:src="@{/admin/assets/libs/feather-icons/feather.min.js}"></script>-->
+<!--&lt;!&ndash; pace js} &ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/libs/pace-js/pace.min.js}"></script>-->
 
-<!-- apexcharts -->
-<script th:src="@{/admin/assets/libs/apexcharts/apexcharts.min.js}"></script>
+<!--&lt;!&ndash; apexcharts &ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/libs/apexcharts/apexcharts.min.js}"></script>-->
 
-<!-- Plugins js}-->
-<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js}"></script>
-<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js}"></script>
-<!-- dashboard init -->
-<script th:src="@{/admin/assets/js/pages/dashboard.init.js}"></script>
+<!--&lt;!&ndash; Plugins js}&ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js}"></script>-->
+<!--<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js}"></script>-->
+<!--&lt;!&ndash; dashboard init &ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/js/pages/dashboard.init.js}"></script>-->
 
-<script th:src="@{/admin/assets/js/app.js}"></script>
+<!--<script th:src="@{/admin/assets/js/app.js}"></script>-->
 
-<!-- select 2 plugin -->
-<script th:src="@{/admin/assets/libs/select2/js/select2.min.js}"></script>
+<!--&lt;!&ndash; select 2 plugin &ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/libs/select2/js/select2.min.js}"></script>-->
 
-<!-- dropzone plugin -->
-<script th:src="@{/admin/assets/libs/dropzone/min/dropzone.min.js}"></script>
+<!--&lt;!&ndash; dropzone plugin &ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/libs/dropzone/min/dropzone.min.js}"></script>-->
 
-<!-- init js} -->
-<script th:src="@{/admin/assets/js/pages/ecommerce-select2.init.js}"></script>
+<!--&lt;!&ndash; init js} &ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/js/pages/ecommerce-select2.init.js}"></script>-->
 
-<script th:src="@{/admin/assets/js/app.js}"></script>
+<!--<script th:src="@{/admin/assets/js/app.js}"></script>-->
 
 </body>
 

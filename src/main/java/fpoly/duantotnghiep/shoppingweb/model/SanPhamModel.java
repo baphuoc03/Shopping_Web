@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -51,9 +53,11 @@ public class SanPhamModel {
     private String moTa;
 
     @Column(name = "ngaytao")
+    @CreationTimestamp
     private Date ngayTao;
 
-    @Column(name = "ngaycapnhat",columnDefinition="DATETIME default CURRENT_TIMESTAMP")
+    @Column(name = "ngaycapnhat")
+    @UpdateTimestamp
     private Date ngayCapNhat;
 
     @Column(name = "hienthi")
@@ -63,9 +67,18 @@ public class SanPhamModel {
     private Boolean trangThai;
 
     @OneToMany(mappedBy = "sanPham",fetch = FetchType.EAGER)
-    private Set<AnhModel> Images;
+    private List<AnhModel> Images;
 
     @OneToMany(mappedBy = "sanPham",fetch = FetchType.EAGER)
     private List<NhanXetModel> nhanXet;
+
+    @OneToMany(mappedBy = "sanPham",fetch = FetchType.EAGER)
+    private List<ChiTietSanPhamModel> ctsp;
+
+    public Long getSoLuongSanPham(){
+        if(ctsp == null ) return 0L;
+        return ctsp.stream().map(c -> c.getSoLuong()).reduce(0L,(c1, c2)-> c1+c2);
+    }
+
 
 }
