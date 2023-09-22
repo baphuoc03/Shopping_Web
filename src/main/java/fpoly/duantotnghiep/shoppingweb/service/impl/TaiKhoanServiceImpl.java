@@ -29,5 +29,19 @@ public class TaiKhoanServiceImpl implements ITaiKhoanService {
         return taiKhoanRepository.findById(id).get();
     }
 
+    @Override
+    public TaiKhoanDtoResponse getDtoResponseById(String id){
+        TaiKhoanModel model = taiKhoanRepository.findById(id).get();
+        return new TaiKhoanDtoResponse(model);
+    }
 
+    @Override
+    public List<TaiKhoanDtoResponse> getTaiKhoanNhanVien() {
+        return taiKhoanRepository.getTaiKhoanNhanVien();
+    }
+
+    @Override
+    public List<TaiKhoanDtoResponse> getTaiKhoanKhachHang() {
+        return taiKhoanRepository.getTaiKhoanKhachHang();
+    }
 }

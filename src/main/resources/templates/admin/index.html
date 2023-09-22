@@ -17,8 +17,8 @@
     <link th:href="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css}" rel="stylesheet"
           type="text/css"/>
 
-    <!--    angularJS-->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<!--    &lt;!&ndash;    angularJS&ndash;&gt;-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>-->
 
     <!--    icon-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -68,7 +68,7 @@
 
 </head>
 
-<body data-topbar="dark" >
+<body data-topbar="dark">
 
 <!-- <body data-layout="horizontal"> -->
 
@@ -420,13 +420,13 @@
                     <li class="menu-title" data-key="t-pages">Tài Khoản</li>
 
                     <li>
-                        <a href="layouts-horizontal.html">
+                        <a th:href="@{/admin/tai-khoan/nhan-vien}">
                             <i data-feather="layout"></i>
                             <span data-key="t-horizontal">Nhân Viên</span>
                         </a>
                     </li>
                     <li>
-                        <a href="layouts-horizontal.html">
+                        <a   th:href="@{/admin/tai-khoan/nguoi-dung}" >
                             <i data-feather="layout"></i>
                             <span data-key="t-horizontal">Khách Hàng</span>
                         </a>
@@ -675,6 +675,8 @@
 
 <script th:src="@{/admin/js/uploadfile.js}"></script>
 <script src="/admin/js/thongBao.js"></script>
+<script src="/admin/js/TaiKhoanNhanVien.js"></script>
+<script src="/admin/js/TaiKhoanNguoiDung.js"></script>
 
 
 <script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>

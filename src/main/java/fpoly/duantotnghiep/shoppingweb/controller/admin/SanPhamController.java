@@ -4,6 +4,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.MauSacDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.enumtype.ThongBaoType;
 import fpoly.duantotnghiep.shoppingweb.model.ThongBaoModel;
+import fpoly.duantotnghiep.shoppingweb.service.IMauSacService;
 import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
 import fpoly.duantotnghiep.shoppingweb.util.SocketUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +32,9 @@ public class SanPhamController {
 
     @Autowired
     private ISanPhamService sanPhamService;
+
+    @Autowired
+    private IMauSacService mauSacService;
 
     @GetMapping("")
     public String hienThi() {
@@ -100,4 +104,11 @@ public class SanPhamController {
 
         return "redirect:/admin/san-pham";
     }
+
+
+    @ModelAttribute("colors")
+    public List<MauSacDTOResponse> getMauSac(){
+        return mauSacService.findAll();
+    }
+
 }
