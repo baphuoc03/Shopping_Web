@@ -30,15 +30,11 @@ public class KhuyenMaiModel {
 
     @Column(name = "mucgiam")
     private Double mucGiam;
-
     @Column(name = "ngaybatdau")
-    private Date ngayBatDau;
+    private String ngayBatDau;
 
     @Column(name = "ngayketthuc")
-    private Date ngayKetThuc;
-
-    @Column(name = "trangthai")
-    private Boolean trangThai;
+    private String ngayKetThuc;
 
     @Column(name = "ngaytao")
     private Date ngayTao;
@@ -47,8 +43,8 @@ public class KhuyenMaiModel {
     private Date ngayCapNhat;
     @ManyToMany
     @JoinTable(name = "khuyenmai_sanpham",
-            joinColumns = { @JoinColumn(name = "sanpham") },
-            inverseJoinColumns = { @JoinColumn(name = "khuyenmai") })
+            joinColumns = {@JoinColumn(name = "khuyenmai")},
+            inverseJoinColumns = {@JoinColumn(name = "sanpham")})
     private List<SanPhamModel> sanPham;
 
 }

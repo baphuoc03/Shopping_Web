@@ -17,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString
+//@ToString
 @Table(name = "sanpham")
 public class SanPhamModel {
     @Id
@@ -66,19 +66,35 @@ public class SanPhamModel {
     @Column(name = "trangthai")
     private Boolean trangThai;
 
-    @OneToMany(mappedBy = "sanPham",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "sanPham", fetch = FetchType.EAGER)
     private List<AnhModel> Images;
 
-    @OneToMany(mappedBy = "sanPham",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "sanPham", fetch = FetchType.EAGER)
     private List<NhanXetModel> nhanXet;
 
-    @OneToMany(mappedBy = "sanPham",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "sanPham", fetch = FetchType.EAGER)
     private List<ChiTietSanPhamModel> ctsp;
 
-    public Long getSoLuongSanPham(){
-        if(ctsp == null ) return 0L;
-        return ctsp.stream().map(c -> c.getSoLuong()).reduce(0L,(c1, c2)-> c1+c2);
+    public Long getSoLuongSanPham() {
+        if (ctsp == null) return 0L;
+        return ctsp.stream().map(c -> c.getSoLuong()).reduce(0L, (c1, c2) -> c1 + c2);
     }
 
-
+    @Override
+    public String toString() {
+        return "SanPhamModel{" +
+                "ma='" + ma + '\'' +
+                ", mauSac=" + mauSac.getTen() +
+                ", ten='" + ten + '\'' +
+                ", giaNhap=" + giaNhap +
+                ", giaBan=" + giaBan +
+                ", moTa='" + moTa + '\'' +
+                ", ngayTao=" + ngayTao +
+                ", ngayCapNhat=" + ngayCapNhat +
+                ", hienThi=" + hienThi +
+                ", trangThai=" + trangThai +
+                ", nhanXet=" + nhanXet +
+                ", ctsp=" + ctsp +
+                '}';
+    }
 }

@@ -9,9 +9,9 @@ app.controller("voucher-ctrl", function ($scope, $http) {
         var urlWithId = getUrlWithId(id);
         $http.get(urlWithId).then(function (res) {
             const voucher = res.data;
-            // $scope.maConfirm = res.data;
             $scope.ten = voucher.ten;
             $scope.ma = voucher.ma;
+            $scope.maConfirm = voucher.ma;
             $scope.loai = voucher.loai;
             $scope.mucGiam = voucher.mucGiam;
             $scope.mucGiamToiDa = voucher.mucGiamToiDa;
@@ -25,8 +25,8 @@ app.controller("voucher-ctrl", function ($scope, $http) {
     $scope.delete = function (id) {
         var urlWithId = getUrlWithId(id)
         $http.delete(urlWithId).then(function (res) {
-            location.reload();
             alert("Delete success");
+            location.reload();
         })
     }
     //add

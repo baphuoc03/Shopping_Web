@@ -6,13 +6,17 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface ISanPhamRepository extends JpaRepository<SanPhamModel,String> {
+import java.util.List;
+
+public interface ISanPhamRepository extends JpaRepository<SanPhamModel, String> {
 
     @Transactional
     @Modifying
     @Query("""
-update SanPhamModel s SET s.hienThi = ?1 where s.ma = ?2
-""")
+            update SanPhamModel s SET s.hienThi = ?1 where s.ma = ?2
+            """)
     Integer updateTrangThaiHIenThi(Boolean trangThai, String ma);
+
+    List<SanPhamModel> findByMaIn(List<String> ma);
 
 }
