@@ -27,11 +27,9 @@ public class KhuyenMaiRequest {
 
     private Double mucGiam;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date ngayBatDau;
+    private String ngayBatDau;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date ngayKetThuc;
+    private String ngayKetThuc;
 
     private Boolean trangThai;
 
@@ -49,7 +47,6 @@ public class KhuyenMaiRequest {
         model.setMucGiam(mucGiam);
         model.setNgayBatDau(ngayBatDau);
         model.setNgayKetThuc(ngayKetThuc);
-        model.setTrangThai(trangThai);
         model.setNgayTao(ngayTao);
         model.setNgayCapNhat(ngayCapNhat);
         model.setSanPham(sanPham);

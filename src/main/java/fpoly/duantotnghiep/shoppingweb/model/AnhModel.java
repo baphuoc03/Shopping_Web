@@ -11,7 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString
+//@ToString
 @Table(name = "anh")
 public class AnhModel {
     @Id
@@ -27,4 +27,11 @@ public class AnhModel {
     @Column(name = "ten")
     private String ten;
 
+    @Override
+    public String toString() {
+        return "AnhModel{" +
+                "id=" + id +
+                ", ten='" + ten + '\'' +
+                '}';
+    }
 }

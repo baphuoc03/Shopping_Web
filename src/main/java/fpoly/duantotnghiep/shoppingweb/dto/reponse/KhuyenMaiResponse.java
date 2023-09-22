@@ -24,11 +24,10 @@ public class KhuyenMaiResponse {
 
     private Double mucGiam;
 
-    private Date ngayBatDau;
+    private String ngayBatDau;
 
-    private Date ngayKetThuc;
+    private String ngayKetThuc;
 
-    private Boolean trangThai;
 
     private Date ngayTao;
 
@@ -43,7 +42,6 @@ public class KhuyenMaiResponse {
         this.mucGiam = model.getMucGiam();
         this.ngayBatDau = model.getNgayBatDau();
         this.ngayKetThuc = model.getNgayKetThuc();
-        this.trangThai = model.getTrangThai();
         this.ngayTao = model.getNgayTao();
         this.ngayCapNhat = model.getNgayCapNhat();
         this.sanPham = model.getSanPham();

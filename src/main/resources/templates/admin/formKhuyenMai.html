@@ -71,7 +71,7 @@
             <!-- end page title -->
 
             <div class="row">
-                <form th:action="@{/admin/khuyen-mai/add}" th:object="${khuyenMai}" method="post">
+                <form th:action="@{${action}}" th:object="${khuyenMai}" method="post">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
@@ -88,10 +88,10 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Loại Giảm</label>
-                                            <select class="form-control select2">
-                                                <option>Select</option>
-                                                <option value="FA">Fashion</option>
-                                                <option value="EL">Electronic</option>
+                                            <select th:field="*{loai}" class="form-control select2">
+<!--                                                <option>Select</option>-->
+                                                <option value="PHAN TRAM">Phần Trăm</option>
+                                                <option value="TIEN">Tiền</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
@@ -105,9 +105,7 @@
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="control-label">Ngày Bắt Đầu</label>
-                                            <input th:field="*{ngayBatDau}" id="manufacturername"
-                                                   name="manufacturername" type="date"
-                                                   class="form-control">
+                                            <input th:field="*{ngayBatDau}" type="date" class="form-control">
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Ngày Kết Thúc</label>
@@ -119,8 +117,8 @@
                                             <label class="control-label">Trạng Thái</label>
                                             <select class="form-control select2">
                                                 <option>Select</option>
-                                                <option value="FA">Fashion</option>
-                                                <option value="EL">Electronic</option>
+                                                <option th:value="1">Áp Dụng</option>
+                                                <option th:value="0">Hết Hạn</option>
                                             </select>
                                         </div>
                                     </div>
@@ -155,12 +153,11 @@
                                         <th>Số Lượng</th>
                                     </tr>
                                     </thead>
-
-
                                     <tbody>
                                     <tr th:each="sp : ${sanPham}">
-                                        <td>
-                                            <input type="checkbox" name="ids" th:value="${sp.ma}">
+
+                                        <td >
+                                            <input th:checked="${#lists.contains(sp1, sp.ma)}" type="checkbox" name="ids" th:value="${sp.ma}">
                                         </td>
                                         <td th:text="${sp.ten}"></td>
                                         <td>Danh muc</td>

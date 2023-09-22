@@ -58,7 +58,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
 
     @Override
     public List<SanPhamModel> findListById(List<String> ma) {
-        List<SanPhamModel> listSanPhamModels = sanPhamRepository.findByMaIn(ma);
+        List<SanPhamModel> listSanPhamModels = sanPhamRepository.findAllById(ma);
         return listSanPhamModels;
     }
 

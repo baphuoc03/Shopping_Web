@@ -30,6 +30,12 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    public Page<VoucherReponse> findByName(String keyword, Pageable pageable) {
+        Page<VoucherModel> page = repository.findByTenLike(keyword, pageable);
+        return page.map(x -> new VoucherReponse(x));
+    }
+
+    @Override
     public VoucherReponse findById(String id) {
         VoucherModel getById = repository.findById(id).get();
         return new VoucherReponse(getById);
@@ -50,5 +56,12 @@ public class VoucherServiceImpl implements VoucherService {
     public boolean exitst(String id) {
         boolean exitst = repository.existsById(id);
         return exitst;
+    }
+
+    @Override
+    public void deleteVouchers(List<String> ids) {
+        for (String id : ids) {
+            repository.deleteById(id);
+        }
     }
 }

@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString
+//@ToString
 @Table(name = "mausac")
 public class MauSacModel {
     @Id

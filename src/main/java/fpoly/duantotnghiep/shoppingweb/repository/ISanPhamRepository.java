@@ -17,6 +17,6 @@ public interface ISanPhamRepository extends JpaRepository<SanPhamModel, String> 
             """)
     Integer updateTrangThaiHIenThi(Boolean trangThai, String ma);
 
-    List<SanPhamModel> findByMaIn(List<String> mas);
+    List<SanPhamModel> findByMaIn(List<String> ma);
 
 }

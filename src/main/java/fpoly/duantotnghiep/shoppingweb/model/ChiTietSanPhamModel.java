@@ -27,6 +27,7 @@ public class ChiTietSanPhamModel {
 
     @ManyToOne
     @JoinColumn(name = "sanpham")
+    @ToString.Exclude
     private SanPhamModel sanPham;
 
     @ManyToOne

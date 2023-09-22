@@ -37,105 +37,119 @@
                                     <li class="breadcrumb-item active">DataTables</li>
                                 </ol>
                             </div> -->
-
                         </div>
                     </div>
                 </div>
                 <!-- end page title -->
 
                 <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#voucher">
-                                            Tạo Voucher
-                                        </button>
+                    <form th:action="@{/admin/voucher/delete}" method="post">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#voucher">
+                                                Tạo Voucher
+                                            </button>
+                                            <button type="submit" class="btn btn-danger">
+                                                Xóa Nhiều
+                                            </button>
+                                        </div>
+                                        <div class="col-6 nav justify-content-end ">
+                                            <form th:action="@{/admin/voucher}" class="d-flex">
+                                                <input class="form-control me-2" name="name" type="text"
+                                                       placeholder="Search">
+                                                <button class="btn btn-primary" type="submit">Search</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div class="col-6 nav justify-content-end ">
-                                        <form action="" class="d-flex">
-                                            <input class="form-control me-2" name="name" type="text"
-                                                   placeholder="Search">
-                                            <button class="btn btn-primary" type="submit">Search</button>
-                                        </form>
+                                </div>
+
+                                <div class="card-body">
+                                    <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                        <tr>
+                                            <th>Voucher</th>
+                                            <th>Loại Giảm</th>
+                                            <th>Mức Giảm</th>
+                                            <th>Giảm Tối Đa</th>
+                                            <th>Giá Trị Đơn</th>
+                                            <th>Bắt Đầu</th>
+                                            <th>Kết Thúc</th>
+                                            <th>Số lương</th>
+                                            <th>Trạng Thái</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="vc: ${listVoucher}">
+                                            <td>
+                                                <input type="checkbox" name="ids" th:value="${vc.ma}">
+                                            </td>
+                                            <td th:text="${vc.ten}"></td>
+                                            <td th:text="${vc.loai}"></td>
+                                            <td th:text="${vc.mucGiam}"></td>
+                                            <td th:text="${vc.mucGiamToiDa}"></td>
+                                            <td th:text="${vc.giaTriToiThieu}"></td>
+                                            <td th:text="${vc.ngayBatDau}"></td>
+                                            <td th:text="${vc.ngayKetThuc}"></td>
+                                            <td th:text="${vc.soLuong}"></td>
+                                            <td th:text="${vc.soLuong == 0? 'Hết hạn': 'Áp dụng'}"></td>
+                                            <td>
+                                                <a href="" class="edit" data-bs-toggle="modal"
+                                                   data-bs-target="#editVoucher"
+                                                   th:attr="ng-click='findById(\''+${vc.ma}+'\');'">
+                                                    <i class="material-icons" title="Edit">&#xE254;</i>
+                                                </a>
+                                                <a href="" class="delete"
+                                                   data-bs-toggle="modal" data-bs-target="#confirm"
+                                                   th:attr="ng-click='findById(\''+${vc.ma}+'\');'">
+                                                    <i class="material-icons" title="Delete">&#xE872;</i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="row">
+                                        <div class="col-6">
+
+                                        </div>
+                                        <div class="col-6">
+                                            <nav aria-label="Page navigation example">
+                                                <ul class="pagination justify-content-end">
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;</span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                    </li>
+                                                    <li th:each="pageNumber: ${#numbers.sequence(1, totalPage)}"
+                                                        class="page-item">
+                                                        <a class="page-link"
+                                                           th:text="${pageNumber}"
+                                                           th:if="${name != null and name != ''}"
+                                                           th:href="@{'/admin/voucher?name=' + ${name} +'&pageNumber='+${pageNumber}}"></a>
+                                                        <a class="page-link"
+                                                           th:text="${pageNumber}"
+                                                           th:unless="${name != null and name != ''}"
+                                                           th:href="@{'/admin/voucher?pageNumber='+${pageNumber}}"></a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Next">
+                                                            <span aria-hidden="true">&raquo;</span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                    <tr>
-                                        <th>Voucher</th>
-                                        <th>Loại Giảm</th>
-                                        <th>Mức Giảm</th>
-                                        <th>Giảm Tối Đa</th>
-                                        <th>Giá Trị Đơn</th>
-                                        <th>Bắt Đầu</th>
-                                        <th>Kết Thúc</th>
-                                        <th>Số lương</th>
-                                        <th>Trạng Thái</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="vc: ${listVoucher}">
-                                        <td th:text="${vc.ten}"></td>
-                                        <td th:text="${vc.loai}"></td>
-                                        <td th:text="${vc.mucGiam}"></td>
-                                        <td th:text="${vc.mucGiamToiDa}"></td>
-                                        <td th:text="${vc.giaTriToiThieu}"></td>
-                                        <td th:text="${vc.ngayBatDau}"></td>
-                                        <td th:text="${vc.ngayKetThuc}"></td>
-                                        <td th:text="${vc.soLuong}"></td>
-                                        <td th:text="${vc.soLuong == 0? 'Hết hạn': 'Áp dụng'}"></td>
-                                        <td>
-                                            <a href="" class="edit" data-bs-toggle="modal" data-bs-target="#editVoucher"
-                                               th:attr="ng-click='findById(\''+${vc.ma}+'\');'">
-                                                <i class="material-icons" title="Edit">&#xE254;</i>
-                                            </a>
-                                            <a href="" class="edit"
-                                               th:attr="ng-click='delete(\''+${vc.ma}+'\');'">
-                                                <i class="material-icons" title="Delete">&#xE872;</i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <div class="row">
-                                    <div class="col-6">
-
-                                    </div>
-                                    <div class="col-6">
-                                        <nav aria-label="Page navigation example">
-                                            <ul class="pagination justify-content-end">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" aria-label="Previous">
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                        <span class="sr-only">Previous</span>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item"
-                                                    th:each="pageNumber: ${#numbers.sequence(1, totalPage)}">
-                                                    <a class="page-link"
-                                                       th:text="${pageNumber}"
-                                                       th:href="@{'/admin/voucher?pageNumber='+${pageNumber}}"></a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                        <span class="sr-only">Next</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div> <!-- end col -->
+                        </div> <!-- end col -->
+                    </form>
                 </div> <!-- end row -->
             </div>
 
@@ -177,7 +191,10 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Loại Giảm</label>
-                                <input type="text" ng-model="loai" class="form-control">
+                                <select class="form-select" ng-model="loai" aria-label="Default select example">
+                                    <option value="PHAN TRAM">Phần trăm</option>
+                                    <option value="TIEN">Tiền</option>
+                                </select>
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                             <div class="mb-3">
@@ -287,27 +304,29 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!--        edit-->
-    <div class="modal" id="confirm">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">CONFIRM</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <h5>Xác Nhận Xóa {{maConfirm.ma}}</h5>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" ng-click="update(ma)" class="btn btn-danger">Submit</button>
+        <!--confirm-->
+        <div class="modal" id="confirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">CONFIRM</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <p> Xác nhận xóa: {{maConfirm}}</p>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" ng-click="delete(maConfirm)" class="btn btn-danger">Submit</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 </div>
 </body>
 

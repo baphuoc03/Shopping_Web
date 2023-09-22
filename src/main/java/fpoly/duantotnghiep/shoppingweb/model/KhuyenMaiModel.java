@@ -30,15 +30,11 @@ public class KhuyenMaiModel {
 
     @Column(name = "mucgiam")
     private Double mucGiam;
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "ngaybatdau")
-    private Date ngayBatDau;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "ngayketthuc")
-    private Date ngayKetThuc;
+    private String ngayBatDau;
 
-    @Column(name = "trangthai")
-    private Boolean trangThai;
+    @Column(name = "ngayketthuc")
+    private String ngayKetThuc;
 
     @Column(name = "ngaytao")
     private Date ngayTao;
