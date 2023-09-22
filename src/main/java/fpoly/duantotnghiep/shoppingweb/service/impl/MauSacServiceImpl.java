@@ -28,7 +28,7 @@ public class MauSacServiceImpl implements IMauSacService {
                 .collect(Collectors.toList());
     }
 
-    public MauSacDTOResponse  save( MauSacDTORequest mauSacDTORequest) {
+    public MauSacDTOResponse save( MauSacDTORequest mauSacDTORequest) {
 
         MauSacModel model = mauSacRepository.save(mauSacDTORequest.mapToModel());
         return new MauSacDTOResponse(model);
