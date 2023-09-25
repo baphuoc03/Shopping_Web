@@ -12,12 +12,13 @@ public class ChatLieuDTORequest {
     private String ten;
     private Date ngayTao;
     private Date ngayCapNhat;
-    public ChatLieuModel mapToModel(){
+
+    public ChatLieuModel mapToModel() {
         ChatLieuModel model = new ChatLieuModel();
         model.setId(id);
         model.setTen(ten);
         model.setNgayTao(ngayTao);
         model.setNgayCapNhat(ngayCapNhat);
-        return  model;
+        return model;
     }
 }
