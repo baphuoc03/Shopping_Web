@@ -4,14 +4,15 @@ import fpoly.duantotnghiep.shoppingweb.model.SizeModel;
 import lombok.Data;
 
 import java.util.Date;
+
 @Data
 public class SizeDTORequest {
     private Float ma;
     private Float chieuDai;
-    private Date  ngayTao;
-    private Date  ngayCapNhat;
+    private Date ngayTao;
+    private Date ngayCapNhat;
 
-    public SizeModel mapToModel(){
+    public SizeModel mapToModel() {
         SizeModel model = new SizeModel();
         model.setMa(ma);
         model.setChieuDai(chieuDai);
