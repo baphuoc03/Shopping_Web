@@ -1,11 +1,13 @@
 package fpoly.duantotnghiep.shoppingweb.controller.admin;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChatLieuDTOResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DongSanPhamResponese;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.KieuDangDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.MauSacDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.enumtype.ThongBaoType;
 import fpoly.duantotnghiep.shoppingweb.model.ThongBaoModel;
-import fpoly.duantotnghiep.shoppingweb.service.IMauSacService;
-import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
+import fpoly.duantotnghiep.shoppingweb.service.*;
 import fpoly.duantotnghiep.shoppingweb.util.SocketUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -35,6 +37,13 @@ public class SanPhamController {
 
     @Autowired
     private IMauSacService mauSacService;
+    @Autowired
+    private IDongSanPhamService dongSanPhamService;
+    @Autowired
+    private IChatLieuService chatLieuService;
+    @Autowired
+    private IKieuDangService kieuDangService;
+
 
     @GetMapping("")
     public String hienThi() {
@@ -110,5 +119,21 @@ public class SanPhamController {
     public List<MauSacDTOResponse> getMauSac(){
         return mauSacService.findAll();
     }
+
+    @ModelAttribute("dongSanPham")
+    public List<DongSanPhamResponese> getDongSanPham(){
+        return dongSanPhamService.findAll();
+    }
+
+    @ModelAttribute("chatLieu")
+    public List<ChatLieuDTOResponse> getChatLieu(){
+        return chatLieuService.findAll();
+    }
+
+    @ModelAttribute("kieuDang")
+    public List<KieuDangDTOResponse> getKieuDang(){
+        return kieuDangService.findAll();
+    }
+
 
 }

@@ -48,7 +48,7 @@
 <!-- Start right Content here -->
 <!-- ============================================================== -->
 <div class="main-content" layout:fragment="content">
-    <div class="page-content">
+    <div class="page-content" ng-app="formSP-app" ng-controller="ctrl">
         <style>
             .er{
                 color: red;
@@ -121,9 +121,10 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Màu Sắc</label>
-                                            <select class="form-control select2" th:field="*{mauSac}">
+                                            <select class="form-control select2" th:field="*{mauSac}" id="mauSac" onchange="angular.element(this).scope().viewAddMauSac()">
                                                 <option th:value="NULL">Chọn màu sắc</option>
                                                 <option th:each="c :${colors}" th:value="${c.ma}">[[${c.ten}]]</option>
+                                                <option th:value="NULL">Thêm màu sắc</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
@@ -145,29 +146,26 @@
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="control-label">Dòng Sản Phẩm</label>
-                                            <select class="form-control select2" th:field="*{dongSanPham}">
+                                            <select class="form-control select2" th:field="*{dongSanPham}" id="dongSP" onchange="angular.element(this).scope().viewAddDongSP()">
                                                 <option th:value="NULL">Chọn dòng sản phẩm</option>
-                                                <option th:value="1515fb6a-ab38-49f2-a30f-9b6b6183efb6">1970s</option>
-                                                <option th:value="3eaa9fca-4f86-11ee-8a18-ee19b027b30c">All Star
-                                                </option>
-                                                <option th:value="3eaaba28-4f86-11ee-8a18-ee19b027b30c">Dép</option>
+                                                <option th:each="d :${dongSanPham}" th:value="${d.id}">[[${d.ten}]]</option>
+                                                <option th:value="NULL">Thêm dòng sản phẩm</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Kiểu Dáng</label>
-                                            <select class="form-control select2" th:field="*{kieuDang}">
+                                            <select class="form-control select2" th:field="*{kieuDang}" id="kieuDang" onchange="angular.element(this).scope().viewAddKieuDang()">
                                                 <option th:value="NULL">Chọn kiểu dáng</option>
-                                                <option th:value="6d66f1f1-f7c9-4a3c-a5cf-93618827fdb4">Cổ thấp</option>
-                                                <option th:value="ba6fa368-4f85-11ee-8a18-ee19b027b30c">Cổ cao</option>
+                                                <option th:each="k :${kieuDang}" th:value="${k.id}">[[${k.ten}]]</option>
+                                                <option th:value="NULL">Thêm kiểu dáng</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Chất Liệu</label>
-                                            <select class="form-control select2" th:field="*{chatLieu}" id="chatLieuSL" onchange="addELM()">
+                                            <select class="form-control select2" th:field="*{chatLieu}" id="chatLieu" onchange="angular.element(this).scope().viewAddChatLieu()">
                                                 <option th:value="NULL">Chọn chất liệu</option>
-                                                <option th:value="57870680-8db5-49a4-9bd1-e38e7815ff94">Vải</option>
-<!--                                                <option th:value="8e0af9da-4f85-11ee-8a18-ee19b027b30c">Da</option>-->
-                                                <option th:value="NULL" >Thêm</option>
+                                                <option th:each="c :${chatLieu}" th:value="${c.id}">[[${c.ten}]]</option>
+                                                <option th:value="NULL">Thêm chất liệu</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
@@ -196,6 +194,31 @@
             <!-- end row -->
         </div>
         <!-- container-fluid -->
+        <div class="modal fade" id="viewAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm thuộc tính</h5>
+                        <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-center">
+                        <div class="col-10 mb-3">
+                            <label >Tên</label>
+                            <input ng-model="tenThuocTinh" required class="form-control" type="text" ng-focus="removeER('etenThuocTinh')">
+                            <i id="etenThuocTinh"  class="er"></i>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Trở về</button>
+                        <button type="button" class="btn btn-primary" ng-click="addThuocTinh()">Thêm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- End Page-content -->
 
@@ -215,16 +238,7 @@
         </div>
     </footer>
     <script>
-        function addELM(){
-            var x = document.getElementById("chatLieuSL");
-            console.log(x.selectedIndex,x.length)
-            if(x.selectedIndex == x.length-1){
-                var option = document.createElement("option");
-                option.text = "Da";
-                option.value = "8e0af9da-4f85-11ee-8a18-ee19b027b30c"
-                x.add(option,x[x.length - 1]);
-            }
-        }
+
     </script>
 </div>
 
