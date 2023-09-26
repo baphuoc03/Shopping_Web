@@ -5,6 +5,7 @@ app.controller("ctrl", function ($scope, $http) {
     var thuocTinhSL = undefined;
 
     $scope.viewAddMauSac = function (){
+        httpThuocTinh = "/admin/mau-sac/add"
         thuocTinhSL = document.getElementById("mauSac");
 
         if(thuocTinhSL.selectedIndex == thuocTinhSL.length-1){
