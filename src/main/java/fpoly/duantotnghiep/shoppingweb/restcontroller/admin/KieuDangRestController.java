@@ -48,7 +48,6 @@ public class KieuDangRestController {
         service.deleteByIds(id);
         return ResponseEntity.ok().build();
     }
-//    @DeleteMapping("delete/{id}")
-//    public ResponseEntity<?> delete(@RequestBody )
+
 
 }
