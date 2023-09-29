@@ -60,20 +60,20 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="n in nhanVien" style="cursor: pointer">
-                                    <td data-toggle="modal" data-target="#viewUpdate11" ng-click="detail(n.id)">
+                                <tr ng-repeat="n in khachHang" style="cursor: pointer">
+                                    <td data-toggle="modal" data-target="#viewUpdate11" ng-click="detail(n.username)">
                                         {{$index + 1}}
                                     </td>
-                                    <td data-toggle="modal" data-target="#viewUpdate11" ng-click="detail(n.id)">
+                                    <td data-toggle="modal" data-target="#viewUpdate11" ng-click="detail(n.username)">
                                         {{n.username}}
                                     </td>
-                                    <td data-toggle="modal" data-target="#viewUpdate11" ng-click="detail(n.id)">
+                                    <td data-toggle="modal" data-target="#viewUpdate11" ng-click="detail(n.username)">
                                         {{n.hoVaTen}}
                                     </td>
-                                    <td data-toggle="modal" data-target="#viewUpdate11" ng-click="detail(n.id)">
+                                    <td data-toggle="modal" data-target="#viewUpdate11" ng-click="detail(n.username)">
                                         {{n.gioiTinh}}
                                     </td>
-                                    <td data-toggle="modal" data-target="#viewUpdate11" ng-click="detail(n.id)">
+                                    <td data-toggle="modal" data-target="#viewUpdate11" ng-click="detail(n.username)">
                                         {{n.ngaySinh}}
                                     </td>
                                     <td>
@@ -130,38 +130,40 @@
                     </div>
                     <div class="modal-body">
                         <div class="d-flex justify-content-center">
-                            <div class="col-10 mb-3">
-                                <i class="textDetail">Username: {{nhanVienDetail.username}}</i>
+                            <div class="d-flex justify-content-center">
+                                <div class="col-10 mb-3">
+                                    <i class="textDetail">Username: {{khachHangDetail.username}}</i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <div class="col-10 mb-3">
-                                <i class="textDetail">Tên: {{nhanVienDetail.hoVaTen}}</i>
+                            <div class="d-flex justify-content-center">
+                                <div class="col-10 mb-3">
+                                    <i class="textDetail">Tên: {{khachHangDetail.hoVaTen}}</i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <div class="col-10 mb-3">
-                                <i class="textDetail">Vai trò: {{nhanVienDetail.vaiTro}}</i>
+                            <div class="d-flex justify-content-center">
+                                <div class="col-10 mb-3">
+                                    <i class="textDetail">Vai trò: {{khachHangDetail.vaiTro}}</i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <div class="col-10 mb-3">
-                                <i class="textDetail">Giới tính: {{nhanVienDetail.gioiTinh}}</i>
+                            <div class="d-flex justify-content-center">
+                                <div class="col-10 mb-3">
+                                    <i class="textDetail">Giới tính: {{khachHangDetail.gioiTinh}}</i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <div class="col-10 mb-3">
-                                <i class="textDetail">Ngày sinh: {{nhanVienDetail.ngaySinh}}</i>
+                            <div class="d-flex justify-content-center">
+                                <div class="col-10 mb-3">
+                                    <i class="textDetail">Ngày sinh: {{khachHangDetail.ngaySinh}}</i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <div class="col-10 mb-3">
-                                <i class="textDetail">Số điện thoại: {{nhanVienDetail.soDienThoai}}</i>
+                            <div class="d-flex justify-content-center">
+                                <div class="col-10 mb-3">
+                                    <i class="textDetail">Số điện thoại: {{khachHangDetail.soDienThoai}}</i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <div class="col-10 mb-3">
-                                <i class="textDetail">Email: {{nhanVienDetail.email}}</i>
+                            <div class="d-flex justify-content-center">
+                                <div class="col-10 mb-3">
+                                    <i class="textDetail">Email: {{khachHangDetail.email}}</i>
+                                </div>
                             </div>
                         </div>
                     </div>

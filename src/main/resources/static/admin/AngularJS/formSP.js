@@ -43,14 +43,19 @@ app.controller("ctrl", function ($scope, $http) {
         $http.post(httpThuocTinh,{ten : $scope.tenThuocTinh}).then(r => {
             var option = document.createElement("option");
             option.text = r.data.ten;
-            option.value = r.data.id
+            option.value = r.data.id == undefined ? r.data.ma : r.data.id
             thuocTinhSL.add(option,thuocTinhSL[thuocTinhSL.length - 1]);
+            thuocTinhSL.selectedIndex = thuocTinhSL.length - 2;
+            $scope.tenThuocTinh = "";
             $('#viewAdd').modal('hide');
         }).catch(e => console.log(e))
     }
 
     $scope.removeER = function (id){
         document.getElementById(id).innerText = "";
+    }
+    $scope.closeModal = function (){
+        $('#viewAdd').modal('hide');
     }
 
 })

@@ -41,6 +41,9 @@ public class SanPhamDtoRequest {
     private Boolean hienThi;
     private List<String> anh;
 
+    // thuộc tính để lọc
+    private BigDecimal giaMax;
+
     public SanPhamDtoRequest(SanPhamModel model){
         ma = model.getMa();
         ten = model.getTen();

@@ -1,7 +1,9 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.filter.SanPhamDtoFilter;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
+import fpoly.duantotnghiep.shoppingweb.entitymanager.SanPhamEntityManager;
 import fpoly.duantotnghiep.shoppingweb.model.AnhModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
@@ -25,6 +27,8 @@ public class SanPhamServiceImpl implements ISanPhamService {
     private ISanPhamRepository sanPhamRepository;
     @Autowired
     private AnhServiceImpl anhService;
+    @Autowired
+    private SanPhamEntityManager sanPhamEntityManager;
 
     @Override
     public List<SanPhamDtoResponse> findAll() {
@@ -109,5 +113,11 @@ public class SanPhamServiceImpl implements ISanPhamService {
     @Override
     public Integer updateTrangThaiHIenThi(Boolean trangThai, String ma) {
         return sanPhamRepository.updateTrangThaiHIenThi(trangThai, ma);
+    }
+
+    @Override
+    public List<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter){
+        return sanPhamEntityManager.filterMultipleProperties(sanPhamDtoFilter).stream()
+                .map(s -> new SanPhamDtoResponse(s)).collect(Collectors.toList());
     }
 }

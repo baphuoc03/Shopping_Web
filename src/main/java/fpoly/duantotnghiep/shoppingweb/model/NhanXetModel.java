@@ -20,8 +20,8 @@ public class NhanXetModel {
     private String id;
 
     @ManyToOne
-    @JoinColumn(name = "taikhoan")
-    private TaiKhoanModel taiKhoan;
+    @JoinColumn(name = "Khachhang")
+    private KhachHangModel khachHang;
 
     @ManyToOne
     @JoinColumn(name = "sanpham")

@@ -125,9 +125,9 @@
                                             <label class="control-label">Màu Sắc</label>
                                             <select class="form-control select2" th:field="*{mauSac}" id="mauSac"
                                                     onchange="angular.element(this).scope().viewAddMauSac()">
-                                                <option th:value="NULL">Chọn màu sắc</option>
+                                                <option th:value="NULL" >Chọn màu sắc</option>
                                                 <option th:each="c :${colors}" th:value="${c.ma}">[[${c.ten}]]</option>
-                                                <option th:value="NULL">Thêm màu sắc</option>
+                                                <option th:value="NULL" >Thêm màu sắc</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
@@ -151,7 +151,7 @@
                                             <label class="control-label">Dòng Sản Phẩm</label>
                                             <select class="form-control select2" th:field="*{dongSanPham}" id="dongSP"
                                                     onchange="angular.element(this).scope().viewAddDongSP()">
-                                                <option th:value="NULL">Chọn dòng sản phẩm</option>
+                                                <option th:value="NULL" >Chọn dòng sản phẩm</option>
                                                 <option th:each="d :${dongSanPham}" th:value="${d.id}">[[${d.ten}]]
                                                 </option>
                                                 <option th:value="NULL">Thêm dòng sản phẩm</option>
@@ -161,7 +161,7 @@
                                             <label class="control-label">Kiểu Dáng</label>
                                             <select class="form-control select2" th:field="*{kieuDang}" id="kieuDang"
                                                     onchange="angular.element(this).scope().viewAddKieuDang()">
-                                                <option th:value="NULL">Chọn kiểu dáng</option>
+                                                <option th:value="NULL" >Chọn kiểu dáng</option>
                                                 <option th:each="k :${kieuDang}" th:value="${k.id}">[[${k.ten}]]
                                                 </option>
                                                 <option th:value="NULL">Thêm kiểu dáng</option>
@@ -171,7 +171,7 @@
                                             <label class="control-label">Chất Liệu</label>
                                             <select class="form-control select2" th:field="*{chatLieu}" id="chatLieu"
                                                     onchange="angular.element(this).scope().viewAddChatLieu()">
-                                                <option th:value="NULL">Chọn chất liệu</option>
+                                                <option th:value="NULL" >Chọn chất liệu</option>
                                                 <option th:each="c :${chatLieu}" th:value="${c.id}">[[${c.ten}]]
                                                 </option>
                                                 <option th:value="NULL">Thêm chất liệu</option>
@@ -209,7 +209,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Thêm thuộc tính</h5>
-                        <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close btn" data-dismiss="modal" aria-label="Close" ng-click="closeModal()">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -224,7 +224,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Trở về</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeModal()">Đóng</button>
                         <button type="button" class="btn btn-primary" ng-click="addThuocTinh()">Thêm</button>
                     </div>
                 </div>

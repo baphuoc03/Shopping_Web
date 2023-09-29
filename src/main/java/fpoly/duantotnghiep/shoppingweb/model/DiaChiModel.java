@@ -30,9 +30,9 @@ public class DiaChiModel {
     private String diaChiChiTiet;
 
     @ManyToOne
-    @JoinColumn(name = "taikhoan")
+    @JoinColumn(name = "Khachhang")
     @JsonBackReference
-    private TaiKhoanModel taiKhoan;
+    private KhachHangModel taiKhoan;
 
 
 }

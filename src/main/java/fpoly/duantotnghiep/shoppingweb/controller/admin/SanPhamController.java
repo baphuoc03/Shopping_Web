@@ -8,7 +8,6 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.enumtype.ThongBaoType;
 import fpoly.duantotnghiep.shoppingweb.model.ThongBaoModel;
 import fpoly.duantotnghiep.shoppingweb.service.*;
-import fpoly.duantotnghiep.shoppingweb.util.SocketUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,10 +60,7 @@ public class SanPhamController {
     @PostMapping("add")
     public String add(@Valid @ModelAttribute("sanPham") SanPhamDtoRequest sanPham, BindingResult result,
                       @RequestParam(value = "img",required = false) List<MultipartFile> file) throws IOException {
-        file.forEach(f -> {
-                System.out.println(f.getOriginalFilename());
 
-        });
 
         if (result.hasErrors()) {
             request.setAttribute("method","add");
@@ -73,9 +69,9 @@ public class SanPhamController {
         }
 
 
-        String tenSanPham = sanPham.getMa() + " - " +sanPham.getTen();
-        ThongBaoModel thongBao = new ThongBaoModel(null,null, ThongBaoType.Add.name(),"Thêm mới sản phẩm: "+tenSanPham,new Date(),null);
-        SocketUtil.sendNotification(thongBao);
+//        String tenSanPham = sanPham.getMa() + " - " +sanPham.getTen();
+//        ThongBaoModel thongBao = new ThongBaoModel(null,null, ThongBaoType.Add.name(),"Thêm mới sản phẩm: "+tenSanPham,new Date(),null);
+//        SocketUtil.sendNotification(thongBao);
 
         sanPham.setAnh(file);
         sanPham.setNgayCapNhat(new Date());
@@ -104,11 +100,7 @@ public class SanPhamController {
         }
 
         sanPham.setMa(ma);
-        String tenSanPham = sanPham.getMa() + " - " +sanPham.getTen();
-        ThongBaoModel thongBao = new ThongBaoModel(null,null, ThongBaoType.Upadte.name(),"Cập nhật mới sản phẩm: "+tenSanPham,new Date(),null);
-        SocketUtil.sendNotification(thongBao);
         sanPham.setAnh(file);
-//        sanPham.setNgayCapNhat(new Date());
         sanPhamService.update(sanPham);
 
         return "redirect:/admin/san-pham";
