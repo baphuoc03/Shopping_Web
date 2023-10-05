@@ -3,6 +3,9 @@ app.controller("ctrl", function ($scope, $http) {
 
     var httpThuocTinh = "";
     var thuocTinhSL = undefined;
+    $("#viewAdd").on('hide.bs.modal', function(){
+        thuocTinhSL.selectedIndex = 0;
+    });
 
     $scope.viewAddMauSac = function (){
         httpThuocTinh = "/admin/mau-sac/add"
@@ -59,3 +62,4 @@ app.controller("ctrl", function ($scope, $http) {
     }
 
 })
+

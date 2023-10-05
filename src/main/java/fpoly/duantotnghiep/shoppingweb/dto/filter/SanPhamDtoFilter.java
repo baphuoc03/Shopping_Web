@@ -24,6 +24,7 @@ public class SanPhamDtoFilter {
     private String chatLieu;
     private BigDecimal giaBan;
     private BigDecimal giaMax;
+    private Integer sort;
 
 }
 

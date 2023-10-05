@@ -29,6 +29,13 @@ public class SanPhamEntityManager {
         if(sanPham.getGiaBan()!=null) jpql.append(" And s.giaBan >= " + sanPham.getGiaBan());
         if(sanPham.getGiaMax()!=null) jpql.append(" And s.giaBan <= " + sanPham.getGiaMax());
 
+        if(sanPham.getSort()!=null){
+            if(sanPham.getSort()==1) jpql.append( "ORDER BY s.giaBan DESC");
+            else if(sanPham.getSort()==2) jpql.append(" ORDER BY s.giaBan");
+            else if(sanPham.getSort()==3) jpql.append(" ORDER BY s.ten DESC");
+            else if(sanPham.getSort()==3) jpql.append(" ORDER BY s.ten");
+        }
+
 
         System.out.println(String.valueOf(jpql));
         Query query = entityManager.createQuery(String.valueOf(jpql));

@@ -105,12 +105,12 @@
                                             <li>
                                                 <b>Sắp xếp</b>
                                                 <div class="mb-3">
-                                                    <select class="form-control" ng-model="filter.sort">
+                                                    <select class="form-control" ng-model="filterData.sort">
                                                         <option></option>
-                                                        <option>Giá bán giảm dần</option>
-                                                        <option>Giá bán tăng dần</option>
-                                                        <option>Tên a -> z</option>
-                                                        <option>Tên z <- a</option>
+                                                        <option value="1">Giá bán giảm dần</option>
+                                                        <option value="2">Giá bán tăng dần</option>
+                                                        <option value="3">Tên a -> z</option>
+                                                        <option value="4">Tên z <- a</option>
                                                     </select>
                                                 </div>
                                             </li>
@@ -124,7 +124,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="min-height: 450px">
                             <table id="datatable"
                                    class="table table-striped table-hover dt-responsive  nowrap w-100">
                                 <thead>
@@ -143,9 +143,9 @@
                                 <tr ng-repeat="p in items" style="cursor: pointer">
                                     <td ng-click="getChiTietSP(p.ma)">{{$index + 1}}</td>
                                     <td ng-click="getChiTietSP(p.ma)">
-                                        <img ng-if="p.anh[0] != null" src="/image/loadImage/{{p.anh[0]}}"
+                                        <img ng-if="p.anh[0] != null" src="/image/loadImage/product/{{p.anh[0]}}"
                                              class="imgProduct">
-                                        <img ng-if="p.anh[0] == null" src="/image/loadImage/envato.png"
+                                        <img ng-if="p.anh[0] == null" src="/image/loadImage/product/envato.png"
                                              class="imgProduct">
                                     </td>
                                     <td ng-click="getChiTietSP(p.ma)"> {{p.ma}} - {{p.ten}}</td>

@@ -96,7 +96,7 @@ public class SanPhamController {
         if (result.hasErrors()) {
             request.setAttribute("method","put");
             request.setAttribute("action", "update/"+ma);
-            return "/admin/sanPham";
+            return "admin/formSanPham";
         }
 
         sanPham.setMa(ma);

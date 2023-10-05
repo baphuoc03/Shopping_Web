@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.*;
+import fpoly.duantotnghiep.shoppingweb.util.ImgUtil;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,8 @@ import java.util.stream.Collectors;
 @Data
 public class SanPhamDtoRequest {
     @NotBlank(message = "Không để trống mã")
-    @Size(max = 50, message = "Mã không quá 50 ký tự")
+    @Size(max = 20, message = "Mã không quá 20 ký tự")
+    @Pattern(regexp = "[A-Z0-9]*",message = "Mã sản phẩm không chỉ chứa số và chữ cái. Không bao gồm ký tự có dấu")
     private String ma;
     @NotBlank(message = "Không để trống tên")
     @Size(max = 50, message = "Tên không quá 50 ký tự")
@@ -92,34 +94,8 @@ public class SanPhamDtoRequest {
 
     public void setAnh(List<MultipartFile> file) throws IOException {
         if(file!=null){
-            List<String> setAnh = new ArrayList<>();
-
-            int i = 0;
-            for (MultipartFile f : file) {
-                byte[] bytes = f.getBytes();
-                String typeImg = f.getContentType().split("/")[f.getContentType().split("/").length - 1];
-                String imgName = "imgProduct" + this.ma + i + "." + typeImg;
-                Path path = Paths.get("src/main/resources/static/admin/images/" + imgName);
-                Path path1 = Files.write(path, bytes);
-                System.out.println(path1.getFileName());
-                setAnh.add(imgName);
-                i++;
-            }
-
-            this.anh = setAnh;
-            anh.forEach(a -> System.out.println(a));
+            this.anh = ImgUtil.addImages(file,"product");
         }
 
     }
-    public void deleteImg(List<String> imgs) throws IOException {
-        if(this.anh==null) return;
-        for (String img:imgs) {
-            System.out.println("asdas");
-            Path fileToDeletePath = Paths.get("src/main/resources/static/admin/images/" + img);
-            Files.delete(fileToDeletePath);
-        }
-    }
-
-
-
 }
