@@ -46,6 +46,7 @@ public class KhuyenMaiController {
         model.addAttribute("khuyenMai", new KhuyenMaiRequest());
         model.addAttribute("sanPham", sanPhamService.findAll());
         model.addAttribute("action", "/admin/khuyen-mai/add");
+        model.addAttribute("sp1", new ArrayList<String>());
         return "/admin/formKhuyenMai";
     }
 
@@ -57,6 +58,7 @@ public class KhuyenMaiController {
         khuyenMaiRequest.setSanPham(sanPhamModel);
         System.out.println(khuyenMaiRequest.toString());
         khuyenMaiService.save(khuyenMaiRequest);
+
         return "redirect:/admin/khuyen-mai";
 
     }

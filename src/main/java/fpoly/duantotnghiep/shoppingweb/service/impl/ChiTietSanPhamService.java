@@ -77,7 +77,13 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     }
 
     @Override
-    public List<ChiTietSanPhamDtoResponse> saveAll(List<ChiTietSanPhamDtoRequest> etitys){
+    public List<ChiTietSanPhamDtoResponse> saveAll(List<Float> sizes,ChiTietSanPhamDtoRequest model){
+
+        List<ChiTietSanPhamDtoRequest> etitys = sizes.stream().map(s -> {
+            model.setSize(s);
+            return model;
+        }).collect(Collectors.toList());
+
         return etitys.stream().map(e -> save(e)).collect(Collectors.toList());
     }
 

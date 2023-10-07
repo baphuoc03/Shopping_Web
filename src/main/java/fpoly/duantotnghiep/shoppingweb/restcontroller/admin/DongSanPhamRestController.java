@@ -2,6 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.ResponseEntity.ResponseObject;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DongSanPhamResponese;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.MauSacDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DongSanPhamRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.MauSacDTORequest;
 import fpoly.duantotnghiep.shoppingweb.service.IDongSanPhamService;
@@ -28,24 +29,18 @@ public class DongSanPhamRestController {
     }
 
     @PostMapping("add")
-    public ResponseEntity<ResponseObject> add(@RequestBody DongSanPhamRequest dongSanPhamRequest) throws IOException {
+    public ResponseEntity<?> add(@RequestBody DongSanPhamRequest dongSanPhamRequest) throws IOException {
         System.out.println(dongSanPhamRequest.maptomodel().toString());
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ooke", "Thêm thành công", service.save(dongSanPhamRequest))
-        );
+        return ResponseEntity.ok(service.save(dongSanPhamRequest));
     }
 
-    @PutMapping("update/{ma}")
-    public ResponseEntity<?> update(@PathVariable("ma") String id,@RequestBody DongSanPhamRequest dongSanPhamRequest){
-        Boolean exit = service.existsById(id);
-        if(exit){
-            dongSanPhamRequest.setId(id);
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ook","Sửa thành công",service.save(dongSanPhamRequest)));
-        }
-        return ResponseEntity.status(HttpStatus.FOUND).body(
-                new ResponseObject("found", "Sửa thất bại", "")
-        );
+    @PutMapping("update/{id}")
+    public ResponseEntity<?> update(@RequestBody DongSanPhamRequest dong, @PathVariable("id") String id){
+        service.findById(id);
+        DongSanPhamResponese dongSanPhamResponese = service.save(dong);
+        return ResponseEntity.ok(dongSanPhamResponese);
     }
+
 
     @DeleteMapping("delete/{ma}")
     public ResponseEntity<ResponseObject> delete(@PathVariable("ma") String id){

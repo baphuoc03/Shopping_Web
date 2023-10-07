@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
 
@@ -20,6 +21,7 @@ import java.util.Date;
 public class MauSacModel {
     @Id
     @Column(name = "ma")
+    @UuidGenerator
     private String ma;
 
     @Column(name = "ten")

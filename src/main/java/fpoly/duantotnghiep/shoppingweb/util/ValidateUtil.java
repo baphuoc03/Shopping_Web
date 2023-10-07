@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 public class ValidateUtil {
     public static ResponseEntity<Map<String,String>> getErrors(BindingResult result){
 
+        System.out.println(result.getFieldErrors().toString());
+
         Map<String,String> errors = result.getFieldErrors().stream()
                                         .collect(Collectors.toMap(k -> k.getField(),v -> v.getDefaultMessage()));
 

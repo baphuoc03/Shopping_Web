@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -45,13 +46,19 @@ public class ChiTietSanPhamRestController {
     }
 
     @PostMapping("add")
-    public ResponseEntity<?> add(@RequestParam("soLuong")Long soLuong, @RequestBody List<ChiTietSanPhamDtoRequest> models){
-        if(soLuong<0){
-            Map<String, String> body = new HashMap<>();
-            body.put("message", "Số lượng phải >= 0");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.valueOf("application/json")).body(body);
+    public ResponseEntity<?> add(@Valid @RequestBody ChiTietSanPhamDtoRequest model,
+                                 BindingResult result,
+                                 @PathVariable("maSP")String maSP,
+                                 @RequestParam("sizes")List<Float> size){
+        if(size.size()==0){
+            result.addError(new FieldError("eSize","eSize","Vui lòng chọn size"));
+            if(!result.hasErrors()) ValidateUtil.getErrors(result);
         }
-        return ResponseEntity.ok(chiTietSanPhamService.saveAll(models));
+        if(result.hasErrors()){
+            return ValidateUtil.getErrors(result);
+        }
+        model.setSanPham(maSP);
+        return ResponseEntity.ok(chiTietSanPhamService.saveAll(size,model));
     }
     @DeleteMapping("delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id")String id){

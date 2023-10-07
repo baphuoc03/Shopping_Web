@@ -23,8 +23,8 @@ public class ThongBaoModel {
     private String id;
 
     @ManyToOne
-    @JoinColumn(name = "taikhoan")
-    private TaiKhoanModel taiKhoanGui;
+    @JoinColumn(name = "nhanvien")
+    private NhanVienModel taiKhoanGui;
 
     @Column(name = "loaithongbao")
     private String loaiThongBao;

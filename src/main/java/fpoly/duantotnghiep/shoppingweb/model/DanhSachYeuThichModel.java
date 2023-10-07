@@ -20,8 +20,8 @@ public class DanhSachYeuThichModel {
     private String id;
 
     @ManyToOne
-    @JoinColumn(name = "taikhoan")
-    private TaiKhoanModel nguoiSoHuu;
+    @JoinColumn(name = "Khachhang")
+    private KhachHangModel nguoiSoHuu;
 
     @ManyToOne
     @JoinColumn(name = "sanpham")

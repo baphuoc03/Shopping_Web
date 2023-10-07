@@ -1,18 +1,18 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
-import fpoly.duantotnghiep.shoppingweb.model.TaiKhoanModel;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaiKhoanDtoResponse {
+public class NhanVienDtoResponse {
 
-    private String id;
     private String vaiTro;
     private String username;
     private String hoVaTen;
@@ -22,8 +22,7 @@ public class TaiKhoanDtoResponse {
     private String email;
     private String anhDaiDien;
 
-    public TaiKhoanDtoResponse(TaiKhoanModel model) {
-        this.id = model.getId();
+    public NhanVienDtoResponse(NhanVienModel model) {
         this.vaiTro = model.getVaiTro().getTen();
         this.username = model.getUsername();
         this.hoVaTen = model.getHoVaTen();

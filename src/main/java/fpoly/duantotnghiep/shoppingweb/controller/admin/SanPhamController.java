@@ -1,12 +1,14 @@
 package fpoly.duantotnghiep.shoppingweb.controller.admin;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChatLieuDTOResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DongSanPhamResponese;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.KieuDangDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.MauSacDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.enumtype.ThongBaoType;
 import fpoly.duantotnghiep.shoppingweb.model.ThongBaoModel;
-import fpoly.duantotnghiep.shoppingweb.service.IMauSacService;
-import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
-import fpoly.duantotnghiep.shoppingweb.util.SocketUtil;
+import fpoly.duantotnghiep.shoppingweb.service.*;
+import fpoly.duantotnghiep.shoppingweb.service.impl.AnhServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("${admin.domain}/san-pham")
@@ -35,6 +38,15 @@ public class SanPhamController {
 
     @Autowired
     private IMauSacService mauSacService;
+    @Autowired
+    private IDongSanPhamService dongSanPhamService;
+    @Autowired
+    private IChatLieuService chatLieuService;
+    @Autowired
+    private IKieuDangService kieuDangService;
+    @Autowired
+    private AnhServiceImpl anhService;
+
 
     @GetMapping("")
     public String hienThi() {
@@ -51,11 +63,8 @@ public class SanPhamController {
 
     @PostMapping("add")
     public String add(@Valid @ModelAttribute("sanPham") SanPhamDtoRequest sanPham, BindingResult result,
-                      @RequestParam(value = "img",required = false) List<MultipartFile> file) throws IOException {
-        file.forEach(f -> {
-                System.out.println(f.getOriginalFilename());
+                      @RequestParam(value = "pro-image",required = false) List<MultipartFile> file) throws IOException {
 
-        });
 
         if (result.hasErrors()) {
             request.setAttribute("method","add");
@@ -64,9 +73,9 @@ public class SanPhamController {
         }
 
 
-        String tenSanPham = sanPham.getMa() + " - " +sanPham.getTen();
-        ThongBaoModel thongBao = new ThongBaoModel(null,null, ThongBaoType.Add.name(),"Thêm mới sản phẩm: "+tenSanPham,new Date(),null);
-        SocketUtil.sendNotification(thongBao);
+//        String tenSanPham = sanPham.getMa() + " - " +sanPham.getTen();
+//        ThongBaoModel thongBao = new ThongBaoModel(null,null, ThongBaoType.Add.name(),"Thêm mới sản phẩm: "+tenSanPham,new Date(),null);
+//        SocketUtil.sendNotification(thongBao);
 
         sanPham.setAnh(file);
         sanPham.setNgayCapNhat(new Date());
@@ -86,20 +95,16 @@ public class SanPhamController {
     @PutMapping("update/{ma}")
     public String update(@Valid @ModelAttribute("sanPham") SanPhamDtoRequest sanPham, BindingResult result,
                          @PathVariable("ma")String ma,
-                         @RequestParam(value = "img",required = false) List<MultipartFile> file) throws IOException {
+                         @RequestParam(value = "pro-image",required = false) List<MultipartFile> file) throws IOException {
 
         if (result.hasErrors()) {
             request.setAttribute("method","put");
             request.setAttribute("action", "update/"+ma);
-            return "/admin/sanPham";
+            return "admin/formSanPham";
         }
 
         sanPham.setMa(ma);
-        String tenSanPham = sanPham.getMa() + " - " +sanPham.getTen();
-        ThongBaoModel thongBao = new ThongBaoModel(null,null, ThongBaoType.Upadte.name(),"Cập nhật mới sản phẩm: "+tenSanPham,new Date(),null);
-        SocketUtil.sendNotification(thongBao);
-        sanPham.setAnh(file);
-//        sanPham.setNgayCapNhat(new Date());
+        sanPham.setAnh(file,anhService.findAllBySanPham(sanPham.mapToModel()).stream().map(img -> img.getTen()).collect(Collectors.toSet()));
         sanPhamService.update(sanPham);
 
         return "redirect:/admin/san-pham";
@@ -110,5 +115,21 @@ public class SanPhamController {
     public List<MauSacDTOResponse> getMauSac(){
         return mauSacService.findAll();
     }
+
+    @ModelAttribute("dongSanPham")
+    public List<DongSanPhamResponese> getDongSanPham(){
+        return dongSanPhamService.findAll();
+    }
+
+    @ModelAttribute("chatLieu")
+    public List<ChatLieuDTOResponse> getChatLieu(){
+        return chatLieuService.findAll();
+    }
+
+    @ModelAttribute("kieuDang")
+    public List<KieuDangDTOResponse> getKieuDang(){
+        return kieuDangService.findAll();
+    }
+
 
 }

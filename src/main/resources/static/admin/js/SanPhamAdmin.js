@@ -4,16 +4,17 @@ app.controller('ctrl', function ($scope, $http) {
 
     $scope.items =[];
     $scope.form ={};
+    $scope.filterData = {};
+
 
     $scope.getAll = function (){
         $http.get("/admin/san-pham/get-all").then(r => {
             console.log(r.data)
             $scope.items = r.data;
+            $scope.filterData = {}
         }).catch(e => console.log(e))
     }
     $scope.getAll()
-
-
 
     $scope.delete = function (ma){
         if(confirm("Xóa sản phẩm? ")){
@@ -43,6 +44,35 @@ app.controller('ctrl', function ($scope, $http) {
             alert("Lỗi!!!")
             document.getElementById(switchId).checked = trangThai == true ? false : true
         });
+    }
+
+    $scope.getPropertiesInFilter = function (){
+        $http.get("/admin/mau-sac/find-all").then(r =>{
+            $scope.mauSac = r.data;
+        }).catch( e => console.log(e))
+
+        $http.get("/admin/chat-lieu/find-all").then(r =>{
+            $scope.chatLieu = r.data;
+        }).catch( e => console.log(e))
+
+        $http.get("/admin/dong-san-pham/find-all").then(r =>{
+            $scope.dongSP = r.data;
+        }).catch( e => console.log(e))
+
+        $http.get("/kieu-dang/find-all").then(r =>{
+            $scope.kieuDang = r.data;
+        }).catch( e => console.log(e))
+    }
+    $scope.getPropertiesInFilter();
+
+    $scope.filter = function (){
+        console.log($scope.filterData)
+        $http.post("/admin/san-pham/filter",$scope.filterData).then(r => {
+            $scope.items = r.data;
+        }).catch(e => console.log(e))
+    }
+    $scope.clearFilter = function (){
+        $scope.getAll()
     }
 });
 //

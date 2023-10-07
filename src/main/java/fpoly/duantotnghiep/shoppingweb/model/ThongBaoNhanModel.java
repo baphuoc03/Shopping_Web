@@ -23,8 +23,8 @@ public class ThongBaoNhanModel {
     private ThongBaoModel thongBaoGui;
 
     @ManyToOne
-    @JoinColumn(name = "taikhoan")
-    private TaiKhoanModel nguoiNhan;
+    @JoinColumn(name = "nhanvien")
+    private NhanVienModel nguoiNhan;
 
     @Column(name = "trangthai")
     private Boolean trangThai;
