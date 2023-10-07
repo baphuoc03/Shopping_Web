@@ -128,7 +128,7 @@ public class SanPhamController {
 
     @ModelAttribute("kieuDang")
     public List<KieuDangDTOResponse> getKieuDang(){
-        return kieuDangService.findAll();
+        return kieuDangService.getAll();
     }
 
 

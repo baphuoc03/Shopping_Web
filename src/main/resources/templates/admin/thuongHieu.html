@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
     <meta content="Themesbrand" name="author"/>
-
 </head>
 
 <body data-topbar="dark">
@@ -21,7 +20,7 @@
 <!-- Start right Content here -->
 <!-- ============================================================== -->
 <div class="main-content" layout:fragment="content">
-    <div ng-app="kieudang" ng-controller="kieudang-ctrl">
+    <div ng-app="thuonghieu" ng-controller="thuonghieu-ctrl">
 
         <div class="page-content">
             <div class="container-fluid">
@@ -30,7 +29,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                            <h4 class="mb-sm-0 font-size-18">Kiểu Dáng</h4>
+                            <h4 class="mb-sm-0 font-size-18">Thương Hiệu</h4>
 
                             <!-- <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
@@ -52,7 +51,7 @@
                                     <div class="col-6">
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                                 data-bs-target="#create">
-                                            Thêm Kiểu Dáng
+                                            Thêm Thương Hiệu
                                         </button>
                                     </div>
                                     <div class="col-6 nav justify-content-end ">
@@ -86,13 +85,13 @@
                                         <td>{{p.ngayTao}}</td>
                                         <td>{{p.ngayCapNhat}}</td>
                                         <td>
-                                            <a href="" class="edit" data-bs-toggle="modal" data-bs-target="#kieuDang"
+                                            <a href="" class="edit" data-bs-toggle="modal" data-bs-target="#update"
                                                ng-click=findById(p.id)>
                                                 <i class="material-icons" title="Edit">&#xE254;</i>
                                             </a>
                                             <a href="" class="edit"
                                                ng-click=delete(p.id)
-                                               >
+                                            >
                                                 <i class="material-icons" title="Delete" >&#xE872;</i>
                                             </a>
                                         </td>
@@ -152,7 +151,7 @@
             </div>
         </footer>
         <!--    modal update-->
-        <div class="modal" id="kieuDang">
+        <div class="modal" id="update">
             <div class="modal-dialog">
                 <div class="modal-content">
 
@@ -171,9 +170,9 @@
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Tên Kiểu Dáng</label>
+                                <label class="form-label">Tên Thương Hiệu</label>
                                 <input type="text" class="form-control" ng-model="ten">
-<!--                                 <p id="emailHelp" class="form-text"></p>-->
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                         </div>
                         <!-- Modal footer -->
@@ -185,37 +184,35 @@
                 </div>
             </div>
         </div>
-    <!--    modal save-->
-    <div class="modal" id="create">
-        <div class="modal-dialog">
-            <div class="modal-content">
+        <!--    modal save-->
+        <div class="modal" id="create">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Modal Heading</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form>
-                    <!-- Modal body -->
-                    <div class="modal-body">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modal Heading</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form>
+                        <!-- Modal body -->
+                        <div class="modal-body">
 
-                        <div class="mb-3">
-                            <label class="form-label">Tên Kiểu Dáng</label>
-                            <input type="text" class="form-control" ng-model="ten">
-                            <p id="emailHelp" class="form-text text-danger"></p>
-
-                            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            <div class="mb-3">
+                                <label class="form-label">Tên Thương Hiệu</label>
+                                <input type="text" class="form-control" ng-model="ten">
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
                         </div>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" ng-click="create()" class="btn btn-danger">Submit</button>
-                    </div>
-                </form>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" ng-click="create()" class="btn btn-danger">Submit</button>
+                        </div>
+                    </form>
 
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
 </div>
