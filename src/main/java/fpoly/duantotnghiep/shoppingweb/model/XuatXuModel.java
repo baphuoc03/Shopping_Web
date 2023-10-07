@@ -7,7 +7,6 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
@@ -19,12 +18,12 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 //@ToString
-@Table(name = "mausac")
-public class MauSacModel {
+@Table(name = "xuatxu")
+public class XuatXuModel {
     @Id
-    @Column(name = "ma")
+    @Column(name = "id")
     @UuidGenerator
-    private String ma;
+    private String id;
 
     @Column(name = "ten")
     private String ten;
@@ -37,7 +36,4 @@ public class MauSacModel {
     @UpdateTimestamp
     private Date ngayCapNhat;
 
-    public MauSacModel(String ma) {
-        this.ma = ma;
-    }
 }

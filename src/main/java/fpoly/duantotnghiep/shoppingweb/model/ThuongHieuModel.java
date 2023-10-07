@@ -18,13 +18,13 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//@ToString
-@Table(name = "mausac")
-public class MauSacModel {
+@ToString
+@Table(name = "thuonghieu")
+public class ThuongHieuModel {
     @Id
-    @Column(name = "ma")
     @UuidGenerator
-    private String ma;
+    @Column(name = "id")
+    private String id;
 
     @Column(name = "ten")
     private String ten;
@@ -37,7 +37,7 @@ public class MauSacModel {
     @UpdateTimestamp
     private Date ngayCapNhat;
 
-    public MauSacModel(String ma) {
-        this.ma = ma;
+    public ThuongHieuModel(String id) {
+        this.id = id;
     }
 }

@@ -41,6 +41,11 @@ public class MauSacRestController {
 
     }
 
+    @GetMapping("chiTiet/{ma}")
+    public ResponseEntity<MauSacDTOResponse> chiTiet(@PathVariable("ma") String ma){
+        return ResponseEntity.ok(service.findById(ma));
+    }
+
     @DeleteMapping("delete/{ma}")
     public ResponseEntity<ResponseObject> delete(@PathVariable("ma") String id){
         Boolean exit = service.existsById(id);
