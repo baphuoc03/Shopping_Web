@@ -2,6 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.KieuDangModel;
 import fpoly.duantotnghiep.shoppingweb.model.MauSacModel;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.Date;
 @Data
 public class KieuDangDtoRequest {
     private String id;
+    @NotBlank(message = "vui long nhap ten")
     private String ten;
     private Date ngayTao;
     private Date ngayCapNhat;
