@@ -23,6 +23,14 @@ public class ImgUtil {
             }
         }
     }
+    public static void deleteImg(String img,String folder)  {
+            Path fileToDeletePath = Paths.get("src/main/resources/images/"+folder+"/" + img);
+            try {
+                Files.delete(fileToDeletePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
 
     public static List<String> addImages(List<MultipartFile> file,String folder) throws IOException {
             List<String> setAnh = new ArrayList<>();
@@ -39,5 +47,15 @@ public class ImgUtil {
                 i++;
             }
             return setAnh;
+    }
+    public static String addImage(MultipartFile file,String folder) throws IOException {
+            byte[] bytes = file.getBytes();
+            String s = System.currentTimeMillis() + file.getOriginalFilename();
+            String name = Integer.toHexString(s.hashCode()) + s.substring(s.lastIndexOf("."));
+//                String typeImg = f.getContentType().split("/")[f.getContentType().split("/").length - 1];
+//                String imgName = name + "." + typeImg;
+            Path path = Paths.get("src/main/resources/images/"+folder+"/" + name);
+            Files.write(path, bytes);
+        return name;
     }
 }

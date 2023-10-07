@@ -73,7 +73,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
 
     @Override
     public SanPhamDtoResponse update(SanPhamDtoRequest entity) throws IOException {
-        ImgUtil.deleteImg(findDtoRequetsByMa(entity.getMa()).getAnh(),"product");
+//        ImgUtil.deleteImg(findDtoRequetsByMa(entity.getMa()).getAnh(),"product");
 
         SanPhamModel model = entity.mapToModel();
         anhService.deleteBySanPham(model);

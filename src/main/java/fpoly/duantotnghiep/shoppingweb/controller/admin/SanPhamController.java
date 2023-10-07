@@ -8,6 +8,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.enumtype.ThongBaoType;
 import fpoly.duantotnghiep.shoppingweb.model.ThongBaoModel;
 import fpoly.duantotnghiep.shoppingweb.service.*;
+import fpoly.duantotnghiep.shoppingweb.service.impl.AnhServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("${admin.domain}/san-pham")
@@ -42,6 +44,8 @@ public class SanPhamController {
     private IChatLieuService chatLieuService;
     @Autowired
     private IKieuDangService kieuDangService;
+    @Autowired
+    private AnhServiceImpl anhService;
 
 
     @GetMapping("")
@@ -59,7 +63,7 @@ public class SanPhamController {
 
     @PostMapping("add")
     public String add(@Valid @ModelAttribute("sanPham") SanPhamDtoRequest sanPham, BindingResult result,
-                      @RequestParam(value = "img",required = false) List<MultipartFile> file) throws IOException {
+                      @RequestParam(value = "pro-image",required = false) List<MultipartFile> file) throws IOException {
 
 
         if (result.hasErrors()) {
@@ -91,7 +95,7 @@ public class SanPhamController {
     @PutMapping("update/{ma}")
     public String update(@Valid @ModelAttribute("sanPham") SanPhamDtoRequest sanPham, BindingResult result,
                          @PathVariable("ma")String ma,
-                         @RequestParam(value = "img",required = false) List<MultipartFile> file) throws IOException {
+                         @RequestParam(value = "pro-image",required = false) List<MultipartFile> file) throws IOException {
 
         if (result.hasErrors()) {
             request.setAttribute("method","put");
@@ -100,7 +104,7 @@ public class SanPhamController {
         }
 
         sanPham.setMa(ma);
-        sanPham.setAnh(file);
+        sanPham.setAnh(file,anhService.findAllBySanPham(sanPham.mapToModel()).stream().map(img -> img.getTen()).collect(Collectors.toSet()));
         sanPhamService.update(sanPham);
 
         return "redirect:/admin/san-pham";
