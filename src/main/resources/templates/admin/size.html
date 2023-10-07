@@ -35,11 +35,11 @@
 
 <body data-topbar="dark">
 
-    <!-- ============================================================== -->
-    <!-- Start right Content here -->
-    <!-- ============================================================== -->
-    <div class="main-content" layout:fragment="content">
-
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content" layout:fragment="content">
+    <div ng-app="size" ng-controller="size-ctrl">
         <div class="page-content">
             <div class="container-fluid">
 
@@ -86,21 +86,32 @@
                                        class="table table-striped table-hover dt-responsive  nowrap w-100">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Số Size</th>
+                                        <th>Mã</th>
                                         <th>Chiều Dài</th>
-                                        <th>Action</th>
+                                        <th>Ngày Tạo</th>
+                                        <th>Ngày Cập Nhật</th>
                                     </tr>
                                     </thead>
 
 
                                     <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>#0000</td>
-                                        <td>Màu mè</td>
-                                        <td>Màu mè</td>
-                                        <td></td>
+                                    <tr ng-repeat="stu in items">
+                                        <td>{{stu.ma}}</td>
+                                        <td>{{stu.chieuDai}}</td>
+                                        <td>{{stu.ngayTao}}</td>
+                                        <td>{{stu.ngayCapNhat}}</td>
+                                        <td>
+
+                                            <button
+                                                    ng-click="delete(stu.ma)"
+                                            >Delete</button>
+                                        </td>
+                                        <td>
+                                            <button data-bs-toggle="modal"
+                                                    data-bs-target="#sizeUpdate"
+                                                    ng-click="getSize(stu.ma)"
+                                            >Update</button>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -170,19 +181,71 @@
                         <!-- Modal body -->
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label class="form-label">Số Size</label>
-                                <input type="text" class="form-control">
+                                <label class="form-label">Mã </label>
+                                <input type="text" ng-model="ma" class="form-control">
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Chiều Dài</label>
-                                <input type="text" class="form-control">
+                                <label class="form-label">Chiều dài </label>
+                                <input type="text" ng-model="chieuDai" class="form-control">
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ngày Tạo</label>
+                                <input type="text" ng-model="ngayTao" class="form-control" readonly>
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ngày Cập Nhật </label>
+                                <input type="text" ng-model="ngayCapNhat" class="form-control" readonly>
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                         </div>
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger">Submit</button>
+                            <button type="button" class="btn btn-danger" ng-click="create()">Submit</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="sizeUpdate">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modal Heading</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form>
+<!--                         Modal body -->
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Mã </label>
+                                <input type="text" ng-model="ma" class="form-control">
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Chiều dài </label>
+                                <input type="text" ng-model="chieuDai" class="form-control">
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ngày Tạo</label>
+                                <input type="text" ng-model="ngayTao" class="form-control" readonly>
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ngày Cập Nhật </label>
+                                <input type="text" ng-model="ngayCapNhat" class="form-control" readonly>
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" ng-click="update(ma)">Update</button>
                         </div>
                     </form>
 
@@ -190,7 +253,8 @@
             </div>
         </div>
     </div>
-    <!-- end main content-->
+</div>
+<!-- end main content-->
 </body>
 
 </html>

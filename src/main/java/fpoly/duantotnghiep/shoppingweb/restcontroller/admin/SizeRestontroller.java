@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${admin.domain}/size")
+@CrossOrigin(origins = "*")
 public class SizeRestontroller {
 
     @Autowired
@@ -21,18 +22,24 @@ public class SizeRestontroller {
     @Autowired
     private ISizeService service;
 
-    @GetMapping("/hien-thi")
+    @GetMapping("/find-all")
     public List<SizeDTOResponse> findAll() {
         return service.findAll();
     }
 
-    @PostMapping("")
+    @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody SizeDTORequest size) throws IOException {
         System.out.println(size.toString());
         return ResponseEntity.ok(service.save(size));
     }
 
-    @DeleteMapping("/{ma}")
+    @GetMapping("/chi-tiet/{ma}")
+    public ResponseEntity<SizeDTOResponse> chiTiet(@PathVariable("ma") Float ma){
+        System.out.println(ma);
+        return ResponseEntity.ok(service.findById(ma));
+    }
+
+    @DeleteMapping("/delete/{ma}")
     public ResponseEntity<?> delete(@PathVariable Float ma) {
         service.deleteById(ma);
         return ResponseEntity.ok().build();

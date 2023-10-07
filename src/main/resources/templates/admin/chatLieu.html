@@ -13,10 +13,11 @@
 </head>
 
 <body data-topbar="dark">
-    <!-- ============================================================== -->
-    <!-- Start right Content here -->
-    <!-- ============================================================== -->
-    <div class="main-content" layout:fragment="content">
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content" layout:fragment="content">
+    <div ng-app="chat-lieu" ng-controller="chat-lieu-ctrl">
         <div class="page-content">
             <div class="container-fluid">
 
@@ -44,7 +45,8 @@
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-6">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatLieuModal">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#chatLieuModal">
                                             Thêm Chất Liệu
                                         </button>
                                     </div>
@@ -63,19 +65,30 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Mã</th>
-                                        <th>Chất Liệu</th>
-                                        <th>Action</th>
+                                        <th>Tên</th>
+                                        <th>Ngày Tạo</th>
+                                        <th>Ngày Cập Nhật</th>
                                     </tr>
                                     </thead>
 
 
                                     <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>#0000</td>
-                                        <td>Màu mè</td>
+                                    <tr ng-repeat="cl in items">
                                         <td></td>
+                                        <td>{{cl.ten}}</td>
+                                        <td>{{cl.ngayTao}}</td>
+                                        <td>{{cl.ngayCapNhat}}</td>
+                                        <td>
+                                            <button ng-click="delete(cl.id)">
+                                                Delete
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button data-bs-toggle="modal"
+                                                    data-bs-target="#chatLieuUpdate"
+                                                    ng-click="getChatLieu(cl.id)"
+                                            >Update</button>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -145,14 +158,76 @@
                         <!-- Modal body -->
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label class="form-label">Chất Liệu</label>
-                                <input type="text" class="form-control">
+                                <label class="form-label">Tên</label>
+                                <input type="text" ng-model="ten" class="form-control">
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Ngày Tạo</label>
+                                <input type="text" ng-model="ngayTao" class="form-control" readonly>
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Ngày Cập Nhật</label>
+                                <input type="text" ng-model="ngayCapNhat" class="form-control" readonly>
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                         </div>
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger">Submit</button>
+                            <button type="button" class="btn btn-danger" ng-click="create()">Submit</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="chatLieuUpdate">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modal Heading</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form>
+                        <!-- Modal body -->
+<!--                        <div class="modal-body">-->
+<!--                            <div class="mb-3">-->
+<!--                                <label class="form-label">Id</label>-->
+<!--                                <input type="text" ng-model="id" class="form-control" readonly>-->
+<!--                                &lt;!&ndash; <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> &ndash;&gt;-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Tên</label>
+                                <input type="text" ng-model="ten" class="form-control">
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Ngày Tạo</label>
+                                <input type="text" ng-model="ngayTao" class="form-control" readonly>
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Ngày Cập Nhật</label>
+                                <input type="text" ng-model="ngayCapNhat" class="form-control" readonly>
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" ng-click="update(id)">Submit</button>
                         </div>
                     </form>
 
@@ -160,6 +235,7 @@
             </div>
         </div>
     </div>
+</div>
 </body>
 
 </html>
