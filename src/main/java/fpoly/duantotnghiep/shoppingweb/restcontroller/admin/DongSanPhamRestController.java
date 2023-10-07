@@ -6,10 +6,13 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.MauSacDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DongSanPhamRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.MauSacDTORequest;
 import fpoly.duantotnghiep.shoppingweb.service.IDongSanPhamService;
+import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -28,8 +31,16 @@ public class DongSanPhamRestController {
         return service.findAll();
     }
 
+    @GetMapping("chiTiet/{id}")
+    public ResponseEntity<DongSanPhamResponese> chiTiet(@PathVariable("id") String id){
+        return ResponseEntity.ok(service.findById(id));
+    }
+
     @PostMapping("add")
-    public ResponseEntity<?> add(@RequestBody DongSanPhamRequest dongSanPhamRequest) throws IOException {
+    public ResponseEntity<?> add(@Valid @RequestBody DongSanPhamRequest dongSanPhamRequest, BindingResult result) throws IOException {
+        if(result.hasErrors()){
+            return ValidateUtil.getErrors(result);
+        }
         System.out.println(dongSanPhamRequest.maptomodel().toString());
         return ResponseEntity.ok(service.save(dongSanPhamRequest));
     }

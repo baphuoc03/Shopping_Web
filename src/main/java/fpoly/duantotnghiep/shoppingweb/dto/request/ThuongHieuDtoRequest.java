@@ -1,32 +1,28 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
-import fpoly.duantotnghiep.shoppingweb.model.DongSanPhamModel;
+import fpoly.duantotnghiep.shoppingweb.model.MauSacModel;
 import fpoly.duantotnghiep.shoppingweb.model.ThuongHieuModel;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
-public class DongSanPhamRequest {
+public class ThuongHieuDtoRequest {
     private String id;
-    @NotBlank(message = "Không được để trống tên!!")
     private String ten;
-    private String thuongHieu;
     private Date ngayTao;
     private Date ngayCapNhat;
 
-    public DongSanPhamModel maptomodel(){
-        DongSanPhamModel model = new DongSanPhamModel();
+    public ThuongHieuModel mapToModel(){
+        ThuongHieuModel model = new ThuongHieuModel();
         model.setId(id);
         model.setTen(ten);
-        if(thuongHieu != null && !thuongHieu.isBlank()) model.setThuongHieu(new ThuongHieuModel(thuongHieu));
         model.setNgayTao(ngayTao);
         model.setNgayCapNhat(ngayCapNhat);
-        return model;
+        return  model;
     }
 }

@@ -1,10 +1,12 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
@@ -15,20 +17,16 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString
-@Table(name = "dongsanpham")
-public class DongSanPhamModel {
+//@ToString
+@Table(name = "xuatxu")
+public class XuatXuModel {
     @Id
-    @UuidGenerator
     @Column(name = "id")
+    @UuidGenerator
     private String id;
 
     @Column(name = "ten")
     private String ten;
-
-    @OneToOne
-    @JoinColumn(name = "thuonghieu")
-    private ThuongHieuModel thuongHieu;
 
     @Column(name = "ngaytao")
     @CreationTimestamp
@@ -38,7 +36,4 @@ public class DongSanPhamModel {
     @UpdateTimestamp
     private Date ngayCapNhat;
 
-    public DongSanPhamModel(String id) {
-        this.id = id;
-    }
 }

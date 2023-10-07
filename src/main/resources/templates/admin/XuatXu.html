@@ -18,7 +18,7 @@
 <!-- Start right Content here -->
 <!-- ============================================================== -->
 <div class="main-content" layout:fragment="content">
-    <div ng-app="mau-sac" ng-controller="mau-sac-ctrl">
+    <div ng-app="xuat-xu" ng-controller="xuat-xu-ctrl">
         <div class="page-content">
             <div class="container-fluid">
 
@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                            <h4 class="mb-sm-0 font-size-18">Màu Sắc</h4>
+                            <h4 class="mb-sm-0 font-size-18">Xuất Xứ</h4>
 
                             <!-- <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
@@ -66,7 +66,7 @@
                                     <thead>
                                     <tr>
 
-                                        <th>Tên Màu</th>
+                                        <th>Xuất Xứ</th>
                                         <th>Ngày Tạo</th>
                                         <th>Ngày Cập Nhật</th>
                                         <th>Action</th>
@@ -83,10 +83,10 @@
                                         <td>
                                             <button data-bs-toggle="modal"
                                                     data-bs-target="#update"
-                                                    ng-click="getMauSacs(m.ma)"
+                                                    ng-click="getXuatXu(m.id)"
                                             >Edit
                                             </button>
-                                            <button ng-click="delete(m.ma)">Xóa</button>
+                                            <button ng-click="delete(m.id)">Xóa</button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -160,7 +160,7 @@
                         <div class="modal-body">
 
                             <div class="mb-3">
-                                <label class="form-label">Tên Màu</label>
+                                <label class="form-label">Tên Xuất Xứ</label>
                                 <input type="text" ng-model="ten" class="form-control">
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
@@ -187,8 +187,8 @@
                         <!-- Modal body -->
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label class="form-label">Mã</label>
-                                <input type="text" ng-model="ma" class="form-control" readonly>
+                                <label class="form-label">ID</label>
+                                <input type="text" ng-model="id" class="form-control" readonly>
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                             <div class="mb-3">
@@ -210,7 +210,7 @@
                         </div>
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" ng-click="update(ma)">Update</button>
+                            <button type="button" class="btn btn-danger" ng-click="update(id)">Update</button>
                         </div>
                     </form>
                 </div>

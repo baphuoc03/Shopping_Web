@@ -43,7 +43,7 @@ app.controller('chiTietSP-ctrl', function ($scope, $http) {
     $scope.add = function (){
 
         let data =[];
-        let sizesInForm = $scope.form.sizes
+        let sizesInFo9rm = $scope.form.sizes
 
 
         if(sizesInForm == undefined){
