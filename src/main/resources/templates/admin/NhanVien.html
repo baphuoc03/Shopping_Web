@@ -20,7 +20,9 @@
                 <div class="col-md-6">
                     <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
                         <div>
-                            <a href="#" class="btn btn-secondary"><i class="bx bx-plus me-1"></i> Thêm mới nhân viên</a>
+                            <button class="btn btn-secondary" data-toggle="modal"
+                                    data-target="#viewAdd"><i class="bx bx-plus me-1"></i> Thêm mới nhân viên
+                            </button>
                         </div>
                     </div>
 
@@ -45,7 +47,7 @@
                             <div class="mt-3 pt-1">
                                 <p class="text-muted mb-0"><i
                                         class="mdi mdi-gender-male-female font-size-16 align-middle pe-2 text-primary"></i>
-                                    {{n.gioiTinh}}</p>
+                                    {{n.gioiTinhName}}</p>
                                 <p class="text-muted mb-0"><i
                                         class="mdi mdi-calendar-today font-size-16 align-middle pe-2 text-primary"></i>
                                     {{n.ngaySinh}}</p>
@@ -63,7 +65,7 @@
                                     data-target="#viewUpdate11" ng-click="detail(n.username)">
                                 <i class="uil uil-user me-1"></i>Thông tin
                             </button>
-                            <button type="button" class="btn bg-danger btn-outline-light text-truncate text-light" ><i
+                            <button type="button" class="btn bg-danger btn-outline-light text-truncate text-light"><i
                                     class="uil uil-envelope-alt me-1"></i> Chặn
                             </button>
                         </div>
@@ -116,40 +118,36 @@
                     </span>
                         </div>
                         <div class="modal-body">
-                            <div class="d-flex justify-content-center">
-                                <div class="col-10 mb-3">
-                                    <i class="textDetail">Mã: {{nhanVienDetail.username}}</i>
-                                </div>
+                            <div class="mb-3">
+                                <label for="username">Username</label>
+                                <input id="username" ng-model="nhanVienDetail.username" class="form-control">
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <div class="col-10 mb-3">
-                                    <i class="textDetail">Tên: {{nhanVienDetail.hoVaTen}}</i>
-                                </div>
+                            <div class="mb-3">
+                                <label for="hoVaTen">Họ và tên</label>
+                                <input id="hoVaTen" ng-model="nhanVienDetail.hoVaTen" class="form-control">
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <div class="col-10 mb-3">
-                                    <i class="textDetail">Vai trò: {{nhanVienDetail.vaiTro}}</i>
-                                </div>
+                            <div class="mb-3">
+                                <label for="vaiTro">Vai trò</label>
+                                <input id="vaiTro" ng-model="nhanVienDetail.vaiTro" class="form-control">
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <div class="col-10 mb-3">
-                                    <i class="textDetail">Giới tính: {{nhanVienDetail.gioiTinh}}</i>
-                                </div>
+                            <div class=" mb-3">
+                                <label class="control-label">Giới tính</label>
+                                <select class="form-control " ng-model="nhanVienDetail.gioiTinh">
+                                    <option value="true">Nam</option>
+                                    <option value="false">Nữ</option>
+                                </select>
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <div class="col-10 mb-3">
-                                    <i class="textDetail">Ngày sinh: {{nhanVienDetail.ngaySinh}}</i>
-                                </div>
+                            <div class="mb-3">
+                                <label for="ngaySinh">Họ và tên</label>
+                                <input id="ngaySinh" ng-model="nhanVienDetail.ngaySinh" type="datetime-local" class="form-control">
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <div class="col-10 mb-3">
-                                    <i class="textDetail">Số điện thoại: {{nhanVienDetail.soDienThoai}}</i>
-                                </div>
+                            <div class="mb-3">
+                                <label for="sdt">Số điện thoại</label>
+                                <input id="sdt" ng-model="nhanVienDetail.soDienThoai" class="form-control">
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <div class="col-10 mb-3">
-                                    <i class="textDetail">Email: {{nhanVienDetail.email}}</i>
-                                </div>
+                            <div class="mb-3">
+                                <label for="email">Email</label>
+                                <input id="email" ng-model="nhanVienDetail.email" class="form-control">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -159,6 +157,61 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="viewAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Thêm Nhân Viên</h5>
+                            <span type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </span>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="usernameAdd">Username</label>
+                                <input id="usernameAdd" ng-model="nhanVienAdd.username" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="hoVaTenAdd">Họ và tên</label>
+                                <input id="hoVaTenAdd" ng-model="nhanVienAdd.hoVaTen" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label >Vai trò</label>
+                                <input  ng-model="nhanVienAdd.vaiTro" type="radio" value="STAFF">Nhân viên
+                                <input  ng-model="nhanVienAdd.vaiTro" type="radio" value="ADMIN">Quản lý
+                            </div>
+                            <div class=" mb-3">
+                                <label class="control-label">Giới tính</label>
+                                <select class="form-control " ng-model="nhanVienAdd.gioiTinh">
+                                    <option >Không xác định</option>
+                                    <option value="true">Nam</option>
+                                    <option value="false">Nữ</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="ngaySinhAdd">Ngày sinh</label>
+                                <input id="ngaySinhAdd" ng-model="nhanVienAdd.ngaySinh" type="date" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="sdtAdd">Số điện thoại</label>
+                                <input id="sdtAdd" ng-model="nhanVienAdd.soDienThoai" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="emailAdd">Email</label>
+                                <input id="emailAdd" ng-model="nhanVienAdd.email" class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelModal">Đóng
+                            </button>
+                            <button type="button" class="btn btn-primary"  ng-click="add()">Thêm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
 

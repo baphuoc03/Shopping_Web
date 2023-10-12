@@ -33,6 +33,10 @@ public class SanPhamModel {
     private DongSanPhamModel dongSanPham;
 
     @ManyToOne
+    @JoinColumn(name = "xuatxu")
+    private XuatXuModel xuatXu;
+
+    @ManyToOne
     @JoinColumn(name = "kieudang")
     private KieuDangModel kieuDang;
 

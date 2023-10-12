@@ -70,7 +70,7 @@ app.controller("dong-san-pham-ctrl",function ($scope, $http){
     }
 
     $scope.getThuongHieu = function (){
-        $http.get("/thuong-hieu/find-all").then(r => {
+        $http.get("/admin/thuong-hieu/find-all").then(r => {
             console.log(r.data)
             $scope.thuongHieus = r.data;
         }).catch(e => console.log(e))

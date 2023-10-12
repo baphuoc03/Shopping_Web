@@ -20,11 +20,11 @@ public class AnhRestController {
                                           @PathVariable("imgName") String imgName) throws IOException {
 
         byte[] ima;
-//        try{
+        try{
             ima = Files.readAllBytes(new File("src/main/resources/images/"+forder+"/"+imgName).toPath());
-//        }catch (Exception e){
-//            ima = Files.readAllBytes(new File(resource+"envato.png").toPath());
-//        }
+        }catch (Exception e){
+            ima = Files.readAllBytes(new File("src/main/resources/images/"+forder+"/default.png").toPath());
+        }
         ByteArrayResource byteArrayResource = new ByteArrayResource(ima);
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf("image/png"))

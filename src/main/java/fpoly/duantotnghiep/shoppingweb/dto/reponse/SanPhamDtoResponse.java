@@ -22,6 +22,7 @@ public class SanPhamDtoResponse {
     private String ten;
     private String mauSac;
     private String dongSanPham;
+    private String xuatXu;
     private String kieuDang;
     private String chatLieu;
     private BigDecimal giaNhap;
@@ -38,6 +39,7 @@ public class SanPhamDtoResponse {
         ten = model.getTen();
         mauSac = model.getMauSac() == null ? "" : model.getMauSac().getTen();
         dongSanPham = model.getDongSanPham()== null ? "" : model.getDongSanPham().getTen();
+        xuatXu = model.getXuatXu() == null ? "" : model.getXuatXu().getTen();
         kieuDang = model.getKieuDang()== null ? "" : model.getKieuDang().getTen();
         chatLieu = model.getChatLieu()== null ? "" : model.getChatLieu().getTen();
         giaNhap = model.getGiaNhap();
