@@ -15,6 +15,7 @@ import java.util.Base64;
 public class NhanVienDtoResponse {
 
     private String vaiTro;
+    private String tenVaiTro;
     private String username;
     private String hoVaTen;
     private Boolean gioiTinh;
@@ -23,10 +24,10 @@ public class NhanVienDtoResponse {
     private String soDienThoai;
     private String email;
     private String anhDaiDien;
-    private String pass;
 
     public NhanVienDtoResponse(NhanVienModel model) {
-        this.vaiTro = model.getVaiTro().getTen();
+        this.vaiTro = model.getVaiTro().getMa();
+        this.tenVaiTro = model.getVaiTro().getTen();
         this.username = model.getUsername();
         this.hoVaTen = model.getHoVaTen();
         this.gioiTinhName = model.getGioiTinh() == null ? "Không xác định" : model.getGioiTinh() == true ? "Nam" : "Nữ";
@@ -35,7 +36,6 @@ public class NhanVienDtoResponse {
         this.soDienThoai = model.getSoDienThoai();
         this.email = model.getEmail();
         this.anhDaiDien = model.getAnhDaiDien();
-        this.pass = model.getPassword();
     }
 
 

@@ -25,8 +25,6 @@ public class NhanVienDtoRequest {
 
     @NotBlank(message = "Vui lòng chọn vai trò")
     private String vaiTro;
-
-    @Size(max = 20,message = "password chỉ chứa tối đa 20 ký tự")
     private String password;
 
     @NotBlank(message = "Không để trống họ và tên")
@@ -36,7 +34,7 @@ public class NhanVienDtoRequest {
     private LocalDate ngaySinh;
 
     @NotBlank(message = "Không để trống số điện thoại")
-//    @Pattern(regexp = "0[0-9]{9}",message = "Số điện thoại không đúng định dạng")
+    @Pattern(regexp = "0\\d{9}",message = "Số điện thoại không đúng định dạng")
     private String soDienThoai;
 
     @NotBlank(message = "Không để trống email")

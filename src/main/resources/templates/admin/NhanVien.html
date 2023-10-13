@@ -10,6 +10,10 @@
             font-size: 15px;
             font-style: italic;
         }
+        .er {
+            color: red;
+            font-size: 13px;
+        }
     </style>
     <div class="page-content" ng-app="nhanvien-admin" ng-controller="ctrl">
         <div class="container-fluid">
@@ -41,7 +45,7 @@
                                 <div class="flex-1 ms-3">
                                     <h5 class="font-size-15 mb-1"><a href="#" class="text-dark">{{n.username}} -
                                         {{n.hoVaTen}}</a></h5>
-                                    <p class="text-muted mb-0">{{n.vaiTro}}</p>
+                                    <p class="text-muted mb-0">{{n.tenVaiTro}}</p>
                                 </div>
                             </div>
                             <div class="mt-3 pt-1">
@@ -50,7 +54,7 @@
                                     {{n.gioiTinhName}}</p>
                                 <p class="text-muted mb-0"><i
                                         class="mdi mdi-calendar-today font-size-16 align-middle pe-2 text-primary"></i>
-                                    {{n.ngaySinh}}</p>
+                                    {{n.ngaySinh | date:'yyyy-MM-dd'}}</p>
                                 <p class="text-muted mb-0"><i
                                         class="mdi mdi-phone font-size-15 align-middle pe-2 text-primary"></i>
                                     {{n.soDienThoai}}</p>
@@ -65,8 +69,7 @@
                                     data-target="#viewUpdate11" ng-click="detail(n.username)">
                                 <i class="uil uil-user me-1"></i>Thông tin
                             </button>
-                            <button type="button" class="btn bg-danger btn-outline-light text-truncate text-light"><i
-                                    class="uil uil-envelope-alt me-1"></i> Chặn
+                            <button type="button" class="btn bg-danger btn-outline-light text-truncate text-light"> Chặn
                             </button>
                         </div>
                     </div>
@@ -120,38 +123,50 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="username">Username</label>
-                                <input id="username" ng-model="nhanVienDetail.username" class="form-control">
+                                <span id="username" class="form-control">{{nhanVienDetail.username}}</span>
                             </div>
                             <div class="mb-3">
                                 <label for="hoVaTen">Họ và tên</label>
-                                <input id="hoVaTen" ng-model="nhanVienDetail.hoVaTen" class="form-control">
+                                <input id="hoVaTen" ng-model="nhanVienDetail.hoVaTen" class="form-control" ng-focus="removeErrors('hoVaTenPutER')">
+                                <i  class="er" id="hoVaTenPutER"></i>
                             </div>
                             <div class="mb-3">
                                 <label for="vaiTro">Vai trò</label>
-                                <input id="vaiTro" ng-model="nhanVienDetail.vaiTro" class="form-control">
+                                <select id="vaiTro" class="form-control " ng-model="nhanVienDetail.vaiTro" onchange="angular.element(this).scope().removeErrors('vaTroPutER')">
+                                    <option value="STAFF" selected>Nhân viên</option>
+                                    <option value="ADMIN">Quản lý</option>
+                                </select>
+                                <i  class="er" id="vaiTroPutER"></i>
                             </div>
                             <div class=" mb-3">
                                 <label class="control-label">Giới tính</label>
-                                <select class="form-control " ng-model="nhanVienDetail.gioiTinh">
+                                <select class="form-control " ng-model="nhanVienDetail.gioiTinh" onchange="angular.element(this).scope().removeErrors('gioiTinhPutER')">
+                                    <option value="null">Không xác định</option>
                                     <option value="true">Nam</option>
                                     <option value="false">Nữ</option>
                                 </select>
+                                <i  class="er" id="gioiTinhPutER"></i>
                             </div>
                             <div class="mb-3">
-                                <label for="ngaySinh">Họ và tên</label>
-                                <input id="ngaySinh" ng-model="nhanVienDetail.ngaySinh" type="datetime-local" class="form-control">
+                                <label for="ngaySinh">Ngày sinh</label>
+                                <input id="ngaySinh" ng-model="nhanVienDetail.ngaySinh" type="date" class="form-control" ng-focus="removeErrors('ngaySinhPutER')">
+                                <i  class="er" id="ngaySinhPutER"></i>
                             </div>
                             <div class="mb-3">
                                 <label for="sdt">Số điện thoại</label>
-                                <input id="sdt" ng-model="nhanVienDetail.soDienThoai" class="form-control">
+                                <input id="sdt" ng-model="nhanVienDetail.soDienThoai" class="form-control" ng-focus="removeErrors('soDienThoaiPutER')">
+                                <i  class="er" id="soDienThoaiPutER"></i>
                             </div>
                             <div class="mb-3">
                                 <label for="email">Email</label>
-                                <input id="email" ng-model="nhanVienDetail.email" class="form-control">
+                                <input id="email" ng-model="nhanVienDetail.email" class="form-control" ng-focus="removeErrors('emailPutER')">
+                                <i  class="er" id="emailPutER"></i>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelModal">Đóng
+                            </button>
+                            <button type="button" class="btn btn-primary"  ng-click="update()">Cập nhật thông tin
                             </button>
                         </div>
                     </div>
@@ -170,36 +185,45 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="usernameAdd">Username</label>
-                                <input id="usernameAdd" ng-model="nhanVienAdd.username" class="form-control">
+                                <input id="usernameAdd" ng-model="nhanVienAdd.username" class="form-control" ng-focus="removeErrors('usernameAddER')">
+                                <i  class="er" id="usernameAddER"></i>
                             </div>
                             <div class="mb-3">
                                 <label for="hoVaTenAdd">Họ và tên</label>
-                                <input id="hoVaTenAdd" ng-model="nhanVienAdd.hoVaTen" class="form-control">
+                                <input id="hoVaTenAdd" ng-model="nhanVienAdd.hoVaTen" class="form-control" ng-focus="removeErrors('hoVaTenAddER')">
+                                <i  class="er" id="hoVaTenAddER"></i>
                             </div>
                             <div class="mb-3">
                                 <label >Vai trò</label>
-                                <input  ng-model="nhanVienAdd.vaiTro" type="radio" value="STAFF">Nhân viên
-                                <input  ng-model="nhanVienAdd.vaiTro" type="radio" value="ADMIN">Quản lý
+                                <select class="form-control " ng-model="nhanVienAdd.vaiTro" onchange="angular.element(this).scope().removeErrors('vaiTroAddER')">
+                                    <option value="STAFF" selected>Nhân viên</option>
+                                    <option value="ADMIN">Quản lý</option>
+                                </select>
+                                <i  class="er" id="vaiTroAddER"></i>
                             </div>
                             <div class=" mb-3">
                                 <label class="control-label">Giới tính</label>
-                                <select class="form-control " ng-model="nhanVienAdd.gioiTinh">
-                                    <option >Không xác định</option>
+                                <select class="form-control " ng-model="nhanVienAdd.gioiTinh" onchange="angular.element(this).scope().removeErrors('gioiTinhAddER')">
+                                    <option value="null">Không xác định</option>
                                     <option value="true">Nam</option>
                                     <option value="false">Nữ</option>
                                 </select>
+                                <i  class="er" id="gioiTinhAddER"></i>
                             </div>
                             <div class="mb-3">
                                 <label for="ngaySinhAdd">Ngày sinh</label>
-                                <input id="ngaySinhAdd" ng-model="nhanVienAdd.ngaySinh" type="date" class="form-control">
+                                <input id="ngaySinhAdd" ng-model="nhanVienAdd.ngaySinh" type="date" class="form-control" ng-focus="removeErrors('ngaySinhAddER')">
+                                <i  class="er" id="ngaySinhAddER"></i>
                             </div>
                             <div class="mb-3">
                                 <label for="sdtAdd">Số điện thoại</label>
-                                <input id="sdtAdd" ng-model="nhanVienAdd.soDienThoai" class="form-control">
+                                <input id="sdtAdd" ng-model="nhanVienAdd.soDienThoai" class="form-control" ng-focus="removeErrors('soDienThoaiAddER')">
+                                <i  class="er" id="soDienThoaiAddER"></i>
                             </div>
                             <div class="mb-3">
                                 <label for="emailAdd">Email</label>
-                                <input id="emailAdd" ng-model="nhanVienAdd.email" class="form-control">
+                                <input id="emailAdd" ng-model="nhanVienAdd.email" class="form-control" ng-focus="removeErrors('emailAddER')">
+                                <i  class="er" id="emailAddER"></i>
                             </div>
                         </div>
                         <div class="modal-footer">

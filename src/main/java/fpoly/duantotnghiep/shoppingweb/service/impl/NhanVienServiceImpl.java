@@ -52,7 +52,13 @@ public class NhanVienServiceImpl implements INhanVienService {
 
     @Override
     public NhanVienDtoResponse update(NhanVienDtoRequest nhanVien) {
-        return null;
+        NhanVienModel nhanVienDefault = nhanVienRepository.findById(nhanVien.getUsername()).get();
+        nhanVien.setPassword(nhanVienDefault.getPassword());
+        nhanVien.setVaiTro(nhanVienDefault.getVaiTro().getMa());
+        nhanVien.setAnhDaiDien(nhanVienDefault.getAnhDaiDien());
+
+        NhanVienModel nhanVienModel = nhanVienRepository.save(nhanVien.mapToModel());
+        return new NhanVienDtoResponse(nhanVienModel);
     }
 
     @Override
@@ -66,7 +72,7 @@ public class NhanVienServiceImpl implements INhanVienService {
             if(nhanVienDefault.getAnhDaiDien()!=null) ImgUtil.deleteImg(nhanVienDefault.getAnhDaiDien(),"user");
             nhanVien.setAnhDaiDien(null);
         }else{
-            if(!img.getOriginalFilename().equalsIgnoreCase(nhanVien.getUsername())){//add ảnh
+            if(!img.getOriginalFilename().equalsIgnoreCase(nhanVien.getAnhDaiDien())){//add ảnh
                 byte[] bytes = img.getBytes();
                 String fileName = img.getOriginalFilename();
                 String name = nhanVien.getUsername() + fileName.substring(fileName.lastIndexOf("."));

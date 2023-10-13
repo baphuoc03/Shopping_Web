@@ -56,7 +56,7 @@ public class NhanVienRestcontroller {
         return ResponseEntity.ok(nhanVienService.add(nhanVien));
     }
     @PutMapping(value = "")
-    public ResponseEntity<?> update(@Valid @RequestPart("nhanVien") NhanVienDtoRequest nhanVien,
+    public ResponseEntity<?> updateUer(@Valid @RequestPart("nhanVien") NhanVienDtoRequest nhanVien,
                                  BindingResult result,
                                     @RequestPart(value = "img",required = false) MultipartFile img) throws IOException {
         System.out.println(nhanVien);
@@ -68,6 +68,18 @@ public class NhanVienRestcontroller {
         }
         if(result.hasErrors()) return ValidateUtil.getErrors(result);
         return ResponseEntity.ok(nhanVienService.update(nhanVien,img));
+    }
+    @PutMapping("update")
+    public ResponseEntity<?> updateNhanVien(@Valid @RequestBody NhanVienDtoRequest nhanVien,
+                                            BindingResult result){
+        if(nhanVien.getUsername()!=null && !nhanVien.getUsername().isBlank()){
+            if(!nhanVienService.existsByUsername(nhanVien.getUsername())){
+                result.addError(new FieldError("username","username","Username Không tồn tại"));
+                if(!result.hasErrors()) return ValidateUtil.getErrors(result);
+            }
+        }
+        if(result.hasErrors()) return ValidateUtil.getErrors(result);
+        return ResponseEntity.ok(nhanVienService.update(nhanVien));
     }
 
     @GetMapping("getUser")
