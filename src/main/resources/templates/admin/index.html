@@ -17,8 +17,8 @@
     <link th:href="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css}" rel="stylesheet"
           type="text/css"/>
 
-<!--    &lt;!&ndash;    angularJS&ndash;&gt;-->
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>-->
+    <!--    &lt;!&ndash;    angularJS&ndash;&gt;-->
+    <!--    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>-->
 
     <!--    icon-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -33,6 +33,7 @@
     <link th:href="@{/admin/assets/css/app.min.css}" id="app-style" rel="stylesheet" type="text/css"/>
 
     <link rel="shortcut icon" th:href="@{/admin/assets/images/favicon.ico}">
+
 
 
     <!-- plugin css -->
@@ -59,14 +60,11 @@
     <!-- Bootstrap Css -->
     <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>
     <!-- App Css-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"
-            crossorigin="anonymous"></script>
-    <br type="_moz">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js" crossorigin="anonymous"></script><br type="_moz">
 
     <!--    ///////////////////////////-->
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css'>
-    <link rel='stylesheet'
-          href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/css/fileinput.min.css'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/css/fileinput.min.css'/>
 
 </head>
 
@@ -77,7 +75,7 @@
 <!-- Begin page -->
 <div id="layout-wrapper">
 
-    <header id="page-topbar">
+    <header id="page-topbar" >
         <div class="navbar-header">
             <div class="d-flex">
                 <!-- LOGO -->
@@ -147,157 +145,8 @@
                         <i data-feather="sun" class="icon-lg layout-mode-light"></i>
                     </button>
                 </div>
-                <div class="dropdown d-none d-lg-inline-block ms-1">
-                    <button type="button" class="btn header-item" data-bs-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                        <i data-feather="grid" class="icon-lg"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                        <div class="p-2">
-                            <div class="row g-0">
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img th:src="@{/admin/assets/images/brands/github.png}" alt="Github">
-                                        <span>GitHub</span>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img th:src="@{/admin/assets/images/brands/bitbucket.png}" alt="bitbucket">
-                                        <span>Bitbucket</span>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img th:src="@{/admin/assets/images/brands/dribbble.png}" alt="dribbble">
-                                        <span>Dribbble</span>
-                                    </a>
-                                </div>
-                            </div>
 
-                            <div class="row g-0">
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img th:src="@{/admin/assets/images/brands/dropbox.png}" alt="dropbox">
-                                        <span>Dropbox</span>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img th:src="@{/admin/assets/images/brands/mail_chimp.png}" alt="mail_chimp">
-                                        <span>Mail Chimp</span>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img th:src="@{/admin/assets/images/brands/slack.png}" alt="slack">
-                                        <span>Slack</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="dropdown d-inline-block">
-                    <button type="button" class="btn header-item noti-icon position-relative"
-                            id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                        <i data-feather="bell" class="icon-lg"></i>
-                        <span class="badge bg-danger rounded-pill">5</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-                         aria-labelledby="page-header-notifications-dropdown">
-                        <div class="p-3">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h6 class="m-0"> Thông Báo </h6>
-                                </div>
-                                <div class="col-auto">
-                                    <a href="#!" class="small text-reset text-decoration-underline"> Chưa đọc </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div data-simplebar style="max-height: 300px;">
-                            <a href="#" class="text-reset notification-item" ng-repeat="t in thongBao">
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0 me-3">
-                                        <img th:src="@{/admin/assets/images/users/avatar-3.jpg}"
-                                             class="rounded-circle avatar-sm"
-                                             alt="user-pic">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="mb-1">{{t.thongBaoGui.taiKhoanGui.hoVaTen}}</h6>
-                                        <div class="font-size-13 text-muted">
-                                            <p class="mb-1">{{t.thongBaoGui.noiDung}}</p>
-                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i>
-                                                <span>{{t.thongBaoGui.thoiGianGui | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                                            </p>
-                                            <p class="mb-1">It will seem like simplified English.</p>
-                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>1 hours
-                                                        ago</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="#!" class="text-reset notification-item">
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0 avatar-sm me-3">
-                                            <span class="avatar-title bg-primary rounded-circle font-size-16">
-                                                <i class="bx bx-cart"></i>
-                                            </span>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="mb-1">Your order is placed</h6>
-                                        <div class="font-size-13 text-muted">
-                                            <p class="mb-1">If several languages coalesce the grammar</p>
-                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>3 min
-                                                        ago</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="#!" class="text-reset notification-item">
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0 avatar-sm me-3">
-                                            <span class="avatar-title bg-success rounded-circle font-size-16">
-                                                <i class="bx bx-badge-check"></i>
-                                            </span>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="mb-1">Your item is shipped</h6>
-                                        <div class="font-size-13 text-muted">
-                                            <p class="mb-1">If several languages coalesce the grammar</p>
-                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>3 min
-                                                        ago</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="#!" class="text-reset notification-item">
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0 me-3">
-                                        <img th:src="@{/admin/assets/images/users/avatar-6.jpg}"
-                                             class="rounded-circle avatar-sm"
-                                             alt="user-pic">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="mb-1">Salena Layfield</h6>
-                                        <div class="font-size-13 text-muted">
-                                            <p class="mb-1">As a skeptical Cambridge friend of mine occidental.</p>
-                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>1 hours
-                                                        ago</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="p-2 border-top d-grid">
-                            <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
-                                <i class="mdi mdi-arrow-right-circle me-1"></i> <span>Hiển thị nhiều hơn</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="dropdown d-inline-block">
                     <button type="button" class="btn header-item right-bar-toggle me-2">
                         <i data-feather="settings" class="icon-lg"></i>
@@ -593,6 +442,28 @@
 
 <script th:src="@{/admin/assets/js/app.js}"></script>
 
+
+<!-- JAVASCRIPT -->
+<script th:src="@{/admin/assets/libs/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/admin/assets/libs/metismenu/metisMenu.min.js}"></script>
+<script th:src="@{/admin/assets/libs/simplebar/simplebar.min.js}"></script>
+<script th:src="@{/admin/assets/libs/node-waves/waves.min.js}"></script>
+<script th:src="@{/admin/assets/libs/feather-icons/feather.min.js}"></script>
+<!-- pace js} -->
+<script th:src="@{/admin/assets/libs/pace-js/pace.min.js}"></script>
+
+<!-- apexcharts -->
+<script th:src="@{/admin/assets/libs/apexcharts/apexcharts.min.js}"></script>
+
+<!-- Plugins js}-->
+<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js}"></script>
+<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js}"></script>
+<!-- dashboard init -->
+<script th:src="@{/admin/assets/js/pages/dashboard.init.js}"></script>
+
+<script th:src="@{/admin/assets/js/app.js}"></script>
+
 <!-- select 2 plugin -->
 <script th:src="@{/admin/assets/libs/select2/js/select2.min.js}"></script>
 
@@ -619,6 +490,7 @@
 <script src="/admin/AngularJS/ChatLieuJS.js"></script>
 <script src="/admin/AngularJS/KieuDangJS.js"></script>
 <script src="/admin/AngularJS/ThuongHieuJS.js"></script>
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>
 <script th:src="@{/admin/AngularJS/ResetPassword.js}"></script>
@@ -655,7 +527,7 @@
 <!--<script th:src="@{/admin/assets/js/pages/ecommerce-select2.init.js}"></script>-->
 
 <!--<script th:src="@{/admin/assets/js/app.js}"></script>-->
-<script type="text/javascript" src="https://unpkg.com/kd-shim-sockjs-client@0.3.4/sockjs-0.3.4.js"></script>
+
 </body>
 
 </html>

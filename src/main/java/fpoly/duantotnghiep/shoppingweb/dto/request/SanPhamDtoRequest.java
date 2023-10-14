@@ -36,7 +36,7 @@ public class SanPhamDtoRequest {
     private String xuatXu;
     private String kieuDang;
     private String chatLieu;
-    private BigDecimal giaNhap;
+    private BigDecimal giaNiemYet;
     @NotNull(message = "Không để trống giá bán")
     @Min(value = 10000, message = "Giá bán phải lớn hơn 10.000đ ")
     private BigDecimal giaBan;
@@ -57,7 +57,6 @@ public class SanPhamDtoRequest {
         xuatXu = model.getXuatXu() == null ? null : model.getXuatXu().getId();
         kieuDang = model.getKieuDang() == null ? null : model.getKieuDang().getId();
         chatLieu = model.getChatLieu() == null ? null : model.getChatLieu().getId();
-        giaNhap = model.getGiaNhap();
         giaBan = model.getGiaBan();
         moTa = model.getMoTa();
         ngayTao = model.getNgayTao();
@@ -82,7 +81,6 @@ public class SanPhamDtoRequest {
             xuatXu.setId(this.xuatXu);
             model.setXuatXu(xuatXu);
         }
-        model.setGiaNhap(giaNhap);
         model.setGiaBan(giaBan);
         model.setMoTa(moTa);
         model.setNgayTao(ngayTao);
