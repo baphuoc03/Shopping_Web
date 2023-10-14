@@ -35,7 +35,7 @@ public class ChatLieuModel {
 
     @Column(name = "ngaycapnhat")
     @UpdateTimestamp
-    private Date ngayCapNhat;
+        private Date ngayCapNhat;
 
     public ChatLieuModel(String id) {
         this.id = id;

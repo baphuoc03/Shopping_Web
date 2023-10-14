@@ -3,9 +3,12 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SizeDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SizeDTORequest;
 import fpoly.duantotnghiep.shoppingweb.service.ISizeService;
+import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -28,8 +31,10 @@ public class SizeRestontroller {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody SizeDTORequest size) throws IOException {
-        System.out.println(size.toString());
+    public ResponseEntity<?> add(@Valid @RequestBody SizeDTORequest size, BindingResult result) throws IOException {
+        if(result.hasErrors()){
+            return ValidateUtil.getErrors(result);
+        }
         return ResponseEntity.ok(service.save(size));
     }
 
@@ -46,7 +51,7 @@ public class SizeRestontroller {
     }
 
     @PutMapping("update/{ma}")
-    public ResponseEntity<?> update(@RequestBody SizeDTORequest size, @PathVariable Float ma) {
+    public ResponseEntity<?> update(@Valid @RequestBody SizeDTORequest size, @PathVariable Float ma) {
         size.setMa(ma);
         return ResponseEntity.ok(service.save(size));
     }
