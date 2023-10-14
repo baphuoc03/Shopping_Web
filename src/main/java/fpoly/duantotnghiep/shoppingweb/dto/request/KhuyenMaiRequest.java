@@ -4,12 +4,15 @@ import fpoly.duantotnghiep.shoppingweb.model.KhuyenMaiModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,17 +22,26 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @ToString
 public class KhuyenMaiRequest {
+
     private String ma;
 
+    @NotEmpty(message = "Vui lòng nhập dữ liệu")
     private String ten;
 
     private String loai;
 
-    private Double mucGiam;
+    @NotNull(message = "Vui lòng nhập dữ liệu")
+    private BigDecimal mucGiam;
 
-    private String ngayBatDau;
+    @NotNull(message = "Vui lòng nhập dữ liệu")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date ngayBatDau;
 
-    private String ngayKetThuc;
+    @NotNull(message = "Vui lòng nhập dữ liệu")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    private Date ngayKetThuc;
 
     private Boolean trangThai;
 
@@ -66,6 +78,6 @@ public class KhuyenMaiRequest {
                 ", ngayTao=" + ngayTao +
                 ", ngayCapNhat=" + ngayCapNhat +
                 ", sanPham=" +
-                sanPham.stream().map(s -> s.getMa() + " - " +s.getTen()).collect(Collectors.joining());
+                sanPham.stream().map(s -> s.getMa() + " - " + s.getTen()).collect(Collectors.joining());
     }
 }

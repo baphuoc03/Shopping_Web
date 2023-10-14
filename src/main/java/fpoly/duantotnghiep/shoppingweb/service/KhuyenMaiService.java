@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhuyenMaiResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KhuyenMaiRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
@@ -17,4 +18,8 @@ public interface KhuyenMaiService {
     public void save(KhuyenMaiRequest khuyenMai);
 
     public void delete(String id);
+
+    public void updateGiamGiaWithNgayBD();
+
+    public void updateGiamGiaWithNgayKT();
 }
