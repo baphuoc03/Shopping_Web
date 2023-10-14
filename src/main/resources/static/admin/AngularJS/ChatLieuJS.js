@@ -13,11 +13,9 @@ app.controller("chat-lieu-ctrl", function ($scope, $http){
     $scope.findALL()
 
     $scope.create = function (){
+        document.getElementById("eTen").innerText = "Vui lòng nhập tên"
         var chatLieu = {
-            id: $scope.id,
             ten: $scope.ten,
-            ngayTao: $scope.ngayTao,
-            ngayCapNhat: $scope.ngayCapNhat
         }
         $http.post("http://localhost:8080/admin/chat-lieu/add", chatLieu).then(r => {
             location.reload();

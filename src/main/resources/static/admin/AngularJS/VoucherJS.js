@@ -46,7 +46,7 @@ app.controller("voucher-ctrl", function ($scope, $http) {
             alert("Create success");
 
         });
-    };
+    }
     //update
     $scope.update = function (id) {
         var urlWithId = getUrlWithId(id)
@@ -65,4 +65,43 @@ app.controller("voucher-ctrl", function ($scope, $http) {
             alert("Update success");
         })
     }
+
+// //    xoa nhieu
+//     $scope.selectedVoucherIds = [];
+//
+//     $scope.sumVoucherSelected = function (id) {
+//         if ($scope.selectedVoucherIds.includes(id)) {
+//             $scope.selectedVoucherIds = $scope.selectedVoucherIds.filter(function (v) {
+//                 return v !== id;
+//             });
+//             console.log("Đã bỏ chọn sản phẩm có ID: " + id);
+//         } else {
+//             $scope.selectedVoucherIds.push(id);
+//             console.log("Đã chọn sản phẩm có ID: " + id);
+//         }
+//     };
+//
 });
+
+    // $scope.deleteSelectedProducts = function () {
+    //     // Lấy danh sách các ID của voucher đã được chọn
+    //     var selectedIds = $scope.selectedProducts;
+    //
+    //     if (selectedIds.length === 0) {
+    //         alert("Vui lòng chọn ít nhất một sản phẩm để xóa.");
+    //         return;
+    //     }
+    //
+    //     // Gọi API Spring Boot để xóa các sản phẩm dựa trên danh sách ID đã chọn
+    //     $http.post('/api/products/delete', selectedIds)
+    //         .then(function (response) {
+    //             // Xử lý kết quả sau khi xóa, có thể làm làm cập nhật lại danh sách sản phẩm
+    //             // hoặc thực hiện bất kỳ tác vụ nào khác sau khi xóa thành công
+    //             alert("Xóa sản phẩm thành công.");
+    //         })
+    //         .catch(function (error) {
+    //             // Xử lý lỗi nếu có lỗi xảy ra trong quá trình xóa
+    //             alert("Lỗi khi xóa sản phẩm: " + error);
+    //         });
+    // };
+

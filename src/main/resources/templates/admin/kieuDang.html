@@ -168,12 +168,13 @@
                             <div class="mb-3">
                                 <label class="form-label">Mã</label>
                                 <input type="text" disabled class="form-control" ng-model="id">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Tên Kiểu Dáng</label>
                                 <input type="text" class="form-control" ng-model="ten">
-<!--                                 <p id="emailHelp" class="form-text"></p>-->
+
+                                <p id="vldUpdate" class="form-text text-danger"></p>
+
                             </div>
                         </div>
                         <!-- Modal footer -->
@@ -202,7 +203,9 @@
                         <div class="mb-3">
                             <label class="form-label">Tên Kiểu Dáng</label>
                             <input type="text" class="form-control" ng-model="ten">
-                            <p id="emailHelp" class="form-text text-danger"></p>
+<!--                            <div ng-show="formData.tenError" class="form-text text-danger ">{{ formData.tenError }}</div>-->
+
+                                                        <p  class="form-text text-danger">{{erTen}}</p>
 
                             <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                         </div>

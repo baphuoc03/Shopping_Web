@@ -33,6 +33,10 @@ public class SanPhamModel {
     private DongSanPhamModel dongSanPham;
 
     @ManyToOne
+    @JoinColumn(name = "xuatxu")
+    private XuatXuModel xuatXu;
+
+    @ManyToOne
     @JoinColumn(name = "kieudang")
     private KieuDangModel kieuDang;
 
@@ -44,7 +48,7 @@ public class SanPhamModel {
     private String ten;
 
     @Column(name = "gianhap")
-    private BigDecimal giaNhap;
+    private BigDecimal giaNiemYet;
 
     @Column(name = "giaban")
     private BigDecimal giaBan;
@@ -86,7 +90,7 @@ public class SanPhamModel {
                 "ma='" + ma + '\'' +
                 ", mauSac=" + mauSac.getTen() +
                 ", ten='" + ten + '\'' +
-                ", giaNhap=" + giaNhap +
+                ", giaNhap=" + giaNiemYet +
                 ", giaBan=" + giaBan +
                 ", moTa='" + moTa + '\'' +
                 ", ngayTao=" + ngayTao +

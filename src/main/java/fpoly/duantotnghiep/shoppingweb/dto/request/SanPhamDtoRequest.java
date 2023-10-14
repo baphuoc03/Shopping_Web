@@ -33,9 +33,10 @@ public class SanPhamDtoRequest {
     private String ten;
     private String mauSac;
     private String dongSanPham;
+    private String xuatXu;
     private String kieuDang;
     private String chatLieu;
-    private BigDecimal giaNhap;
+    private BigDecimal giaNiemYet;
     @NotNull(message = "Không để trống giá bán")
     @Min(value = 10000, message = "Giá bán phải lớn hơn 10.000đ ")
     private BigDecimal giaBan;
@@ -53,9 +54,9 @@ public class SanPhamDtoRequest {
         ten = model.getTen();
         mauSac = model.getMauSac() == null ? null : model.getMauSac().getMa();
         dongSanPham = model.getDongSanPham() == null ? null : model.getDongSanPham().getId();
+        xuatXu = model.getXuatXu() == null ? null : model.getXuatXu().getId();
         kieuDang = model.getKieuDang() == null ? null : model.getKieuDang().getId();
         chatLieu = model.getChatLieu() == null ? null : model.getChatLieu().getId();
-        giaNhap = model.getGiaNhap();
         giaBan = model.getGiaBan();
         moTa = model.getMoTa();
         ngayTao = model.getNgayTao();
@@ -73,7 +74,13 @@ public class SanPhamDtoRequest {
         if (dongSanPham != null && !dongSanPham.isBlank()) model.setDongSanPham(new DongSanPhamModel(dongSanPham));
         if (kieuDang != null && !kieuDang.isBlank()) model.setKieuDang(new KieuDangModel(kieuDang));
         if (chatLieu != null && !chatLieu.isBlank()) model.setChatLieu(new ChatLieuModel(chatLieu));
-        model.setGiaNhap(giaNhap);
+
+
+        if(xuatXu != null && !xuatXu.isBlank()) {
+            XuatXuModel xuatXu = new XuatXuModel();
+            xuatXu.setId(this.xuatXu);
+            model.setXuatXu(xuatXu);
+        }
         model.setGiaBan(giaBan);
         model.setMoTa(moTa);
         model.setNgayTao(ngayTao);

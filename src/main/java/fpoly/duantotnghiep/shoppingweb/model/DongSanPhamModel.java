@@ -26,7 +26,7 @@ public class DongSanPhamModel {
     @Column(name = "ten")
     private String ten;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "thuonghieu")
     private ThuongHieuModel thuongHieu;
 

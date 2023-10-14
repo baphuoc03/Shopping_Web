@@ -182,22 +182,14 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label class="form-label">Mã </label>
-                                <input type="text" ng-model="ma" class="form-control">
+                                <input type="text" ng-model="ma" class="form-control" ng-focus="removeER('eSizeMa')">
+                                <i id="eSizeMa"  class="text-danger"></i>
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Chiều dài </label>
-                                <input type="text" ng-model="chieuDai" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Ngày Tạo</label>
-                                <input type="text" ng-model="ngayTao" class="form-control" readonly>
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Ngày Cập Nhật </label>
-                                <input type="text" ng-model="ngayCapNhat" class="form-control" readonly>
+                                <input type="text" ng-model="chieuDai" class="form-control" ng-focus="removeER('eSizeChieuDai')">
+                                <i id="eSizeChieuDai"  class="text-danger" ></i>
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                         </div>
@@ -224,7 +216,7 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label class="form-label">Mã </label>
-                                <input type="text" ng-model="ma" class="form-control">
+                                <input type="text" ng-model="ma" class="form-control" readonly>
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                             <div class="mb-3">

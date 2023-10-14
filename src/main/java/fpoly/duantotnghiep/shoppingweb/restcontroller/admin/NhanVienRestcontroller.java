@@ -2,16 +2,24 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.NhanVienDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.NhanVienDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.repository.INhanVienRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
 import fpoly.duantotnghiep.shoppingweb.service.INhanVienService;
+import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
+import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
+import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -33,6 +41,51 @@ public class NhanVienRestcontroller {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(nhanVienService.findById(id));
+    }
+
+    @PostMapping("")
+    public ResponseEntity<?> add(@Valid @RequestBody NhanVienDtoRequest nhanVien,
+                                 BindingResult result) throws MessagingException {
+        if(nhanVien.getUsername()!=null && !nhanVien.getUsername().isBlank()){
+            if(nhanVienService.existsByUsername(nhanVien.getUsername())){
+                result.addError(new FieldError("username","username","Username đã tồn tại"));
+                if(!result.hasErrors()) return ValidateUtil.getErrors(result);
+            }
+        }
+        if(result.hasErrors()) return ValidateUtil.getErrors(result);
+        return ResponseEntity.ok(nhanVienService.add(nhanVien));
+    }
+    @PutMapping(value = "")
+    public ResponseEntity<?> updateUer(@Valid @RequestPart("nhanVien") NhanVienDtoRequest nhanVien,
+                                 BindingResult result,
+                                    @RequestPart(value = "img",required = false) MultipartFile img) throws IOException {
+        System.out.println(nhanVien);
+        if(nhanVien.getUsername()!=null && !nhanVien.getUsername().isBlank()){
+            if(!nhanVienService.existsByUsername(nhanVien.getUsername())){
+                result.addError(new FieldError("username","username","Username Không tồn tại"));
+                if(!result.hasErrors()) return ValidateUtil.getErrors(result);
+            }
+        }
+        if(result.hasErrors()) return ValidateUtil.getErrors(result);
+        return ResponseEntity.ok(nhanVienService.update(nhanVien,img));
+    }
+    @PutMapping("update")
+    public ResponseEntity<?> updateNhanVien(@Valid @RequestBody NhanVienDtoRequest nhanVien,
+                                            BindingResult result){
+        if(nhanVien.getUsername()!=null && !nhanVien.getUsername().isBlank()){
+            if(!nhanVienService.existsByUsername(nhanVien.getUsername())){
+                result.addError(new FieldError("username","username","Username Không tồn tại"));
+                if(!result.hasErrors()) return ValidateUtil.getErrors(result);
+            }
+        }
+        if(result.hasErrors()) return ValidateUtil.getErrors(result);
+        return ResponseEntity.ok(nhanVienService.update(nhanVien));
+    }
+
+    @GetMapping("getUser")
+    public ResponseEntity<?> getUserAdmin(Authentication authentication){
+        String username = authentication.getName();
+        return ResponseEntity.ok(nhanVienService.findById(username));
     }
 
 }

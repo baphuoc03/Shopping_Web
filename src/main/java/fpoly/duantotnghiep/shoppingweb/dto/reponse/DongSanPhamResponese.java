@@ -18,6 +18,11 @@ public class DongSanPhamResponese {
     private Date ngayTao;
     private Date ngayCapNhat;
 
+    public DongSanPhamResponese(String id, String ten) {
+        this.id = id;
+        this.ten = ten;
+    }
+
     public DongSanPhamResponese(DongSanPhamModel model){
         id = model.getId();
         ten = model.getTen();

@@ -1,9 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.controller.admin;
 
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChatLieuDTOResponse;
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.DongSanPhamResponese;
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.KieuDangDTOResponse;
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.MauSacDTOResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.*;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.enumtype.ThongBaoType;
 import fpoly.duantotnghiep.shoppingweb.model.ThongBaoModel;
@@ -46,6 +43,10 @@ public class SanPhamController {
     private IKieuDangService kieuDangService;
     @Autowired
     private AnhServiceImpl anhService;
+    @Autowired
+    private IThuongHieuService thuongHieuService;
+    @Autowired
+    private IXuatXuService xuatXuService;
 
 
     @GetMapping("")
@@ -129,6 +130,14 @@ public class SanPhamController {
     @ModelAttribute("kieuDang")
     public List<KieuDangDTOResponse> getKieuDang(){
         return kieuDangService.getAll();
+    }
+    @ModelAttribute("thuongHieu")
+    public List<ThuongHieuDtoResponse> getThuongHieu(){
+        return thuongHieuService.findAll();
+    }
+    @ModelAttribute("xuatXu")
+    private List<XuatXuResponse> getXuatXu(){
+        return xuatXuService.findAll();
     }
 
 

@@ -5,9 +5,12 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.SizeDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChatLieuDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SizeDTORequest;
 import fpoly.duantotnghiep.shoppingweb.service.IChatLieuService;
+import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -29,7 +32,10 @@ public class ChatLieuRestController {
     }
 
     @PostMapping("add")
-    public ResponseEntity<?> add(@RequestBody ChatLieuDTORequest chatLieu) throws IOException {
+    public ResponseEntity<?> add(@Valid @RequestBody ChatLieuDTORequest chatLieu, BindingResult result) throws IOException {
+        if(result.hasErrors()){
+            return ValidateUtil.getErrors(result);
+        }
         return ResponseEntity.ok(service.save(chatLieu));
     }
 
@@ -40,7 +46,7 @@ public class ChatLieuRestController {
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<?> update(@RequestBody ChatLieuDTORequest chatLieu, @PathVariable String id) {
+    public ResponseEntity<?> update(@Valid @RequestBody ChatLieuDTORequest chatLieu, @PathVariable String id) {
         chatLieu.setId(id);
         return ResponseEntity.ok(service.save(chatLieu));
     }

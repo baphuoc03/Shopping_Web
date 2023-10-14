@@ -59,7 +59,7 @@ app.controller('ctrl', function ($scope, $http) {
             $scope.dongSP = r.data;
         }).catch( e => console.log(e))
 
-        $http.get("/kieu-dang/find-all").then(r =>{
+        $http.get("/admin/kieu-dang/find-all").then(r =>{
             $scope.kieuDang = r.data;
         }).catch( e => console.log(e))
     }

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class SanPhamServiceImpl implements ISanPhamService {
     @Autowired
     private ISanPhamRepository sanPhamRepository;
+
     @Autowired
     private AnhServiceImpl anhService;
     @Autowired
@@ -62,6 +65,16 @@ public class SanPhamServiceImpl implements ISanPhamService {
     }
 
     @Override
+    public List<SanPhamModel> findByAllSanPhamWithKM() {
+        return sanPhamRepository.findAllSanPhamWithKhuyenMai();
+    }
+
+    @Override
+    public List<SanPhamModel> findAllWithKmWhereNgayBD() {
+        return sanPhamRepository.findAllSanPhamWithKmWhereNgayBatDau();
+    }
+
+    @Override
     public SanPhamDtoResponse save(SanPhamDtoRequest entity) {
         SanPhamModel model = entity.mapToModel();
         List<AnhModel> imgs = model.getImages();
@@ -70,6 +83,12 @@ public class SanPhamServiceImpl implements ISanPhamService {
         anhService.saveAll(imgs);
         return new SanPhamDtoResponse(model);
     }
+
+    @Override
+    public SanPhamModel save1(SanPhamModel entity) {
+        return sanPhamRepository.save(entity);
+    }
+
 
     @Override
     public SanPhamDtoResponse update(SanPhamDtoRequest entity) throws IOException {
@@ -114,5 +133,8 @@ public class SanPhamServiceImpl implements ISanPhamService {
     public List<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter){
         return sanPhamEntityManager.filterMultipleProperties(sanPhamDtoFilter).stream()
                 .map(s -> new SanPhamDtoResponse(s)).collect(Collectors.toList());
+    }
+    public Integer updateGiaBan(BigDecimal giaBan, String ma) {
+        return sanPhamRepository.updateGiaBan(giaBan, ma);
     }
 }
