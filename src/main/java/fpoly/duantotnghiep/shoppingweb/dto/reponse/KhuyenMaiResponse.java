@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -22,12 +23,13 @@ public class KhuyenMaiResponse {
 
     private String loai;
 
-    private Double mucGiam;
+    private BigDecimal mucGiam;
 
-    private String ngayBatDau;
+    @Temporal(TemporalType.DATE)
+    private Date ngayBatDau;
 
-    private String ngayKetThuc;
-
+    @Temporal(TemporalType.DATE)
+    private Date ngayKetThuc;
 
     private Date ngayTao;
 

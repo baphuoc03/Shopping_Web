@@ -35,7 +35,6 @@
     <link rel="shortcut icon" th:href="@{/admin/assets/images/favicon.ico}">
 
 
-
     <!-- plugin css -->
     <link th:href="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css}" rel="stylesheet"
           type="text/css"/>
@@ -60,22 +59,25 @@
     <!-- Bootstrap Css -->
     <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>
     <!-- App Css-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js" crossorigin="anonymous"></script><br type="_moz">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"
+            crossorigin="anonymous"></script>
+    <br type="_moz">
 
-<!--    ///////////////////////////-->
+    <!--    ///////////////////////////-->
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css'>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/css/fileinput.min.css'/>
+    <link rel='stylesheet'
+          href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/css/fileinput.min.css'/>
 
 </head>
 
-<body data-topbar="dark" >
+<body data-topbar="dark">
 
 <!-- <body data-layout="horizontal"> -->
 
 <!-- Begin page -->
 <div id="layout-wrapper">
 
-    <header id="page-topbar" >
+    <header id="page-topbar">
         <div class="navbar-header">
             <div class="d-flex">
                 <!-- LOGO -->
@@ -242,8 +244,8 @@
                     </div>
                 </div>
 
-<!--                ////////////////Thông báo-->
-                <div class="dropdown d-inline-block" >
+                <!--                ////////////////Thông báo-->
+                <div class="dropdown d-inline-block">
                     <button type="button" class="btn header-item noti-icon position-relative"
                             id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
@@ -263,7 +265,7 @@
                             </div>
                         </div>
                         <div data-simplebar style="max-height: 300px;">
-                            <a href="#" class="text-reset notification-item" ng-repeat="t in thongBao" >
+                            <a href="#" class="text-reset notification-item" ng-repeat="t in thongBao">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0 me-3">
                                         <img th:src="@{/admin/assets/images/users/avatar-3.jpg}"
@@ -273,10 +275,12 @@
                                     <div class="flex-grow-1">
                                         <h6 class="mb-1">{{t.thongBaoGui.taiKhoanGui.hoVaTen}}</h6>
                                         <div class="font-size-13 text-muted">
-<<<<<<< HEAD
+                                            <<<<<<< HEAD
                                             <p class="mb-1">{{t.thongBaoGui.noiDung}}</p>
-                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>{{t.thongBaoGui.thoiGianGui | date:'yyyy-MM-dd HH:mm:ss'}}</span></p>
-=======
+                                            <p class="mb-0"><i class="mdi mdi-clock-outline"></i>
+                                                <span>{{t.thongBaoGui.thoiGianGui | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                            </p>
+                                            =======
                                             <p class="mb-1">It will seem like simplified English.</p>
                                             <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>1 hours
                                                         ago</span></p>
@@ -331,7 +335,7 @@
                                             <p class="mb-1">As a skeptical Cambridge friend of mine occidental.</p>
                                             <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <span>1 hours
                                                         ago</span></p>
->>>>>>> tuandv
+                                            >>>>>>> tuandv
                                         </div>
                                     </div>
                                 </div>
@@ -640,28 +644,6 @@
 
 <script th:src="@{/admin/assets/js/app.js}"></script>
 
-
-<!-- JAVASCRIPT -->
-<script th:src="@{/admin/assets/libs/jquery/jquery.min.js}"></script>
-<script th:src="@{/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/admin/assets/libs/metismenu/metisMenu.min.js}"></script>
-<script th:src="@{/admin/assets/libs/simplebar/simplebar.min.js}"></script>
-<script th:src="@{/admin/assets/libs/node-waves/waves.min.js}"></script>
-<script th:src="@{/admin/assets/libs/feather-icons/feather.min.js}"></script>
-<!-- pace js} -->
-<script th:src="@{/admin/assets/libs/pace-js/pace.min.js}"></script>
-
-<!-- apexcharts -->
-<script th:src="@{/admin/assets/libs/apexcharts/apexcharts.min.js}"></script>
-
-<!-- Plugins js}-->
-<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js}"></script>
-<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js}"></script>
-<!-- dashboard init -->
-<script th:src="@{/admin/assets/js/pages/dashboard.init.js}"></script>
-
-<script th:src="@{/admin/assets/js/app.js}"></script>
-
 <!-- select 2 plugin -->
 <script th:src="@{/admin/assets/libs/select2/js/select2.min.js}"></script>
 
@@ -678,9 +660,7 @@
 
 <script th:src="@{/admin/js/uploadfile.js}"></script>
 <script src="/admin/js/thongBao.js"></script>
-
-
-<<<<<<< HEAD
+<script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>
 
 <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js'></script>
@@ -689,35 +669,10 @@
 <script src="/admin/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
 <script src="/admin/assets/js/pages/form-advanced.init.js"></script>
 <script type="text/javascript" src="https://unpkg.com/kd-shim-sockjs-client@0.3.4/sockjs-0.3.4.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js" integrity="sha512-tL4PIUsPy+Rks1go4kQG8M8/ItpRMvKnbBjQm4d2DQnFwgcBYRRN00QdyQnWSCwNMsoY/MfJY8nHp2CzlNdtZA==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"
+        integrity="sha512-tL4PIUsPy+Rks1go4kQG8M8/ItpRMvKnbBjQm4d2DQnFwgcBYRRN00QdyQnWSCwNMsoY/MfJY8nHp2CzlNdtZA=="
+        crossorigin="anonymous"></script>
 
-<!--aaaaaaaaaaaaaaaaaaaaa-->
-
-<!-- apexcharts -->
-<!--<script th:src="@{/admin/assets/libs/apexcharts/apexcharts.min.js}"></script>-->
-
-<!--&lt;!&ndash; Plugins js}&ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js}"></script>-->
-<!--<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js}"></script>-->
-<!--&lt;!&ndash; dashboard init &ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/js/pages/dashboard.init.js}"></script>-->
-
-<!--<script th:src="@{/admin/assets/js/app.js}"></script>-->
-
-<!--&lt;!&ndash; select 2 plugin &ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/libs/select2/js/select2.min.js}"></script>-->
-
-<!--&lt;!&ndash; dropzone plugin &ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/libs/dropzone/min/dropzone.min.js}"></script>-->
-
-<!--&lt;!&ndash; init js} &ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/js/pages/ecommerce-select2.init.js}"></script>-->
-
-<!--<script th:src="@{/admin/assets/js/app.js}"></script>-->
-=======
-<!--angularJS-->
-<script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>
->>>>>>> tuandv
 </body>
 
 </html>

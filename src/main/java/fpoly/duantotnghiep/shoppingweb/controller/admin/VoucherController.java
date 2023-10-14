@@ -30,7 +30,7 @@ public class VoucherController {
         int totalPage = 0;
         long totalItems = 0;
         if (name == null || name.isEmpty()) {
-            Page<VoucherReponse> page = service.findAll(pageNumber - 1, 8);
+            Page<VoucherReponse> page = service.findAll(pageNumber - 1, 5);
             listVC = page.getContent();
             totalPage = page.getTotalPages();
         } else {

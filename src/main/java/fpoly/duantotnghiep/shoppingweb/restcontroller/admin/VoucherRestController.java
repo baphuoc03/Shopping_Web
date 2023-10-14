@@ -40,16 +40,6 @@ public class VoucherRestController {
         );
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<ResponseObject> findById(@PathVariable("id") String id) {
-//        boolean exitst = service.exitst(id);
-//        return exitst ? ResponseEntity.status(HttpStatus.OK).body(
-//                new ResponseObject("Oke", "Tìm thấy", service.findById(id))
-//        ) : ResponseEntity.status(HttpStatus.FOUND).body(
-//                new ResponseObject("Found", "Không tìm thấy", "")
-//        );
-//    }
-
     @GetMapping("/{id}")
     public VoucherReponse findById(@PathVariable("id") String id) {
         return service.findById(id);
@@ -69,7 +59,6 @@ public class VoucherRestController {
         );
     }
 
-    //
     @PutMapping("/{id}")
     public ResponseEntity<ResponseObject> update(@PathVariable("id") String id,
                                                  @RequestBody VoucherRequest voucherRequest) {

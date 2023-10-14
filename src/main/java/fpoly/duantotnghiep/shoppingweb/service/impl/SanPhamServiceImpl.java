@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public class SanPhamServiceImpl implements ISanPhamService {
     @Autowired
     private ISanPhamRepository sanPhamRepository;
+
     @Autowired
     private AnhServiceImpl anhService;
 
@@ -63,6 +65,16 @@ public class SanPhamServiceImpl implements ISanPhamService {
     }
 
     @Override
+    public List<SanPhamModel> findByAllSanPhamWithKM() {
+        return sanPhamRepository.findAllSanPhamWithKhuyenMai();
+    }
+
+    @Override
+    public List<SanPhamModel> findAllWithKmWhereNgayBD() {
+        return sanPhamRepository.findAllSanPhamWithKmWhereNgayBatDau();
+    }
+
+    @Override
     public SanPhamDtoResponse save(SanPhamDtoRequest entity) {
         SanPhamModel model = entity.mapToModel();
         List<AnhModel> imgs = model.getImages();
@@ -71,6 +83,12 @@ public class SanPhamServiceImpl implements ISanPhamService {
         anhService.saveAll(imgs);
         return new SanPhamDtoResponse(model);
     }
+
+    @Override
+    public SanPhamModel save1(SanPhamModel entity) {
+        return sanPhamRepository.save(entity);
+    }
+
 
     @Override
     public SanPhamDtoResponse update(SanPhamDtoRequest entity) throws IOException {
@@ -110,4 +128,10 @@ public class SanPhamServiceImpl implements ISanPhamService {
     public Integer updateTrangThaiHIenThi(Boolean trangThai, String ma) {
         return sanPhamRepository.updateTrangThaiHIenThi(trangThai, ma);
     }
+
+    @Override
+    public Integer updateGiaBan(BigDecimal giaBan, String ma) {
+        return sanPhamRepository.updateGiaBan(giaBan, ma);
+    }
+    
 }
