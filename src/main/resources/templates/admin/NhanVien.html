@@ -39,7 +39,9 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div>
-                                    <img src="/image/loadImage/user/converseLogo.png" alt=""
+                                    <img ng-if="n.anhDaiDien!=null" src="/image/loadImage/user/{{n.anhDaiDien}}" alt=""
+                                         class="avatar-lg rounded-circle img-thumbnail">
+                                    <img ng-if="n.anhDaiDien==null" src="/image/loadImage/user/default.png" alt=""
                                          class="avatar-lg rounded-circle img-thumbnail">
                                 </div>
                                 <div class="flex-1 ms-3">
@@ -69,7 +71,7 @@
                                     data-target="#viewUpdate11" ng-click="detail(n.username)">
                                 <i class="uil uil-user me-1"></i>Thông tin
                             </button>
-                            <button type="button" class="btn bg-danger btn-outline-light text-truncate text-light"> Chặn
+                            <button type="button" class="btn bg-danger btn-outline-light text-truncate text-light"> Xóa
                             </button>
                         </div>
                     </div>

@@ -10,6 +10,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -22,6 +26,9 @@ public class SecurityAdminConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        DelegatingServerLogoutHandler logoutHandler = new DelegatingServerLogoutHandler(
+                new WebSessionServerLogoutHandler(), new SecurityContextServerLogoutHandler()
+        );
         http
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
@@ -32,7 +39,14 @@ public class SecurityAdminConfig {
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userAdminService)
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults())
+                .logout(l -> l
+//                        .logoutUrl("/admin/logout")
+//                        .logoutSuccessUrl("/admin/trang-chu")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .clearAuthentication(true)
+                );
 
         return http.build();
     }
