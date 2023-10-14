@@ -16,7 +16,9 @@ app.controller("kieudang-ctrl", function ($scope, $http) {
         });
     }
     $scope.itemss = [];
-    $scope.form = {};
+    $scope.form = {
+
+    };
 
     $scope.getAll = function () {
         $http.get("/admin/kieu-dang/find-all").then(r => {
@@ -25,41 +27,50 @@ app.controller("kieudang-ctrl", function ($scope, $http) {
         }).catch(e => console.log(e))
     }
     $scope.getAll()
-
+// xóa
     $scope.delete = function (id) {
+        if(confirm("Bạn muốn xóa sản phẩm này?")){
         var urlWithId = getUrlWithId(id)
         $http.delete(urlWithId).then(function (res) {
             location.reload();
             alert("Delete success");
+        }).catch(error =>{
+        alert("Lỗi Xóa Sản Phẩm !")
+            console.log("error", error);
         })
+    }
     }
 
     //add
     $scope.create = function () {
-        console.log("add")
-        document.getElementById("emailHelp").innerText = "Vui lòng chọn Tên"
-
+        // console.log("add")
+        // document.getElementById("vldUpdate").innerText = "Vui lòng Nhập Tên"
         var kieuDang = {
-            ten: $scope.ten
-        }
-        $http.post(url, kieuDang).then(function (response) {
-            location.reload();
-            // $scope.itemss.push(r.data)
-            alert("Create success");
-        });
+                ten: $scope.ten
+            }
+            $http.post(url, kieuDang).then(function (response) {
+                // location.reload();
+                $scope.itemss.push(response.data)
+                alert("Create success");
+            }).catch(error =>{
+                console.log(error)
+                // document.getElementById("vldUpdate").innerText = error.data.ten
+                $scope.erTen = error.data.ten
+            });
+
     };
     //update
     $scope.update = function (id) {
+        document.getElementById("vldUpdate").innerText = "Vui lòng Nhập Tên"
+
         var urlWithId = getUrlWithId(id)
         var kieudang = {
             ten: $scope.ten,
-
-
         }
         $http.put(urlWithId, kieudang).then(function (resp) {
             location.reload();
             alert("Update success");
-        })
-    }
+        });
+    };
 
 })

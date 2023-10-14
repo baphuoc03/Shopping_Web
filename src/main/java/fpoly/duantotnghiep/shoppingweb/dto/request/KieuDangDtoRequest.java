@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 public class KieuDangDtoRequest {
     private String id;
-    @NotBlank(message = "vui long nhap ten")
+    @NotBlank(message = "Vui Lòng nhập Tên")
     private String ten;
     private Date ngayTao;
     private Date ngayCapNhat;
