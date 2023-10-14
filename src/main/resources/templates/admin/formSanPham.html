@@ -5,41 +5,41 @@
 
 <head>
 
-    <meta charset="utf-8"/>
-    <title>Dashboard | Dason - Admin & Dashboard Template</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
-    <meta content="Themesbrand" name="author"/>
-    <!-- App favicon -->
-    <link rel="shortcut icon" th:href="@{/admin/assets/images/favicon.ico}">
+<!--    <meta charset="utf-8"/>-->
+<!--    <title>Dashboard | Dason - Admin & Dashboard Template</title>-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>-->
+<!--    <meta content="Themesbrand" name="author"/>-->
+<!--    &lt;!&ndash; App favicon &ndash;&gt;-->
+<!--    <link rel="shortcut icon" th:href="@{/admin/assets/images/favicon.ico}">-->
 
-    <!-- plugin css -->
-    <link th:href="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css}" rel="stylesheet"
-          type="text/css"/>
+<!--    &lt;!&ndash; plugin css &ndash;&gt;-->
+<!--    <link th:href="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css}" rel="stylesheet"-->
+<!--          type="text/css"/>-->
 
-    <!-- preloader css -->
-    <link rel="stylesheet" th:href="@{/admin/assets/css/preloader.min.css}" type="text/css"/>
+<!--    &lt;!&ndash; preloader css &ndash;&gt;-->
+<!--    <link rel="stylesheet" th:href="@{/admin/assets/css/preloader.min.css}" type="text/css"/>-->
 
-    <!-- Bootstrap Css -->
-    <!-- Icons Css -->
-    <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>
-    <!-- App Css-->
-    <link th:href="@{/admin/assets/css/app.min.css}" id="app-style" rel="stylesheet" type="text/css"/>
-    <!--  -->
-    <!-- select2 css -->
-    <link th:href="@{/admin/assets/libs/select2/css/select2.min.css}" rel="stylesheet" type="text/css"/>
+<!--    &lt;!&ndash; Bootstrap Css &ndash;&gt;-->
+<!--    &lt;!&ndash; Icons Css &ndash;&gt;-->
+<!--    <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>-->
+<!--    &lt;!&ndash; App Css&ndash;&gt;-->
+<!--    <link th:href="@{/admin/assets/css/app.min.css}" id="app-style" rel="stylesheet" type="text/css"/>-->
+<!--    &lt;!&ndash;  &ndash;&gt;-->
+<!--    &lt;!&ndash; select2 css &ndash;&gt;-->
+<!--    <link th:href="@{/admin/assets/libs/select2/css/select2.min.css}" rel="stylesheet" type="text/css"/>-->
 
-    <!-- dropzone css -->
-    <link th:href="@{/admin/assets/libs/dropzone/min/dropzone.min.css}" rel="stylesheet" type="text/css"/>
+<!--    &lt;!&ndash; dropzone css &ndash;&gt;-->
+<!--    <link th:href="@{/admin/assets/libs/dropzone/min/dropzone.min.css}" rel="stylesheet" type="text/css"/>-->
 
-    <!-- preloader css -->
-    <link rel="stylesheet" th:href="@{/admin/assets/css/preloader.min.css}" type="text/css"/>
+<!--    &lt;!&ndash; preloader css &ndash;&gt;-->
+<!--    <link rel="stylesheet" th:href="@{/admin/assets/css/preloader.min.css}" type="text/css"/>-->
 
-    <!-- Bootstrap Css -->
-    <link th:href="@{/admin/assets/css/bootstrap.min.css}" id="bootstrap-style" rel="stylesheet" type="text/css"/>
-    <!-- Icons Css -->
-    <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>
-    <!-- App Css-->
+<!--    &lt;!&ndash; Bootstrap Css &ndash;&gt;-->
+<!--    <link th:href="@{/admin/assets/css/bootstrap.min.css}" id="bootstrap-style" rel="stylesheet" type="text/css"/>-->
+<!--    &lt;!&ndash; Icons Css &ndash;&gt;-->
+<!--    <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>-->
+<!--    &lt;!&ndash; App Css&ndash;&gt;-->
 </head>
 <style></style>
 <body data-topbar="dark">
@@ -48,16 +48,15 @@
 <!-- Start right Content here -->
 <!-- ============================================================== -->
 <div class="main-content" layout:fragment="content">
-    <div class="page-content">
+    <div class="page-content" ng-app="formSP-app" ng-controller="ctrl">
         <style>
-            .er{
+            .er {
                 color: red;
                 font-size: 13px;
             }
         </style>
         <link th:href="@{/admin/css/fileupload.css}" rel="stylesheet" type="text/css"/>
-
-        <div class="container-fluid">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -78,28 +77,36 @@
 
             <div class="row">
                 <div class="col-12">
-                    <form th:action="@{|/admin/san-pham/${action}|}" th:object="${sanPham}" th:method="${method}" enctype="multipart/form-data">
+                    <form th:action="@{|/admin/san-pham/${action}|}" th:object="${sanPham}" th:method="${method}"
+                          enctype="multipart/form-data">
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title mb-0">Product Images</h4>
-                        </div>
-                        <div class="card-body">
-                            <section class="bg-diffrent">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title mb-0">Ảnh sản phẩm</h4>
+                            </div>
+                            <div class="card-body">
                                 <div class="container">
-                                    <div class="row justify-content-center">
-                                        <div class="col-xl-12">
-                                            <div class="file-upload-contain ">
-                                                <input id="multiplefileupload" type="file" accept=".jpg,.gif,.png" name="img"
-                                                       multiple/>
-                                            </div>
+                                    <fieldset class="form-group">
+
+                                        <input type="file" accept=".jpg,.gif,.png" id="pro-image" name="pro-image"
+                                               style="display: none;"
+                                               onchange="angular.element(this).scope().appendFile()"
+                                               class="form-control" multiple>
+                                    </fieldset>
+                                    <div class="preview-images-zone">
+                                        <div class="addImg " onclick="$('#pro-image').click()">
+                                            <a class="image-zone" href="javascript:void(0)" ><i class="bx bxs-image-add"></i></a>
+                                        </div>
+                                        <div th:each="img,i :*{anh}" th:class="${'preview-image preview-show-'+i.index}" th:id="${img}" th:attr="ng-init='loadImgProduct(\''+${img}+'\')'">
+                                            <div class="image-cancel" th:data-no="${i.index}" onclick="angular.element(this).scope().removeFile(this.id)">x</div>
+                                            <div class="image-zone"><img th:id="${'pro-img-'+i.index}" th:src="@{|/image/loadImage/product/${img}|}"></div>
                                         </div>
                                     </div>
                                 </div>
-                            </section>
-                        </div>
-                    </div> <!-- end card-->
-                    <div class="card">
+                                <button ng-click="sortFiles()" type="button">check</button>
+                            </div>
+                        </div> <!-- end card-->
+                        <div class="card">
 
                             <div class="card-header">
                                 <i style="float: right" th:if="${method == 'put'}"
@@ -111,7 +118,10 @@
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label for="ma">Mã Sản Phẩm</label>
-                                            <input th:field="*{ma}" id="ma" class="form-control">
+                                            <input th:if="${method != 'put'}" th:field="*{ma}" id="ma"
+                                                   class="form-control">
+                                            <span th:if="${method == 'put'}" th:text="*{ma}" id="ma"
+                                                  class="form-control"></span>
                                             <i th:errors="*{ma}" class="er"></i>
                                         </div>
                                         <div class="mb-3">
@@ -121,9 +131,11 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Màu Sắc</label>
-                                            <select class="form-control select2" th:field="*{mauSac}">
+                                            <select class="form-control select2" th:field="*{mauSac}" id="mauSac"
+                                                    onchange="angular.element(this).scope().viewAddMauSac()">
                                                 <option th:value="NULL">Chọn màu sắc</option>
                                                 <option th:each="c :${colors}" th:value="${c.ma}">[[${c.ten}]]</option>
+                                                <option th:value="NULL">Thêm màu sắc</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
@@ -137,37 +149,41 @@
                                         </div>
                                         <div class="mb-3">
                                             <label>Trạng thái</label>
-                                            <input th:field="*{hienThi}" type="radio" th:value="1"/>Hiện bán
-                                            <input th:field="*{hienThi}" th:checked="true" type="radio" th:value="0" />Ẩn
+                                            <input th:field="*{hienThi}" type="radio" th:value="1"/>Đăng bán
+                                            <input th:field="*{hienThi}" th:checked="*{hienThi == null ? true :false}"
+                                                   type="radio" th:value="0"/>Ẩn
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="control-label">Dòng Sản Phẩm</label>
-                                            <select class="form-control select2" th:field="*{dongSanPham}">
+                                            <select class="form-control select2" th:field="*{dongSanPham}" id="dongSP"
+                                                    onchange="angular.element(this).scope().viewAddDongSP()">
                                                 <option th:value="NULL">Chọn dòng sản phẩm</option>
-                                                <option th:value="1515fb6a-ab38-49f2-a30f-9b6b6183efb6">1970s</option>
-                                                <option th:value="3eaa9fca-4f86-11ee-8a18-ee19b027b30c">All Star
+                                                <option th:each="d :${dongSanPham}" th:value="${d.id}">[[${d.ten}]]
                                                 </option>
-                                                <option th:value="3eaaba28-4f86-11ee-8a18-ee19b027b30c">Dép</option>
+                                                <option th:value="NULL">Thêm dòng sản phẩm</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Kiểu Dáng</label>
-                                            <select class="form-control select2" th:field="*{kieuDang}">
+                                            <select class="form-control select2" th:field="*{kieuDang}" id="kieuDang"
+                                                    onchange="angular.element(this).scope().viewAddKieuDang()">
                                                 <option th:value="NULL">Chọn kiểu dáng</option>
-                                                <option th:value="6d66f1f1-f7c9-4a3c-a5cf-93618827fdb4">Cổ thấp</option>
-                                                <option th:value="ba6fa368-4f85-11ee-8a18-ee19b027b30c">Cổ cao</option>
+                                                <option th:each="k :${kieuDang}" th:value="${k.id}">[[${k.ten}]]
+                                                </option>
+                                                <option th:value="NULL">Thêm kiểu dáng</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
                                             <label class="control-label">Chất Liệu</label>
-                                            <select class="form-control select2" th:field="*{chatLieu}" id="chatLieuSL" onchange="addELM()">
+                                            <select class="form-control select2" th:field="*{chatLieu}" id="chatLieu"
+                                                    onchange="angular.element(this).scope().viewAddChatLieu()">
                                                 <option th:value="NULL">Chọn chất liệu</option>
-                                                <option th:value="57870680-8db5-49a4-9bd1-e38e7815ff94">Vải</option>
-<!--                                                <option th:value="8e0af9da-4f85-11ee-8a18-ee19b027b30c">Da</option>-->
-                                                <option th:value="NULL" >Thêm</option>
+                                                <option th:each="c :${chatLieu}" th:value="${c.id}">[[${c.ten}]]
+                                                </option>
+                                                <option th:value="NULL">Thêm chất liệu</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
@@ -180,8 +196,7 @@
                                 </div>
 
                                 <div class="d-flex flex-wrap gap-2">
-                                    <button type="submit" class="btn btn-primary waves-effect waves-light">Save
-                                        Changes
+                                    <button type="submit" ng-click="sortFiles()" class="btn btn-primary waves-effect waves-light">Save
                                     </button>
                                     <button type="button"
                                             class="btn btn-secondary waves-effect waves-light">Cancel
@@ -189,13 +204,42 @@
                                 </div>
 
                             </div>
-                    </div>
+                        </div>
                     </form>
                 </div>
             </div>
             <!-- end row -->
         </div>
         <!-- container-fluid -->
+        <div class="modal fade" id="viewAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close btn" data-dismiss="modal" aria-label="Close"
+                                ng-click="closeModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-center">
+                            <div class="col-10 mb-3">
+                                <label>Tên</label>
+                                <input ng-model="tenThuocTinh" required class="form-control" type="text"
+                                       ng-focus="removeER('etenThuocTinh')">
+                                <i id="etenThuocTinh" class="er"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeModal()">
+                            Đóng
+                        </button>
+                        <button type="button" class="btn btn-primary" ng-click="addThuocTinh()">Thêm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- End Page-content -->
 
@@ -215,16 +259,7 @@
         </div>
     </footer>
     <script>
-        function addELM(){
-            var x = document.getElementById("chatLieuSL");
-            console.log(x.selectedIndex,x.length)
-            if(x.selectedIndex == x.length-1){
-                var option = document.createElement("option");
-                option.text = "Da";
-                option.value = "8e0af9da-4f85-11ee-8a18-ee19b027b30c"
-                x.add(option,x[x.length - 1]);
-            }
-        }
+
     </script>
 </div>
 

@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
+import fpoly.duantotnghiep.shoppingweb.dto.filter.SanPhamDtoFilter;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
@@ -29,4 +30,6 @@ public interface ISanPhamService {
     void deleteById(String s) throws IOException;
 
     Integer updateTrangThaiHIenThi(Boolean trangThai, String ma);
+
+    List<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter);
 }

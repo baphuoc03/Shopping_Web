@@ -1,18 +1,19 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KieuDangDTOResponse;
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.MauSacDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KieuDangDtoRequest;
-import fpoly.duantotnghiep.shoppingweb.dto.request.MauSacDTORequest;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface IKieuDangService {
-    public List<KieuDangDTOResponse> findAll();
+    public Page<KieuDangDTOResponse> findAll(Integer pageNumber, Integer pageSize);
+    public List<KieuDangDTOResponse> getAll();
     public KieuDangDTOResponse save( KieuDangDtoRequest kieuDangDtoRequest);
     public KieuDangDTOResponse findById(String s);
     public boolean existsById(String s);
     public void deleteById(String s);
     public void deleteByIds(List<String> s);
+    public int update( String id, String ten);
 
 }

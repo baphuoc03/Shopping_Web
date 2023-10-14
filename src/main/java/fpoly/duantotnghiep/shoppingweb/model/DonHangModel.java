@@ -23,8 +23,8 @@ public class DonHangModel {
     private String ma;
 
     @ManyToOne
-    @JoinColumn(name = "taikhoan")
-    private TaiKhoanModel nguoiSoHuu;
+    @JoinColumn(name = "Khachhang")
+    private KhachHangModel nguoiSoHuu;
 
     @Column(name = "tennguoinhan")
     private String tenNguoiNhan;

@@ -17,15 +17,16 @@ public class SizeServiceImpl implements ISizeService {
     private ISizeRepository sizeRepository;
 
     @Override
-    public List<SizeDTOResponse> findAll(){
+    public List<SizeDTOResponse> findAll() {
         return sizeRepository.findAll().stream()
                 .map(m -> new SizeDTOResponse(m))
                 .collect(Collectors.toList());
     }
+
     @Override
-    public void save(SizeDTORequest sizeDTORequest) {
+    public SizeDTOResponse save(SizeDTORequest sizeDTORequest) {
         SizeModel model = sizeRepository.save(sizeDTORequest.mapToModel());
-        this.sizeRepository.save(model);
+        return new SizeDTOResponse(model);
     }
 
     @Override
@@ -33,6 +34,7 @@ public class SizeServiceImpl implements ISizeService {
         SizeModel model = sizeRepository.findById(s).get();
         return new SizeDTOResponse(model);
     }
+
     @Override
     public boolean existsById(Float s) {
         return sizeRepository.existsById(s);
@@ -40,6 +42,7 @@ public class SizeServiceImpl implements ISizeService {
 
     @Override
     public void deleteById(Float s) {
+        System.out.println(s);
         sizeRepository.deleteById(s);
     }
 

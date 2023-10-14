@@ -5,28 +5,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.UuidGenerator;
-import java.util.List;
+
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "taikhoan")
-public class TaiKhoanModel {
+@Table(name = "nhanvien")
+public class NhanVienModel {
+
     @Id
-    @UuidGenerator
-    @Column(name = "id")
-    private String id;
+    @Column(name = "username")
+    private String username;
 
     @ManyToOne
     @JoinColumn(name = "vaitro")
     private VaiTroModel vaiTro;
-
-    @Column(name = "username")
-    private String username;
 
     @Column(name = "password")
     private String password;
@@ -49,18 +45,6 @@ public class TaiKhoanModel {
     @Column(name = "anhdaidien")
     private String anhDaiDien;
 
-    @OneToMany(mappedBy = "taiKhoan",fetch = FetchType.LAZY)
-    @ToString.Exclude
-    private List<DiaChiModel> danhSachDiaChi;
-
-    @OneToMany(mappedBy = "nguoiSoHuu",fetch = FetchType.LAZY)
-    private List<DonHangModel> danhSachDonHang;
-
-    @ManyToMany
-    @JoinTable(name = "voucher_taikhoan",
-            joinColumns = { @JoinColumn(name = "voucher") },
-            inverseJoinColumns = { @JoinColumn(name = "taikhoan") })
-    private Set<VoucherModel> vouchers;
 
 
 }

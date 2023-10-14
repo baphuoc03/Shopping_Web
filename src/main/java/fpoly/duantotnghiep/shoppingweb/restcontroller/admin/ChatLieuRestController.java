@@ -5,10 +5,8 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.SizeDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChatLieuDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SizeDTORequest;
 import fpoly.duantotnghiep.shoppingweb.service.IChatLieuService;
-import fpoly.duantotnghiep.shoppingweb.service.ISizeService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,25 +24,29 @@ public class ChatLieuRestController {
     private IChatLieuService service;
 
     @GetMapping("find-all")
-    public List<ChatLieuDTOResponse> findAll(){
+    public List<ChatLieuDTOResponse> findAll() {
         return service.findAll();
     }
 
-    @PostMapping("")
+    @PostMapping("add")
     public ResponseEntity<?> add(@RequestBody ChatLieuDTORequest chatLieu) throws IOException {
-        service.save(chatLieu);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(service.save(chatLieu));
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id){
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
         service.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<?> update(@RequestBody ChatLieuDTORequest chatLieu, @PathVariable String id){
+    public ResponseEntity<?> update(@RequestBody ChatLieuDTORequest chatLieu, @PathVariable String id) {
         chatLieu.setId(id);
-        service.save(chatLieu);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(service.save(chatLieu));
+    }
+    @GetMapping("/chi-tiet/{id}")
+    public ResponseEntity<ChatLieuDTOResponse> chiTiet(@PathVariable("id") String id){
+        System.out.println(id);
+        return ResponseEntity.ok(service.findById(id));
     }
 }

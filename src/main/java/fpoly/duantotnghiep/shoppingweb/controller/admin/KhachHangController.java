@@ -7,15 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("${admin.domain}/tai-khoan")
-public class TaiKhoanController {
-    @GetMapping("nhan-vien")
-    public String getTaiKhoanNhanVienView(){
-        return "admin/TaiKhoanNhanVien";
-    }
-
-    @GetMapping("nguoi-dung")
+@RequestMapping("${admin.domain}/khach-hang")
+public class KhachHangController {
+    @GetMapping("")
     public String getTaiKhoanNguoiDungView(){
-        return "admin/TaiKhoanNguoiDung";
+        return "admin/KhachHang";
     }
 }
