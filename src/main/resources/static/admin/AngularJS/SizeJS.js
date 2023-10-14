@@ -12,18 +12,19 @@ app.controller("size-ctrl" ,function ($scope, $http){
     }
         $scope.findAll()
 
-    $scope.create = function (){
-        var size = {
-            ma: $scope.ma,
-            chieuDai: $scope.chieuDai,
-            ngayTao: $scope.ngayTao,
-            ngayCapNhat: $scope.ngayCapNhat
+    $scope.create = function () {
+        document.getElementById("eSizeMa").innerText = "Vui lòng nhập mã"
+        document.getElementById("eSizeChieuDai").innerText = "Vui lòng nhập chiều dài"
+            var size = {
+                ma: $scope.ma,
+                chieuDai: $scope.chieuDai,
+            }
+            $http.post("http://localhost:8080/admin/size/add", size).then(r => {
+                location.reload();
+                alert("Thêm thành công")
+            })
         }
-        $http.post("http://localhost:8080/admin/size/add", size).then(r => {
-            location.reload();
-            alert("Thêm thành công")
-        })
-    }
+
 
     $scope.getSize = function (ma){
         var url ="/admin/size/chi-tiet" + "/" + ma;
