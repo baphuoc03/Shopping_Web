@@ -127,7 +127,7 @@ public class SanPhamDtoRequest {
 
     public void setAnh(List<MultipartFile> file) throws IOException {
         if (file != null) {
-            this.anh = ImgUtil.addImages(file,"product");
+           if(file.get(0).getOriginalFilename().length()>0) this.anh = ImgUtil.addImages(file,"product");
         }
 
     }
