@@ -40,10 +40,16 @@ app.controller("mau-sac-ctrl", function($scope, $http){
             ngayTao: $scope.ngayTao,
             ngayCapNhat: $scope.ngayCapNhat
         }
-        $http.post("/admin/mau-sac/add",mauSac).then(r => {
-            location.reload();
-            alert("Thêm thành công")
-        })
+        if($scope.ten == undefined) {
+            document.getElementById("eTenMau").innerText = "Vui lòng nhập tên!!!";
+            return
+        }
+        else {
+            $http.post("/admin/mau-sac/add", mauSac).then(r => {
+                location.reload();
+                alert("Thêm thành công")
+            })
+        }
     }
 
     $scope.update = function (ma) {
@@ -54,10 +60,11 @@ app.controller("mau-sac-ctrl", function($scope, $http){
             ngayTao: $scope.ngayTao,
             ngayCapNhat: $scope.ngayCapNhat
         }
-        $http.put(url,updateMau).then(function (r){
-            location.reload();
-            alert("Update thành công")
-        })
+
+            $http.put(url, updateMau).then(function (r) {
+                location.reload();
+                alert("Update thành công")
+            })
     }
 
 })

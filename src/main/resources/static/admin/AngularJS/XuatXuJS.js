@@ -40,10 +40,16 @@ app.controller("xuat-xu-ctrl",function ($scope,$http){
             ngayTao: $scope.ngayTao,
             ngayCapNhat: $scope.ngayCapNhat
         }
-        $http.post("/admin/xuat-xu/add",xuatXu).then(r => {
-            location.reload();
-            alert("Thêm thành công")
-        })
+        if($scope.ten == undefined) {
+            document.getElementById("eTenXX").innerText = "Vui lòng nhập tên!!!";
+            return
+        }
+        else {
+            $http.post("/admin/xuat-xu/add", xuatXu).then(r => {
+                location.reload();
+                alert("Thêm thành công")
+            })
+        }
     }
 
     $scope.update = function (ma) {
