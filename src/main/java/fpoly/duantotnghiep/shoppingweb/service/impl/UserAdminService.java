@@ -20,7 +20,6 @@ public class UserAdminService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         NhanVienModel nhanVienModel = nhanVienRepository.findById(username).get();
-
         if(nhanVienModel==null){
             throw new UsernameNotFoundException("Username không tồn tại");
         }

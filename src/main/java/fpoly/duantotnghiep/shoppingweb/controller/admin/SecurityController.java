@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class Security {
+public class SecurityController {
     @GetMapping("/logout")
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -18,5 +18,9 @@ public class Security {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return "redirect:/admin/trang-chu"; //You can redirect wherever you want, but generally it's a good practice to show login screen again.
+    }
+    @GetMapping("${admin.domain}/login")
+    public String viewLogin(){
+        return "/admin/LoginForm.html";
     }
 }
