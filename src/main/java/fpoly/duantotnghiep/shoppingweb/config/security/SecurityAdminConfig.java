@@ -26,15 +26,16 @@ public class SecurityAdminConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        String[] adminStatic = {"/admin/AngularJs/**","/admin/assets/**","/admin/css/**","/admin/images/**","/admin/js/**"};
+        String[] adminPermitAll = {"/admin/AngularJs/**","/admin/assets/**","/admin/css/**","/admin/images/**","/admin/js/**",
+                                "/admin/quen-mat-khau","/image/**","/admin/dat-lai-mat-khau/**"};
         http
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests(requests -> requests
-                                .requestMatchers(adminStatic).permitAll()
+                                .requestMatchers(adminPermitAll).permitAll()
 //                        .requestMatchers("/detail").hasAnyAuthority("STAFF","ADMIN")
 //                        .requestMatchers("/add").hasAuthority("ADMIN")
-                        .anyRequest().authenticated()
+                        .requestMatchers("/admin/**").authenticated()
                 )
                 .userDetailsService(userAdminService)
                 .formLogin(login -> login.loginPage("/admin/login")
