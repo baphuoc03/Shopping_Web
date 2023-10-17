@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.NhanVienDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.security.ResetPasswordDto;
 import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
+import fpoly.duantotnghiep.shoppingweb.model.Token;
 import fpoly.duantotnghiep.shoppingweb.repository.INhanVienRepository;
 import fpoly.duantotnghiep.shoppingweb.service.INhanVienService;
+import fpoly.duantotnghiep.shoppingweb.service.impl.TokenServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.mail.MessagingException;
@@ -30,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 @Controller
 public class SecurityController {
@@ -37,7 +40,8 @@ public class SecurityController {
     private INhanVienService nhanVienService;
     @Autowired
     private INhanVienRepository nhanVienRepository;
-    private Date dateCheck = new Date();
+    @Autowired
+    private TokenServiceImpl tokenService;
     @GetMapping("/logout")
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -71,29 +75,29 @@ public class SecurityController {
             return ResponseEntity.status(400).body(map);
         }
         NhanVienDtoResponse nhanVienDtoResponse = nhanVienService.findById(username);
+        Token token = new Token(UUID.randomUUID().toString(),new Date());
+        tokenService.saveToken(username,token);
+//        dateCheck = new Date();
 
-        dateCheck = new Date();
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Context context = new Context();
         context.setVariable("username",nhanVienDtoResponse.getUsername());
-        context.setVariable("date",simpleDateFormat.format(new Date()));
+        context.setVariable("token",token.getToken());
         EmailUtil.sendEmailWithHtml(nhanVienDtoResponse.getEmail(), "Đặt Lại Mật Khẩu","/admin/authen/ConfirmResetPassword",context);
         map.put("success","Thành công! Vui lòng kiểm tra mail của tài khoản để đặt lại mật khẩu");
         return ResponseEntity.ok(map);
 
     }
 
-    @GetMapping("${admin.domain}/dat-lai-mat-khau/{username}/{date}")
-    public String viewDatLaiMK(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")  Date date){
-        Date dateNow = new Date();
-
-        if(Duration.between(date.toInstant(),dateCheck.toInstant()).getSeconds()!=0){
+    @GetMapping("${admin.domain}/dat-lai-mat-khau/{username}/{token}")
+    public String viewDatLaiMK(@PathVariable("token") String tokenValue,@PathVariable("username")String username){
+//        Date dateNow = new Date();
+        Token token = tokenService.getToken(username);
+        if(!token.getToken().equals(tokenValue)){
             return "/admin/authen/404";
         }
 
-        Long dffSeconds = Duration.between(dateNow.toInstant(),date.toInstant()).getSeconds();
-        if(dffSeconds < -30 || dffSeconds>0){
+        if(token.checkTimeAfter30Seconds()){
             return "/admin/authen/404";
         }else{
             return "/admin/authen/datLaiMK";
@@ -105,21 +109,21 @@ public class SecurityController {
         return "admin/authen/Success";
     }
 
-    @PutMapping("${admin.domain}/dat-lai-mat-khau/{username}/{date}")
+    @PutMapping("${admin.domain}/dat-lai-mat-khau/{username}/{token}")
     @ResponseBody
     public ResponseEntity<?> datLaiMK(@Valid @RequestBody ResetPasswordDto resetPasswordDto,
                                       BindingResult result,
                                       @PathVariable("username")String username,
-                                      @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")  Date date){
+                                      @PathVariable("token") String tokenValue){
 
-        if(Duration.between(date.toInstant(),dateCheck.toInstant()).getSeconds()!=0){
+        Token token = tokenService.getToken(username);
+
+        if(!token.getToken().equals(tokenValue)){
 //            result.addError(new FieldError("newPass", "newPass", ""));
             result.addError(new FieldError("erDate","erDate","Đặt lại mật khẩu không có hiệu lực!"));
             return ValidateUtil.getErrors(result);
         }
-        Date dateNow = new Date();
-        Long dffSeconds = Duration.between(dateNow.toInstant(),date.toInstant()).getSeconds();
-        if(dffSeconds < -30 || dffSeconds > 0){
+        if(token.checkTimeAfter30Seconds()){
 //            result.addError(new FieldError("newPass", "newPass", ""));
             result.addError(new FieldError("erDate","erDate","Đặt lại mật khẩu không có hiệu lực!"));
             return ValidateUtil.getErrors(result);

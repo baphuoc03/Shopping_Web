@@ -53,6 +53,7 @@
                                         <div class="form-floating form-floating-custom ">
                                             <input type="text" class="form-control" id="input-username" ng-model="username" onfocus="removeER('erUsername')"
                                                    ng-focus="success=''"
+                                                   ng-disabled="loading"
                                                    placeholder="Enter User Name" >
                                             <label for="input-username">Username</label>
                                             <div class="form-floating-icon">
@@ -63,10 +64,11 @@
                                         <i class="text-primary" id="sc">{{success}}</i>
                                     </div>
                                     <div class="mb-3">
-                                        <a class="col-4 btn btn-danger waves-effect waves-light" href="/admin/login">
+                                        <button ng-disabled="loading" class="col-4 btn btn-danger waves-effect waves-light"><a class=" text-light" href="/admin/login" >
                                             Quay lại
-                                        </a>
-                                        <button class="col-7 btn btn-primary waves-effect waves-light" ng-click="forgotPass()" style="float: right" type="button">
+                                        </a></button>
+                                        <button class="col-7 btn btn-primary waves-effect waves-light" ng-disabled="loading"
+                                                ng-click="forgotPass()" style="float: right" type="button">
                                             Đặt lại mật khẩu
                                         </button>
                                     </div>
@@ -102,14 +104,17 @@
     var app = angular.module("app",[])
     app.controller("ctrl",function ($scope, $http){
         const pathName = location.pathname;
-
+        $scope.loading = false;
         $scope.forgotPass = function (){
             console.log($scope.username)
+            $scope.loading = true;
             $http.post(pathName, $scope.username == undefined ?"  " : $scope.username).then(r=>{
                 $scope.success = r.data.success
+                $scope.loading = false;
             }).catch(e =>{
                 document.getElementById("erUsername").innerText = e.data.er;
                 $scope.success = "";
+                $scope.loading = false;
             })
         }
     })
