@@ -21,4 +21,6 @@ public interface INhanVienService {
     NhanVienDtoResponse update(NhanVienDtoRequest nhanVien) ;
 
     NhanVienDtoResponse update(NhanVienDtoRequest nhanVien, MultipartFile img) throws IOException;
+
+    void deleteByUsername(String username);
 }

@@ -88,4 +88,12 @@ public class NhanVienRestcontroller {
         return ResponseEntity.ok(nhanVienService.findById(username));
     }
 
+    @DeleteMapping("/{username}")
+    public ResponseEntity<?> deletByUsername(@PathVariable("username")String username){
+        if(!nhanVienService.existsByUsername(username)){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
 }
