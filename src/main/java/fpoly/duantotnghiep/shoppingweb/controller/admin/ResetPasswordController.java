@@ -30,7 +30,7 @@ public class ResetPasswordController {
     @GetMapping
     public String viewFormDoiMatKhau() {
 
-        return "/admin/resetPassword";
+        return "/admin/authen/resetPassword";
     }
 
     @PutMapping

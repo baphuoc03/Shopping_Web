@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.NhanVienDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.NhanVienDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import fpoly.duantotnghiep.shoppingweb.repository.INhanVienRepository;
@@ -10,9 +11,13 @@ import fpoly.duantotnghiep.shoppingweb.util.ImgUtil;
 import fpoly.duantotnghiep.shoppingweb.util.RandomUtil;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.print.attribute.standard.PageRanges;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -87,5 +92,12 @@ public class NhanVienServiceImpl implements INhanVienService {
         NhanVienModel nhanVienModel = nhanVienRepository.save(nhanVien.mapToModel());
         return new NhanVienDtoResponse(nhanVienModel);
     }
+
+    @Override
+    public void deleteByUsername(String username){
+        nhanVienRepository.deleteById(username);
+    }
+
+
 
 }

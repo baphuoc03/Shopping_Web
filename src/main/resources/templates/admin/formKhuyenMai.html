@@ -105,9 +105,6 @@
                                             <div id="emailHelp" class="form-text" style="color: red"
                                                  th:if="${#fields.hasErrors('mucGiam')}"
                                                  th:errors="*{mucGiam}"></div>
-                                            <div class="form-text" style="color: red"
-                                                 th:if="${loai1!=null}"
-                                                 th:text="${loai1}"></div>
                                         </div>
                                     </div>
 
@@ -160,12 +157,8 @@
                                     <tr>
                                         <th></th>
                                         <th>Tên</th>
-                                        <th>Danh Mục</th>
-                                        <th>Màu</th>
-                                        <th>Chất Liệu</th>
-                                        <th>Giá Nhập</th>
+                                        <th>Giá Niêm</th>
                                         <th>Giá Bán</th>
-                                        <th>Số Lượng</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -177,12 +170,8 @@
                                                    th:disabled="${#lists.contains(sanPhamKhuyenMai, sp.ma)}">
                                         </td>
                                         <td th:text="${sp.ten}"></td>
-                                        <td>Danh muc</td>
-                                        <td>Màu mè</td>
-                                        <td>Chat lieu</td>
                                         <td th:text="${sp.giaNiemYet}"></td>
                                         <td th:text="${sp.giaBan}"></td>
-                                        <td></td>
                                     </tr>
                                     </tbody>
                                 </table>

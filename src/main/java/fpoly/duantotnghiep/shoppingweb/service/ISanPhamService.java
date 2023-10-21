@@ -4,6 +4,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.filter.SanPhamDtoFilter;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -13,6 +14,8 @@ import java.util.List;
 @Service
 public interface ISanPhamService {
     List<SanPhamDtoResponse> findAll();
+
+    Page<SanPhamDtoResponse> pagination(Integer page, Integer limit);
 
     SanPhamDtoResponse findByMa(String ma);
 
@@ -38,7 +41,9 @@ public interface ISanPhamService {
 
     Integer updateTrangThaiHIenThi(Boolean trangThai, String ma);
 
-    List<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter);
+
+    Page<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter, Integer pageNumber, Integer limt);
+
     Integer updateGiaBan(BigDecimal giaBan, String ma);
 
 //    public void updateGiaGiam(SanPhamModel sanPhamModel);

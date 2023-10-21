@@ -10,6 +10,10 @@ import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
 import fpoly.duantotnghiep.shoppingweb.util.ImgUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -34,6 +38,17 @@ public class SanPhamServiceImpl implements ISanPhamService {
                 .filter(s -> s.getTrangThai() == true)
                 .map(s -> new SanPhamDtoResponse(s))
                 .collect(Collectors.toList());
+    }
+    @Override
+    public Page<SanPhamDtoResponse> pagination(Integer page, Integer limit){
+        Pageable pageable = PageRequest.of(page,limit);
+        List<SanPhamDtoResponse> pageContent = sanPhamRepository.findAll().stream()
+                                                .filter(s -> s.getTrangThai() == true)
+                                                .map(s -> new SanPhamDtoResponse(s))
+                                                .collect(Collectors.toList());
+        Page<SanPhamDtoResponse> pageDto = new PageImpl<>(pageContent.stream().skip(pageable.getOffset()).limit(limit).collect(Collectors.toList())
+                                                        ,pageable,pageContent.size());
+        return pageDto;
     }
 
     @Override
@@ -130,9 +145,8 @@ public class SanPhamServiceImpl implements ISanPhamService {
     }
 
     @Override
-    public List<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter){
-        return sanPhamEntityManager.filterMultipleProperties(sanPhamDtoFilter).stream()
-                .map(s -> new SanPhamDtoResponse(s)).collect(Collectors.toList());
+    public Page<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter,Integer pageNumber, Integer limt){
+        return sanPhamEntityManager.filterMultipleProperties(sanPhamDtoFilter,pageNumber,limt);
     }
     public Integer updateGiaBan(BigDecimal giaBan, String ma) {
         return sanPhamRepository.updateGiaBan(giaBan, ma);

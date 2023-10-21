@@ -60,9 +60,9 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
             for (var j : i.getSanPham()) {
                 BigDecimal giaUpdate = null;
                 if (i.getLoai().equals("TIEN")) {
-                    giaUpdate = j.getGiaBan().subtract(i.getMucGiam());
+                    giaUpdate = j.getGiaNiemYet().subtract(i.getMucGiam());
                 } else if (i.getLoai().equals("PHAN TRAM")) {
-                    giaUpdate = j.getGiaBan().subtract(j.getGiaBan().multiply(i.getMucGiam().divide(new BigDecimal("100"))));
+                    giaUpdate = j.getGiaNiemYet().subtract(j.getGiaNiemYet().multiply(i.getMucGiam().divide(new BigDecimal("100"))));
                 }
                 SanPhamModel sanPham = sanPhamRepository.findById(j.getMa()).get();
                 sanPham.setMa(j.getMa());
@@ -78,13 +78,12 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
     public void updateGiamGiaWithNgayKT() {
         for (var i : repository.findAllSanPhamWithKmWhereNgayKetThuc()) {
             for (var j : i.getSanPham()) {
-                BigDecimal gia = new BigDecimal("2000000");
                 SanPhamModel sanPham = sanPhamRepository.findById(j.getMa()).get();
                 sanPham.setMa(j.getMa());
-                sanPham.setGiaBan(gia);
+                sanPham.setGiaBan(sanPham.getGiaNiemYet());
                 sanPhamRepository.save(sanPham);
             }
         }
-        System.out.println("Thành công");
+        System.out.println("Thành công1");
     }
 }

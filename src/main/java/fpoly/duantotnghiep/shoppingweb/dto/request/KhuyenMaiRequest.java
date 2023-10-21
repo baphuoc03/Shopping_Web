@@ -4,6 +4,7 @@ import fpoly.duantotnghiep.shoppingweb.model.KhuyenMaiModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,23 +23,22 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @ToString
 public class KhuyenMaiRequest {
-
     private String ma;
 
-    @NotEmpty(message = "Vui lòng nhập dữ liệu")
+    @NotBlank(message = "Vui lòng nhâp dữ liệu")
     private String ten;
 
     private String loai;
 
-    @NotNull(message = "Vui lòng nhập dữ liệu")
+    @NotNull(message = "Vui lòng nhâp dữ liệu")
     private BigDecimal mucGiam;
 
-    @NotNull(message = "Vui lòng nhập dữ liệu")
+    @NotNull(message = "Vui lòng nhâp dữ liệu")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngayBatDau;
 
-    @NotNull(message = "Vui lòng nhập dữ liệu")
+    @NotNull(message = "Vui lòng nhâp dữ liệu")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date ngayKetThuc;
