@@ -32,7 +32,7 @@ public class VoucherModel {
     private Double mucGiam;
 
     @Column(name = "giatritoithieu")
-    private BigDecimal giaTriToiThieu;
+    private Double giaTriToiThieu;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -45,9 +45,9 @@ public class VoucherModel {
     private Date ngayKetThuc;
 
     @Column(name = "soluong")
-    private Long soLuong;
+    private int soLuong;
 
     @Column(name = "mucgiamtoida")
-    private Long mucGiamToiDa;
+    private Double mucGiamToiDa;
 
 }

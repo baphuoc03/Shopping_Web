@@ -62,11 +62,13 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label>Giá min</label>
-                                                            <input type="text" ng-model="filterData.giaBan" class="form-control"/>
+                                                            <input type="text" ng-model="filterData.giaBan"
+                                                                   class="form-control"/>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label>Giá Max</label>
-                                                            <input type="text" ng-model="filterData.giaMax" class="form-control"/>
+                                                            <input type="text" ng-model="filterData.giaMax"
+                                                                   class="form-control"/>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
@@ -74,28 +76,37 @@
                                                             <label>Màu sắc</label>
                                                             <select class="form-control" ng-model="filterData.mauSac">
                                                                 <option></option>
-                                                                <option ng-repeat="m in mauSac" value="{{m.ma}}">{{m.ten}}</option>
+                                                                <option ng-repeat="m in mauSac" value="{{m.ma}}">
+                                                                    {{m.ten}}
+                                                                </option>
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label>Dòng sản phẩm</label>
-                                                            <select class="form-control" ng-model="filterData.dongSanPham">
+                                                            <select class="form-control"
+                                                                    ng-model="filterData.dongSanPham">
                                                                 <option></option>
-                                                                <option ng-repeat="d in dongSP" value="{{d.id}}">{{d.ten}}</option>
+                                                                <option ng-repeat="d in dongSP" value="{{d.id}}">
+                                                                    {{d.ten}}
+                                                                </option>
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label>Kiểu dáng</label>
                                                             <select class="form-control" ng-model="filterData.kieuDang">
                                                                 <option></option>
-                                                                <option ng-repeat="k in kieuDang" value="{{k.id}}">{{k.ten}}</option>
+                                                                <option ng-repeat="k in kieuDang" value="{{k.id}}">
+                                                                    {{k.ten}}
+                                                                </option>
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label>Chất liệu</label>
                                                             <select class="form-control" ng-model="filterData.chatLieu">
                                                                 <option></option>
-                                                                <option ng-repeat="c in chatLieu" value="{{c.id}}">{{c.ten}}</option>
+                                                                <option ng-repeat="c in chatLieu" value="{{c.id}}">
+                                                                    {{c.ten}}
+                                                                </option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -116,8 +127,12 @@
                                             </li>
                                             <div class="dropdown-divider"></div>
                                             <li>
-                                                <button class="btn btn-danger" type="button" style="float: left" ng-click="clearFilter()">Bỏ lọc</button>
-                                                <button class="btn btn-primary" type="button" style="float: right" ng-click="filter()">Lọc</button>
+                                                <button class="btn btn-danger" type="button" style="float: left"
+                                                        ng-click="clearFilter()">Bỏ lọc
+                                                </button>
+                                                <button class="btn btn-primary" type="button" style="float: right"
+                                                        ng-click="filter()">Lọc
+                                                </button>
                                             </li>
                                         </ul>
                                     </div>
@@ -135,6 +150,7 @@
                                     <th>Màu</th>
                                     <th>Dòng Sản Phẩm</th>
                                     <th>Giá Bán</th>
+                                    <th>Giá Niêm Yết</th>
                                     <th>Số Lượng</th>
                                     <th>Đăng bán</th>
                                 </tr>
@@ -152,6 +168,7 @@
                                     <td ng-click="getChiTietSP(p.ma)">{{p.mauSac}}</td>
                                     <td ng-click="getChiTietSP(p.ma)">{{p.dongSanPham}}</td>
                                     <td ng-click="getChiTietSP(p.ma)">{{p.giaBan}}</td>
+                                    <td ng-click="getChiTietSP(p.ma)">{{p.giaNiemYet}}</td>
                                     <td ng-click="getChiTietSP(p.ma)">{{p.soLuong}}</td>
                                     <td>
                                         <input type="checkbox" id="switch{{p.ma}}" switch="none" ng-if="p.hienThi == 1"

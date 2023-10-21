@@ -21,7 +21,7 @@ public class VoucherReponse {
 
     private Double mucGiam;
 
-    private BigDecimal giaTriToiThieu;
+    private Double giaTriToiThieu;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -31,9 +31,9 @@ public class VoucherReponse {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngayKetThuc;
 
-    private Long soLuong;
+    private int soLuong;
 
-    private Long mucGiamToiDa;
+    private Double mucGiamToiDa;
 
 
     public VoucherReponse(VoucherModel model) {

@@ -33,7 +33,7 @@ public class SecurityAdminConfig {
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests(requests -> requests
-//                                .requestMatchers("/admin/**").permitAll()
+                                .requestMatchers("/admin/**").permitAll()
 //                        .requestMatchers("/detail").hasAnyAuthority("STAFF","ADMIN")
 //                        .requestMatchers("/add").hasAuthority("ADMIN")
                         .anyRequest().authenticated()

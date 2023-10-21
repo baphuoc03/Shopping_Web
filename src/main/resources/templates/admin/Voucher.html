@@ -97,8 +97,7 @@
                                                 <i class="material-icons" title="Edit">&#xE254;</i>
                                             </a>
                                             <a href="" class="delete"
-                                               data-bs-toggle="modal" data-bs-target="#confirm"
-                                               th:attr="ng-click='findById(\''+${vc.ma}+'\');'">
+                                               th:attr="ng-click='delete(\''+${vc.ma}+'\');'">
                                                 <i class="material-icons" title="Delete">&#xE872;</i>
                                             </a>
                                         </td>
@@ -179,11 +178,12 @@
                             <div class="mb-3">
                                 <label class="form-label">Tên Voucher</label>
                                 <input type="text" ng-model="ten" class="form-control">
+                                <p class="form-text text-danger">{{erTen}}</p>
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Loại Giảm</label>
-                                <select class="form-select" ng-model="loai" aria-label="Default select example">
+                                <select class="form-select" id="loaiGiam" ng-model="loai">
                                     <option value="PHAN TRAM">Phần trăm</option>
                                     <option value="TIEN">Tiền</option>
                                 </select>
@@ -192,32 +192,34 @@
                             <div class="mb-3">
                                 <label class="form-label">Mức Giảm</label>
                                 <input type="text" ng-model="mucGiam" class="form-control">
+                                <p class="form-text text-danger">{{erMucGiam}}</p>
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" id="mucGiamToiDa">
                                 <label class="form-label">Mức Giảm Tối Đa</label>
                                 <input type="text" ng-model="mucGiamToiDa" class="form-control">
+                                <p class="form-text text-danger">{{erMucGiamToiDa}}</p>
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Giá Trị Tối Thiểu</label>
                                 <input type="text" ng-model="giaTriToiThieu" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                <p class="form-text text-danger">{{erMucGiamToiThieu}}</p>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Ngày Bắt Đầu</label>
                                 <input type="date" ng-model="ngayBatDau" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                <p class="form-text text-danger">{{erNgayBatDau}}</p>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Ngày Kết Thúc</label>
                                 <input type="date" ng-model="ngayKetThuc" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                <p class="form-text text-danger">{{erNgayKetThuc}}</p>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Số Lượng</label>
-                                <input type="text" ng-model="soLuong" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                <input type="number" ng-model="soLuong" class="form-control">
+                                <p class="form-text text-danger">{{erSoLuong}}</p>
                             </div>
                         </div>
                         <!-- Modal footer -->
@@ -263,7 +265,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Mức Giảm Tối Đa</label>
-                                <input type="text" ng-model="mucGiamToiDa" class="form-control">
+                                <input type="text" id="mucGiamToiDa1" ng-model="mucGiamToiDa" class="form-control">
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                             <div class="mb-3">
@@ -296,30 +298,8 @@
                 </div>
             </div>
         </div>
-        <!--confirm-->
-        <div class="modal" id="confirm">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">CONFIRM</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <p> Xác nhận xóa: {{maConfirm}}</p>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" ng-click="delete(maConfirm)" class="btn btn-danger">Submit</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-
-
 </div>
 </body>
-
+<script></script>
 </html>
