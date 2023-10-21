@@ -39,4 +39,8 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         }
     }
 
+    $scope.showImg = function (nameImg){
+        document.getElementById("show-Img").src = "/image/loadImage/product/"+nameImg
+    }
+
 })
