@@ -68,33 +68,42 @@
                                                             <label>Giá Max</label>
                                                             <input type="text" ng-model="filterData.giaMax" class="form-control"/>
                                                         </div>
+                                                        <div class="mb-3">
+                                                            <label>Xuất xứ</label>
+                                                            <select class="form-control" ng-model="filterData.xuatXu">
+                                                                <option>Tất cả</option>
+                                                                <option ng-repeat="x in xuatXu" value="{{x.id}}">{{x.ten}}</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <div class="mb-3">
                                                             <label>Màu sắc</label>
                                                             <select class="form-control" ng-model="filterData.mauSac">
-                                                                <option></option>
+                                                                <option>Tất cả</option>
                                                                 <option ng-repeat="m in mauSac" value="{{m.ma}}">{{m.ten}}</option>
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label>Dòng sản phẩm</label>
                                                             <select class="form-control" ng-model="filterData.dongSanPham">
-                                                                <option></option>
-                                                                <option ng-repeat="d in dongSP" value="{{d.id}}">{{d.ten}}</option>
+                                                                <option>Tất cả</option>
+                                                                <optgroup ng-repeat="t in thuongHieu" label="{{t.ten}}">
+                                                                    <option ng-repeat="d in t.dongSanPhamResponeseList" value="{{d.id}}">{{d.ten}}</option>
+                                                                </optgroup>
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label>Kiểu dáng</label>
                                                             <select class="form-control" ng-model="filterData.kieuDang">
-                                                                <option></option>
+                                                                <option>Tất cả</option>
                                                                 <option ng-repeat="k in kieuDang" value="{{k.id}}">{{k.ten}}</option>
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label>Chất liệu</label>
                                                             <select class="form-control" ng-model="filterData.chatLieu">
-                                                                <option></option>
+                                                                <option>Tất cả</option>
                                                                 <option ng-repeat="c in chatLieu" value="{{c.id}}">{{c.ten}}</option>
                                                             </select>
                                                         </div>
@@ -176,39 +185,44 @@
                                 </tr>
                                 </tbody>
                             </table>
+
+                        </div>
+                        <div class="card-footer" >
                             <div class="row">
                                 <div class="col-6">
-
                                 </div>
                                 <div class="col-6">
                                     <nav aria-label="Page navigation example">
                                         <ul class="pagination justify-content-end">
-                                            <li class="page-item" ng-click="getAll(0)">
-                                                <a class="page-link" href="javascript: void(0);" aria-label="First">
+                                            <li class="page-item" ng-click="getAll(0)" ng-if="pageNumber>0">
+                                                <span class="page-link" style="cursor: pointer" aria-label="First">
                                                     <span aria-hidden="true">&laquo;</span>
                                                     <span class="sr-only">First</span>
-                                                </a>
+                                                </span>
                                             </li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="javascript: void(0);" aria-label="Previous">
+                                            <li class="page-item"  ng-if="pageNumber>0">
+                                                <span class="page-link" style="cursor: pointer" aria-label="Previous" ng-click="getAll(pageNumber==0 ? 0 : pageNumber-1)">
                                                     <i class="mdi mdi-chevron-left"></i>
                                                     <span class="sr-only">Previous</span>
-                                                </a>
+                                                </span>
                                             </li>
-                                            <li class="page-item" ng-repeat="p in pageNumbers" ng-click="getAll(p)">
-                                                <a class="page-link" href="javascript: void(0);">{{p+1}}</a>
+                                            <li class="page-item pageNumber" ng-repeat="p in pageNumbers" ng-click="getAll(p)" id="{{p}}">
+                                                <span ng-if="p!=pageNumber"  class="page-link" style="cursor: pointer">{{p+1}}</span>
+                                                <span ng-if="p==pageNumber"  class="page-link active" style="cursor: pointer">{{p+1}}</span>
                                             </li>
                                             <li class="page-item">
-                                                <a class="page-link" href="javascript: void(0);" aria-label="Next">
+                                                <span class="page-link" style="cursor: pointer" aria-label="Next" ng-if="pageNumber<pageNumbers.length-1"
+                                                   ng-click="getAll(pageNumber==pageNumbers.length-1 ? pageNumbers.length-1 : pageNumber+1)">
                                                     <i class="mdi mdi-chevron-right"></i>
                                                     <span class="sr-only">Next</span>
-                                                </a>
+                                                </span>
                                             </li>
                                             <li class="page-item">
-                                                <a class="page-link" href="#" aria-label="Last" ng-click="getAll(pageNumbers.length-1)">
+                                                <span class="page-link" style="cursor: pointer" aria-label="Last" ng-if="pageNumber<pageNumbers.length-1"
+                                                   ng-click="getAll(pageNumbers.length-1)">
                                                     <span aria-hidden="true">&raquo;</span>
                                                     <span class="sr-only">Last</span>
-                                                </a>
+                                                </span>
                                             </li>
                                         </ul>
                                     </nav>

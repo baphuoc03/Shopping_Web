@@ -36,6 +36,7 @@ public class SecurityAdminConfig {
 //                        .requestMatchers("/detail").hasAnyAuthority("STAFF","ADMIN")
 //                        .requestMatchers("/add").hasAuthority("ADMIN")
                         .requestMatchers("/admin/**").authenticated()
+                        .anyRequest().permitAll()
                 )
                 .userDetailsService(userAdminService)
                 .formLogin(login -> login.loginPage("/admin/login")

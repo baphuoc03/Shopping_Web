@@ -37,7 +37,6 @@ public class ChiTietSanPhamRestController {
     public ResponseEntity<List<ChiTietSanPhamDtoResponse>> getAll(@PathVariable("maSP")String maSP){
 
         return ResponseEntity.ok(chiTietSanPhamService.getAllBySanPhamMa(maSP));
-
     }
 
     @GetMapping("test")

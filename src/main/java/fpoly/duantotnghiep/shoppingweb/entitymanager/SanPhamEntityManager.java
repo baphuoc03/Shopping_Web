@@ -31,6 +31,7 @@ public class SanPhamEntityManager {
         if(sanPham.getMauSac()!=null) jpql.append(" And s.mauSac.ma = '"+sanPham.getMauSac()+"'");
         if(sanPham.getDongSanPham()!=null) jpql.append(" And s.dongSanPham.id = '"+ sanPham.getDongSanPham()+"'");
         if(sanPham.getKieuDang()!=null) jpql.append(" And s.kieuDang.id = '" + sanPham.getKieuDang()+"'");
+        if(sanPham.getXuatXu()!=null) jpql.append(" And s.xuatXu.id = '" + sanPham.getXuatXu()+"'");
         if(sanPham.getChatLieu()!=null) jpql.append(" And s.chatLieu.id = '" + sanPham.getChatLieu()+"'");
         if(sanPham.getGiaBan()!=null) jpql.append(" And s.giaBan >= " + sanPham.getGiaBan());
         if(sanPham.getGiaMax()!=null) jpql.append(" And s.giaBan <= " + sanPham.getGiaMax());

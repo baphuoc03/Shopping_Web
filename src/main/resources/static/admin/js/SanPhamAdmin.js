@@ -18,6 +18,16 @@ app.controller('ctrl', function ($scope, $http) {
 
     $scope.getAll = function (pageNumber){
         $scope.pageNumber = pageNumber;
+        //
+        // let pagination = document.getElementsByClassName("pagination")[0]
+        // let pageItem = pagination.getElementsByClassName("pageNumber")
+
+        // pageItem.forEach(p => {
+        //     p.getElementsByTagName("a")[0].className = "page-link"
+        // })
+        //
+        // document.getElementById(pageNumber+"").getElementsByTagName("a")[0].className = "page-link active"
+
         if(!isfilter){
             $http.get("/admin/san-pham/get-all?pageNumber="+pageNumber).then(r => {
                 $scope.items = r.data.content;
@@ -71,8 +81,12 @@ app.controller('ctrl', function ($scope, $http) {
             $scope.chatLieu = r.data;
         }).catch( e => console.log(e))
 
-        $http.get("/admin/dong-san-pham/find-all").then(r =>{
-            $scope.dongSP = r.data;
+        $http.get("/admin/thuong-hieu/find-all").then(r =>{
+            $scope.thuongHieu = r.data;
+        }).catch( e => console.log(e))
+
+        $http.get("/admin/xuat-xu/find-all").then(r =>{
+            $scope.xuatXu = r.data;
         }).catch( e => console.log(e))
 
         $http.get("/admin/kieu-dang/find-all").then(r =>{
