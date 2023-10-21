@@ -115,9 +115,9 @@ public class SanPhamDtoRequest {
             for (MultipartFile f : file) {
                 if (!oldImages.contains(f.getOriginalFilename())) {
                     try {
-                        this.anh.add(ImgUtil.addImage(f, "product"));
+                        if(f.getOriginalFilename().length()>0) this.anh.add(ImgUtil.addImage(f, "product"));
                     } catch (IOException e) {
-                        e.printStackTrace();
+//                        e.printStackTrace();
                     }
                 } else this.anh.add(f.getOriginalFilename());
             }
@@ -127,7 +127,7 @@ public class SanPhamDtoRequest {
 
     public void setAnh(List<MultipartFile> file) throws IOException {
         if (file != null) {
-            this.anh = ImgUtil.addImages(file,"product");
+           if(file.get(0).getOriginalFilename().length()>0) this.anh = ImgUtil.addImages(file,"product");
         }
 
     }

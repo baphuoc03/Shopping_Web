@@ -5,6 +5,8 @@ app.controller("ctrl", function ($scope, $http) {
     var thuocTinhSL = undefined;
     var filesTransfer = new DataTransfer();
     var checkViewModal = false;
+    document.getElementById("pro-image").files = filesTransfer.files
+
     $("#viewAdd").on('hide.bs.modal', function () {
         if (checkViewModal == false) thuocTinhSL.selectedIndex = 0;
         $scope.tenThuocTinh = "";
@@ -97,10 +99,11 @@ app.controller("ctrl", function ($scope, $http) {
     $scope.closeModal = function () {
         $('#viewAdd').modal('hide');
     }
+
     $scope.appendFile = function () {
         let files = document.getElementById("pro-image").files
         files.forEach(f => filesTransfer.items.add(f))
-        document.getElementById("pro-image").files = filesTransfer.files
+        // document.getElementById("pro-image").files = filesTransfer.files
     }
     $scope.removeFile = function (key) {
         let index;
@@ -112,7 +115,7 @@ app.controller("ctrl", function ($scope, $http) {
         })
 
         filesTransfer = files1
-        document.getElementById("pro-image").files = filesTransfer.files
+        // document.getElementById("pro-image").files = filesTransfer.files
     }
     $scope.loadImgProduct = function (fileName) {
         const image = new File([fileName], fileName, {
@@ -139,6 +142,11 @@ app.controller("ctrl", function ($scope, $http) {
         filesTransfer = files1
         document.getElementById("pro-image").files = filesTransfer.files
 
+        // filesTransfer = new DataTransfer();
+        // document.getElementById("pro-image").files = filesTransfer.files
+
+    }
+    $scope.check = function (){
         console.log(filesTransfer.files, document.getElementById("pro-image").files)
     }
 
