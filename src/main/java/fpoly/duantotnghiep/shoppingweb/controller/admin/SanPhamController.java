@@ -57,18 +57,18 @@ public class SanPhamController {
     @GetMapping("add")
     public String viewAdd(@ModelAttribute("sanPham") SanPhamDtoRequest sanPham) {
 //        request.setAttribute("sanPham", new SanPhamDtoRequest());
-        request.setAttribute("method","add");
+        request.setAttribute("method", "add");
         request.setAttribute("action", "add");
         return "/admin/formSanPham";
     }
 
     @PostMapping("add")
     public String add(@Valid @ModelAttribute("sanPham") SanPhamDtoRequest sanPham, BindingResult result,
-                      @RequestParam(value = "pro-image",required = false) List<MultipartFile> file) throws IOException {
+                      @RequestParam(value = "pro-image", required = false) List<MultipartFile> file) throws IOException {
 
 
         if (result.hasErrors()) {
-            request.setAttribute("method","add");
+            request.setAttribute("method", "add");
             request.setAttribute("action", "add");
             return "admin/formSanPham";
         }
@@ -80,32 +80,34 @@ public class SanPhamController {
 
         sanPham.setAnh(file);
         sanPham.setNgayCapNhat(new Date());
+        sanPham.setGiaNiemYet(sanPham.getGiaBan());
         sanPhamService.save(sanPham);
         return "redirect:/admin/san-pham";
     }
 
     @GetMapping("update/{ma}")
     public String viewUpdate(Model model,
-                             @PathVariable("ma")String ma) {
+                             @PathVariable("ma") String ma) {
 //        request.setAttribute("sanPham", new SanPhamDtoRequest());
-        model.addAttribute("sanPham" , sanPhamService.findDtoRequetsByMa(ma));
-        request.setAttribute("method","put");
-        request.setAttribute("action", "update/"+ma);
+        model.addAttribute("sanPham", sanPhamService.findDtoRequetsByMa(ma));
+        request.setAttribute("method", "put");
+        request.setAttribute("action", "update/" + ma);
         return "/admin/formSanPham";
     }
+
     @PutMapping("update/{ma}")
     public String update(@Valid @ModelAttribute("sanPham") SanPhamDtoRequest sanPham, BindingResult result,
-                         @PathVariable("ma")String ma,
-                         @RequestParam(value = "pro-image",required = false) List<MultipartFile> file) throws IOException {
+                         @PathVariable("ma") String ma,
+                         @RequestParam(value = "pro-image", required = false) List<MultipartFile> file) throws IOException {
 
         if (result.hasErrors()) {
-            request.setAttribute("method","put");
-            request.setAttribute("action", "update/"+ma);
+            request.setAttribute("method", "put");
+            request.setAttribute("action", "update/" + ma);
             return "admin/formSanPham";
         }
 
         sanPham.setMa(ma);
-        sanPham.setAnh(file,anhService.findAllBySanPham(sanPham.mapToModel()).stream().map(img -> img.getTen()).collect(Collectors.toSet()));
+        sanPham.setAnh(file, anhService.findAllBySanPham(sanPham.mapToModel()).stream().map(img -> img.getTen()).collect(Collectors.toSet()));
         sanPhamService.update(sanPham);
 
         return "redirect:/admin/san-pham";
@@ -113,30 +115,32 @@ public class SanPhamController {
 
 
     @ModelAttribute("colors")
-    public List<MauSacDTOResponse> getMauSac(){
+    public List<MauSacDTOResponse> getMauSac() {
         return mauSacService.findAll();
     }
 
     @ModelAttribute("dongSanPham")
-    public List<DongSanPhamResponese> getDongSanPham(){
+    public List<DongSanPhamResponese> getDongSanPham() {
         return dongSanPhamService.findAll();
     }
 
     @ModelAttribute("chatLieu")
-    public List<ChatLieuDTOResponse> getChatLieu(){
+    public List<ChatLieuDTOResponse> getChatLieu() {
         return chatLieuService.findAll();
     }
 
     @ModelAttribute("kieuDang")
-    public List<KieuDangDTOResponse> getKieuDang(){
+    public List<KieuDangDTOResponse> getKieuDang() {
         return kieuDangService.getAll();
     }
+
     @ModelAttribute("thuongHieu")
-    public List<ThuongHieuDtoResponse> getThuongHieu(){
+    public List<ThuongHieuDtoResponse> getThuongHieu() {
         return thuongHieuService.findAll();
     }
+
     @ModelAttribute("xuatXu")
-    private List<XuatXuResponse> getXuatXu(){
+    private List<XuatXuResponse> getXuatXu() {
         return xuatXuService.findAll();
     }
 

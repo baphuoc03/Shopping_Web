@@ -26,8 +26,8 @@ public class SecurityAdminConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        String[] adminPermitAll = {"/admin/AngularJs/**","/admin/assets/**","/admin/css/**","/admin/images/**","/admin/js/**",
-                                "/admin/quen-mat-khau","/image/**","/admin/dat-lai-mat-khau/**"};
+        String[] adminPermitAll = {"/admin/AngularJs/**", "/admin/assets/**", "/admin/css/**", "/admin/images/**", "/admin/js/**",
+                "/admin/quen-mat-khau", "/image/**", "/admin/dat-lai-mat-khau/**"};
         http
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
@@ -35,8 +35,8 @@ public class SecurityAdminConfig {
                                 .requestMatchers(adminPermitAll).permitAll()
 //                        .requestMatchers("/detail").hasAnyAuthority("STAFF","ADMIN")
 //                        .requestMatchers("/add").hasAuthority("ADMIN")
-                        .requestMatchers("/admin/**").authenticated()
-                        .anyRequest().permitAll()
+                                .requestMatchers("/admin/**").authenticated()
+                                .anyRequest().permitAll()
                 )
                 .userDetailsService(userAdminService)
                 .formLogin(login -> login.loginPage("/admin/login")
@@ -50,10 +50,10 @@ public class SecurityAdminConfig {
 //                .httpBasic(Customizer.withDefaults())
                 .logout(l -> l
 //                        .logoutUrl("/admin/logout")
-                        .logoutSuccessUrl("/admin/login")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
-                        .clearAuthentication(true)
+                                .logoutSuccessUrl("/admin/login")
+                                .invalidateHttpSession(true)
+                                .deleteCookies("JSESSIONID")
+                                .clearAuthentication(true)
                 );
 
         return http.build();

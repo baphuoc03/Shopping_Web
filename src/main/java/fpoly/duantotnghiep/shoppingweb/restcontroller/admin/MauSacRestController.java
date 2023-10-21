@@ -38,7 +38,6 @@ public class MauSacRestController {
     public ResponseEntity<?> add(@RequestBody MauSacDTORequest mauSac) throws IOException {
         System.out.println(mauSac.mapToModel().toString());
         return ResponseEntity.ok(service.save(mauSac));
-
     }
 
     @GetMapping("chiTiet/{ma}")

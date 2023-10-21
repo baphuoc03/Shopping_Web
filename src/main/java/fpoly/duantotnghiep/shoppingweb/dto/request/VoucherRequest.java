@@ -3,34 +3,43 @@ package fpoly.duantotnghiep.shoppingweb.dto.request;
 import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 @Data
 public class VoucherRequest {
     private String ma;
 
+    @NotEmpty(message = "Vui lòng nhập dữ liệu")
     private String ten;
 
     private String loai;
 
+    @NotNull(message = "Vui lòng nhập dữ liệu")
     private Double mucGiam;
 
-    private BigDecimal giaTriToiThieu;
+    @NotNull(message = "Vui lòng nhập dữ liệu")
+    private Double giaTriToiThieu;
 
+    @NotNull(message = "Vui lòng nhập dữ liệu")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngayBatDau;
 
+    @NotNull(message = "Vui lòng nhập dữ liệu")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngayKetThuc;
 
-    private Long soLuong;
+    @NotNull(message = "Vui lòng nhập dữ liệu")
+    private int soLuong;
 
-    private Long mucGiamToiDa;
+    private Double mucGiamToiDa;
 
 
     public VoucherModel maptoModel() {

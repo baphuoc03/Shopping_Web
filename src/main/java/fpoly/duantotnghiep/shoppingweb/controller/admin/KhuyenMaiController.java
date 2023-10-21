@@ -55,7 +55,7 @@ public class KhuyenMaiController {
 
     @GetMapping("/form-add")
     public String form(Model model) {
-        getFormAdd(model,new KhuyenMaiRequest());
+        getFormAdd(model, new KhuyenMaiRequest());
         return "/admin/formKhuyenMai";
     }
 
@@ -63,49 +63,29 @@ public class KhuyenMaiController {
     public String add(@Valid @ModelAttribute("khuyenMai") KhuyenMaiRequest khuyenMaiRequest,
                       BindingResult result,
                       Model model,
-                      RedirectAttributes redirectAttributes,
                       @RequestParam(value = "ids", required = false) List<String> sanPham) {
-        Date date = new Date();
-        if (khuyenMaiRequest.getLoai().equals("TIEN")) {
-            if (khuyenMaiRequest.getMucGiam().compareTo(new BigDecimal("1000")) < 0) {
-                redirectAttributes.addFlashAttribute("mess", "Vui lòng nhập giá tiền lớn hơn 1000");
-                System.out.println("check tien");
-                result.addError(new FieldError("loai1", "loai1", "tiền phải > "));
-                model.addAttribute("loai1","tieefn phari ? 1000");
-            }
-        }
-        if (khuyenMaiRequest.getLoai().equals("PHAN TRAM")) {
-            if (khuyenMaiRequest.getMucGiam().compareTo(new BigDecimal("1")) < 0 || khuyenMaiRequest.getMucGiam().compareTo(new BigDecimal("99")) > 0) {
-                System.out.println("check phan tra,");
-                redirectAttributes.addFlashAttribute("mess", "Vui lòng nhập đúng tỉ lệ phần trăm 1-99 %");
-                return "redirect:/admin/khuyen-mai/form-add";
-            }
-        }
 
-        if (khuyenMaiRequest.getNgayBatDau().after(khuyenMaiRequest.getNgayKetThuc())) {
-            redirectAttributes.addFlashAttribute("mess", "Ngày bắt đầu không được lớn hơn ngày thúc kết ");
-            System.out.println("ngayBatDau > ngayKetThuc");
-            return "redirect:/admin/khuyen-mai/form-add";
-//        } else if (khuyenMaiRequest.getNgayBatDau().before(date)) {
-//            System.out.println("ngayBat dau trc ngay hiwn tai");
-//            return "redirect:/admin/khuyen-mai/form-add";
-        }
+        result = validateNhap(result, khuyenMaiRequest);
+
         if (result.hasErrors()) {
-            getFormAdd(model,khuyenMaiRequest);
-            System.out.println(result.getFieldErrors().toString());
+            getFormAdd(model, khuyenMaiRequest);
             return "/admin/formKhuyenMai";
         }
-        List<SanPhamModel> sanPhamModel = repository.findByMaIn(sanPham);
+
 
         khuyenMaiRequest.setMa(code());
-
-        khuyenMaiRequest.setSanPham(sanPhamModel);
+        if (sanPham != null) {
+            List<SanPhamModel> sanPhamModel = repository.findByMaIn(sanPham);
+            khuyenMaiRequest.setSanPham(sanPhamModel);
+        }
 
         khuyenMaiService.save(khuyenMaiRequest);
 
         KhuyenMaiResponse khuyenMai = khuyenMaiService.findById(khuyenMaiRequest.getMa());
         List<SanPhamModel> sanPhamUpdate = khuyenMaiService.findById(khuyenMaiRequest.getMa()).getSanPham();
-        updateGiaKhiGiam(khuyenMai, sanPhamUpdate);
+        if (sanPhamUpdate != null) {
+            updateGiaKhiGiam(khuyenMai, sanPhamUpdate);
+        }
         return "redirect:/admin/khuyen-mai";
     }
 
@@ -133,23 +113,36 @@ public class KhuyenMaiController {
     }
 
     @PostMapping("/update/{id}")
-    public String update(@PathVariable String id,
+    public String update(@Valid
                          @ModelAttribute("khuyenMai") KhuyenMaiRequest khuyenMaiRequest,
-                         @RequestParam("ids") List<String> sanPham) {
-
+                         BindingResult result,
+                         Model model,
+                         @PathVariable String id,
+                         @RequestParam(value = "ids", required = false) List<String> sanPham) {
+        validateNhap(result, khuyenMaiRequest);
+        if (result.hasErrors()) {
+            getFormAdd(model, khuyenMaiRequest);
+            return "/admin/formKhuyenMai";
+        }
         khuyenMaiRequest.setMa(id);
 
-        List<SanPhamModel> sanPhamModel = repository.findByMaIn(sanPham);
-
-        khuyenMaiRequest.setSanPham(sanPhamModel);
-
+        if (sanPham != null) {
+            List<SanPhamModel> sanPhamModel = repository.findByMaIn(sanPham);
+            khuyenMaiRequest.setSanPham(sanPhamModel);
+        }
+        if (result.hasErrors()) {
+            getFormAdd(model, khuyenMaiRequest);
+            return "/admin/formKhuyenMai";
+        }
         khuyenMaiService.save(khuyenMaiRequest);
 
         KhuyenMaiResponse khuyenMai = khuyenMaiService.findById(khuyenMaiRequest.getMa());
 
         List<SanPhamModel> sanPhamUpdate = khuyenMaiService.findById(khuyenMaiRequest.getMa()).getSanPham();
 
-        updateGiaKhiGiam(khuyenMai, sanPhamUpdate);
+        if (sanPhamUpdate != null) {
+            updateGiaKhiGiam(khuyenMai, sanPhamUpdate);
+        }
 
         return "redirect:/admin/khuyen-mai";
 
@@ -199,13 +192,13 @@ public class KhuyenMaiController {
         BigDecimal giaGiam = null;
 
         if (khuyenMai.getNgayBatDau().after(ngayHienTai)) {
-            giaGiam = new BigDecimal("2000000");
+            giaGiam = sanPham.getGiaNiemYet();
         } else {
             if (loai.equals("TIEN")) {
-                giaGiam = (sanPham.getGiaBan().subtract(khuyenMai.getMucGiam()));
+                giaGiam = (sanPham.getGiaNiemYet().subtract(khuyenMai.getMucGiam()));
             } else {
-                giaGiam = sanPham.getGiaBan().subtract(
-                        sanPham.getGiaBan().multiply(khuyenMai.getMucGiam().divide(new BigDecimal("100"))));
+                giaGiam = sanPham.getGiaNiemYet().subtract(
+                        sanPham.getGiaNiemYet().multiply(khuyenMai.getMucGiam().divide(new BigDecimal("100"))));
             }
         }
         return giaGiam;
@@ -220,7 +213,7 @@ public class KhuyenMaiController {
         }
     }
 
-    private void getFormAdd(Model model,KhuyenMaiRequest khuyenMaiRequest) {
+    private void getFormAdd(Model model, KhuyenMaiRequest khuyenMaiRequest) {
         model.addAttribute("khuyenMai", khuyenMaiRequest);
 
         model.addAttribute("sanPham", sanPhamService.findAll());
@@ -231,5 +224,31 @@ public class KhuyenMaiController {
         model.addAttribute("action", "/admin/khuyen-mai/add");
 
         model.addAttribute("sanPhamOn", new ArrayList<>());
+    }
+
+    private BindingResult validateNhap(BindingResult result, KhuyenMaiRequest khuyenMaiRequest) {
+        if (khuyenMaiRequest.getLoai().equals("TIEN")) {
+            if (khuyenMaiRequest.getMucGiam() != null) {
+                if (khuyenMaiRequest.getMucGiam().compareTo(new BigDecimal("1000")) < 0) {
+                    result.rejectValue("mucGiam", "mucGiamErro", "Mức giảm phải lớn hơn 1000");
+                }
+            }
+        } else if (khuyenMaiRequest.getLoai().equals("PHAN TRAM")) {
+            if (khuyenMaiRequest.getMucGiam() != null) {
+                if (khuyenMaiRequest.getMucGiam().compareTo(new BigDecimal("1")) < 0 || khuyenMaiRequest.getMucGiam().compareTo(new BigDecimal("99")) > 0) {
+                    result.rejectValue("mucGiam", "mucGiamErro", "Mức giảm phải trong khoảng 1-99");
+                }
+            }
+        }
+        if (khuyenMaiRequest.getNgayBatDau() != null && khuyenMaiRequest.getNgayKetThuc() != null) {
+
+            if (khuyenMaiRequest.getNgayBatDau().after(khuyenMaiRequest.getNgayKetThuc())) {
+                result.rejectValue("ngayBatDau", "", "Ngày bắt đầu lớn hơn ngày kết ");
+            } else if (khuyenMaiRequest.getNgayBatDau().before(new Date())) {
+                result.rejectValue("ngayBatDau", "", "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại ");
+            }
+        }
+
+        return result;
     }
 }
