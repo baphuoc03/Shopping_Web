@@ -32,14 +32,23 @@ public class DonHangModel {
     @Column(name = "sodienthoai")
     private String soDienThoai;
 
-    @Column(name = "thanhpho")
-    private Integer thanhPho;
+    @Column(name = "thanhphoName")
+    private String thanhphoName;
 
-    @Column(name = "quanhuyen")
-    private Integer quanHuyen;
+    @Column(name = "thanhphoCode")
+    private Integer thanhPhoCode;
 
-    @Column(name = "xaphuong")
-    private String xaPhuong;
+    @Column(name = "quanhuyenName")
+    private String quanHuyenName;
+
+    @Column(name = "quanhuyenCode")
+    private Integer quanHuyenCode;
+
+    @Column(name = "xaphuongName")
+    private String xaPhuongName;
+
+    @Column(name = "xaphuongCode")
+    private String xaPhuongCode;
 
     @Column(name = "diachichitiet")
     private String diaChiChiTiet;
@@ -48,7 +57,7 @@ public class DonHangModel {
     private Date ngayDatHang;
 
     @Column(name = "trangthai")
-    private String trangThai;
+    private Integer trangThai;
 
     @Column(name = "ghichu")
     private String ghiChu;
@@ -61,5 +70,15 @@ public class DonHangModel {
 
     @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
     private List<ChiTietDonHangModel> danhSachSanPham;
+
+    public String trangThaiDetail(){
+        if(trangThai==1){
+            return "Đã xác nhận";
+        }else if(trangThai == 2){
+            return "Chưa xác nhận";
+        }else{
+            return "null";
+        }
+    }
 
 }

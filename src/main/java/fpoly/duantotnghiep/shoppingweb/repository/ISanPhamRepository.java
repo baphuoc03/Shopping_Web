@@ -30,4 +30,5 @@ public interface ISanPhamRepository extends JpaRepository<SanPhamModel, String> 
 
     @Query("SELECT km.sanPham  FROM KhuyenMaiModel km where km.ngayBatDau > current_date")
     List<SanPhamModel> findAllSanPhamWithKmWhereNgayBatDau();
+
 }

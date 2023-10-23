@@ -8,11 +8,10 @@
 </head>
 <body>
 <div class="main-content" layout:fragment="content">
-
 <!-- Begin page -->
 <div id="layout-wrapper">
     <div class="main-content">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css" rel="stylesheet">
         <div class="page-content" ng-app="ctsp-app" ng-controller="ctsp-ctrl">
             <div class="container-fluid">
 
@@ -60,11 +59,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 offset-md-1 col-sm-9 col-8">
-                                                    <div class="tab-content" id="v-pills-tabContent"
-                                                         ng-if="product.anh.length>0">
+                                                    <div class="tab-content" id="v-pills-tabContent">
                                                         <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="product-1-tab">
                                                             <div>
-                                                                <img src="/image/loadImage/product/{{product.anh[0]}}" style="height: 440px" id="show-Img"
+                                                                <img src="/image/loadImage/product/{{product.anh[0]}}" style="height: 440px" id="show-Img" ng-if="product.anh.length>0"
+                                                                     alt="" class="img-fluid mx-auto d-block rounded">
+                                                                <img src="/image/loadImage/product/default.png" style="height: 440px" id="show-Img" ng-if="product.anh.length==0"
                                                                      alt="" class="img-fluid mx-auto d-block rounded">
                                                             </div>
                                                         </div>
@@ -332,87 +332,123 @@
                     <div class="col-lg-12">
                         <div>
                             <h5 class="mb-3">Recent product :</h5>
-
+<!--                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">-->
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
+                            <div class="container-fluid">
+                                <h1 class="text-center mb-3">Bootstrap Multi-Card Carousel</h1>
+                                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner row w-100 mx-auto">
+                                        <div class="carousel-item col-md-3 active">
+                                            <div class="card">
+                                                <img class="card-img-top img-fluid" src="http://placehold.it/800x600/f44242/fff" alt="Card image cap">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Card 1</h4>
+                                                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item col-md-3">
+                                            <div class="card">
+                                                <img class="card-img-top img-fluid" src="http://placehold.it/800x600/418cf4/fff" alt="Card image cap">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Card 2</h4>
+                                                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item col-md-3">
+                                            <div class="card">
+                                                <img class="card-img-top img-fluid" src="http://placehold.it/800x600/3ed846/fff" alt="Card image cap">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Card 3</h4>
+                                                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item col-md-3">
+                                            <div class="card">
+                                                <img class="card-img-top img-fluid" src="http://placehold.it/800x600/42ebf4/fff" alt="Card image cap">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Card 4</h4>
+                                                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item col-md-3">
+                                            <div class="card">
+                                                <img class="card-img-top img-fluid" src="http://placehold.it/800x600/f49b41/fff" alt="Card image cap">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Card 5</h4>
+                                                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item col-md-3">
+                                            <div class="card">
+                                                <img class="card-img-top img-fluid" src="http://placehold.it/800x600/f4f141/fff" alt="Card image cap">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Card 6</h4>
+                                                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item col-md-3">
+                                            <div class="card">
+                                                <img class="card-img-top img-fluid" src="http://placehold.it/800x600/8e41f4/fff" alt="Card image cap">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Card 7</h4>
+                                                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
                             <div class="row">
-                                <div class="col-xl-4 col-sm-6">
+                                <div class="col-xl-4 col-sm-6" ng-repeat="p in productsTuongTu">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="row align-items-center">
                                                 <div class="col-md-4">
-                                                    <img src="assets/images/product/img-7.png" alt=""
-                                                         class="img-fluid mx-auto d-block">
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <div class="text-center text-md-start pt-3 pt-md-0">
-                                                        <h5 class="text-truncate"><a href="javascript: void(0);"
-                                                                                     class="text-dark">Wireless
-                                                            Headphone</a></h5>
-                                                        <p class="text-muted mb-4">
-                                                            <i class="bx bxs-star text-warning"></i>
-                                                            <i class="bx bxs-star text-warning"></i>
-                                                            <i class="bx bxs-star text-warning"></i>
-                                                            <i class="bx bxs-star text-warning"></i>
-                                                            <i class="bx bxs-star"></i>
-                                                        </p>
-                                                        <h5 class="my-0"><span class="text-muted me-2"><del>$240</del></span>
-                                                            <b>$225</b></h5>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-sm-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
-                                                <div class="col-md-4">
-                                                    <img src="assets/images/product/img-4.png" alt=""
-                                                         class="img-fluid mx-auto d-block">
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <div class="text-center text-md-start pt-3 pt-md-0">
-                                                        <h5 class="text-truncate"><a href="javascript: void(0);"
-                                                                                     class="text-dark">Phone patterned
-                                                            cases</a></h5>
-                                                        <p class="text-muted mb-4">
-                                                            <i class="bx bxs-star text-warning"></i>
-                                                            <i class="bx bxs-star text-warning"></i>
-                                                            <i class="bx bxs-star text-warning"></i>
-                                                            <i class="bx bxs-star text-warning"></i>
-                                                            <i class="bx bxs-star"></i>
-                                                        </p>
-                                                        <h5 class="my-0"><span class="text-muted me-2"><del>$150</del></span>
-                                                            <b>$145</b></h5>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-sm-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
-                                                <div class="col-md-4">
-                                                    <img src="assets/images/product/img-6.png" alt=""
-                                                         class="img-fluid mx-auto d-block">
+                                                    <img src="/image/loadImage/product/{{p.anh[0]}}" ng-if="p.anh.length>0" alt="" class="img-fluid mx-auto d-block" style="width: 93px;height: 93px">
+                                                    <img src="/image/loadImage/product/default.png" ng-if="p.anh.length==0" alt="" class="img-fluid mx-auto d-block" style="width: 93px;height: 93px">
                                                 </div>
                                                 <div class="col-md-8">
                                                     <div class="text-center text-md-start pt-3 pt-md-0">
 
                                                         <h5 class="text-truncate"><a href="javascript: void(0);"
-                                                                                     class="text-dark">Phone Dark
-                                                            Patterned cases</a></h5>
+                                                                                     class="text-dark">{{p.ten}}</a></h5>
                                                         <p class="text-muted mb-4">
-                                                            <i class="bx bxs-star text-warning"></i>
-                                                            <i class="bx bxs-star text-warning"></i>
-                                                            <i class="bx bxs-star text-warning"></i>
-                                                            <i class="bx bxs-star text-warning"></i>
-                                                            <i class="bx bxs-star"></i>
+<!--                                                            <i class="bx bxs-star text-warning"></i>-->
+<!--                                                            <i class="bx bxs-star text-warning"></i>-->
+<!--                                                            <i class="bx bxs-star text-warning"></i>-->
+<!--                                                            <i class="bx bxs-star text-warning"></i>-->
+<!--                                                            <i class="bx bxs-star"></i>-->
                                                         </p>
-                                                        <h5 class="my-0"><span class="text-muted me-2"><del>$138</del></span>
-                                                            <b>$135</b></h5>
+                                                        <div class="d-flex justify-content-between align-items-end mt-4">
+                                                        <h5 class="my-0 align-self-center">
+                                                            <span class="text-muted me-2" ng-if="p.giaBan>p.giaNiemYet"><del>{{p.giaBan | currency : "" : 1}}đ</del></span>
+                                                            <b>{{p.giaNiemYet | currency : "" : 1}}đ</b></h5>
+
+                                                        <p class="text-muted mb-0">
+                                                            <i class="mdi mdi-heart-outline text-dark" id="heart{{p.ma}}" style="font-size: 25px;cursor: pointer" ng-click="addDSYT1(p.ma)"></i>
+                                                        </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -429,8 +465,12 @@
             </div> <!-- container-fluid -->
         </div>
         <!-- End Page-content -->
+
     </div>
     <!-- end main content-->
+
+
+
 </div>
 <!-- END layout-wrapper -->
 </div>
