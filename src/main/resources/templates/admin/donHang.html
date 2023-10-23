@@ -29,8 +29,8 @@
                                 </a>
                             </li>
                         </ul>
-                        <!-- Tab panes -->
                         <div class="tab-content p-3 text-muted">
+                            <!-- Chưa xác nhận -->
                             <div class="tab-pane active" id="donhang1" role="tabpanel">
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -79,10 +79,10 @@
                                                                     <label class="form-check-label" for="contacusercheck11"></label>
                                                                 </div>
                                                             </th>
-                                                            <td>{{d.ma}}</td>
-                                                            <td>{{d.tenNguoiNhan}}</td>
-                                                            <td>{{d.soDienThoai}}</td>
-                                                            <td>{{d.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                                            <td style="cursor: pointer" ng-click="detailDonHangChuaXacNhan(d.ma)">{{d.ma}}</td>
+                                                            <td style="cursor: pointer" ng-click="detailDonHangChuaXacNhan(d.ma)">{{d.tenNguoiNhan}}</td>
+                                                            <td style="cursor: pointer" ng-click="detailDonHangChuaXacNhan(d.ma)">{{d.soDienThoai}}</td>
+                                                            <td style="cursor: pointer" ng-click="detailDonHangChuaXacNhan(d.ma)">{{d.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                                             <td style="width: 200px">
                                                                 <button class="btn btn-danger me-1">Hủy</button>
                                                                 <button class="btn btn-primary">Xác nhận</button>
@@ -173,10 +173,88 @@
                     </div><!-- end card-body -->
                 </div><!-- end card -->
             </div><!-- end col -->
-
-
-
         </div> <!-- container-fluid -->
+
+        <!-- Modal Chưa xác nhận-->
+        <div class="modal fade bd-example-modal-lg" id="chuaXacNhanDetail" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thông tin đơn hàng</h5>
+                        <button type="button" class="close btn" data-dismiss="modal" aria-label="Close" ng-click="closeModal('#chuaXacNhanDetail')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label >Mã đơn hàng</label>
+                                    <span  class="form-control">{{donHangChuaXacNhan.ma}}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label >Ngày đặt hàng</label>
+                                    <span  class="form-control">{{donHangChuaXacNhan.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label >Số điện thoại</label>
+                                    <input class="form-control" ng-model="donHangChuaXacNhan.soDienThoai">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label >email</label>
+                                    <input class="form-control" ng-model="donHangChuaXacNhan.email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="mb-3">
+                                    <label >Thành phố</label>
+                                    <input class="form-control" ng-model="donHangChuaXacNhan.thanhPhoName">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="mb-3">
+                                    <label >Quận huyện</label>
+                                    <input class="form-control" ng-model="donHangChuaXacNhan.quanHuyenName">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="mb-3">
+                                    <label >Xã phường</label>
+                                    <input class="form-control" ng-model="donHangChuaXacNhan.xaPhuongName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label>Địa chỉ chi tiết</label>
+                                <textarea class="form-control"rows="2" ng-model="donHangChuaXacNhan.diaChiChiTiet"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label>Ghi chú</label>
+                                <textarea class="form-control"rows="2" ng-model="donHangChuaXacNhan.ghiChu"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="closeModal('#chuaXacNhanDetail')">Đóng</button>
+                        <button type="button" class="btn btn-primary">Cập nhật</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <!-- End Page-content -->
 

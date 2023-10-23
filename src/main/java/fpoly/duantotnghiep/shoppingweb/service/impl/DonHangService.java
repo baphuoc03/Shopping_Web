@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.repository.IDongSanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
@@ -16,9 +17,19 @@ public class DonHangService implements IDonHangService {
     private IDonHangResponsitory donHangResponsitory;
 
     @Override
-    public List<DonHangDtoResponse> getAllByTrangThai(Integer trangThai){
+    public List<DonHangDtoResponse> getAllByTrangThai(Integer trangThai) {
         return donHangResponsitory.getAllByTrangThai(trangThai).stream()
                 .map(d -> new DonHangDtoResponse(d))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public DonHangDtoResponse findByMa(String ma) {
+        return new DonHangDtoResponse(donHangResponsitory.findById(ma).orElse(new DonHangModel()));
+    }
+
+    @Override
+    public Boolean existsByMa(String ma){
+        return donHangResponsitory.existsById(ma);
     }
 }

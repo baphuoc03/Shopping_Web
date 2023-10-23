@@ -32,6 +32,9 @@ public class DonHangModel {
     @Column(name = "sodienthoai")
     private String soDienThoai;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "thanhphoName")
     private String thanhphoName;
 

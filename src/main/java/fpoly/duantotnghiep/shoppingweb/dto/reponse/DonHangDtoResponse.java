@@ -16,7 +16,8 @@ public class DonHangDtoResponse {
     private String nguoiSoHuu;
     private String tenNguoiNhan;
     private String soDienThoai;
-    private String thanhphoName;
+    private String email;
+    private String thanhPhoName;
     private Integer thanhPhoCode;
     private String quanHuyenName;
     private Integer quanHuyenCode;
@@ -30,12 +31,14 @@ public class DonHangDtoResponse {
     private BigDecimal phiGiaoHang;
     private String trangThaiDetail;
 
+
     public DonHangDtoResponse(DonHangModel model) {
         this.ma = model.getMa();
         this.nguoiSoHuu = model.getNguoiSoHuu() == null ? "" : model.getNguoiSoHuu().getHoVaTen();
         this.tenNguoiNhan = model.getTenNguoiNhan();
         this.soDienThoai = model.getSoDienThoai();
-        this.thanhphoName = model.getThanhphoName();
+        this.email = model.getEmail();
+        this.thanhPhoName = model.getThanhphoName();
         this.thanhPhoCode = model.getThanhPhoCode();
         this.quanHuyenName = model.getQuanHuyenName();
         this.quanHuyenCode = model.getQuanHuyenCode();

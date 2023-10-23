@@ -35,7 +35,7 @@ public class SecurityAdminConfig {
                                 .requestMatchers(adminPermitAll).permitAll()
 //                        .requestMatchers("/detail").hasAnyAuthority("STAFF","ADMIN")
 //                        .requestMatchers("/add").hasAuthority("ADMIN")
-                                .requestMatchers("/admin/**").authenticated()
+//                                .requestMatchers("/admin/**").authenticated()
                                 .anyRequest().permitAll()
                 )
                 .userDetailsService(userAdminService)

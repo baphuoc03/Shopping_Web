@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface IDonHangService {
     List<DonHangDtoResponse> getAllByTrangThai(Integer trangThai);
+
+    DonHangDtoResponse findByMa(String ma);
+
+    Boolean existsByMa(String ma);
 }
