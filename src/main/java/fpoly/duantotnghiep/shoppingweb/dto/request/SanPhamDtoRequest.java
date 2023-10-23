@@ -36,9 +36,9 @@ public class SanPhamDtoRequest {
     private String xuatXu;
     private String kieuDang;
     private String chatLieu;
-    private BigDecimal giaNiemYet;
-    @NotNull(message = "Không để trống giá bán")
+    @NotNull(message = "Không để trống giá")
     @Min(value = 10000, message = "Giá bán phải lớn hơn 10.000đ ")
+    private BigDecimal giaNiemYet;
     private BigDecimal giaBan;
     private String moTa;
     private Date ngayTao;
@@ -76,7 +76,7 @@ public class SanPhamDtoRequest {
         if (chatLieu != null && !chatLieu.isBlank()) model.setChatLieu(new ChatLieuModel(chatLieu));
 
 
-        if(xuatXu != null && !xuatXu.isBlank()) {
+        if (xuatXu != null && !xuatXu.isBlank()) {
             XuatXuModel xuatXu = new XuatXuModel();
             xuatXu.setId(this.xuatXu);
             model.setXuatXu(xuatXu);
@@ -115,9 +115,9 @@ public class SanPhamDtoRequest {
             for (MultipartFile f : file) {
                 if (!oldImages.contains(f.getOriginalFilename())) {
                     try {
-                        this.anh.add(ImgUtil.addImage(f, "product"));
+                        if(f.getOriginalFilename().length()>0) this.anh.add(ImgUtil.addImage(f, "product"));
                     } catch (IOException e) {
-                        e.printStackTrace();
+//                        e.printStackTrace();
                     }
                 } else this.anh.add(f.getOriginalFilename());
             }
@@ -127,7 +127,7 @@ public class SanPhamDtoRequest {
 
     public void setAnh(List<MultipartFile> file) throws IOException {
         if (file != null) {
-            this.anh = ImgUtil.addImages(file,"product");
+           if(file.get(0).getOriginalFilename().length()>0) this.anh = ImgUtil.addImages(file,"product");
         }
 
     }

@@ -4,25 +4,52 @@ app.controller('ctrl', function ($scope, $http) {
 
     $scope.items =[];
     $scope.form ={};
-    $scope.filterData = {};
+    $scope.filterDto = {};
+    $scope.totalPage = 0;
+    $scope.pageNumbers = [];
+    $scope.pageNumber = 0;
+    var isfilter = false;
 
+    $http.get("/admin/san-pham/get-all").then(r => {
+        $scope.items = r.data.content;
+        $scope.getPageNumbers(r.data.totalPages)
+        $scope.filterData = {}
+    }).catch(e => console.log(e))
 
-    $scope.getAll = function (){
-        $http.get("/admin/san-pham/get-all").then(r => {
-            console.log(r.data)
-            $scope.items = r.data;
-            $scope.filterData = {}
-        }).catch(e => console.log(e))
+    $scope.getAll = function (pageNumber){
+        $scope.pageNumber = pageNumber;
+        //
+        // let pagination = document.getElementsByClassName("pagination")[0]
+        // let pageItem = pagination.getElementsByClassName("pageNumber")
+
+        // pageItem.forEach(p => {
+        //     p.getElementsByTagName("a")[0].className = "page-link"
+        // })
+        //
+        // document.getElementById(pageNumber+"").getElementsByTagName("a")[0].className = "page-link active"
+
+        if(!isfilter){
+            $http.get("/admin/san-pham/get-all?pageNumber="+pageNumber).then(r => {
+                $scope.items = r.data.content;
+                // $scope.filterData = {}
+            }).catch(e => console.log(e))
+        }else{
+            $http.post("/admin/san-pham/filter?pageNumber="+pageNumber,$scope.filterDto).then(r => {
+                $scope.items = r.data.content;
+            }).catch(e => console.log(e))
+        }
     }
-    $scope.getAll()
+
+    $scope.getPageNumbers = function (totalPages){
+        for (let i = 0; i< totalPages;i++){
+            $scope.pageNumbers.push(i);
+        }
+    }
 
     $scope.delete = function (ma){
         if(confirm("Xóa sản phẩm? ")){
             $http.delete("/admin/san-pham/delete/"+ma).then(r => {
-                var index = $scope.items.findIndex(i => i.ma == ma);
-                console.log(index)
-                $scope.items.splice(index,1);
-                // $scope.getAll();
+                $scope.getAll($scope.pageNumber)
                 alert("Xóa thành công")
             }).catch(e => {
                 alert("Lỗi!!!")
@@ -37,7 +64,6 @@ app.controller('ctrl', function ($scope, $http) {
 
     $scope.updateTrangThaiHienThi = function (switchId,maSP){
         let trangThai = document.getElementById(switchId).checked
-        console.log(trangThai)
         $http.put("/admin/san-pham/update-TrangThai-HienThi/"+maSP,trangThai).then(r => {
             console.log("update hiển thị",r.data)
         }).catch(e => {
@@ -55,8 +81,12 @@ app.controller('ctrl', function ($scope, $http) {
             $scope.chatLieu = r.data;
         }).catch( e => console.log(e))
 
-        $http.get("/admin/dong-san-pham/find-all").then(r =>{
-            $scope.dongSP = r.data;
+        $http.get("/admin/thuong-hieu/find-all").then(r =>{
+            $scope.thuongHieu = r.data;
+        }).catch( e => console.log(e))
+
+        $http.get("/admin/xuat-xu/find-all").then(r =>{
+            $scope.xuatXu = r.data;
         }).catch( e => console.log(e))
 
         $http.get("/admin/kieu-dang/find-all").then(r =>{
@@ -65,14 +95,27 @@ app.controller('ctrl', function ($scope, $http) {
     }
     $scope.getPropertiesInFilter();
 
-    $scope.filter = function (){
-        console.log($scope.filterData)
-        $http.post("/admin/san-pham/filter",$scope.filterData).then(r => {
-            $scope.items = r.data;
+    $scope.filter = function (filterData){
+        $scope.pageNumber = 0
+        $scope.filterDto = filterData
+        $scope.pageNumbers = []
+        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
+            $scope.items = r.data.content;
+            $scope.getPageNumbers(r.data.totalPages)
+            isfilter = true;
         }).catch(e => console.log(e))
     }
     $scope.clearFilter = function (){
-        $scope.getAll()
+        $scope.pageNumber = 0
+        $scope.pageNumbers = []
+        $http.get("/admin/san-pham/get-all").then(r => {
+            console.log(r.data)
+            $scope.items = r.data.content;
+            $scope.getPageNumbers(r.data.totalPages)
+            $scope.filterData = {}
+            $scope.filterDto = {}
+            isfilter = false;
+        }).catch(e => console.log(e))
     }
 });
 //

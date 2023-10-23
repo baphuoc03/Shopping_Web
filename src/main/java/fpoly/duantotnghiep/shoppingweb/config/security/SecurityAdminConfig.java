@@ -26,26 +26,34 @@ public class SecurityAdminConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        DelegatingServerLogoutHandler logoutHandler = new DelegatingServerLogoutHandler(
-                new WebSessionServerLogoutHandler(), new SecurityContextServerLogoutHandler()
-        );
+        String[] adminPermitAll = {"/admin/AngularJs/**", "/admin/assets/**", "/admin/css/**", "/admin/images/**", "/admin/js/**",
+                "/admin/quen-mat-khau", "/image/**", "/admin/dat-lai-mat-khau/**"};
         http
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests(requests -> requests
-//                                .requestMatchers("/admin/**").permitAll()
+                                .requestMatchers(adminPermitAll).permitAll()
 //                        .requestMatchers("/detail").hasAnyAuthority("STAFF","ADMIN")
 //                        .requestMatchers("/add").hasAuthority("ADMIN")
-                        .anyRequest().authenticated()
+                                .requestMatchers("/admin/**").authenticated()
+                                .anyRequest().permitAll()
                 )
                 .userDetailsService(userAdminService)
-                .httpBasic(Customizer.withDefaults())
+                .formLogin(login -> login.loginPage("/admin/login")
+                        .loginProcessingUrl("/admin/login")
+                        .defaultSuccessUrl("/admin/trang-chu", false)
+                        .failureUrl("/admin/login?error=true")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .permitAll()
+                )
+//                .httpBasic(Customizer.withDefaults())
                 .logout(l -> l
 //                        .logoutUrl("/admin/logout")
-//                        .logoutSuccessUrl("/admin/trang-chu")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
-                        .clearAuthentication(true)
+                                .logoutSuccessUrl("/admin/login")
+                                .invalidateHttpSession(true)
+                                .deleteCookies("JSESSIONID")
+                                .clearAuthentication(true)
                 );
 
         return http.build();

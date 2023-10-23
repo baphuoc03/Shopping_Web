@@ -80,28 +80,31 @@
 }
 
 .addImg {
+    border: 1px solid #ced4da;
+    font-size: 80px;
     text-align: center;
-    border-radius: 15px;
-    font-size: 90px;
-    height: 185px;
-    width: 185px;
+    align-items: center;
     position: relative;
     margin-right: 5px;
     float: left;
     margin-bottom: 5px;
-    border: 2px solid #ced4da;
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+    padding: 0.25rem;
 }
 
 .user {
-    width: 200px;
+    width: 220px;
     height: 200px;
-    border-radius: 120px;
-    border: 2px dashed #ced4da;
+    /*border-radius: 120px;*/
+    /*border: 2px dashed #ced4da;*/
+    border: none;
     padding: 0px;
 }
 .user > .addImg{
+    border: 1px solid #ced4da;
     font-size: 50px;
-    border: none;
     cursor: pointer;
 }
 .user > .preview-image{
@@ -111,13 +114,17 @@
 .user > .preview-image > .image-zone > img{
     width: 200px;
     height: 200px;
+    border-radius: 50%!important;
+    padding: 0.25rem;
+    border: 1px solid #ced4da;
+
 }
 .user > .preview-image > .image-cancel{
     margin-top: 30px;
     margin-right: 20px;
     padding: 5px;
     background: white;
-    border-radius: 50px;
+    border-radius: 50%!important;
     width: 20px;
     height: 20px;
     align-items: center;

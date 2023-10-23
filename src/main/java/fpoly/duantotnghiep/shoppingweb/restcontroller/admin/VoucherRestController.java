@@ -3,18 +3,18 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 import fpoly.duantotnghiep.shoppingweb.ResponseEntity.ResponseObject;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
-import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
-import fpoly.duantotnghiep.shoppingweb.service.VoucherService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VoucherServiceImpl;
+import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @RestController
@@ -27,14 +27,19 @@ public class VoucherRestController {
     @GetMapping("/a")
     public List<VoucherReponse> findAll(
             @RequestParam(name = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
-        Page<VoucherReponse> page = service.findAll(pageNumber-1, 1);
+        Page<VoucherReponse> page = service.findAll(pageNumber - 1, 1);
         List<VoucherReponse> listVC = page.getContent();
         return listVC;
     }
 
     @PostMapping("")
-    public ResponseEntity<ResponseObject> save(@RequestBody VoucherRequest voucherRequest) {
+    public ResponseEntity<?> save(@Valid @RequestBody VoucherRequest voucherRequest,
+                                  BindingResult result) {
         voucherRequest.setMa(codeVoucher());
+        validateNhap(result, voucherRequest);
+        if (result.hasErrors()) {
+            return ValidateUtil.getErrors(result);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(
                 new ResponseObject("Oke", "Thêm thành công", service.addVoucher(voucherRequest))
         );
@@ -60,9 +65,11 @@ public class VoucherRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseObject> update(@PathVariable("id") String id,
-                                                 @RequestBody VoucherRequest voucherRequest) {
+    public ResponseEntity<ResponseObject> update(@Valid @RequestBody VoucherRequest voucherRequest,
+                                                 BindingResult result,
+                                                 @PathVariable("id") String id) {
         boolean exitst = service.exitst(id);
+        validateNhap(result, voucherRequest);
         if (exitst) {
             voucherRequest.setMa(id);
             return ResponseEntity.status(HttpStatus.OK).body(
@@ -94,6 +101,30 @@ public class VoucherRestController {
         return code.toString();
     }
 
+    private void validateNhap(BindingResult result, VoucherRequest voucherRequest) {
+        if (voucherRequest.getLoai().equals("TIEN")) {
+            voucherRequest.setMucGiamToiDa(voucherRequest.getMucGiam());
+        }
+        if (voucherRequest.getLoai().equals("TIEN")) {
+            if (voucherRequest.getMucGiam() < 1000) {
+                result.rejectValue("mucGiam", "erMucGiam", "Mức giảm phải lớn hơn 1000");
+            }
 
+        } else {
+            if (voucherRequest.getMucGiamToiDa() == null) {
+                result.rejectValue("mucGiamToiDa", "erMucGiamToiDa", "Vui lòng nhập dữ liệu");
+
+            }
+            if (voucherRequest.getMucGiam() < 1 || voucherRequest.getMucGiam() >= 99) {
+                result.rejectValue("mucGiam", "erMucGiam", "Mức giảm phải trong khoảng 1-99");
+            }
+        }
+
+        if (voucherRequest.getNgayBatDau().after(voucherRequest.getNgayKetThuc())) {
+            result.rejectValue("ngayBatDau", "", "Ngày bắt đầu lớn hơn ngày kết ");
+        } else if (voucherRequest.getNgayBatDau().before(new Date())) {
+            result.rejectValue("ngayBatDau", "", "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại ");
+        }
+    }
 }
 

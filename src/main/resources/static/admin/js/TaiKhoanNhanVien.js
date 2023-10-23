@@ -48,4 +48,15 @@ app.controller('ctrl', function ($scope, $http) {
     $scope.removeErrors = function (id){
         document.getElementById(id).innerText = ""
     }
+    $scope.deleteByUsername = function (username){
+        if(confirm("Xóa nhân viên "+username)){
+            $http.delete("/admin/nhan-vien/"+username).then(r =>{
+                let index = $scope.nhanVien.findIndex(n => n.username == username);
+                $scope.nhanVien.splice(index,1);
+                alert("Xóa thành công");
+            }).catch(e => {
+                alert("Xóa thất bại!")
+            })
+        }
+    }
 })
