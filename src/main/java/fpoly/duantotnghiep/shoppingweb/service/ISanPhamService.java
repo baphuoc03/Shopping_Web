@@ -23,8 +23,6 @@ public interface ISanPhamService {
 
     List<SanPhamDtoResponse> saveAll(List<SanPhamDtoRequest> sanPham);
 
-    List<SanPhamModel> findListById(List<String> ma);
-
     List<SanPhamModel> findByAllSanPhamWithKM();
 
     List<SanPhamModel> findAllWithKmWhereNgayBD();

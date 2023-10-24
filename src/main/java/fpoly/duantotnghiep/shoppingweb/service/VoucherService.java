@@ -11,6 +11,7 @@ import java.util.List;
 public interface VoucherService {
 
     public Page<VoucherReponse> findAll(int pageNumber, int pageSize);
+    public List<VoucherReponse> findAll();
 
     public Page<VoucherReponse> findByName(String keyword, Pageable pageable);
 
