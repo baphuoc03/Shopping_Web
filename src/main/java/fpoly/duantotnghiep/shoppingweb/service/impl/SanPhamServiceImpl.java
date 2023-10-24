@@ -130,10 +130,8 @@ public class SanPhamServiceImpl implements ISanPhamService {
         SanPhamModel model = entity.mapToModel();
 
         SanPhamModel sanPhamOld = sanPhamRepository.findById(model.getMa()).get();
-        if(sanPhamOld.getGiaBan().compareTo(sanPhamOld.getGiaNiemYet())>0){
             BigDecimal giamGia = sanPhamOld.getGiaBan().subtract(sanPhamOld.getGiaNiemYet());
             model.setGiaNiemYet(model.getGiaBan().subtract(giamGia));
-        }
 
         anhService.deleteBySanPham(model);
         anhService.saveAll(model.getImages());
