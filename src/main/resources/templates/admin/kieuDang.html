@@ -92,8 +92,8 @@
                                             </a>
                                             <a href="" class="edit"
                                                ng-click=delete(p.id)
-                                               >
-                                                <i class="material-icons" title="Delete" >&#xE872;</i>
+                                            >
+                                                <i class="material-icons" title="Delete">&#xE872;</i>
                                             </a>
                                         </td>
                                     </tr>
@@ -172,8 +172,8 @@
                             <div class="mb-3">
                                 <label class="form-label">Tên Kiểu Dáng</label>
                                 <input type="text" class="form-control" ng-model="ten">
-
-                                <p id="vldUpdate" class="form-text text-danger"></p>
+                                <div ng-show="data.error" class="form-text text-danger ">{{ data.error }}</div>
+<!--                                <p class="form-text text-danger" id="erTen"></p>-->
 
                             </div>
                         </div>
@@ -186,39 +186,36 @@
                 </div>
             </div>
         </div>
-    <!--    modal save-->
-    <div class="modal" id="create">
-        <div class="modal-dialog">
-            <div class="modal-content">
+        <!--    modal save-->
+        <div class="modal" id="create">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Modal Heading</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form>
-                    <!-- Modal body -->
-                    <div class="modal-body">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modal Heading</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form>
+                        <!-- Modal body -->
+                        <div class="modal-body">
 
-                        <div class="mb-3">
-                            <label class="form-label">Tên Kiểu Dáng</label>
-                            <input type="text" class="form-control" ng-model="ten">
-<!--                            <div ng-show="formData.tenError" class="form-text text-danger ">{{ formData.tenError }}</div>-->
-
-                                                        <p  class="form-text text-danger">{{erTen}}</p>
-
-                            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            <div class="mb-3">
+                                <label class="form-label">Tên Kiểu Dáng</label>
+                                <input type="text" class="form-control" ng-model="ten">
+                                <!--<div ng-show="formData.tenError" class="form-text text-danger ">{{ formData.tenError }}</div>-->
+                                <p class="form-text text-danger">{{erTen}}</p>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" ng-click="create()" class="btn btn-danger">Submit</button>
-                    </div>
-                </form>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" ng-click="create()" class="btn btn-danger">Submit</button>
+                        </div>
+                    </form>
 
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
 </div>

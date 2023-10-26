@@ -3,6 +3,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.product = {};
     $scope.productDetails = [];
     $scope.images = [];
+    $scope.idCTSP = ""
     var heartButton = document.getElementById("heart")
     const sizeZone = $("#sizes-zone")
     const pathName = location.pathname;
@@ -24,7 +25,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         $scope.productDetails.forEach(s => {
             if(s.soLuong <= 0) sizeZone.append('<input type="radio" class="btn-check" name="btnradio" id="' + s.size + '" autocomplete="off" disabled>\n' +
                                 '<label class="btn btn-outline-secondary" for="' + s.size + '" style="width: 60px;">' + s.size + '</label>')
-            else sizeZone.append('<input type="radio" class="btn-check" name="btnradio" id="' + s.size + '" autocomplete="off" >\n' +
+            else sizeZone.append('<input type="radio" name="ctsp" ng-model="idCTSP" value="'+s.id+'" class="btn-check" name="btnradio" id="' + s.size + '" autocomplete="off" >\n' +
                                     '<label class="btn btn-outline-secondary" for="' + s.size + '" style="width: 60px;">' + s.size + '</label>')
         })
     }).catch(e => console.log(e))
@@ -41,6 +42,27 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
 
     $scope.showImg = function (nameImg){
         document.getElementById("show-Img").src = "/image/loadImage/product/"+nameImg
+    }
+    //add to cart
+    $scope.CTSP = null
+    $scope.addToCart = function () {
+        let form = document.getElementById("form")
+        let idCtsp = form.elements["ctsp"].value
+        console.log(idCtsp)
+        if(idCtsp == null) {
+            return;
+        }
+        var sl = 1
+        if (confirm("Thêm sản phẩm vào giỏ hàng?")) {
+            $http.post("/cart/add-to-cart?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
+                console.log(response.data)
+                if(response.data == null || response.data.length == 0){
+                    alert("Phân loại của sản phẩm không đủ số lượng!!!")
+                }else {
+                    alert("Success")
+                }
+            })
+        }
     }
 
 })

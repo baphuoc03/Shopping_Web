@@ -108,13 +108,16 @@
 
                                             <div class="product-color mb-4">
                                                 <h5 class="font-size-15">Size:</h5>
+                                                <form id="form">
                                                 <div class="btn-group" id="sizes-zone" role="group" aria-label="Basic radio toggle button group">
                                                 </div>
+                                                </form>
                                             </div>
                                             <div class="text-center d-flex justify-content-start">
-                                                <button type="button" style="font-size: 15px"
-                                                        class="btn btn-primary waves-effect waves-light mt-2 me-3">
-                                                    <i class="bx bx-cart me-1"></i> Thêm vào giỏ hàng
+                                                <button type="button" style="font-size: 15px" ng-click="addToCart()"
+                                                        class="btn btn-primary waves-effect waves-light mt-2 me-3" >
+                                                    <a>
+                                                    <i class="bx bx-cart me-1"></i> Thêm vào giỏ hàng</a>
                                                 </button>
                                                 <button type="button" style="font-size: 15px"
                                                         class="btn btn-success waves-effect  mt-2 waves-light me-3">

@@ -49,6 +49,9 @@ public class KhachHangModel {
     @OneToMany(mappedBy = "nguoiSoHuu",fetch = FetchType.LAZY)
     private List<DonHangModel> danhSachDonHang;
 
+    public KhachHangModel(String khachHang) {
+    }
+
 //    @ManyToMany
 //    @JoinTable(name = "voucher_taikhoan",
 //            joinColumns = { @JoinColumn(name = "voucher") },
