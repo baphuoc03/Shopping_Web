@@ -3,12 +3,16 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/user/home}">
 <head>
-    <meta charset="UTF-8">
-    <title>Product Detail</title>
 </head>
 <body>
 <div class="main-content" layout:fragment="content">
-
+<style>
+    .activePage{
+        background: #0d6efd;
+        border-color: #0d6efd;
+        color: white;
+    }
+</style>
 <!-- Begin page -->
 <div id="layout-wrapper">
     <div class="main-content">
@@ -111,7 +115,7 @@
                                     </li>
                                     <li class="page-item" ng-repeat="n in pageNumbers">
                                         <span style="cursor: pointer" ng-click="getAll(n)" class="page-link" ng-if="pageNumber!=n">{{n+1}}</span>
-                                        <span style="cursor: pointer" ng-click="getAll(n)" class="page-link active" ng-if="pageNumber==n">{{n+1}}</span>
+                                        <span style="cursor: pointer" ng-click="getAll(n)" class="page-link activePage" ng-if="pageNumber==n">{{n+1}}</span>
                                     </li>
                                     <li class="page-item" ng-if="pageNumber<pageNumbers.length-1"
                                         ng-click="getAll(pageNumber==pageNumbers.length-1 ? pageNumbers.length-1 : pageNumber+1)">
@@ -138,5 +142,6 @@
 
 </div>
 <!-- END layout-wrapper -->
+</div>
 </body>
 </html>

@@ -71,9 +71,10 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
         ChiTietSanPhamModel model = chiTietSanPhamRepository.findById(id).get();
         if(model.kiemTraCoTrongDonHang()){
             chiTietSanPhamRepository.updateTrangThai(false,model.getId());
-        }
+        }else {
 
-        chiTietSanPhamRepository.deleteById(id);
+            chiTietSanPhamRepository.deleteById(id);
+        }
     }
 
     @Override

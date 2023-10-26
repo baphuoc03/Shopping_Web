@@ -30,6 +30,7 @@ public class DonHangDtoResponse {
     private BigDecimal tienGiam;
     private BigDecimal phiGiaoHang;
     private String trangThaiDetail;
+    private String phuongThucThanhToan;
 
 
     public DonHangDtoResponse(DonHangModel model) {
@@ -48,8 +49,9 @@ public class DonHangDtoResponse {
         this.ngayDatHang = model.getNgayDatHang();
         this.trangThai = model.getTrangThai();
         this.ghiChu = model.getGhiChu();
-        this.tienGiam = model.getTienGiam();
+        this.tienGiam = model.getVoucher() == null ? BigDecimal.valueOf(0) : BigDecimal.valueOf(model.getVoucher().getMucGiam());
         this.phiGiaoHang = model.getPhiGiaoHang();
         this.trangThaiDetail = model.trangThaiDetail();
+        this.phuongThucThanhToan = model.getPhuongThucThanhToan() == true ? "Thanh toán khi nhận hàng" : "Thanh toán online";
     }
 }

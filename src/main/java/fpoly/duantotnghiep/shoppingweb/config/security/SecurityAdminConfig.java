@@ -42,7 +42,7 @@ public class SecurityAdminConfig {
                 .formLogin(login -> login.loginPage("/admin/login")
                         .loginProcessingUrl("/admin/login")
                         .defaultSuccessUrl("/admin/trang-chu", false)
-                        .failureUrl("/admin/login?error=true")
+                        .failureUrl("/admin/login/error")
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .permitAll()

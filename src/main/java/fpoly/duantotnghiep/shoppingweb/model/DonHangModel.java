@@ -26,6 +26,10 @@ public class DonHangModel {
     @JoinColumn(name = "Khachhang")
     private KhachHangModel nguoiSoHuu;
 
+    @ManyToOne
+    @JoinColumn(name = "voucher")
+    private VoucherModel voucher;
+
     @Column(name = "tennguoinhan")
     private String tenNguoiNhan;
 
@@ -65,11 +69,14 @@ public class DonHangModel {
     @Column(name = "ghichu")
     private String ghiChu;
 
-    @Column(name = "tiengiam")
-    private BigDecimal tienGiam;
+//    @Column(name = "tiengiam")
+//    private BigDecimal tienGiam;
 
     @Column(name = "phigiaohang")
     private BigDecimal phiGiaoHang;
+
+    @Column(name = "phuongthucthanhtoan")
+    private Boolean phuongThucThanhToan;
 
     @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
     private List<ChiTietDonHangModel> danhSachSanPham;
@@ -84,4 +91,26 @@ public class DonHangModel {
         }
     }
 
+    @Override
+    public String toString() {
+        return "DonHangModel{" +
+                "ma='" + ma + '\'' +
+                ", nguoiSoHuu=" + nguoiSoHuu == null ? "" : nguoiSoHuu.getUsername() +
+                ", tenNguoiNhan='" + tenNguoiNhan + '\'' +
+                ", soDienThoai='" + soDienThoai + '\'' +
+                ", email='" + email + '\'' +
+                ", thanhphoName='" + thanhphoName + '\'' +
+                ", thanhPhoCode=" + thanhPhoCode +
+                ", quanHuyenName='" + quanHuyenName + '\'' +
+                ", quanHuyenCode=" + quanHuyenCode +
+                ", xaPhuongName='" + xaPhuongName + '\'' +
+                ", xaPhuongCode='" + xaPhuongCode + '\'' +
+                ", diaChiChiTiet='" + diaChiChiTiet + '\'' +
+                ", ngayDatHang=" + ngayDatHang +
+                ", trangThai=" + trangThai +
+                ", ghiChu='" + ghiChu + '\'' +
+//                ", tienGiam=" + tienGiam +
+                ", phiGiaoHang=" + phiGiaoHang +
+                '}';
+    }
 }

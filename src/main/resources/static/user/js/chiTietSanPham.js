@@ -24,7 +24,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         $scope.productDetails.forEach(s => {
             if(s.soLuong <= 0) sizeZone.append('<input type="radio" class="btn-check" name="btnradio" id="' + s.size + '" autocomplete="off" disabled>\n' +
                                 '<label class="btn btn-outline-secondary" for="' + s.size + '" style="width: 60px;">' + s.size + '</label>')
-            else sizeZone.append('<input type="radio" class="btn-check" name="btnradio" id="' + s.size + '" autocomplete="off" >\n' +
+            else sizeZone.append('<input type="radio" ng-model="idCTSP" value="'+s.id+'" class="btn-check" name="btnradio" id="' + s.size + '" autocomplete="off" >\n' +
                                     '<label class="btn btn-outline-secondary" for="' + s.size + '" style="width: 60px;">' + s.size + '</label>')
         })
     }).catch(e => console.log(e))
