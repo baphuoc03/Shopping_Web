@@ -164,27 +164,22 @@
                                                 <div class="form-check form-check-inline font-size-16">
                                                     <input class="form-check-input" type="radio"
                                                            name="paymentoptionsRadio" id="paymentoptionsRadio1"
+                                                           value="0" ng-model="phuongThucThanhToan"
                                                            checked>
                                                     <label class="form-check-label font-size-13"
                                                            for="paymentoptionsRadio1"><i
                                                             class="fab fa-cc-mastercard me-1 font-size-20 align-top"></i>
-                                                        Credit / Debit Card</label>
+                                                        Tiền mặt</label>
                                                 </div>
                                                 <div class="form-check form-check-inline font-size-16">
                                                     <input class="form-check-input" type="radio"
-                                                           name="paymentoptionsRadio" id="paymentoptionsRadio2">
+                                                           name="paymentoptionsRadio" id="paymentoptionsRadio2"
+                                                           value="1" ng-model="phuongThucThanhToan"
+                                                    >
                                                     <label class="form-check-label font-size-13"
                                                            for="paymentoptionsRadio2"><i
                                                             class="fab fa-cc-paypal me-1 font-size-20 align-top"></i>
                                                         Paypal</label>
-                                                </div>
-                                                <div class="form-check form-check-inline font-size-16">
-                                                    <input class="form-check-input" type="radio"
-                                                           name="paymentoptionsRadio" id="paymentoptionsRadio3">
-                                                    <label class="form-check-label font-size-13"
-                                                           for="paymentoptionsRadio3"><i
-                                                            class="far fa-money-bill-alt me-1 font-size-20 align-top"></i>
-                                                        Cash on Delivery</label>
                                                 </div>
                                             </div>
 
@@ -243,21 +238,22 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr ng-repeat="i in items">
+                                                        <tr ng-repeat="i in cart">
                                                             <th scope="row">
-                                                                <img src="/images/product/img-1.png"
-                                                                     alt="product-img" title="product-img"
-                                                                     class="avatar-md">
+                                                                <img src="/image/loadImage/product/{{i.anh}}"
+                                                                     alt="product-img"
+                                                                     title="product-img" class="avatar-md"/>
                                                             </th>
                                                             <td>
                                                                 <h5 class="font-size-14 text-truncate"><a
                                                                         href="ecommerce-product-detail.html"
-                                                                        class="text-dark">{{i.sanPhamDTO.ten}}</a></h5>
+                                                                        class="text-dark">{{i.tenSanPham}}_size:{{i.size}}</a>
+                                                                </h5>
                                                                 <p class="text-muted mb-0 text-danger">
-                                                                    {{i.sanPhamDTO.giaBan}}VND x
-                                                                    1</p>
+                                                                    {{i.donGiaSauGiam}}VND x
+                                                                    {{i.soLuong}}</p>
                                                             </td>
-                                                            <td>{{i.total}}</td>
+                                                            <td>{{i.donGiaSauGiam * i.soLuong}}</td>
                                                         </tr>
                                                         <!--                                                        voucher-->
                                                         <tr>
@@ -267,7 +263,8 @@
                                                                         <i class="fas fa-shipping-fast me-2"></i>
                                                                         Voucher
                                                                         <span class="float-end">
-                                                                            <a href="#" data-bs-toggle="modal"
+                                                                            <a ng-click="disabledVoucher()" href="#"
+                                                                               data-bs-toggle="modal"
                                                                                data-bs-target="#myModal">Chọn Voucher</a>
                                                                         </span>
                                                                     </h5>
@@ -306,7 +303,7 @@
                                                                 </h6>
                                                             </td>
                                                             <td>
-                                                                {{totalPayment}}
+                                                                {{totalpayment()}}
                                                             </td>
                                                         </tr>
                                                         </tbody>
@@ -353,24 +350,22 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div class="row" ng-repeat="v in vouchers">
-                            <div class="col-md-10 justify-content-between">
+                            <div class="col-md-12 justify-content-between">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Voucher: {{v.ma}}</h5>
-                                        <p class="card-title">{{v.ten}}</p>
-                                        <label class="form-check">
-                                            <input ng-model="selectedVoucher" type="radio" name="voucher"
-                                                   value="{{v.ma}}"
-                                                   class="form-check-input">
-                                            Chọn voucher này
-                                        </label>
+                                        <h5 class="card-title">Voucher:{{v.ma}}_{{v.ten}}</h5>
+                                        <p class="card-title">Giảm giá {{v.mucGiam}}K Cho đơn hàng trên
+                                            {{v.mucGiamToiDa}}K</p>
+                                        <p class="card-title">HSD: {{v.ngayKetThuc}}</p>
+                                        <input ng-model="voucher" name="voucher" value="{{v.ma}}"
+                                               class="form-check-input" type="hidden">
                                     </div>
+                                    <button type="button" class="btn btn-danger align-self-end"
+                                            ng-click="getDataAPI(v.ma)" data-bs-dismiss="modal">
+                                        Chọn voucher
+                                    </button>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-danger" ng-click="getDataAPI(v.ma)"
-                                    data-bs-dismiss="modal">
-                                Oke
-                            </button>
                         </div>
                     </div>
 

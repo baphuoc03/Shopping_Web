@@ -52,6 +52,6 @@ public class DonHangDtoResponse {
         this.tienGiam = model.getTienGiam() == null ? BigDecimal.valueOf(0) : model.getTienGiam();
         this.phiGiaoHang = model.getPhiGiaoHang();
         this.trangThaiDetail = model.trangThaiDetail();
-        this.phuongThucThanhToan = model.getPhuongThucThanhToan() == true ? "Thanh toán khi nhận hàng" : "Thanh toán online";
+        this.phuongThucThanhToan = model.getPhuongThucThanhToan() == 0 ? "Thanh toán khi nhận hàng" : "Thanh toán online";
     }
 }

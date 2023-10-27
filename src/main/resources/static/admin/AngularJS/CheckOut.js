@@ -3,9 +3,14 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     const token = "954c787d-2876-11ee-96dc-de6f804954c9";
     const headers = {headers: {token: token}}
     const headersShop = {headers: {token: token, ShopId: 4379549}}
-    $scope.sumTotal = new Big(0);
-    $scope.feeShipped = new Big(0)
-    $scope.giaGiam = new Big(0)
+    $scope.feeShipped = 0
+    $scope.giaGiam = 0
+    $scope.sumTotal = 0
+    $scope.vouchers = []
+    $scope.citys = []
+    $scope.wards = []
+    $scope.districts = []
+    $scope.voucherDH = ""
     $scope.getValue = function () {
         $scope.textInner = "Thành Phố: " + $scope.city + "/ Quận huyện: " + $scope.district + " / Xã: " + $scope.xa
     }
@@ -55,23 +60,6 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         }).catch(err => console.log(err));
 
     }
-    //show chiTietSanPham
-
-    $http.get("/check-out/cart").then(resp => {
-        console.log(resp.data)
-        $scope.items = resp.data;
-
-        for (var i = 0; i < $scope.items.length; i++) {
-            var item = $scope.items[i];
-            item.sanPhamDTO.giaBan = new Big(item.sanPhamDTO.giaBan);  // chuyển đổi số thành kiểu big
-            var fixedNumber = 2; // Số cố định
-            item.total = item.sanPhamDTO.giaBan.times(fixedNumber)
-            $scope.sumTotal = $scope.sumTotal.plus(item.total);
-            $scope.totalPayment = $scope.sumTotal.plus($scope.feeShipped)
-        }
-    }).catch(error => {
-        console.log(error)
-    })
 
     //show voucher
     $http.get("/check-out/voucher").then(resp => {
@@ -83,19 +71,29 @@ app.controller('checkOutCtrl', function ($scope, $http) {
 
 //    check-out
     $scope.create = function () {
+        let indexCity = $scope.citys.findIndex(c => c.ProvinceID == $scope.thanhPhoCode)
+        let indexDistrict = $scope.districts.findIndex(d => d.DistrictID == $scope.quanHuyenCode)
+        let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode)
+
         var donHang = {
             ten: $scope.ten,
             tenNguoiNhan: $scope.tenNguoiNhan,
             soDienThoai: $scope.soDienThoai,
             email: $scope.email,
+            phuongThucThanhToan: $scope.phuongThucThanhToan,
+            voucher: $scope.voucherDH,
             thanhPhoCode: $scope.thanhPhoCode,
+            thanhPhoName: $scope.citys[indexCity].ProvinceName,
             quanHuyenCode: $scope.quanHuyenCode,
+            quanHuyenName: $scope.districts[indexDistrict].DistrictName,
             xaPhuongCode: $scope.xaPhuongCode,
+            xaPhuongName: $scope.wards[indexWard].WardName,
             diaChiChiTiet: $scope.diaChiChiTiet,
             ghiChu: $scope.ghiChu,
             phiGiaoHang: $scope.feeShipped,
             tienGiam: $scope.giaGiam
         }
+        console.log('phương thức thanh toán: ' + $scope.voucherDH)
         $http.post("http://localhost:8080/check-out", donHang).then(r => {
             location.reload();
             alert("Thêm Thành Công")
@@ -107,13 +105,49 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             voucher: maVC,
             tongThanhToan: $scope.sumTotal + 0
         }
-        console.log(data)
+        $scope.voucherDH = maVC
         $http.post('/using-voucher', data)
             .then(function (response) {
                 $scope.giaGiam = response.data;
             })
             .catch(function (error) {
                 console.log("lỗi")
+            });
+    };
+
+    $http.get("/cart/find-all").then(r => {
+        console.log(r.data)
+        $scope.cart = r.data;
+        for (var i = 0; i < $scope.cart.length; i++) {
+            $scope.sumTotal += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+        }
+    }).catch(e => console.log(e))
+
+    $scope.totalpayment = function () {
+        var tien = 0;
+        tien = ($scope.sumTotal + $scope.feeShipped) - $scope.giaGiam
+        return tien
+    }
+//    disabledVoucher
+    $scope.disableVouchers = function () {
+        var data = {
+            tienHang: $scope.sumTotal
+        };
+
+        $http.post('/check-out/disable-voucher', data)
+            .then(function (response) {
+                var disabledVoucherList = response.data; // Danh sách voucher cần tắt
+
+                // Duyệt qua danh sách vouchers và cập nhật trạng thái disabled
+                for (var i = 0; i < $scope.vouchers.length; i++) {
+                    var voucher = $scope.vouchers[i];
+                    voucher.disabled = disabledVoucherList.includes(voucher.ma);
+                }
+
+                $scope.listDisabled = response.data;
+            })
+            .catch(function (error) {
+                console.log("Lỗi");
             });
     };
 

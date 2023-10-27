@@ -3,6 +3,7 @@ package fpoly.duantotnghiep.shoppingweb.dto.request;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.DongSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ import java.util.Date;
 public class DonHangDTORequest {
     private String ma;
     private KhachHangModel nguoiSoHuu;
+    private String voucher;
     private String tenNguoiNhan;
     private String soDienThoai;
     private String email;
@@ -27,10 +29,14 @@ public class DonHangDTORequest {
     private String ghiChu;
     private BigDecimal tienGiam;
     private BigDecimal phiGiaoHang;
+    private int phuongThucThanhToan;
     private String trangThaiDetail;
 
     public DonHangModel mapModel() {
         DonHangModel donHangModel = new DonHangModel();
+        VoucherModel voucherModel = new VoucherModel();
+        voucherModel.setMa(voucher);
+        donHangModel.setVoucher(voucherModel);
         donHangModel.setMa(ma);
         donHangModel.setNguoiSoHuu(nguoiSoHuu);
         donHangModel.setTenNguoiNhan(tenNguoiNhan);
@@ -48,6 +54,7 @@ public class DonHangDTORequest {
         donHangModel.setGhiChu(ghiChu);
         donHangModel.setTienGiam(tienGiam);
         donHangModel.setPhiGiaoHang(phiGiaoHang);
+        donHangModel.setPhuongThucThanhToan(phuongThucThanhToan);
         return donHangModel;
     }
 }

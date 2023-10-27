@@ -75,9 +75,9 @@ public class DonHangModel {
     private BigDecimal phiGiaoHang;
 
     @Column(name = "phuongthucthanhtoan")
-    private Boolean phuongThucThanhToan;
+    private Integer phuongThucThanhToan;
 
-    @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "donHang", fetch = FetchType.LAZY)
     private List<ChiTietDonHangModel> danhSachSanPham;
 
     public String trangThaiDetail() {

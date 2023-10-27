@@ -23,6 +23,12 @@ public class VoucherServiceImpl implements VoucherService {
 
 
     @Override
+    public List<VoucherReponse> disabledVoucher(Double sumTotalBill) {
+        return repository.disabledVoucher(sumTotalBill).stream()
+                .map(c -> new VoucherReponse(c)).collect(Collectors.toList());
+    }
+
+    @Override
     public Page<VoucherReponse> findAll(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<VoucherModel> pageModel = repository.findAll(pageable);
