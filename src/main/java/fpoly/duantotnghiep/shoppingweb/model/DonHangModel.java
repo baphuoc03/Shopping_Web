@@ -17,7 +17,6 @@ import java.util.List;
 @ToString
 @Table(name = "donhang")
 public class DonHangModel {
-
     @Id
     @Column(name = "ma")
     private String ma;
@@ -32,14 +31,26 @@ public class DonHangModel {
     @Column(name = "sodienthoai")
     private String soDienThoai;
 
-    @Column(name = "thanhpho")
-    private Integer thanhPho;
+    @Column(name = "email")
+    private String email;
 
-    @Column(name = "quanhuyen")
-    private Integer quanHuyen;
+    @Column(name = "thanhphoName")
+    private String thanhphoName;
 
-    @Column(name = "xaphuong")
-    private String xaPhuong;
+    @Column(name = "thanhphoCode")
+    private Integer thanhPhoCode;
+
+    @Column(name = "quanhuyenName")
+    private String quanHuyenName;
+
+    @Column(name = "quanhuyenCode")
+    private Integer quanHuyenCode;
+
+    @Column(name = "xaphuongName")
+    private String xaPhuongName;
+
+    @Column(name = "xaphuongCode")
+    private String xaPhuongCode;
 
     @Column(name = "diachichitiet")
     private String diaChiChiTiet;
@@ -48,7 +59,7 @@ public class DonHangModel {
     private Date ngayDatHang;
 
     @Column(name = "trangthai")
-    private String trangThai;
+    private Integer trangThai;
 
     @Column(name = "ghichu")
     private String ghiChu;
@@ -59,7 +70,17 @@ public class DonHangModel {
     @Column(name = "phigiaohang")
     private BigDecimal phiGiaoHang;
 
-    @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "donHang", fetch = FetchType.LAZY)
     private List<ChiTietDonHangModel> danhSachSanPham;
+
+    public String trangThaiDetail() {
+        if (trangThai == 1) {
+            return "Đã xác nhận";
+        } else if (trangThai == 2) {
+            return "Chưa xác nhận";
+        } else {
+            return "null";
+        }
+    }
 
 }

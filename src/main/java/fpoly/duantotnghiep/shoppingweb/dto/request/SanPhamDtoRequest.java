@@ -38,7 +38,6 @@ public class SanPhamDtoRequest {
     private String chatLieu;
     @NotNull(message = "Không để trống giá")
     @Min(value = 10000, message = "Giá bán phải lớn hơn 10.000đ ")
-    private BigDecimal giaNiemYet;
     private BigDecimal giaBan;
     private String moTa;
     private Date ngayTao;

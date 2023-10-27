@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="main-content" layout:fragment="content">
-    <div class="page-content">
+    <div class="page-content" ng-app="checkOut" ng-controller="checkOutCtrl">
         <div class="container-fluid">
 
             <!-- start page title -->
@@ -69,63 +69,86 @@
                                                         <div class="form-group mb-3">
                                                             <label for="billing-name"
                                                                    class="col-form-label">Người Nhận:</label>
-                                                            <input type="text" class="form-control"
+                                                            <input ng-model="tenNguoiNhan" type="text"
+                                                                   class="form-control"
                                                                    id="billing-name" placeholder="Enter your name">
                                                         </div>
 
                                                         <div class="form-group mb-3">
                                                             <label for="billing-phone" class="col-form-label">Số
                                                                 Điện Thoại:</label>
-                                                            <input type="text" class="form-control"
+                                                            <input ng-model="soDienThoai" type="text"
+                                                                   class="form-control"
                                                                    id="billing-phone"
                                                                    placeholder="Enter your Phone no.">
+                                                        </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="billing-email" class="col-form-label">Số
+                                                                Email:</label>
+                                                            <input ng-model="email" type="email" class="form-control"
+                                                                   id="billing-email"
+                                                                   placeholder="Enter your email no.">
                                                         </div>
 
                                                         <div class="form-group mb-0">
                                                             <label for="example-textarea"
                                                                    class="col-form-label">Ghi Chú:</label>
-                                                            <textarea class="form-control" id="example-textarea"
+                                                            <textarea ng-model="ghiChu" class="form-control"
+                                                                      id="example-textarea"
                                                                       rows="3"
                                                                       placeholder="Write some note.."></textarea>
                                                         </div>
 
                                                     </div>
-
+                                                    <!--địa -->
                                                     <div class="col-md-6">
                                                         <div class="form-group mb-3">
-                                                            <label for="billing-email-address"
-                                                                   class="col-form-label">Tỉnh/Thành Phố</label>
+                                                            <label
+                                                                    class="col-form-label">Tỉnh/Thành Phố</label>
                                                             <select class="form-control select2"
-                                                                    title="Country">
-
+                                                                    title="Country" id="city" ng-model="thanhPhoCode"
+                                                                    onchange="angular.element(this).scope().cityChange(this.value)">
+                                                                <option></option>
+                                                                <option ng-repeat="c in citys" value="{{c.ProvinceID}}">
+                                                                    {{c.ProvinceName}}
+                                                                </option>
                                                             </select>
                                                         </div>
 
                                                         <div class="form-group mb-3">
                                                             <label class="col-form-label">Quận/Huyện</label>
-                                                            <select class="form-control select2"
+                                                            <select class="form-control select2" id="district"
+                                                                    ng-model="quanHuyenCode"
+                                                                    onchange="angular.element(this).scope().districtChange(this.value)"
                                                                     title="Country">
+                                                                <option ng-repeat="d in districts"
+                                                                        value="{{d.DistrictID}}">{{d.DistrictName}}
+                                                                </option>
 
                                                             </select>
                                                         </div>
                                                         <div class="form-group mb-3">
                                                             <label class="col-form-label">Xã/Phường</label>
                                                             <select class="form-control select2"
-                                                                    title="Country">
-
+                                                                    title="Country" id="ward" ng-model="xaPhuongCode"
+                                                                    onchange="angular.element(this).scope().getFeeShipped(getElementById('district').value,this.value)">
+                                                                <option ng-repeat="w in wards" value="{{w.WardCode}}">
+                                                                    {{w.WardName}}
+                                                                </option>
                                                             </select>
                                                         </div>
 
                                                         <div class="form-group mb-3">
                                                             <label for="billing-address"
                                                                    class="col-form-label">Địa chỉ chi tiết</label>
-                                                            <textarea class="form-control" id="billing-address"
+                                                            <textarea ng-model="diaChiChiTiet" class="form-control"
+                                                                      id="billing-address"
                                                                       rows="3"
                                                                       placeholder="Enter full address"></textarea>
                                                         </div>
 
                                                     </div>
-
+                                                    <!--end dia chi-->
                                                 </div>
                                             </form>
                                         </div>
@@ -220,48 +243,33 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr>
-                                                            <th scope="row"><img
-                                                                    src="assets/images/product/img-1.png"
-                                                                    alt="product-img" title="product-img"
-                                                                    class="avatar-md"></th>
+                                                        <tr ng-repeat="i in items">
+                                                            <th scope="row">
+                                                                <img src="/images/product/img-1.png"
+                                                                     alt="product-img" title="product-img"
+                                                                     class="avatar-md">
+                                                            </th>
                                                             <td>
                                                                 <h5 class="font-size-14 text-truncate"><a
                                                                         href="ecommerce-product-detail.html"
-                                                                        class="text-dark">Half sleeve
-                                                                    T-shirt (64GB) </a></h5>
-                                                                <p class="text-muted mb-0">$ 450 x 1</p>
+                                                                        class="text-dark">{{i.sanPhamDTO.ten}}</a></h5>
+                                                                <p class="text-muted mb-0 text-danger">
+                                                                    {{i.sanPhamDTO.giaBan}}VND x
+                                                                    1</p>
                                                             </td>
-                                                            <td>$ 450</td>
+                                                            <td>{{i.total}}</td>
                                                         </tr>
-                                                        <tr>
-                                                            <th scope="row"><img
-                                                                    src="assets/images/product/img-7.png"
-                                                                    alt="product-img" title="product-img"
-                                                                    class="avatar-md"></th>
-                                                            <td>
-                                                                <h5 class="font-size-14 text-truncate"><a
-                                                                        href="ecommerce-product-detail.html"
-                                                                        class="text-dark">Wireless Headphone
-                                                                </a></h5>
-                                                                <p class="text-muted mb-0">$ 225 x 1</p>
-                                                            </td>
-                                                            <td>$ 225</td>
-                                                        </tr>
-
+                                                        <!--                                                        voucher-->
                                                         <tr>
                                                             <td colspan="3">
                                                                 <div class="bg-soft-primary p-3 rounded">
-                                                                    <h5
-                                                                            class="font-size-14 text-primary mb-0">
-                                                                        <i
-                                                                                class="fas fa-shipping-fast me-2"></i>
-                                                                        Voucher <span class="float-end">
-                                                                                        <a href="#"
-                                                                                           data-bs-toggle="modal"
-                                                                                           data-bs-target="#myModal">
-                                                                                            Chọn Voucher
-                                                                                        </a></span>
+                                                                    <h5 class="font-size-14 text-primary mb-0">
+                                                                        <i class="fas fa-shipping-fast me-2"></i>
+                                                                        Voucher
+                                                                        <span class="float-end">
+                                                                            <a href="#" data-bs-toggle="modal"
+                                                                               data-bs-target="#myModal">Chọn Voucher</a>
+                                                                        </span>
                                                                     </h5>
                                                                 </div>
                                                             </td>
@@ -271,7 +279,7 @@
                                                                 <h6 class="m-0 text-end">Tiền Hàng:</h6>
                                                             </td>
                                                             <td>
-                                                                $ 675
+                                                                {{sumTotal}}
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -279,7 +287,7 @@
                                                                 <h6 class="m-0 text-end">Tiền Ship:</h6>
                                                             </td>
                                                             <td>
-                                                                $ 675
+                                                                {{feeShipped}}
                                                             </td>
                                                         </tr>
                                                         </tr>
@@ -288,7 +296,7 @@
                                                                 <h6 class="m-0 text-end">Giảm Voucher:</h6>
                                                             </td>
                                                             <td>
-                                                                $ 675
+                                                                {{giaGiam}}
                                                             </td>
                                                         </tr>
                                                         </tr>
@@ -298,7 +306,7 @@
                                                                 </h6>
                                                             </td>
                                                             <td>
-                                                                $ 675
+                                                                {{totalPayment}}
                                                             </td>
                                                         </tr>
                                                         </tbody>
@@ -319,8 +327,9 @@
                             </div> <!-- end col -->
                             <div class="col-sm-6">
                                 <div class="text-end">
-                                    <a href="ecommerce-checkout.html" class="btn btn-success">
-                                        <i class="mdi mdi-truck-fast me-1"></i> Proceed to Shipping </a>
+                                    <button type="button" ng-click="create()" class="btn btn-success">
+                                        <i class="mdi mdi-truck-fast me-1"></i> Proceed to Shipping
+                                    </button>
                                 </div>
                             </div> <!-- end col -->
                         </div> <!-- end row -->
@@ -330,66 +339,46 @@
             <!-- end row -->
 
         </div> <!-- container-fluid -->
-    </div>
-    <!-- modal -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+        <!-- modal -->
+        <div class="modal" id="myModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Chọn Voucher</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Chọn Voucher</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-10 justify-content-between">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Voucher XYZ</h5>
-                                    <label class="form-check">
-                                        <input type="radio" name="voucher" value="voucher_xyz" class="form-check-input">
-                                        Chọn voucher này
-                                    </label>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row" ng-repeat="v in vouchers">
+                            <div class="col-md-10 justify-content-between">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Voucher: {{v.ma}}</h5>
+                                        <p class="card-title">{{v.ten}}</p>
+                                        <label class="form-check">
+                                            <input ng-model="selectedVoucher" type="radio" name="voucher"
+                                                   value="{{v.ma}}"
+                                                   class="form-check-input">
+                                            Chọn voucher này
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
+                            <button type="button" class="btn btn-danger" ng-click="getDataAPI(v.ma)"
+                                    data-bs-dismiss="modal">
+                                Oke
+                            </button>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-10 justify-content-between">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Voucher XYZ</h5>
-                                    <label class="form-check">
-                                        <input type="radio" name="voucher" value="voucher_xyz" class="form-check-input">
-                                        Chọn voucher này
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-10 justify-content-between">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Voucher XYZ</h5>
-                                    <label class="form-check">
-                                        <input type="radio" name="voucher" value="voucher_xyz" class="form-check-input">
-                                        Chọn voucher này
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                    </div>
 
+                </div>
             </div>
         </div>
     </div>
