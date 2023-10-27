@@ -79,12 +79,15 @@ public class DonHangService implements IDonHangService {
 
         String subject = "";
         String messeger = "";
+        String title = "";
         if(trangThai==2) {
             subject = "Tạo đơn hàng!";
-            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được tạo. Cám ơn bạn đã mua hàng";
+            title = "Tạo đơn hàng thành công";
+            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được tạo. Cảm ơn bạn đã mua hàng";
         } else if(trangThai==1){
             subject = "Xác nhận đơn hàng!";
-            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận. Cám ơn bạn đã mua hàng. Đơn hàng sẽ đến tay bạn trong vài ngày tới";
+            title = "Xác nhận hàng thành công";
+            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận. Cảm ơn bạn đã mua hàng. Đơn hàng sẽ đến tay bạn trong vài ngày tới";
         }
 
         List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(maDonHang);
@@ -98,6 +101,7 @@ public class DonHangService implements IDonHangService {
         context.setVariable("products",lstSanPham);
         context.setVariable("totalPrice",tongTien);
         context.setVariable("mess",messeger);
+        context.setVariable("title",title);
         String finalSubject = subject;
         new Thread(()->{
             try {
@@ -118,7 +122,7 @@ public class DonHangService implements IDonHangService {
         model.setTrangThai(0);
 
         String subject = "Hủy đơn hàng!";
-        String messeger = "Xin chào "+model.getTenNguoiNhan()+", đơn hàng của bạn đã hủy. Cám ơn bạn đã ghé qua cửa hàng";
+        String messeger = "Xin chào "+model.getTenNguoiNhan()+", đơn hàng của bạn đã hủy. Cảm ơn bạn đã ghé qua cửa hàng";
 
         List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
         ctdhModel.forEach(c -> {
@@ -140,6 +144,7 @@ public class DonHangService implements IDonHangService {
         context.setVariable("products",lstSanPham);
         context.setVariable("totalPrice",tongTien);
         context.setVariable("mess",messeger);
+        context.setVariable("title",subject);
         new Thread(()->{
             try {
                 sendEmailDonHang(model.getEmail(), subject,"email/capNhatTrangThaiDonHang",context,lstSanPham);

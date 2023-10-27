@@ -12,6 +12,7 @@ import fpoly.duantotnghiep.shoppingweb.util.RandomUtil;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -33,8 +34,11 @@ public class NhanVienServiceImpl implements INhanVienService {
     private INhanVienRepository nhanVienRepository;
 
     @Override
-    public List<NhanVienDtoResponse> getAll() {
-        return nhanVienRepository.findAll().stream().map(n -> new NhanVienDtoResponse(n)).collect(Collectors.toList());
+    public Page<NhanVienDtoResponse> getAll(Integer page, Integer limit) {
+        Pageable pageable = PageRequest.of(page,limit);
+        Page<NhanVienModel> pageModel = nhanVienRepository.findAll(pageable);
+        return new PageImpl<>(pageModel.getContent().stream().map(n -> new NhanVienDtoResponse(n)).collect(Collectors.toList()),
+                                pageable,pageModel.getTotalElements());
     }
 
     @Override

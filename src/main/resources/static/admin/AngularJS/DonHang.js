@@ -35,6 +35,55 @@ app.controller("donhang-ctrl", function ($scope, $http){
         return success
     }
     ////////////////////////////////////////////
+    $scope.giaoHangNhanh = {
+        tokenShop : "954c787d-2876-11ee-96dc-de6f804954c9",
+        headers : {headers: {token:"954c787d-2876-11ee-96dc-de6f804954c9" }},
+        headersShop : {headers: {token: "954c787d-2876-11ee-96dc-de6f804954c9", ShopId: 4379549}},
+        districts : [],
+        wards : [],
+        getCitys(){
+            $http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/province", this.headers).then(res => {
+                this.citys = res.data.data
+            }).catch(err => console.log(err))
+        },
+        getDistricts(idCity){
+            $http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" + idCity, this.headers).then(res => {
+                this.districts = res.data.data;
+            }).catch(err => console.log(err))
+        },
+        getWards(idDistrict){
+            $http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=" + idDistrict, this.headers).then(res => {
+                this.wards = res.data.data;
+            }).catch(err => console.log(err))
+        },
+        cityChange(idCity){
+            $http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" + idCity, this.headers).then(res => {
+                this.districts = res.data.data;
+            }).catch(err => console.log(err))
+            // $scope.chuaXacNhan.detail.quanHuyenCode = this.districts[0].DistrictID +""
+        },
+        districtChange(idDistrict){
+            $http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=" + idDistrict, this.headers).then(res => {
+                this.wards = res.data.data;
+            }).catch(err => console.log(err))
+        },
+        getFeeShipped(){
+            let data = {
+                "service_type_id": 2,
+                "to_district_id": parseInt($scope.chuaXacNhan.detail.quanHuyenCode),
+                "to_ward_code": $scope.chuaXacNhan.detail.xaPhuongCode,
+                "height": 10,
+                "length": 10,
+                "weight": 200,
+                "width": 10
+            }
+            $http.post("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee", data, this.headersShop).then(res => {
+                $scope.chuaXacNhan.detail.phiGiaoHang = res.data.data.total;
+            }).catch(err => console.log(err));
+        }
+    }
+    $scope.giaoHangNhanh.getCitys()
+    ////////////////////////////////////////////
     $scope.chuaXacNhan = {
         list : [],
         detail : {},
@@ -87,12 +136,32 @@ app.controller("donhang-ctrl", function ($scope, $http){
         getDetail(ma){
             $http.get("/admin/don-hang/"+ma).then(r => {
                 this.detail = r.data;
+                this.detail.thanhPhoCode = this.detail.thanhPhoCode +""
+
+                //Lấy quận huyện
+                $scope.giaoHangNhanh.getDistricts(this.detail.thanhPhoCode)
+                this.detail.quanHuyenCode = this.detail.quanHuyenCode +"" // set selected quận huyện
+
+                $scope.giaoHangNhanh.getWards(this.detail.quanHuyenCode)
+                this.detail.xaPhuongCode = this.detail.xaPhuongCode +""
+
                 $('#chuaXacNhanDetail').modal('show')
             }).catch(e => console.log(e))
 
             $http.get("/admin/chi-tiet-don-hang/"+ma).then(r => {
                 $scope.chiTietDonHang = r.data;
             }).catch(e => console.log(e))
+        },
+        capNhat(){
+            let indexCity = $scope.giaoHangNhanh.citys.findIndex(c => c.ProvinceID == this.detail.thanhPhoCode)
+            let indexDistrict = $scope.giaoHangNhanh.districts.findIndex(d => d.DistrictID == this.detail.quanHuyenCode)
+            let indexWard = $scope.giaoHangNhanh.wards.findIndex(w => w.WardCode == this.detail.xaPhuongCode)
+
+            this.detail.thanhPhoName = $scope.giaoHangNhanh.citys[indexCity].ProvinceName;
+            this.detail.quanHuyenName = $scope.giaoHangNhanh.districts[indexDistrict].DistrictName;
+            this.detail.xaPhuongName = $scope.giaoHangNhanh.wards[indexWard].WardName
+
+          console.log(this.detail)
         },
         setPageNumbers(){
             let numbers = [];

@@ -59,7 +59,8 @@ public class SecurityController {
     }
 
     @GetMapping("${admin.domain}/login/error")
-    public String viewLoginError(Model model){
+    public String viewLoginError(Model model,Authentication authentication){
+        System.out.println(authentication.getName());
         model.addAttribute("mess","Tài khoản hoặc mật khẩu không chính xác!");
         return "/admin/authen/LoginForm.html";
     }

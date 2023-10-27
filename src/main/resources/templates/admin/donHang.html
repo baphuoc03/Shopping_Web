@@ -401,27 +401,37 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label>Mã đơn hàng</label>
                                     <span class="form-control">{{chuaXacNhan.detail.ma}}</span>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label>Ngày đặt hàng</label>
                                     <span class="form-control">{{chuaXacNhan.detail.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                 </div>
                             </div>
+                            <div class="mb-3 col-4">
+                                <label>Phương thức thanh toán</label>
+                                <span class="form-control">{{chuaXacNhan.detail.phuongThucThanhToan}}</span>
+                            </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
+                                <div class="mb-3">
+                                    <label>Tên người nhận</label>
+                                    <input class="form-control" ng-model="chuaXacNhan.detail.tenNguoiNhan">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label>Số điện thoại</label>
                                     <input class="form-control" ng-model="chuaXacNhan.detail.soDienThoai">
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label>email</label>
                                     <input class="form-control" ng-model="chuaXacNhan.detail.email">
@@ -432,43 +442,46 @@
                             <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label>Thành phố</label>
-                                    <input class="form-control" ng-model="chuaXacNhan.detail.thanhPhoName">
+<!--                                    <input class="form-control" ng-model="chuaXacNhan.detail.thanhPhoName">-->
+                                    <select class="form-control" ng-model="chuaXacNhan.detail.thanhPhoCode"
+                                    onchange="angular.element(this).scope().giaoHangNhanh.cityChange(this.value)">
+                                        <option ng-repeat="c in giaoHangNhanh.citys" value="{{c.ProvinceID}}">{{c.ProvinceName}}</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label>Quận huyện</label>
-                                    <input class="form-control" ng-model="chuaXacNhan.detail.quanHuyenName">
+                                    <select class="form-control" ng-model="chuaXacNhan.detail.quanHuyenCode"
+                                    onchange="angular.element(this).scope().giaoHangNhanh.districtChange(this.value)">
+                                        <option ng-repeat="d in giaoHangNhanh.districts" value="{{d.DistrictID}}">{{d.DistrictName}}</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label>Xã phường</label>
-                                    <input class="form-control" ng-model="chuaXacNhan.detail.xaPhuongName">
+                                    <select class="form-control" ng-model="chuaXacNhan.detail.xaPhuongCode"
+                                            onchange="angular.element(this).scope().giaoHangNhanh.getFeeShipped()">
+                                        <option ng-repeat="w in giaoHangNhanh.wards" value="{{w.WardCode}}">{{w.WardName}}</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="mb-3">
+                            <div class="mb-3 col-6">
                                 <label>Địa chỉ chi tiết</label>
                                 <textarea class="form-control" rows="2"
                                           ng-model="chuaXacNhan.detail.diaChiChiTiet"></textarea>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-4">
-                                <label>Phương thức thanh toán</label>
-                                <span class="form-control">{{chuaXacNhan.detail.phuongThucThanhToan}}</span>
-                            </div>
-                            <div class="mb-3 col-8">
+                            <div class="mb-3 col-6">
                                 <label>Ghi chú</label>
                                 <textarea class="form-control" rows="2" ng-model="chuaXacNhan.detail.ghiChu"></textarea>
                             </div>
                         </div>
                         <hr>
                         <div style="max-height: 220px;overflow-y: auto;">
-                            <table id="datatable"
-                                   class="table table-striped table-hover dt-responsive  nowrap w-100">
+                            <table class="table table-striped table-hover dt-responsive  nowrap w-100">
                                 <thead>
                                 <tr style="position: sticky;
                                             top: 0;
@@ -550,7 +563,7 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                 ng-click="closeModal('#chuaXacNhanDetail')">Đóng
                         </button>
-                        <button type="button" class="btn btn-primary">Cập nhật</button>
+                        <button type="button" class="btn btn-primary" ng-click="chuaXacNhan.capNhat()">Cập nhật</button>
                     </div>
                 </div>
             </div>
@@ -570,27 +583,37 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label>Mã đơn hàng</label>
                                     <span class="form-control">{{donHang.ma}}</span>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label>Ngày đặt hàng</label>
                                     <span class="form-control">{{donHang.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                 </div>
                             </div>
+                            <div class="mb-3 col-4">
+                                <label>Phương thức thanh toán</label>
+                                <span class="form-control">{{donHang.phuongThucThanhToan}}</span>
+                            </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
+                                <div class="mb-3">
+                                    <label>Tên người nhận</label>
+                                    <span class="form-control">{{donHang.tenNguoiNhan}}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label>Số điện thoại</label>
                                     <span class="form-control">{{donHang.soDienThoai}}</span>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label>email</label>
                                     <span class="form-control">{{donHang.email}}</span>
@@ -618,17 +641,11 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="mb-3">
+                            <div class="mb-3 col-6">
                                 <label>Địa chỉ chi tiết</label>
                                 <span class="form-control">{{donHang.diaChiChiTiet}}</span>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-4">
-                                <label>Phương thức thanh toán</label>
-                                <span class="form-control">{{donHang.phuongThucThanhToan}}</span>
-                            </div>
-                            <div class="mb-3 col-8">
+                            <div class="mb-3 col-6">
                                 <label>Ghi chú</label>
                                 <span class="form-control">{{donHang.ghiChu}}</span>
                             </div>
