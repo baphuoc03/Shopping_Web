@@ -44,31 +44,33 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
+                                    <tr ng-repeat="c in cart">
                                         <td>
-                                            <img src="/image/loadImage/product/{{cart.anh[0]}}" alt="product-img"
+                                            <img src="/image/loadImage/product/{{c.anh}}" alt="product-img"
                                                  title="product-img" class="avatar-md"/>
                                         </td>
                                         <td>
                                             <h5 class="font-size-14 text-truncate"><a
-                                                    href="ecommerce-product-detail.html"
-                                                    class="text-dark">{{cart.ten}}</a></h5>
-                                            <p class="mb-0">Color : <span class="fw-medium">Maroon</span>
+                                                    href="/chi-tiet-san-pham/{{c.maSanPham}}"
+                                                    class="text-dark">{{c.tenSanPham}}</a></h5>
+                                            <p class="mb-0">Size : <span class="fw-medium">{{c.size}}</span>
                                             </p>
                                         </td>
                                         <td>
-                                            {{cart.donGia}}
+                                            {{c.donGia}}
                                         </td>
                                         <td>
                                             <div class="me-3" style="width: 120px;">
-                                                <input type="text" value="02" name="demo_vertical">
+<!--                                                <input type="text" value="{{c.soLuong}}" name="demo_vertical"/>-->
+                                                <input id="{{c.id}}" onchange="angular.element(this).scope().getUpdateSL(this.id,this.value)"
+                                                       class="form-control input-number text-center" value="{{c.soLuong}}">
                                             </div>
                                         </td>
                                         <td>
-                                            $ 900
+                                            {{c.donGia * c.soLuong}}
                                         </td>
                                         <td>
-                                            <a href="javascript:void(0);" class="action-icon text-danger">
+                                            <a href="" ng-click="removeProductIncart(c.id)" class="action-icon text-danger">
                                                 <i class="mdi mdi-trash-can font-size-18"></i></a>
                                         </td>
                                     </tr>

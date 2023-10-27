@@ -12,4 +12,7 @@ public interface IGioHangService {
 //    public Map<String, Integer> getProductInCart();
      List<GioHangDtoReponse> laySpTrongGio();
     public void addOrUpdateToCart(String idCTSP,Integer sl);
+
+    public void updateSoLuong(String key,Integer value);
+    public void removeProductInCart(String idCTSP);
 }

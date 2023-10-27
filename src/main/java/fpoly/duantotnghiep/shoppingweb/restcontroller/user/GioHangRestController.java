@@ -17,16 +17,29 @@ public class GioHangRestController {
     private IGioHangService service;
 
     @Autowired
-    private IChiTietSanPhamRepository serviceCtsp;
+    private IChiTietSanPhamRepository chiTietSanPhamRepository;
     @GetMapping("/find-all")
     public ResponseEntity<List<GioHangDtoReponse>> getCartContents() {
         List<GioHangDtoReponse> cartContents = service.laySpTrongGio();
         return new ResponseEntity<>(cartContents, HttpStatus.OK);
     }
 
-    @PostMapping("add-to-cart/{idCTSP}")
+    @PostMapping("add-to-cart")
     public List<GioHangDtoReponse> addToCart(@RequestParam("idCTSP")String idCTSP, @RequestParam("sl")Integer sl){
         service.addOrUpdateToCart(idCTSP,sl);
+        return service.laySpTrongGio();
+    }
+    @PutMapping("update-sl")
+    public List<GioHangDtoReponse> updateSL(@RequestParam("idCTSP")String idCTSP,@RequestParam("sl")Integer sl){
+        Long slSanPham = chiTietSanPhamRepository.getReferenceById(idCTSP).getSoLuong();
+        System.out.println("sl SP: "+slSanPham+" - SL: "+sl);
+        if(slSanPham < sl || sl <= 0) return null;
+        service.updateSoLuong(idCTSP,sl);
+        return service.laySpTrongGio();
+    }
+    @DeleteMapping("/remove/{key}")
+    public  List<GioHangDtoReponse>removeProductInCart(@PathVariable("key")String idCTSP){
+        service.removeProductInCart(idCTSP);
         return service.laySpTrongGio();
     }
 

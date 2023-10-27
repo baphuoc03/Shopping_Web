@@ -38,8 +38,6 @@ public class GioHangServiceImpl implements IGioHangService {
     private IDonHangRepository donHangRepository;
 
     private final Cart cart = new Cart();
-    @Autowired
-    HttpSession httpSession;
 
 
     // update
@@ -81,16 +79,5 @@ public class GioHangServiceImpl implements IGioHangService {
         return cart.getProductInCart().entrySet().stream().map(m -> new GioHangDtoReponse(repository.findById(m.getKey()).get(),m.getValue()))
                 .collect(Collectors.toList());
     }
-
-
-//    public Map<GioHangDtoReponse, Integer> getCartItems(Cart cart) {
-//        return cart.getProductInCart().entrySet().stream()
-//                .map(entry -> new GioHangDtoReponse(repository.findById(entry.getKey()), entry.getValue()))
-//                .collect(Collectors.toMap(product -> product, Map.Entry::getValue));
-//    }
-
-
-
-
 
 }

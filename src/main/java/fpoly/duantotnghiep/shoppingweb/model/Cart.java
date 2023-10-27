@@ -14,6 +14,4 @@ import java.util.Map;
 @SessionScope
 public class Cart {
     private Map<String,Integer> productInCart = new HashMap<>();
-
-
 }
