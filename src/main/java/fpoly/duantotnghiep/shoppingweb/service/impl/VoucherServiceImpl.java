@@ -30,6 +30,11 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    public List<VoucherReponse> findAll() {
+        return repository.findAll().stream().map(x -> new VoucherReponse(x)).collect(Collectors.toList());
+    }
+
+    @Override
     public Page<VoucherReponse> findByName(String keyword, Pageable pageable) {
         Page<VoucherModel> page = repository.findByTenLike(keyword, pageable);
         return page.map(x -> new VoucherReponse(x));

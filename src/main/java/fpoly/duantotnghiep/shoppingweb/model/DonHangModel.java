@@ -17,7 +17,6 @@ import java.util.List;
 @ToString
 @Table(name = "donhang")
 public class DonHangModel {
-
     @Id
     @Column(name = "ma")
     private String ma;
@@ -81,12 +80,12 @@ public class DonHangModel {
     @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
     private List<ChiTietDonHangModel> danhSachSanPham;
 
-    public String trangThaiDetail(){
-        if(trangThai==1){
+    public String trangThaiDetail() {
+        if (trangThai == 1) {
             return "Đã xác nhận";
-        }else if(trangThai == 2){
+        } else if (trangThai == 2) {
             return "Chưa xác nhận";
-        }else{
+        } else {
             return "null";
         }
     }

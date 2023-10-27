@@ -42,15 +42,16 @@ public class SanPhamServiceImpl implements ISanPhamService {
                 .map(s -> new SanPhamDtoResponse(s))
                 .collect(Collectors.toList());
     }
+
     @Override
-    public Page<SanPhamDtoResponse> pagination(Integer page, Integer limit){
-        Pageable pageable = PageRequest.of(page,limit);
+    public Page<SanPhamDtoResponse> pagination(Integer page, Integer limit) {
+        Pageable pageable = PageRequest.of(page, limit);
         List<SanPhamDtoResponse> pageContent = sanPhamRepository.findAll().stream()
-                                                .filter(s -> s.getTrangThai() == true)
-                                                .map(s -> new SanPhamDtoResponse(s))
-                                                .collect(Collectors.toList());
+                .filter(s -> s.getTrangThai() == true)
+                .map(s -> new SanPhamDtoResponse(s))
+                .collect(Collectors.toList());
         Page<SanPhamDtoResponse> pageDto = new PageImpl<>(pageContent.stream().skip(pageable.getOffset()).limit(limit).collect(Collectors.toList())
-                                                        ,pageable,pageContent.size());
+                , pageable, pageContent.size());
         return pageDto;
     }
 
@@ -88,12 +89,6 @@ public class SanPhamServiceImpl implements ISanPhamService {
         entities = sanPhamRepository.saveAll(entities);
 
         return entities.stream().map(s -> new SanPhamDtoResponse(s)).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<SanPhamModel> findListById(List<String> ma) {
-        List<SanPhamModel> listSanPhamModels = sanPhamRepository.findAllById(ma);
-        return listSanPhamModels;
     }
 
     @Override
@@ -150,7 +145,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
 
         SanPhamModel model = sanPhamRepository.findById(s).get();
         Boolean checkCTSPInSanPham = model.getCtsp().stream().allMatch(c -> c.kiemTraCoTrongDonHang() == false);
-        ImgUtil.deleteImg(model.getImages().stream().map(img -> img.getTen()).collect(Collectors.toList()),"product");
+        ImgUtil.deleteImg(model.getImages().stream().map(img -> img.getTen()).collect(Collectors.toList()), "product");
         if (model.getCtsp().size() == 0 || checkCTSPInSanPham == true) {
             anhService.deleteBySanPham(model);
             sanPhamRepository.deleteById(s);
@@ -168,9 +163,10 @@ public class SanPhamServiceImpl implements ISanPhamService {
     }
 
     @Override
-    public Page<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter,Integer pageNumber, Integer limt){
-        return sanPhamEntityManager.filterMultipleProperties(sanPhamDtoFilter,pageNumber,limt);
+    public Page<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter, Integer pageNumber, Integer limt) {
+        return sanPhamEntityManager.filterMultipleProperties(sanPhamDtoFilter, pageNumber, limt);
     }
+
     public Integer updateGiaBan(BigDecimal giaBan, String ma) {
         return sanPhamRepository.updateGiaBan(giaBan, ma);
     }

@@ -4,6 +4,7 @@ import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -27,6 +28,8 @@ public interface ISanPhamRepository extends JpaRepository<SanPhamModel, String> 
 
     @Query("SELECT km.sanPham  FROM KhuyenMaiModel km")
     List<SanPhamModel> findAllSanPhamWithKhuyenMai();
+
+
 
     @Query("SELECT km.sanPham  FROM KhuyenMaiModel km where km.ngayBatDau > current_date")
     List<SanPhamModel> findAllSanPhamWithKmWhereNgayBatDau();

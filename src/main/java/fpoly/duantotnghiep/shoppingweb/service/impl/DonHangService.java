@@ -2,18 +2,15 @@ package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
-import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietSanPhamDtoRequest;
-import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietDonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
+import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IChiTietDonHangRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.IChiTietSanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IChiTietDonHangService;
-import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
-import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,12 +59,18 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
+    public void checkOut(DonHangDTORequest donHangDTORequest) {
+        DonHangModel model = donHangDTORequest.mapModel();
+        donHangResponsitory.save(model);
+    }
+
+    @Override
     public DonHangDtoResponse findByMa(String ma) {
         return new DonHangDtoResponse(donHangResponsitory.findById(ma).orElse(new DonHangModel()));
     }
 
     @Override
-    public Boolean existsByMa(String ma){
+    public Boolean existsByMa(String ma) {
         return donHangResponsitory.existsById(ma);
     }
 
