@@ -79,15 +79,15 @@
                                         <td>{{cl.ngayTao}}</td>
                                         <td>{{cl.ngayCapNhat}}</td>
                                         <td>
-                                            <button ng-click="delete(cl.id)">
-                                                Delete
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button data-bs-toggle="modal"
-                                                    data-bs-target="#chatLieuUpdate"
-                                                    ng-click="getChatLieu(cl.id)"
-                                            >Update</button>
+                                            <a href="" class="edit" data-bs-toggle="modal" data-bs-target="#chatLieuUpdate"
+                                               ng-click="getChatLieu(cl.id)">
+                                                <i class="material-icons" title="Edit">&#xE254;</i>
+                                            </a>
+                                            <a href="" class="edit"
+                                               ng-click="delete(cl.id)"
+                                            >
+                                                <i class="material-icons" title="Delete" >&#xE872;</i>
+                                            </a>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -163,20 +163,6 @@
                                 <i id="eTen"  class="text-danger"></i>
                             </div>
                         </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label class="form-label">Ngày Tạo</label>
-                                <input type="text" ng-model="ngayTao" class="form-control" readonly>
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label class="form-label">Ngày Cập Nhật</label>
-                                <input type="text" ng-model="ngayCapNhat" class="form-control" readonly>
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                        </div>
                         <!-- Modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" ng-click="create()">Submit</button>
@@ -211,20 +197,7 @@
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                         </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label class="form-label">Ngày Tạo</label>
-                                <input type="text" ng-model="ngayTao" class="form-control" readonly>
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label class="form-label">Ngày Cập Nhật</label>
-                                <input type="text" ng-model="ngayCapNhat" class="form-control" readonly>
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                        </div>
+
                         <!-- Modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" ng-click="update(id)">Submit</button>

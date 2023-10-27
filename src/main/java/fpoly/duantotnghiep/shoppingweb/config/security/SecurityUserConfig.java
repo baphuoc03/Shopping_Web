@@ -1,6 +1,5 @@
 package fpoly.duantotnghiep.shoppingweb.config.security;
 
-import fpoly.duantotnghiep.shoppingweb.service.impl.UserAdminService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,34 +11,28 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityAdminConfig {
-    private final UserAdminService userAdminService;
+public class SecurityUserConfig {
     private final UserService userService;
 
-    public SecurityAdminConfig(UserAdminService userAdminService, UserService userService) {
-        this.userAdminService = userAdminService;
+    public SecurityUserConfig(UserService userService) {
         this.userService = userService;
     }
 
-    @Bean
+    @Bean("user")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        String[] adminPermitAll = {"/admin/AngularJs/**", "/admin/assets/**", "/admin/css/**", "/admin/images/**", "/admin/js/**",
-                "/admin/quen-mat-khau", "/image/**", "/admin/dat-lai-mat-khau/**"};
+        String[] adminPermitAll = {"/user/AngularJs/**", "/user/assets/**", "/user/css/**", "/user/images/**", "/user/js/**",
+                "/user/quen-mat-khau", "/image/**", "/user/dat-lai-mat-khau/**"};
         http
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests(requests -> requests
-                                .requestMatchers(adminPermitAll).permitAll()
-//                        .requestMatchers("/detail").hasAnyAuthority("STAFF","ADMIN")
-//                        .requestMatchers("/add").hasAuthority("ADMIN")
-                                .requestMatchers("/admin/**").authenticated()
                                 .anyRequest().permitAll()
                 )
-                .userDetailsService(userAdminService)
-                .formLogin(login -> login.loginPage("/admin/login")
-                        .loginProcessingUrl("/admin/login")
-                        .defaultSuccessUrl("/admin/trang-chu", false)
-                        .failureUrl("/admin/login?error=true")
+                .userDetailsService(userService)
+                .formLogin(login -> login.loginPage("/dang-nhap")
+                        .loginProcessingUrl("/dang-nhap")
+                        .defaultSuccessUrl("/home", false)
+                        .failureUrl("/dang-nhap?error=true")
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .permitAll()
@@ -47,7 +40,7 @@ public class SecurityAdminConfig {
 //                .httpBasic(Customizer.withDefaults())
                 .logout(l -> l
 //                        .logoutUrl("/admin/logout")
-                                .logoutSuccessUrl("/admin/login")
+                                .logoutSuccessUrl("/dang-nhap")
                                 .invalidateHttpSession(true)
                                 .deleteCookies("JSESSIONID")
                                 .clearAuthentication(true)
@@ -56,8 +49,7 @@ public class SecurityAdminConfig {
         return http.build();
     }
 
-
-    @Bean
+    @Bean("userPassword")
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }

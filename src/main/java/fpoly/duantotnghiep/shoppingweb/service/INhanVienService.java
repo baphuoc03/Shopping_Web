@@ -15,7 +15,6 @@ public interface INhanVienService {
 
     Boolean existsByUsername(String username);
 
-
     NhanVienDtoResponse add(NhanVienDtoRequest nhanVien) throws MessagingException;
 
     NhanVienDtoResponse update(NhanVienDtoRequest nhanVien) ;
