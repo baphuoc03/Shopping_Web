@@ -50,6 +50,9 @@ public class KhachHangModel {
     @ToString.Exclude
     private List<DonHangModel> danhSachDonHang;
 
+    public KhachHangModel(String khachHang) {
+    }
+
 //    @ManyToMany
 //    @JoinTable(name = "voucher_taikhoan",
 //            joinColumns = { @JoinColumn(name = "voucher") },
