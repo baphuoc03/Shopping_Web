@@ -49,7 +49,7 @@ public class DonHangDtoResponse {
         this.ngayDatHang = model.getNgayDatHang();
         this.trangThai = model.getTrangThai();
         this.ghiChu = model.getGhiChu();
-        this.tienGiam = model.getVoucher() == null ? BigDecimal.valueOf(0) : BigDecimal.valueOf(model.getVoucher().getMucGiam());
+        this.tienGiam = model.getTienGiam() == null ? BigDecimal.valueOf(0) : model.getTienGiam();
         this.phiGiaoHang = model.getPhiGiaoHang();
         this.trangThaiDetail = model.trangThaiDetail();
         this.phuongThucThanhToan = model.getPhuongThucThanhToan() == true ? "Thanh toán khi nhận hàng" : "Thanh toán online";

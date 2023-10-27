@@ -161,6 +161,8 @@ app.controller("donhang-ctrl", function ($scope, $http){
             this.detail.quanHuyenName = $scope.giaoHangNhanh.districts[indexDistrict].DistrictName;
             this.detail.xaPhuongName = $scope.giaoHangNhanh.wards[indexWard].WardName
 
+            let index = this.list.findIndex(d => d.ma == this.detail.ma)
+            this.list[index] = this.detail
           console.log(this.detail)
         },
         setPageNumbers(){

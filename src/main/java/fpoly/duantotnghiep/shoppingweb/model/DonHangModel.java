@@ -69,8 +69,8 @@ public class DonHangModel {
     @Column(name = "ghichu")
     private String ghiChu;
 
-//    @Column(name = "tiengiam")
-//    private BigDecimal tienGiam;
+    @Column(name = "tiengiam")
+    private BigDecimal tienGiam;
 
     @Column(name = "phigiaohang")
     private BigDecimal phiGiaoHang;
