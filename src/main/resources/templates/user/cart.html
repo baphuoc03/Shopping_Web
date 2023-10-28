@@ -64,7 +64,9 @@
 <!--                                                <input type="text" value="{{c.soLuong}}" name="demo_vertical"/>-->
                                                 <input id="{{c.id}}" onchange="angular.element(this).scope().getUpdateSL(this.id,this.value)"
                                                        class="form-control input-number text-center" value="{{c.soLuong}}">
-                                            </div>
+<!--                                       <input ng-change="cart.get()" ng-model="item.qty" type="number" min="1" style="width:60px;"/>-->
+
+                            </div>
                                         </td>
                                         <td>
                                             {{c.donGia * c.soLuong}}

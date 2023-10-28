@@ -57,8 +57,6 @@ app.controller("cart-ctrl", function ($scope, $http){
                 $scope.getTotal();
                 // let index = $scope.cart.findIndex(c => c.id == idCTSP);
                 // $scope.cart.slice(index,1)
-
-
             })
         }
     }
