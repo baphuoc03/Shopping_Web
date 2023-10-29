@@ -153,6 +153,9 @@ app.controller("donhang-ctrl", function ($scope, $http){
             }).catch(e => console.log(e))
         },
         capNhat(){
+            if(!confirm("Cập nhật thông tin đơn hàng "+ this.detail.ma+"?")){
+                return
+            }
             let indexCity = $scope.giaoHangNhanh.citys.findIndex(c => c.ProvinceID == this.detail.thanhPhoCode)
             let indexDistrict = $scope.giaoHangNhanh.districts.findIndex(d => d.DistrictID == this.detail.quanHuyenCode)
             let indexWard = $scope.giaoHangNhanh.wards.findIndex(w => w.WardCode == this.detail.xaPhuongCode)
@@ -160,10 +163,32 @@ app.controller("donhang-ctrl", function ($scope, $http){
             this.detail.thanhPhoName = $scope.giaoHangNhanh.citys[indexCity].ProvinceName;
             this.detail.quanHuyenName = $scope.giaoHangNhanh.districts[indexDistrict].DistrictName;
             this.detail.xaPhuongName = $scope.giaoHangNhanh.wards[indexWard].WardName
+            let data = {
+                ma : this.detail.ma,
+                nguoiSoHuu : {username: this.detail.nguoiSoHuu},
+                tenNguoiNhan : this.detail.tenNguoiNhan,
+                soDienThoai : this.detail.soDienThoai,
+                email : this.detail.email,
+                thanhPhoName : this.detail.thanhPhoName,
+                thanhPhoCode : this.detail.thanhPhoCode,
+                quanHuyenName : this.detail.quanHuyenName,
+                quanHuyenCode : this.detail.quanHuyenCode,
+                xaPhuongName : this.detail.xaPhuongName,
+                xaPhuongCode : this.detail.xaPhuongCode,
+                diaChiChiTiet : this.detail.diaChiChiTiet,
+                ngayDatHang : this.detail.ngayDatHang,
+                trangThai : this.detail.trangThai,
+                ghiChu : this.detail.ghiChu,
+                tienGiam : this.detail.tienGiam,
+                phiGiaoHang : this.detail.phiGiaoHang,
+                trangThaiDetail : this.detail.trangThai
+            }
 
-            let index = this.list.findIndex(d => d.ma == this.detail.ma)
-            this.list[index] = this.detail
-          console.log(this.detail)
+            $http.put("/admin/don-hang",data).then(r => {
+                let index = this.list.findIndex(d => d.ma == this.detail.ma)
+                this.list[index] = this.detail
+            }).catch(e =>console.log(e))
+
         },
         setPageNumbers(){
             let numbers = [];

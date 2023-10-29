@@ -32,7 +32,7 @@ public class DonHangDTORequest {
     public DonHangModel mapModel() {
         DonHangModel donHangModel = new DonHangModel();
         donHangModel.setMa(ma);
-        donHangModel.setNguoiSoHuu(nguoiSoHuu);
+        if(nguoiSoHuu.getUsername()!=null || nguoiSoHuu.getUsername().isBlank()) donHangModel.setNguoiSoHuu(nguoiSoHuu);
         donHangModel.setTenNguoiNhan(tenNguoiNhan);
         donHangModel.setSoDienThoai(soDienThoai);
         donHangModel.setEmail(email);
