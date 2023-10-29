@@ -20,8 +20,8 @@ public class SecurityUserConfig {
 
     @Bean("user")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        String[] adminPermitAll = {"/user/AngularJs/**", "/user/assets/**", "/user/css/**", "/user/images/**", "/user/js/**",
-                "/user/quen-mat-khau", "/image/**", "/user/dat-lai-mat-khau/**"};
+        String[] adminPermitAll = {"/dang-nhap/AngularJs/**", "/dang-nhap/assets/**", "/user/css/**", "/user/images/**", "/user/js/**",
+                "/dang-nhap/quen-mat-khau", "/image/**", "/dang-nhap/dat-lai-mat-khau/**"};
         http
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
@@ -49,10 +49,10 @@ public class SecurityUserConfig {
         return http.build();
     }
 
-    @Bean("userPassword")
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
+//    @Bean("userPassword")
+//    public PasswordEncoder passwordEncoder() {
+//        return NoOpPasswordEncoder.getInstance();
+//    }
 
 //    @Bean
 //    public PasswordEncoder passwordEncoder() {
