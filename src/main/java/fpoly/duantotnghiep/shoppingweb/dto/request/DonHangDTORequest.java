@@ -38,7 +38,7 @@ public class DonHangDTORequest {
         voucherModel.setMa(voucher);
         donHangModel.setVoucher(voucherModel);
         donHangModel.setMa(ma);
-        donHangModel.setNguoiSoHuu(nguoiSoHuu);
+        if(nguoiSoHuu.getUsername()!=null || nguoiSoHuu.getUsername().isBlank()) donHangModel.setNguoiSoHuu(nguoiSoHuu);
         donHangModel.setTenNguoiNhan(tenNguoiNhan);
         donHangModel.setSoDienThoai(soDienThoai);
         donHangModel.setEmail(email);

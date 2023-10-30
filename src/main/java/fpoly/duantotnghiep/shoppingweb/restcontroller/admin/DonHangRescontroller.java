@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
 import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
@@ -50,6 +51,14 @@ public class DonHangRescontroller {
         }
         donHangService.huyDonHang(ma);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("")
+    public ResponseEntity<?> updateDonHang(@RequestBody DonHangDTORequest request){
+        if(!donHangService.existsByMa(request.getMa())){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(donHangService.updateDonHang(request));
     }
 
 
