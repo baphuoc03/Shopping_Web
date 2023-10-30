@@ -17,13 +17,13 @@ public interface ISanPhamService {
 
     Page<SanPhamDtoResponse> pagination(Integer page, Integer limit);
 
+    Page<SanPhamDtoResponse> paginationInUser(Integer page, Integer limit);
+
     SanPhamDtoResponse findByMa(String ma);
 
     SanPhamDtoRequest findDtoRequetsByMa(String ma);
 
     List<SanPhamDtoResponse> saveAll(List<SanPhamDtoRequest> sanPham);
-
-    List<SanPhamModel> findListById(List<String> ma);
 
     List<SanPhamModel> findByAllSanPhamWithKM();
 
@@ -45,6 +45,8 @@ public interface ISanPhamService {
     Page<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter, Integer pageNumber, Integer limt);
 
     Integer updateGiaBan(BigDecimal giaBan, String ma);
+
+    List<SanPhamDtoResponse> getSanPhamTuongTu(String ma);
 
 //    public void updateGiaGiam(SanPhamModel sanPhamModel);
 }

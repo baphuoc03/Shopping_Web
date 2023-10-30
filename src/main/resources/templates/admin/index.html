@@ -57,7 +57,6 @@
             crossorigin="anonymous"></script>
     <br type="_moz">
 
-    <!--    ///////////////////////////-->
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css'>
     <link rel='stylesheet'
           href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/css/fileinput.min.css'/>
@@ -192,7 +191,12 @@
                             <span data-key="t-dashboard">Trang chủ</span>
                         </a>
                     </li>
-
+                    <li>
+                        <a th:href="@{/admin/don-hang}">
+                            <i data-feather="message-square"></i>
+                            <span data-key="t-chat">Đơn Hàng</span>
+                        </a>
+                    </li>
                     <li class="menu-title" data-key="t-apps">Sản phẩm</li>
 
                     <li>
@@ -486,6 +490,7 @@
 <script src="/admin/AngularJS/ChatLieuJS.js"></script>
 <script src="/admin/AngularJS/KieuDangJS.js"></script>
 <script src="/admin/AngularJS/ThuongHieuJS.js"></script>
+<script src="/admin/AngularJS/DonHang.js"></script>
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>

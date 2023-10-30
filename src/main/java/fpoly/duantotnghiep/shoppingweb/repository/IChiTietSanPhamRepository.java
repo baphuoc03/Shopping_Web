@@ -22,10 +22,12 @@ UPDATE ChiTietSanPhamModel s SET s.soLuong = ?1 WHERE s.id = ?2
 
     Boolean existsBySanPhamMaAndSizeMa(String maSP, Float size);
 
+    @Transactional
+    @Modifying
     @Query("""
 UPDATE ChiTietSanPhamModel s SET s.trangThai = ?1 WHERE s.id = ?2
 """)
-    ChiTietSanPhamModel updateTrangThai(Boolean trangThai, String id);
+    int updateTrangThai(Boolean trangThai, String id);
 
     ChiTietSanPhamModel getBySanPhamMaAndSizeMa(String maSP, Float size);
 }

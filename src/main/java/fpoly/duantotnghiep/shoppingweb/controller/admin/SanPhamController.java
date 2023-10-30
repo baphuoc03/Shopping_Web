@@ -80,7 +80,6 @@ public class SanPhamController {
 
         sanPham.setAnh(file);
         sanPham.setNgayCapNhat(new Date());
-        sanPham.setGiaNiemYet(sanPham.getGiaBan());
         sanPhamService.save(sanPham);
         return "redirect:/admin/san-pham";
     }

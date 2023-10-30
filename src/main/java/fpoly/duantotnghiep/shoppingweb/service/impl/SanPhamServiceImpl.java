@@ -6,6 +6,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.entitymanager.SanPhamEntityManager;
 import fpoly.duantotnghiep.shoppingweb.model.AnhModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
+import fpoly.duantotnghiep.shoppingweb.repository.IDongSanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
 import fpoly.duantotnghiep.shoppingweb.util.ImgUtil;
@@ -31,6 +32,8 @@ public class SanPhamServiceImpl implements ISanPhamService {
     private AnhServiceImpl anhService;
     @Autowired
     private SanPhamEntityManager sanPhamEntityManager;
+    @Autowired
+    private IDongSanPhamRepository dongSanPhamRepository;
 
     @Override
     public List<SanPhamDtoResponse> findAll() {
@@ -39,17 +42,32 @@ public class SanPhamServiceImpl implements ISanPhamService {
                 .map(s -> new SanPhamDtoResponse(s))
                 .collect(Collectors.toList());
     }
+
     @Override
-    public Page<SanPhamDtoResponse> pagination(Integer page, Integer limit){
-        Pageable pageable = PageRequest.of(page,limit);
+    public Page<SanPhamDtoResponse> pagination(Integer page, Integer limit) {
+        Pageable pageable = PageRequest.of(page, limit);
         List<SanPhamDtoResponse> pageContent = sanPhamRepository.findAll().stream()
-                                                .filter(s -> s.getTrangThai() == true)
-                                                .map(s -> new SanPhamDtoResponse(s))
-                                                .collect(Collectors.toList());
+                .filter(s -> s.getTrangThai() == true)
+                .map(s -> new SanPhamDtoResponse(s))
+                .collect(Collectors.toList());
         Page<SanPhamDtoResponse> pageDto = new PageImpl<>(pageContent.stream().skip(pageable.getOffset()).limit(limit).collect(Collectors.toList())
-                                                        ,pageable,pageContent.size());
+                , pageable, pageContent.size());
         return pageDto;
     }
+
+    @Override
+    public Page<SanPhamDtoResponse> paginationInUser(Integer page, Integer limit){
+        Pageable pageable = PageRequest.of(page,limit);
+        List<SanPhamDtoResponse> pageContent = sanPhamRepository.findAll().stream()
+                .filter(s -> s.getTrangThai() == true)
+                .filter(s -> s.getHienThi() == true)
+                .map(s -> new SanPhamDtoResponse(s))
+                .collect(Collectors.toList());
+        Page<SanPhamDtoResponse> pageDto = new PageImpl<>(pageContent.stream().skip(pageable.getOffset()).limit(limit).collect(Collectors.toList())
+                ,pageable,pageContent.size());
+        return pageDto;
+    }
+
 
     @Override
     public SanPhamDtoResponse findByMa(String ma) {
@@ -74,12 +92,6 @@ public class SanPhamServiceImpl implements ISanPhamService {
     }
 
     @Override
-    public List<SanPhamModel> findListById(List<String> ma) {
-        List<SanPhamModel> listSanPhamModels = sanPhamRepository.findAllById(ma);
-        return listSanPhamModels;
-    }
-
-    @Override
     public List<SanPhamModel> findByAllSanPhamWithKM() {
         return sanPhamRepository.findAllSanPhamWithKhuyenMai();
     }
@@ -92,6 +104,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
     @Override
     public SanPhamDtoResponse save(SanPhamDtoRequest entity) {
         SanPhamModel model = entity.mapToModel();
+        model.setGiaNiemYet(entity.getGiaBan());
         List<AnhModel> imgs = model.getImages();
         model.setTrangThai(true);
         model = sanPhamRepository.save(model);
@@ -110,6 +123,11 @@ public class SanPhamServiceImpl implements ISanPhamService {
 //        ImgUtil.deleteImg(findDtoRequetsByMa(entity.getMa()).getAnh(),"product");
 
         SanPhamModel model = entity.mapToModel();
+
+        SanPhamModel sanPhamOld = sanPhamRepository.findById(model.getMa()).get();
+            BigDecimal giamGia = sanPhamOld.getGiaBan().subtract(sanPhamOld.getGiaNiemYet());
+            model.setGiaNiemYet(model.getGiaBan().subtract(giamGia));
+
         anhService.deleteBySanPham(model);
         anhService.saveAll(model.getImages());
         model.setTrangThai(true);
@@ -127,7 +145,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
 
         SanPhamModel model = sanPhamRepository.findById(s).get();
         Boolean checkCTSPInSanPham = model.getCtsp().stream().allMatch(c -> c.kiemTraCoTrongDonHang() == false);
-        ImgUtil.deleteImg(model.getImages().stream().map(img -> img.getTen()).collect(Collectors.toList()),"product");
+        ImgUtil.deleteImg(model.getImages().stream().map(img -> img.getTen()).collect(Collectors.toList()), "product");
         if (model.getCtsp().size() == 0 || checkCTSPInSanPham == true) {
             anhService.deleteBySanPham(model);
             sanPhamRepository.deleteById(s);
@@ -145,10 +163,25 @@ public class SanPhamServiceImpl implements ISanPhamService {
     }
 
     @Override
-    public Page<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter,Integer pageNumber, Integer limt){
-        return sanPhamEntityManager.filterMultipleProperties(sanPhamDtoFilter,pageNumber,limt);
+    public Page<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter, Integer pageNumber, Integer limt) {
+        return sanPhamEntityManager.filterMultipleProperties(sanPhamDtoFilter, pageNumber, limt);
     }
+
     public Integer updateGiaBan(BigDecimal giaBan, String ma) {
         return sanPhamRepository.updateGiaBan(giaBan, ma);
+    }
+
+    @Override
+    public List<SanPhamDtoResponse> getSanPhamTuongTu(String ma){
+        List<SanPhamDtoResponse> listSP = new ArrayList<>();
+        SanPhamModel sanPhamModel = sanPhamRepository.findById(ma).orElse(null);
+
+        if(sanPhamModel==null || sanPhamModel.getDongSanPham() == null) return listSP;
+
+        listSP = dongSanPhamRepository.findById(sanPhamModel.getDongSanPham().getId()).get().getDanhSachSanPham()
+                .stream()
+//                .filter(s -> !s.getMa().equals(ma))
+                .map(s -> new SanPhamDtoResponse(s)).collect(Collectors.toList());
+        return listSP;
     }
 }

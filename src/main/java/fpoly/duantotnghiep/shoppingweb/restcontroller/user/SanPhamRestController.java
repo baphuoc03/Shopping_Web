@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController("san-pham-user")
 @RequestMapping("/san-pham")
@@ -24,8 +25,14 @@ public class SanPhamRestController {
     public ResponseEntity<Page<SanPhamDtoResponse>> getAll(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
                                                            @RequestParam(value = "limit", defaultValue = "6") Integer limit) {
 
-        return ResponseEntity.ok(sanPhamService.pagination(pageNumber, limit));
+        return ResponseEntity.ok(sanPhamService.paginationInUser(pageNumber, limit));
     }
+
+    @GetMapping("san-pham-tuong-tu/{ma}")
+    public ResponseEntity<List<SanPhamDtoResponse>> getSpTuongTu(@PathVariable("ma")String ma){
+        return ResponseEntity.ok(sanPhamService.getSanPhamTuongTu(ma));
+    }
+
 
     @PostMapping("filter")
     public ResponseEntity<Page<SanPhamDtoResponse>> filter(@RequestBody SanPhamDtoFilter sanPhamDtoFilter,

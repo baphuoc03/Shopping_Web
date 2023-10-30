@@ -23,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +55,13 @@ public class SecurityController {
 
     @GetMapping("${admin.domain}/login")
     public String viewLogin(){
+        return "/admin/authen/LoginForm.html";
+    }
+
+    @GetMapping("${admin.domain}/login/error")
+    public String viewLoginError(Model model,Authentication authentication){
+        System.out.println(authentication.getName());
+        model.addAttribute("mess","Tài khoản hoặc mật khẩu không chính xác!");
         return "/admin/authen/LoginForm.html";
     }
 

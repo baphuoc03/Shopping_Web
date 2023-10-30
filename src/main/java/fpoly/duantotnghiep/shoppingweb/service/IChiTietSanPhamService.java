@@ -6,6 +6,10 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietSanPhamDtoRequest;
 import java.util.List;
 
 public interface IChiTietSanPhamService {
+    List<ChiTietSanPhamDtoResponse> fillAllChiTietSP();
+
+    ChiTietSanPhamDtoResponse finById(String id);
+
     List<ChiTietSanPhamDtoResponse> getAllBySanPhamMa(String maSP);
 
     ChiTietSanPhamDtoResponse updateSoLuong(ChiTietSanPhamDtoRequest request);

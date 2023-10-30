@@ -14,11 +14,13 @@ public class ChiTietSanPhamDtoResponse {
     private String sanPham;
     private Float size;
     private Long soLuong;
+    private SanPhamDtoResponse sanPhamDTO;
 
     public ChiTietSanPhamDtoResponse(ChiTietSanPhamModel model) {
         id = model.getId();
         sanPham = model.getSanPham().getTen();
         size = model.getSize().getMa();
         soLuong = model.getSoLuong();
+        sanPhamDTO = new SanPhamDtoResponse(model.getSanPham());
     }
 }
