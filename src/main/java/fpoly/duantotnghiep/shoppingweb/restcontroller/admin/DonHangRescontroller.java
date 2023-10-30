@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
@@ -45,20 +46,21 @@ public class DonHangRescontroller {
     }
 
     @GetMapping("/huy-don-hang/{ma}")
-    public ResponseEntity<Integer> huyDonHang(@PathVariable("ma")String ma) throws MessagingException {
+    public ResponseEntity<Integer> huyDonHang(@PathVariable("ma")String ma,@RequestParam("lyDo")String lyDo) throws MessagingException {
         if(!donHangService.existsByMa(ma)){
             return ResponseEntity.notFound().build();
         }
-        donHangService.huyDonHang(ma);
+        donHangService.huyDonHang(ma,lyDo);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("")
-    public ResponseEntity<?> updateDonHang(@RequestBody DonHangDTORequest request){
+    public ResponseEntity<?> updateDonHang(@RequestPart("donHang") DonHangDTORequest request,
+                                           @RequestPart("chiTietDonHang")List<ChiTietDonHangDTORequest> products){
         if(!donHangService.existsByMa(request.getMa())){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(donHangService.updateDonHang(request));
+        return ResponseEntity.ok(donHangService.updateDonHang(request,products));
     }
 
 

@@ -77,6 +77,9 @@ public class DonHangModel {
     @Column(name = "phuongthucthanhtoan")
     private Boolean phuongThucThanhToan;
 
+    @Column(name = "lydohuy")
+    private String lyDoHuy;
+
     @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
     private List<ChiTietDonHangModel> danhSachSanPham;
 
@@ -88,6 +91,11 @@ public class DonHangModel {
         } else {
             return "null";
         }
+    }
+
+    public String getLyDoHuy() {
+        if(lyDoHuy==null) return "";
+        return lyDoHuy;
     }
 
     @Override

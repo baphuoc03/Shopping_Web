@@ -33,6 +33,21 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label>Mã voucher</label>
+                            <span class="form-control">{{donHang.voucherCode == null ? 'Không áp dụng' : donHang.voucherCode}}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label>Tên voucher</label>
+                            <span class="form-control">{{donHang.voucherName == null ? 'Không áp dụng' : donHang.voucherName}}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
                     <div class="col-sm-4">
                         <div class="mb-3">
                             <label>Tên người nhận</label>

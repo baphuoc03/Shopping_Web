@@ -28,11 +28,13 @@ public class DonHangDTORequest {
     private BigDecimal tienGiam;
     private BigDecimal phiGiaoHang;
     private String trangThaiDetail;
+    private String lyDoHuy;
 
     public DonHangModel mapModel() {
         DonHangModel donHangModel = new DonHangModel();
         donHangModel.setMa(ma);
-        if(nguoiSoHuu.getUsername()!=null || nguoiSoHuu.getUsername().isBlank()) donHangModel.setNguoiSoHuu(nguoiSoHuu);
+        if(nguoiSoHuu.getUsername()!=null || !nguoiSoHuu.getUsername().isBlank()) donHangModel.setNguoiSoHuu(nguoiSoHuu);
+        if(lyDoHuy!=null || !lyDoHuy.isBlank()) donHangModel.setLyDoHuy(lyDoHuy);
         donHangModel.setTenNguoiNhan(tenNguoiNhan);
         donHangModel.setSoDienThoai(soDienThoai);
         donHangModel.setEmail(email);

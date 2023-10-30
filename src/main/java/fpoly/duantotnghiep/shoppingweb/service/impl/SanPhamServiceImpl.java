@@ -128,6 +128,8 @@ public class SanPhamServiceImpl implements ISanPhamService {
             BigDecimal giamGia = sanPhamOld.getGiaBan().subtract(sanPhamOld.getGiaNiemYet());
             model.setGiaNiemYet(model.getGiaBan().subtract(giamGia));
 
+        model.setNgayTao(sanPhamOld.getNgayTao());
+
         anhService.deleteBySanPham(model);
         anhService.saveAll(model.getImages());
         model.setTrangThai(true);

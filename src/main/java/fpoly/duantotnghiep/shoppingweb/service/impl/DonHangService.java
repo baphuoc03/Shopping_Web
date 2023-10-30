@@ -2,6 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietDonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
@@ -119,7 +120,7 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
-    public void huyDonHang(String maDonHang) throws MessagingException {
+    public void huyDonHang(String maDonHang, String lyDo) throws MessagingException {
 //         donHangResponsitory.updateTrangThaiDonHang(trangThai,maDonHang);
         DonHangModel model = donHangResponsitory.findById(maDonHang).get();
         model.setTrangThai(0);
@@ -148,6 +149,7 @@ public class DonHangService implements IDonHangService {
         context.setVariable("totalPrice",tongTien);
         context.setVariable("mess",messeger);
         context.setVariable("title",subject);
+        context.setVariable("lyDo",lyDo);
         new Thread(()->{
             try {
                 sendEmailDonHang(model.getEmail(), subject,"email/capNhatTrangThaiDonHang",context,lstSanPham);
@@ -160,10 +162,21 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
-    public DonHangDtoResponse updateDonHang(DonHangDTORequest request){
+    public DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products){
         DonHangModel donHangOld = donHangResponsitory.findById(request.getMa()).orElse(null);
         DonHangModel model = request.mapModel();
-        model.setPhuongThucThanhToan(true);
+        model.setPhuongThucThanhToan(donHangOld.getPhuongThucThanhToan());
+
+        List<String> maCTSPNew = products.stream().map(c -> c.getId()).collect(Collectors.toList());
+        List<ChiTietDonHangModel> ctdhModelOld = chiTietDonHangRepository.findAllByDonHang(model);
+        ctdhModelOld.forEach(c -> {
+            if(!maCTSPNew.contains(c.getId())){
+                chiTietDonHangRepository.deleteById(c.getId());
+            }
+        });
+
+        products.forEach(p -> chiTietDonHangRepository.save(p.mapModel()));
+
         if(donHangOld.getVoucher()!=null){
             model.setVoucher(donHangOld.getVoucher());
         }

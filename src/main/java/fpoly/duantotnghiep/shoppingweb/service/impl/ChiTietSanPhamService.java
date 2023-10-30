@@ -102,4 +102,13 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     public Boolean existsById(String id) {
         return chiTietSanPhamRepository.existsById(id);
     }
+
+    @Override
+    public Boolean checkSoLuongSP(String id, Long soLuong){
+        ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(id).get();
+        if(soLuong > chiTietSanPhamModel.getSoLuong() || soLuong<=0){
+            return false;
+        }
+        return true;
+    }
 }

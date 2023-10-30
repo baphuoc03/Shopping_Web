@@ -78,5 +78,14 @@ public class ChiTietSanPhamRestController {
         return ResponseEntity.ok(chiTietSanPhamService.update(model));
     }
 
+    @GetMapping("kiem-tra-so-luong/{id}")
+    public ResponseEntity<?> kiemTraSoLuong(@PathVariable("id") String id,
+                                            @RequestParam("soLuong")Long soLuong){
+        if(!chiTietSanPhamService.checkSoLuongSP(id,soLuong)){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
 
 }

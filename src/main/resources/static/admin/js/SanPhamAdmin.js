@@ -109,7 +109,6 @@ app.controller('ctrl', function ($scope, $http) {
         $scope.pageNumber = 0
         $scope.pageNumbers = []
         $http.get("/admin/san-pham/get-all").then(r => {
-            console.log(r.data)
             $scope.items = r.data.content;
             $scope.getPageNumbers(r.data.totalPages)
             $scope.filterData = {}
@@ -117,28 +116,130 @@ app.controller('ctrl', function ($scope, $http) {
             isfilter = false;
         }).catch(e => console.log(e))
     }
+
+    $scope.sortName = function (){
+       let button = document.getElementById("sortName")
+        if(button.className == "bx bx-sort-up"){
+            $scope.resetIconButton()
+            button.className = "bx bx-sort-down"
+            $scope.filterDto = {sort : 3}
+        }else if(button.className == "bx bx-sort"){
+            $scope.resetIconButton()
+            button.className = "bx bx-sort-up"
+            $scope.filterDto = {sort : 4}
+        }else{
+            button.className = "bx bx-sort"
+            $scope.clearFilter()
+            return
+        }
+        $scope.pageNumber = 0
+        $scope.pageNumbers = []
+        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
+            $scope.items = r.data.content;
+            $scope.getPageNumbers(r.data.totalPages)
+            isfilter = true;
+        }).catch(e => console.log(e))
+    }
+    $scope.sortColor = function (){
+        let button = document.getElementById("sortColor")
+        if(button.className == "bx bx-sort-up"){
+            $scope.resetIconButton()
+            $scope.filterDto = {sort : 7}
+            button.className = "bx bx-sort-down"
+        }else if(button.className == "bx bx-sort"){
+            $scope.resetIconButton()
+            $scope.filterDto = {sort : 8}
+            button.className = "bx bx-sort-up"
+        }else{
+            button.className = "bx bx-sort"
+            $scope.clearFilter()
+            return
+        }
+        $scope.pageNumber = 0
+        $scope.pageNumbers = []
+        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
+            $scope.items = r.data.content;
+            $scope.getPageNumbers(r.data.totalPages)
+            isfilter = true;
+        }).catch(e => console.log(e))
+    }
+    $scope.sortBrand = function (){
+        let button = document.getElementById("sortBrand")
+        if(button.className == "bx bx-sort-up"){
+            $scope.resetIconButton()
+            $scope.filterDto = {sort : 9}
+            button.className = "bx bx-sort-down"
+        }else if(button.className == "bx bx-sort"){
+            $scope.resetIconButton()
+            $scope.filterDto = {sort : 10}
+            button.className = "bx bx-sort-up"
+        }else{
+            button.className = "bx bx-sort"
+            $scope.clearFilter()
+            return
+        }
+        $scope.pageNumber = 0
+        $scope.pageNumbers = []
+        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
+            $scope.items = r.data.content;
+            $scope.getPageNumbers(r.data.totalPages)
+            isfilter = true;
+        }).catch(e => console.log(e))
+    }
+    $scope.sortAcount = function (){
+        let button = document.getElementById("sortAcount")
+        if(button.className == "bx bx-sort-up"){
+            $scope.resetIconButton()
+            button.className = "bx bx-sort-down"
+            $scope.filterDto = {sort : 5}
+        }else if(button.className == "bx bx-sort"){
+            $scope.resetIconButton()
+            button.className = "bx bx-sort-up"
+            $scope.filterDto = {sort : 6}
+        }else{
+            button.className = "bx bx-sort"
+            $scope.clearFilter()
+            return
+        }
+        $scope.pageNumber = 0
+        $scope.pageNumbers = []
+        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
+            $scope.items = r.data.content;
+            $scope.getPageNumbers(r.data.totalPages)
+            isfilter = true;
+        }).catch(e => console.log(e))
+    }
+    $scope.sortPrice = function (){
+        let button = document.getElementById("sortPrice")
+        if(button.className == "bx bx-sort-up"){
+            $scope.resetIconButton()
+            button.className = "bx bx-sort-down"
+            $scope.filterDto = {sort : 1}
+        }else if(button.className == "bx bx-sort"){
+            $scope.resetIconButton()
+            button.className = "bx bx-sort-up"
+            $scope.filterDto = {sort : 2}
+        }else{
+            button.className = "bx bx-sort"
+            $scope.clearFilter()
+            return
+        }
+        $scope.pageNumber = 0
+        $scope.pageNumbers = []
+        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
+            $scope.items = r.data.content;
+            $scope.getPageNumbers(r.data.totalPages)
+            isfilter = true;
+        }).catch(e => console.log(e))
+    }
+    $scope.resetIconButton = function (){
+        document.getElementById("sortName").className = "bx bx-sort";
+        document.getElementById("sortColor").className = "bx bx-sort";
+        document.getElementById("sortBrand").className = "bx bx-sort";
+        document.getElementById("sortPrice").className = "bx bx-sort";
+        document.getElementById("sortAcount").className = "bx bx-sort";
+    }
 });
-//
-// var appTB = angular.module('app', []);
-// appTB.controller('thongBao-ctrl', function ($scope, $http) {
-//
-//     $scope.thongBao = [];
-//
-//     $http.get("/admin/thong-bao/get-all/afc0b6cc-4c66-11ee-b10b-d69e940a783b").then(r => $scope.thongBao = r.data)
-//         .catch(e => console.log(e));
-//
-//     //////////////////
-//     var socket = new SockJS('/connectNotification');
-//     stompClient = Stomp.over(socket);
-//     stompClient.connect({}, function(frame) {
-//         // console.log('Connected: ' + frame);
-//         stompClient.subscribe('/afc0b6cc-4c66-11ee-b10b-d69e940a783b', function(r) {
-//             // $scope.thongBao.unshift()
-//             console.log(r)
-//         });
-//     });
-//     /////////////////
-// })
 
 
 

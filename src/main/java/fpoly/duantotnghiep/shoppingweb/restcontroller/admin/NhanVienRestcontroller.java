@@ -61,7 +61,6 @@ public class NhanVienRestcontroller {
     public ResponseEntity<?> updateUer(@Valid @RequestPart("nhanVien") NhanVienDtoRequest nhanVien,
                                  BindingResult result,
                                     @RequestPart(value = "img",required = false) MultipartFile img) throws IOException {
-        System.out.println(nhanVien);
         if(nhanVien.getUsername()!=null && !nhanVien.getUsername().isBlank()){
             if(!nhanVienService.existsByUsername(nhanVien.getUsername())){
                 result.addError(new FieldError("username","username","Username Không tồn tại"));

@@ -40,7 +40,13 @@ public class SanPhamEntityManager {
             if(sanPham.getSort()==1) jpql.append( "ORDER BY s.giaBan DESC");
             else if(sanPham.getSort()==2) jpql.append(" ORDER BY s.giaBan");
             else if(sanPham.getSort()==3) jpql.append(" ORDER BY s.ten DESC");
-            else if(sanPham.getSort()==3) jpql.append(" ORDER BY s.ten");
+            else if(sanPham.getSort()==4) jpql.append(" ORDER BY s.ten");
+            else if(sanPham.getSort()==5) jpql.append("ORDER BY s.soLuong DESC");
+            else if(sanPham.getSort()==6) jpql.append("ORDER BY s.soLuong");
+            else if(sanPham.getSort()==7) jpql.append("ORDER BY s.ngayTao DESC");
+            else if(sanPham.getSort()==8) jpql.append("ORDER BY s.ngayTao");
+            else if(sanPham.getSort()==9) jpql.append("ORDER BY s.ngayCapNhat DESC");
+            else if(sanPham.getSort()==10) jpql.append("ORDER BY s.ngayCapNhat");
         }
 
         Query query = entityManager.createQuery(String.valueOf(jpql));
