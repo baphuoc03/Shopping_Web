@@ -101,4 +101,6 @@ public class SanPhamModel {
                 ", ctsp=" + ctsp +
                 '}';
     }
+
+    public SanPhamModel(String ma){ this.ma = ma;}
 }

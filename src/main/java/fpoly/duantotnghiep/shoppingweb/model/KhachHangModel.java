@@ -54,6 +54,8 @@ public class KhachHangModel {
 //            joinColumns = { @JoinColumn(name = "voucher") },
 //            inverseJoinColumns = { @JoinColumn(name = "taikhoan") })
 //    private Set<VoucherModel> vouchers;
-
+    public KhachHangModel(String username){
+        this.username = username;
+    }
 
 }
