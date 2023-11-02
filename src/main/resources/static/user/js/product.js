@@ -37,11 +37,17 @@ app.controller("index-ctrl", function ($scope, $http) {
     $scope.addDSYT = function (id) {
         let heartButton = document.getElementById("heart" + id)
         let className = heartButton.className;
-
+        let data ={
+            "nguoiSoHuu": "khach2",
+            "sanPham": id
+        }
         if (className == "mdi mdi-heart-outline text-dark") {// thêm vào danh sách yêu thích
-            heartButton.className = "mdi mdi-heart text-danger"
+            $http.post("/danh-sach-yeu-thich/add",data).then(r => {
+                heartButton.className = "mdi mdi-heart text-danger"
+                alert("Đã thêm vào danh sách yêu thích!")
+            })
         } else { // xóa khỏi danh sách yêu thích
-            heartButton.className = "mdi mdi-heart-outline text-dark"
+                heartButton.className = "mdi mdi-heart-outline text-dark"
         }
 
     }

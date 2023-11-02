@@ -65,8 +65,10 @@ public class CheckoutController {
             sanPhamServic.updateSL(chtsp.getId(), sl);
         });
 //        update cart and soluong voucher
-        int soLuong = voucherService.findById(donHangDTORequest.getVoucher()).getSoLuong() - 1;
-        voucherService.upddateSoLuong(soLuong, donHangDTORequest.getVoucher());
+        if(donHangDTORequest.getVoucher()!=null && !donHangDTORequest.getVoucher().isBlank()){
+            int soLuong = voucherService.findById(donHangDTORequest.getVoucher()).getSoLuong() - 1;
+            voucherService.upddateSoLuong(soLuong, donHangDTORequest.getVoucher());
+        }
         gioHangService.removeAllProdcutInCart();
         return ResponseEntity.status(HttpStatus.OK).build();
     }

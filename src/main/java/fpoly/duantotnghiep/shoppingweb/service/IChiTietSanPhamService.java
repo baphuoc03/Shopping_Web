@@ -28,4 +28,10 @@ public interface IChiTietSanPhamService {
     List<ChiTietSanPhamDtoResponse> saveAll(List<Float> sizes, ChiTietSanPhamDtoRequest model);
 
     Boolean existsById(String id);
+
+    Boolean checkSoLuongSP(String id, Long soLuong);
+
+    List<ChiTietSanPhamDtoResponse> getChiTietSanPhamNotInDonHang(String maDonHang);
+
+    List<ChiTietSanPhamDtoResponse> getBySanPhamIdOrNameContais(String keyWord);
 }

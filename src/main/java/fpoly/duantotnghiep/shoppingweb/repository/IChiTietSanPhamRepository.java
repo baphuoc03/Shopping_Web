@@ -31,4 +31,16 @@ public interface IChiTietSanPhamRepository extends JpaRepository<ChiTietSanPhamM
     int updateTrangThai(Boolean trangThai, String id);
 
     ChiTietSanPhamModel getBySanPhamMaAndSizeMa(String maSP, Float size);
+
+    @Query("""
+    SELECT c FROM ChiTietSanPhamModel c 
+    WHERE c.id not in (SELECT s.chiTietSanPham.id from ChiTietDonHangModel s WHERE s.donHang.ma = ?1)
+""")
+    List<ChiTietSanPhamModel> getChiTietSanPhamNotInDonHang(String maDonHang);
+
+    @Query("""
+    SELECT c FROM ChiTietSanPhamModel c 
+    WHERE c.sanPham.ten LIKE concat('%',?1,'%') or c.sanPham.ma LIKE concat('%',?1,'%') 
+""")
+    List<ChiTietSanPhamModel> getBySanPhamIdOrNameContais(String keyWord);
 }

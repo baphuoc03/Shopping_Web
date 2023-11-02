@@ -75,9 +75,12 @@ public class DonHangModel {
     private BigDecimal phiGiaoHang;
 
     @Column(name = "phuongthucthanhtoan")
-    private Integer phuongThucThanhToan;
+    private Boolean phuongThucThanhToan;
 
-    @OneToMany(mappedBy = "donHang", fetch = FetchType.LAZY)
+    @Column(name = "lydohuy")
+    private String lyDoHuy;
+
+    @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
     private List<ChiTietDonHangModel> danhSachSanPham;
 
     public String trangThaiDetail() {
@@ -90,11 +93,16 @@ public class DonHangModel {
         }
     }
 
+    public String getLyDoHuy() {
+        if(lyDoHuy==null) return "";
+        return lyDoHuy;
+    }
+
     @Override
     public String toString() {
         return "DonHangModel{" +
                 "ma='" + ma + '\'' +
-                ", nguoiSoHuu=" + nguoiSoHuu == null ? "" : nguoiSoHuu.getUsername() +
+                ", nguoiSoHuu=" + (nguoiSoHuu == null ? "" : nguoiSoHuu.getUsername()) +
                 ", tenNguoiNhan='" + tenNguoiNhan + '\'' +
                 ", soDienThoai='" + soDienThoai + '\'' +
                 ", email='" + email + '\'' +

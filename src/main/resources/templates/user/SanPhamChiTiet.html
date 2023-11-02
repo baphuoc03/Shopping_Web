@@ -25,8 +25,11 @@
 
                             <div class="slick3 gallery-lb">
                                 <div class="item-slick3" data-thumb="/image/loadImage/product/{{product.anh[0]}}">
-                                    <div class="wrap-pic-w pos-relative">
-                                        <img src="/image/loadImage/product/{{product.anh[0]}}" alt="IMG-PRODUCT">
+                                    <div class="wrap-pic-w pos-relative d-flex justify-content-center">
+                                        <img src="/image/loadImage/product/{{product.anh[0]}}" ng-if="product.anh.length>0"
+                                        style="width: 275px;height: 275px">
+                                        <img src="/image/loadImage/product/default.png" ng-if="product.anh.length==0"
+                                             style="width: 275px;height: 275px">
 
                                         <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
                                            href="images/product-detail-01.jpg">

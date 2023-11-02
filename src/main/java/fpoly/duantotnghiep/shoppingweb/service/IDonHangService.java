@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
@@ -19,5 +20,11 @@ public interface IDonHangService {
 
     void updateTrangThai(String maDonHang, Integer trangThai) throws MessagingException;
 
-    void huyDonHang(String maDonHang) throws MessagingException;
+//    void huyDonHang(String maDonHang, String lyDo) throws MessagingException;
+
+//    DonHangDtoResponse updateDonHang(DonHangDTORequest request);
+
+    void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException;
+
+    DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products);
 }

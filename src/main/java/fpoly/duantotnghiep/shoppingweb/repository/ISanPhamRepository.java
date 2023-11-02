@@ -26,11 +26,15 @@ public interface ISanPhamRepository extends JpaRepository<SanPhamModel, String> 
 
     List<SanPhamModel> findByMaIn(List<String> ma);
 
+<<<<<<< HEAD
     @Query("SELECT km.sanPham  FROM KhuyenMaiModel km" +
             "" +
             "" +
             "" +
             "")
+=======
+    @Query("SELECT km.sanPham  FROM KhuyenMaiModel km")
+>>>>>>> 9a332dced22d1382512f27aba68988332597f7f0
     List<SanPhamModel> findAllSanPhamWithKhuyenMai();
 
 

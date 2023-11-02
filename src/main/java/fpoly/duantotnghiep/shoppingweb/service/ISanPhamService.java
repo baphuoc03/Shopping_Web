@@ -44,6 +44,8 @@ public interface ISanPhamService {
 
     Page<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter, Integer pageNumber, Integer limt);
 
+    Page<SanPhamDtoResponse> filterInUser(SanPhamDtoFilter sanPhamDtoFilter, Integer pageNumber, Integer limt);
+
     Integer updateGiaBan(BigDecimal giaBan, String ma);
 
     List<SanPhamDtoResponse> getSanPhamTuongTu(String ma);
