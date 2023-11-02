@@ -62,8 +62,10 @@
                                         <td>
                                             <div class="me-3" style="width: 120px;">
 <!--                                                <input type="text" value="{{c.soLuong}}" name="demo_vertical"/>-->
-                                                <input id="{{c.id}}" onchange="angular.element(this).scope().getUpdateSL(this.id,this.value)"
+                                                <input id="{{c.id}}" th:onchange="angular.element(this).scope().getUpdateSL('+*{id}+',this.value)"
                                                        class="form-control input-number text-center" value="{{c.soLuong}}">
+<!--                                                <input input type="number" id="slUpdate" name="quantity" min="1"-->
+<!--                                                       onchange="angular.element(this).scope().setUpdateSL()" value="{{c.soLuong}}">-->
                                             </div>
                                         </td>
                                         <td>

@@ -3,9 +3,13 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.user;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.GioHangDtoReponse;
 import fpoly.duantotnghiep.shoppingweb.repository.IChiTietSanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IGioHangService;
+import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +29,12 @@ public class GioHangRestController {
     }
 
     @PostMapping("add-to-cart")
-    public List<GioHangDtoReponse> addToCart(@RequestParam("idCTSP")String idCTSP, @RequestParam("sl")Integer sl){
+    public List<GioHangDtoReponse> addToCart(@Valid @RequestParam("idCTSP")String idCTSP,
+                                             @RequestParam("sl")Integer sl){
+//        if(size.size()==0){
+//            result.addError(new FieldError("eSize","eSize","Vui lòng chọn size"));
+//            if(!result.hasErrors()) ValidateUtil.getErrors(result);
+//        }
         service.addOrUpdateToCart(idCTSP,sl);
         return service.laySpTrongGio();
     }
@@ -42,5 +51,6 @@ public class GioHangRestController {
         service.removeProductInCart(idCTSP);
         return service.laySpTrongGio();
     }
+
 
 }

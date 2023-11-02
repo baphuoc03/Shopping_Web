@@ -164,7 +164,7 @@ public class DonHangService implements IDonHangService {
     public DonHangDtoResponse updateDonHang(DonHangDTORequest request){
         DonHangModel donHangOld = donHangResponsitory.findById(request.getMa()).orElse(null);
         DonHangModel model = request.mapModel();
-        model.setPhuongThucThanhToan(true);
+//        model.setPhuongThucThanhToan(true);
         if(donHangOld.getVoucher()!=null){
             model.setVoucher(donHangOld.getVoucher());
         }
