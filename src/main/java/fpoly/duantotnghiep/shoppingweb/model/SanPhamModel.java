@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
@@ -70,6 +71,10 @@ public class SanPhamModel {
     @Column(name = "trangthai")
     private Boolean trangThai;
 
+//    @Transient
+    @Formula("(SELECT SUM(c.soluong) FROM chitietsanpham c WHERE c.sanpham = ma)")
+    private Long soLuong;
+
     @OneToMany(mappedBy = "sanPham", fetch = FetchType.EAGER)
     private List<AnhModel> Images;
 
@@ -83,6 +88,12 @@ public class SanPhamModel {
         if (ctsp == null) return 0L;
         return ctsp.stream().filter(c -> c.getTrangThai()==true).map(c -> c.getSoLuong()).reduce(0L, (c1, c2) -> c1 + c2);
     }
+
+//    public Long getSoLuong() {
+//        if (ctsp == null) return 0L;
+//        return ctsp.stream().filter(c -> c.getTrangThai()==true).map(c -> c.getSoLuong()).reduce(0L, (c1, c2) -> c1 + c2);
+//
+//    }
 
     @Override
     public String toString() {

@@ -1,22 +1,20 @@
 package fpoly.duantotnghiep.shoppingweb.config.security;
 
-import fpoly.duantotnghiep.shoppingweb.service.impl.UserAdminService;
+import fpoly.duantotnghiep.shoppingweb.enumtype.Roles;
+import fpoly.duantotnghiep.shoppingweb.service.seucrity.CustomerService;
+import fpoly.duantotnghiep.shoppingweb.service.seucrity.UserAdminService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
-import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
-import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
 
 @Configuration
 @EnableWebSecurity
+@Order(1)
 public class SecurityAdminConfig {
     private final UserAdminService userAdminService;
 
@@ -25,31 +23,32 @@ public class SecurityAdminConfig {
     }
 
     @Bean
+//    @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         String[] adminPermitAll = {"/admin/AngularJs/**", "/admin/assets/**", "/admin/css/**", "/admin/images/**", "/admin/js/**",
-                "/admin/quen-mat-khau", "/image/**", "/admin/dat-lai-mat-khau/**"};
-        http
+                "/admin/quen-mat-khau", "/image/**", "/admin/dat-lai-mat-khau/**","/admin/quen-mat-khau/xac-nhan"};
+        http    .securityMatcher("/admin/**")
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests(requests -> requests
                                 .requestMatchers(adminPermitAll).permitAll()
 //                        .requestMatchers("/detail").hasAnyAuthority("STAFF","ADMIN")
 //                        .requestMatchers("/add").hasAuthority("ADMIN")
-                                .requestMatchers("/admin/**").authenticated()
+//                                .requestMatchers("/admin/**").hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
                                 .anyRequest().permitAll()
                 )
                 .userDetailsService(userAdminService)
                 .formLogin(login -> login.loginPage("/admin/login")
                         .loginProcessingUrl("/admin/login")
                         .defaultSuccessUrl("/admin/trang-chu", false)
-                        .failureUrl("/admin/login?error=true")
+                        .failureUrl("/admin/login/error")
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .permitAll()
                 )
 //                .httpBasic(Customizer.withDefaults())
                 .logout(l -> l
-//                        .logoutUrl("/admin/logout")
+                        .logoutUrl("/admin/logout")
                                 .logoutSuccessUrl("/admin/login")
                                 .invalidateHttpSession(true)
                                 .deleteCookies("JSESSIONID")

@@ -244,9 +244,10 @@ public class KhuyenMaiController {
 
             if (khuyenMaiRequest.getNgayBatDau().after(khuyenMaiRequest.getNgayKetThuc())) {
                 result.rejectValue("ngayBatDau", "", "Ngày bắt đầu lớn hơn ngày kết ");
-            } else if (khuyenMaiRequest.getNgayBatDau().before(new Date())) {
-                result.rejectValue("ngayBatDau", "", "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại ");
             }
+//            else if (khuyenMaiRequest.getNgayBatDau().before(new Date())) {
+//                result.rejectValue("ngayBatDau", "", "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại ");
+//            }
         }
 
         return result;

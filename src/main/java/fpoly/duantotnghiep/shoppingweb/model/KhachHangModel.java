@@ -47,7 +47,9 @@ public class KhachHangModel {
     private List<DiaChiModel> danhSachDiaChi;
 
     @OneToMany(mappedBy = "nguoiSoHuu",fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<DonHangModel> danhSachDonHang;
+
 
 //    @ManyToMany
 //    @JoinTable(name = "voucher_taikhoan",

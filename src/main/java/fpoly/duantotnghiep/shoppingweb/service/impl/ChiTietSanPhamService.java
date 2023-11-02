@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietSanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
@@ -20,8 +21,19 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     private IChiTietSanPhamRepository chiTietSanPhamRepository;
 
     @Override
+    public List<ChiTietSanPhamDtoResponse> fillAllChiTietSP() {
+        return chiTietSanPhamRepository.findAll().stream().map(c -> new ChiTietSanPhamDtoResponse(c)).collect(Collectors.toList());
+    }
+
+    @Override
+    public ChiTietSanPhamDtoResponse finById(String id) {
+        ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(id).get();
+        return new ChiTietSanPhamDtoResponse(chiTietSanPhamModel);
+    }
+
+    @Override
     public List<ChiTietSanPhamDtoResponse> getAllBySanPhamMa(String maSP) {
-        return chiTietSanPhamRepository.getAllBySanPhamMaAndTrangThaiOrderBySizeMa(maSP,true).stream()
+        return chiTietSanPhamRepository.getAllBySanPhamMaAndTrangThaiOrderBySizeMa(maSP, true).stream()
                 .map(c -> new ChiTietSanPhamDtoResponse(c)).collect(Collectors.toList());
     }
 
@@ -42,8 +54,8 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
 
         ChiTietSanPhamModel model = null;
 
-        if(existsBySanPhamMaAndSizeMa(entity.getSanPham(),entity.getSize())){
-            model = chiTietSanPhamRepository.getBySanPhamMaAndSizeMa(entity.getSanPham(),entity.getSize());
+        if (existsBySanPhamMaAndSizeMa(entity.getSanPham(), entity.getSize())) {
+            model = chiTietSanPhamRepository.getBySanPhamMaAndSizeMa(entity.getSanPham(), entity.getSize());
             model.setSoLuong(entity.getSoLuong());
             model.setTrangThai(true);
             chiTietSanPhamRepository.save(model);
@@ -58,37 +70,68 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     }
 
     @Override
-    public ChiTietSanPhamDtoResponse update(ChiTietSanPhamDtoRequest entity){
+    public ChiTietSanPhamDtoResponse update(ChiTietSanPhamDtoRequest entity) {
         ChiTietSanPhamModel model = entity.mapToModel();
-        chiTietSanPhamRepository.updateSoLuong(model.getSoLuong(),model.getId());
+        chiTietSanPhamRepository.updateSoLuong(model.getSoLuong(), model.getId());
         model = chiTietSanPhamRepository.findById(model.getId()).get();
 //        model = chiTietSanPhamRepository.save(model);
         return new ChiTietSanPhamDtoResponse(model);
     }
 
     @Override
-    public void delete(String id){
-        ChiTietSanPhamModel model = chiTietSanPhamRepository.findById(id).get();
-        if(model.kiemTraCoTrongDonHang()){
-            chiTietSanPhamRepository.updateTrangThai(false,model.getId());
-        }
+    public void updateSL(String maCTSP, Long soLuong) {
+        chiTietSanPhamRepository.updateSoLuong(soLuong, maCTSP);
 
-        chiTietSanPhamRepository.deleteById(id);
     }
 
     @Override
-    public List<ChiTietSanPhamDtoResponse> saveAll(List<Float> sizes,ChiTietSanPhamDtoRequest model){
+    public void delete(String id) {
+        ChiTietSanPhamModel model = chiTietSanPhamRepository.findById(id).get();
+        if (model.kiemTraCoTrongDonHang()) {
+            chiTietSanPhamRepository.updateTrangThai(false, model.getId());
+        } else {
+            chiTietSanPhamRepository.deleteById(id);
+        }
+    }
+
+    @Override
+    public List<ChiTietSanPhamDtoResponse> saveAll(List<Float> sizes, ChiTietSanPhamDtoRequest model) {
 
         List<ChiTietSanPhamDtoRequest> etitys = sizes.stream().map(s -> {
-            model.setSize(s);
-            return model;
+            ChiTietSanPhamDtoRequest request = new ChiTietSanPhamDtoRequest();
+            request.setSanPham(model.getSanPham());
+            request.setSize(s);
+            request.setSoLuong(model.getSoLuong());
+            return request;
         }).collect(Collectors.toList());
-
         return etitys.stream().map(e -> save(e)).collect(Collectors.toList());
     }
 
     @Override
-    public Boolean existsById(String id){
+    public Boolean existsById(String id) {
         return chiTietSanPhamRepository.existsById(id);
     }
+
+    @Override
+    public Boolean checkSoLuongSP(String id, Long soLuong){
+        ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(id).get();
+        if(soLuong > chiTietSanPhamModel.getSoLuong() || soLuong<=0){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public List<ChiTietSanPhamDtoResponse> getChiTietSanPhamNotInDonHang(String maDonHang){
+        return chiTietSanPhamRepository.getChiTietSanPhamNotInDonHang(maDonHang).stream()
+                .map(s -> new ChiTietSanPhamDtoResponse(s)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ChiTietSanPhamDtoResponse> getBySanPhamIdOrNameContais(String keyWord){
+        return chiTietSanPhamRepository.getBySanPhamIdOrNameContais(keyWord).stream()
+                .map(s -> new ChiTietSanPhamDtoResponse(s)).collect(Collectors.toList());
+    }
+
+
 }
