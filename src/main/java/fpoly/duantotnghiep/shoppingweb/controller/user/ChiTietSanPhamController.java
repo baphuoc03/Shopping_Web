@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ChiTietSanPhamController {
     @GetMapping
     public String viewChiTietSanPham(){
-        return "user/chiTietSanPham";
+        return "user/SanPhamChiTiet";
     }
 }

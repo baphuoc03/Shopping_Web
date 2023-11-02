@@ -93,7 +93,6 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             phiGiaoHang: $scope.feeShipped,
             tienGiam: $scope.giaGiam
         }
-        console.log('phương thức thanh toán: ' + $scope.voucherDH)
         $http.post("http://localhost:8080/check-out", donHang).then(r => {
             location.reload();
             alert("Thêm Thành Công")
@@ -136,9 +135,8 @@ app.controller('checkOutCtrl', function ($scope, $http) {
 
         $http.post('/check-out/disable-voucher', data)
             .then(function (response) {
-                var disabledVoucherList = response.data; // Danh sách voucher cần tắt
+                var disabledVoucherList = response.data;
 
-                // Duyệt qua danh sách vouchers và cập nhật trạng thái disabled
                 for (var i = 0; i < $scope.vouchers.length; i++) {
                     var voucher = $scope.vouchers[i];
                     voucher.disabled = disabledVoucherList.includes(voucher.ma);

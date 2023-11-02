@@ -1,29 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http:/www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/user/home}">
+      layout:decorate="~{/user/trangChu}">
 <head>
     <meta charset="UTF-8">
     <title>Product Detail</title>
 </head>
 <body>
-<div class="main-content" layout:fragment="content">
+<div class="main-content " layout:fragment="contentUser">
     <div class="page-content" ng-app="checkOut" ng-controller="checkOutCtrl">
         <div class="container-fluid">
-
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0 font-size-18">Checkout</h4>
-
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                                <li class="breadcrumb-item active">Checkout</li>
-                            </ol>
-                        </div>
-
+                        <h4 class="mb-sm-0 font-size-18">Thanh toán</h4>
                     </div>
                 </div>
             </div>
@@ -39,19 +30,19 @@
                                href="#v-pills-shipping" role="tab" aria-controls="v-pills-shipping"
                                aria-selected="true">
                                 <i class="bx bxs-truck d-block check-nav-icon mt-4 mb-2"></i>
-                                <p class="fw-bold mb-4">Shipping Info</p>
+                                <p class="fw-bold mb-4">Thông tin giao hàng</p>
                             </a>
                             <a class="nav-link" id="v-pills-payment-tab" data-bs-toggle="pill"
                                href="#v-pills-payment" role="tab" aria-controls="v-pills-payment"
                                aria-selected="false">
                                 <i class="bx bx-money d-block check-nav-icon mt-4 mb-2"></i>
-                                <p class="fw-bold mb-4">Payment Info</p>
+                                <p class="fw-bold mb-4">Hình thức thanh toán</p>
                             </a>
                             <a class="nav-link" id="v-pills-confir-tab" data-bs-toggle="pill"
                                href="#v-pills-confir" role="tab" aria-controls="v-pills-confir"
                                aria-selected="false">
                                 <i class="bx bx-badge-check d-block check-nav-icon mt-4 mb-2"></i>
-                                <p class="fw-bold mb-4">Confirmation</p>
+                                <p class="fw-bold mb-4">Xác nhận</p>
                             </a>
                         </div>
                         <!-- information -->
@@ -61,8 +52,8 @@
                                     <div class="tab-pane fade show active" id="v-pills-shipping" role="tabpanel"
                                          aria-labelledby="v-pills-shipping-tab">
                                         <div>
-                                            <h4 class="card-title">Shipping information</h4>
-                                            <p class="card-title-desc mb-4">Fill all information below</p>
+                                            <h4 class="card-title">Thông tin thanh toán</h4>
+                                            <p class="card-title-desc mb-4">thông tin thanh toán</p>
                                             <form>
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -157,8 +148,8 @@
                                     <div class="tab-pane fade" id="v-pills-payment" role="tabpanel"
                                          aria-labelledby="v-pills-payment-tab">
                                         <div>
-                                            <h4 class="card-title">Payment Information</h4>
-                                            <p class="card-title-desc mb-4">Fill all information below</p>
+                                            <h4 class="card-title">Hình thức thanh toán</h4>
+                                            <p class="card-title-desc mb-4">Hình thức thanh toán</p>
 
                                             <div>
                                                 <div class="form-check form-check-inline font-size-16">
@@ -183,11 +174,11 @@
                                                 </div>
                                             </div>
 
-                                            <h5 class="mt-5 mb-3 font-size-15">For card Payment</h5>
+                                            <h5 class="mt-5 mb-3 font-size-15">Thanh toán thẻ</h5>
                                             <div class="p-4 border">
                                                 <form>
                                                     <div class="form-group mb-0">
-                                                        <label for="cardnumberInput">Card Number</label>
+                                                        <label for="cardnumberInput">Số thẻ</label>
                                                         <input type="text" class="form-control"
                                                                id="cardnumberInput"
                                                                placeholder="0000 0000 0000 0000">
@@ -195,7 +186,7 @@
                                                     <div class="row">
                                                         <div class="col-lg-6">
                                                             <div class="form-group mt-4 mb-0">
-                                                                <label for="cardnameInput">Name on card</label>
+                                                                <label for="cardnameInput">Tên thẻ</label>
                                                                 <input type="text" class="form-control"
                                                                        id="cardnameInput"
                                                                        placeholder="Name on Card">
@@ -203,14 +194,14 @@
                                                         </div>
                                                         <div class="col-lg-3">
                                                             <div class="form-group mt-4 mb-0">
-                                                                <label for="expirydateInput">Expiry date</label>
+                                                                <label for="expirydateInput">Ngày hết hạn</label>
                                                                 <input type="text" class="form-control"
                                                                        id="expirydateInput" placeholder="MM/YY">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-3">
                                                             <div class="form-group mt-4 mb-0">
-                                                                <label for="cvvcodeInput">CVV Code</label>
+                                                                <label for="cvvcodeInput">CVV</label>
                                                                 <input type="text" class="form-control"
                                                                        id="cvvcodeInput"
                                                                        placeholder="Enter CVV Code">
@@ -226,15 +217,17 @@
                                          aria-labelledby="v-pills-confir-tab">
                                         <div class="card shadow-none border mb-0">
                                             <div class="card-body">
-                                                <h4 class="card-title mb-4">Order Summary</h4>
+                                                <h4 class="card-title mb-4">Thông tin đơn hàng</h4>
 
                                                 <div class="table-responsive">
                                                     <table class="table align-middle mb-0 table-nowrap">
                                                         <thead class="table-light">
                                                         <tr>
-                                                            <th scope="col">Product</th>
-                                                            <th scope="col">Product Desc</th>
-                                                            <th scope="col">Price</th>
+                                                            <th scope="col">Sản phẩm</th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col">Giá</th>
+                                                            <th scope="col">Số lượng</th>
+                                                            <th scope="col">Thành tiền</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -249,15 +242,16 @@
                                                                         href="ecommerce-product-detail.html"
                                                                         class="text-dark">{{i.tenSanPham}}_size:{{i.size}}</a>
                                                                 </h5>
-                                                                <p class="text-muted mb-0 text-danger">
-                                                                    {{i.donGiaSauGiam}}VND x
-                                                                    {{i.soLuong}}</p>
                                                             </td>
-                                                            <td>{{i.donGiaSauGiam * i.soLuong}}</td>
+                                                            <td>
+                                                                {{i.donGiaSauGiam | currency: "" : 1}}đ
+                                                            </td>
+                                                            <td>{{i.soLuong}}</td>
+                                                            <td>{{i.donGiaSauGiam * i.soLuong | currency: "" : 1}}đ</td>
                                                         </tr>
                                                         <!--                                                        voucher-->
                                                         <tr>
-                                                            <td colspan="3">
+                                                            <td colspan="5">
                                                                 <div class="bg-soft-primary p-3 rounded">
                                                                     <h5 class="font-size-14 text-primary mb-0">
                                                                         <i class="fas fa-shipping-fast me-2"></i>
@@ -272,33 +266,33 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="2">
+                                                            <td colspan="5">
                                                                 <h6 class="m-0 text-end">Tiền Hàng:</h6>
                                                             </td>
                                                             <td>
-                                                                {{sumTotal}}
+                                                                {{sumTotal | currency: "" : 1}}đ
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="2">
+                                                            <td colspan="5">
                                                                 <h6 class="m-0 text-end">Tiền Ship:</h6>
                                                             </td>
                                                             <td>
-                                                                {{feeShipped}}
+                                                                {{feeShipped | currency: "" : 1}}đ
                                                             </td>
                                                         </tr>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="2">
+                                                            <td colspan="5">
                                                                 <h6 class="m-0 text-end">Giảm Voucher:</h6>
                                                             </td>
                                                             <td>
-                                                                {{giaGiam}}
+                                                                {{giaGiam | currency: "" : 1}}đ
                                                             </td>
                                                         </tr>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="2">
+                                                            <td colspan="5">
                                                                 <h6 class="m-0 text-end">Tổng Thành Toán:
                                                                 </h6>
                                                             </td>
@@ -320,12 +314,12 @@
                             <div class="col-sm-6">
                                 <a href="ecommerce-cart.html"
                                    class="btn text-muted d-none d-sm-inline-block btn-link">
-                                    <i class="mdi mdi-arrow-left me-1"></i> Back to Shopping Cart </a>
+                                    <i class="mdi mdi-arrow-left me-1"></i>Quay lại</a>
                             </div> <!-- end col -->
                             <div class="col-sm-6">
                                 <div class="text-end">
                                     <button type="button" ng-click="create()" class="btn btn-success">
-                                        <i class="mdi mdi-truck-fast me-1"></i> Proceed to Shipping
+                                        <i class="mdi mdi-truck-fast me-1"></i> Xác nhận mua
                                     </button>
                                 </div>
                             </div> <!-- end col -->
