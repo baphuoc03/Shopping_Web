@@ -24,10 +24,7 @@ public class KhachHangRestController {
     @Autowired
     private IKhachHangService khachHangService;
 
-    @GetMapping("get-all")
-    public ResponseEntity<List<KhachHangDtoResponse>> getAllKhachHang() {
-        return ResponseEntity.ok(khachHangService.getAll());
-    }
+
 
     @GetMapping("detail/{id}")
     public ResponseEntity<KhachHangDtoResponse> getById(@PathVariable("id") String id) {

@@ -43,8 +43,6 @@ app.controller("kieudang-ctrl", function ($scope, $http) {
 
     //add
     $scope.create = function () {
-        // console.log("add")
-        // document.getElementById("vldUpdate").innerText = "Vui lòng Nhập Tên"
         var kieuDang = {
                 ten: $scope.ten
             }
@@ -54,15 +52,12 @@ app.controller("kieudang-ctrl", function ($scope, $http) {
                 alert("Create success");
             }).catch(error =>{
                 console.log(error)
-                // document.getElementById("vldUpdate").innerText = error.data.ten
                 $scope.erTen = error.data.ten
             });
 
     };
     //update
     $scope.update = function (id) {
-        document.getElementById("vldUpdate").innerText = "Vui lòng Nhập Tên"
-
         var urlWithId = getUrlWithId(id)
         var kieudang = {
             ten: $scope.ten,
@@ -70,6 +65,9 @@ app.controller("kieudang-ctrl", function ($scope, $http) {
         $http.put(urlWithId, kieudang).then(function (resp) {
             location.reload();
             alert("Update success");
+        }).catch(error =>{
+            console.log(error)
+            $scope.erTenUd = error.data.ten
         });
     };
 

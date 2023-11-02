@@ -1,16 +1,22 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
+
 import fpoly.duantotnghiep.shoppingweb.dto.request.KhachHangDTORequest;
 import jakarta.mail.MessagingException;
 import org.springframework.web.multipart.MultipartFile;
+
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import org.springframework.data.domain.Page;
+
 
 import java.io.IOException;
 import java.util.List;
 
 public interface IKhachHangService {
 
-    List<KhachHangDtoResponse> getAll();
+
+    Page<KhachHangDtoResponse> getAll(Integer page, Integer limit);
 
     KhachHangDtoResponse findById(String username);
 

@@ -32,7 +32,6 @@ app.controller("thongTinNhanVien-ctrl", function ($scope, $http) {
         let anhDaiDien = document.getElementById("pro-image").files.length == 0 ? null : document.getElementById("pro-image").files[0];
         let formData = new FormData();
         if($scope.user.gioiTinh == undefined) $scope.user.gioiTinh = null;
-        console.log($scope.user)
         formData.append("nhanVien",new Blob([JSON.stringify($scope.user)], {
             type: 'application/json'
         }))

@@ -11,6 +11,7 @@ import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,8 +32,9 @@ public class NhanVienRestcontroller {
 
 
     @GetMapping("get-all")
-    public ResponseEntity<List<NhanVienDtoResponse>> getAllKhachHang(){
-        return ResponseEntity.ok(nhanVienService.getAll());
+    public ResponseEntity<Page<NhanVienDtoResponse>> getAllKhachHang(@RequestParam(defaultValue = "0")Integer page,
+                                                                     @RequestParam(defaultValue = "8")Integer limit){
+        return ResponseEntity.ok(nhanVienService.getAll(page,limit));
     }
 
     @GetMapping("detail/{id}")
@@ -59,7 +61,6 @@ public class NhanVienRestcontroller {
     public ResponseEntity<?> updateUer(@Valid @RequestPart("nhanVien") NhanVienDtoRequest nhanVien,
                                  BindingResult result,
                                     @RequestPart(value = "img",required = false) MultipartFile img) throws IOException {
-        System.out.println(nhanVien);
         if(nhanVien.getUsername()!=null && !nhanVien.getUsername().isBlank()){
             if(!nhanVienService.existsByUsername(nhanVien.getUsername())){
                 result.addError(new FieldError("username","username","Username Không tồn tại"));
@@ -93,6 +94,8 @@ public class NhanVienRestcontroller {
         if(!nhanVienService.existsByUsername(username)){
             return ResponseEntity.notFound().build();
         }
+
+        nhanVienService.deleteByUsername(username);
         return ResponseEntity.ok().build();
     }
 

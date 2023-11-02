@@ -16,11 +16,17 @@ app.controller("thuonghieu-ctrl", function ($scope, $http) {
     $scope.getAll()
     //delete
     $scope.delete = function (id) {
-        var urlWithId = getUrlWithId(id)
-        $http.delete(urlWithId).then(function (res) {
-            location.reload();
-            alert("Xóa Thành Công !");
-        })
+        if(confirm("Bạn muốn xóa sản phẩm này?")) {
+            var urlWithId = getUrlWithId(id)
+            $http.delete(urlWithId).then(function (res) {
+                location.reload();
+                // $scope.itemss.deleteData(res.data)
+                alert("Xóa Thành Công !");
+            }).catch(error =>{
+                alert("Lỗi Xóa Sản Phẩm !")
+                console.log("error", error);
+            })
+        }
     }
     // chi tiết
     $scope.findById = function (id){
@@ -42,9 +48,11 @@ app.controller("thuonghieu-ctrl", function ($scope, $http) {
         }
         $http.post(url, thuonghieu).then(function (response){
             // location.reload();
-            $scope.itemss.push(r, data)
+            $scope.itemss.push(response.data)
             alert("Thêm Thành Công !");
-        })
+        }).catch(error =>{
+            $scope.erTen = error.data.ten
+        });
     }
     //update
     $scope.update = function (id){

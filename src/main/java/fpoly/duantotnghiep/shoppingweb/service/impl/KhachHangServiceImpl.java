@@ -12,6 +12,10 @@ import fpoly.duantotnghiep.shoppingweb.util.ImgUtil;
 import fpoly.duantotnghiep.shoppingweb.util.RandomUtil;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,10 +31,24 @@ public class KhachHangServiceImpl implements IKhachHangService {
     @Autowired
     IKhachHangRepository khachHangRepository;
 
+//    @Override
+//
+//    public List<KhachHangDtoResponse> getAll() {
+//        return khachHangRepository.findAll().stream().map(k -> new KhachHangDtoResponse(k))
+//                .collect(Collectors.toList());
+//
+//    public Page<KhachHangDtoResponse> getAll(Integer page, Integer limit){
+//        Pageable pageable = PageRequest.of(page,limit);
+//        Page<KhachHangModel> pageModel = khachHangRepository.findAll(pageable);
+//
+//        return new PageImpl<>(pageModel.getContent().stream().map(k -> new KhachHangDtoResponse(k)).collect(Collectors.toList()),
+//                pageable, pageModel.getTotalElements());
+//
+//    }
+
     @Override
-    public List<KhachHangDtoResponse> getAll() {
-        return khachHangRepository.findAll().stream().map(k -> new KhachHangDtoResponse(k))
-                .collect(Collectors.toList());
+    public Page<KhachHangDtoResponse> getAll(Integer page, Integer limit) {
+        return null;
     }
 
     @Override

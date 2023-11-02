@@ -55,7 +55,7 @@
                                                    ng-focus="success=''"
                                                    ng-disabled="loading"
                                                    placeholder="Enter User Name" >
-                                            <label for="input-username">Username</label>
+                                            <label for="input-username">Tài khoản</label>
                                             <div class="form-floating-icon">
                                                 <i data-feather="users"></i>
                                             </div>
@@ -69,7 +69,7 @@
                                         </a></button>
                                         <button class="col-7 btn btn-primary waves-effect waves-light" ng-disabled="loading"
                                                 ng-click="forgotPass()" style="float: right" type="button">
-                                            Đặt lại mật khẩu
+                                            Tìm lại mật khẩu
                                         </button>
                                     </div>
                                 </form>
@@ -106,11 +106,14 @@
         const pathName = location.pathname;
         $scope.loading = false;
         $scope.forgotPass = function (){
-            console.log($scope.username)
             $scope.loading = true;
             $http.post(pathName, $scope.username == undefined ?"  " : $scope.username).then(r=>{
-                $scope.success = r.data.success
-                $scope.loading = false;
+                // $scope.success = r.data.success
+                // $scope.loading = false;
+                document.cookie = "username="+$scope.username();
+                console.log($scope.username)
+
+                location.href = "/admin/quen-mat-khau/xac-nhan"
             }).catch(e =>{
                 document.getElementById("erUsername").innerText = e.data.er;
                 $scope.success = "";

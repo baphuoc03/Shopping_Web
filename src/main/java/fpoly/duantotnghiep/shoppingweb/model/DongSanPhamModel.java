@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -37,6 +38,9 @@ public class DongSanPhamModel {
     @Column(name = "ngaycapnhat")
     @UpdateTimestamp
     private Date ngayCapNhat;
+
+    @OneToMany(mappedBy = "dongSanPham",fetch = FetchType.LAZY)
+    private List<SanPhamModel> danhSachSanPham;
 
     public DongSanPhamModel(String id) {
         this.id = id;
