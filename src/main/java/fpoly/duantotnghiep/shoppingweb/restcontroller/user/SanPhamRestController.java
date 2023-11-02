@@ -38,7 +38,7 @@ public class SanPhamRestController {
     public ResponseEntity<Page<SanPhamDtoResponse>> filter(@RequestBody SanPhamDtoFilter sanPhamDtoFilter,
                                                            @RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
                                                            @RequestParam(value = "limit", defaultValue = "5") Integer limit) {
-        return ResponseEntity.ok(sanPhamService.filter(sanPhamDtoFilter,pageNumber,limit));
+        return ResponseEntity.ok(sanPhamService.filterInUser(sanPhamDtoFilter,pageNumber,limit));
     }
 
     @GetMapping("{ma}")

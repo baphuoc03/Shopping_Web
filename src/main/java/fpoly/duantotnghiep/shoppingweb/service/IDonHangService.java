@@ -21,9 +21,11 @@ public interface IDonHangService {
 
     void updateTrangThai(String maDonHang, Integer trangThai) throws MessagingException;
 
-    void huyDonHang(String maDonHang, String lyDo) throws MessagingException;
+//    void huyDonHang(String maDonHang, String lyDo) throws MessagingException;
 
 //    DonHangDtoResponse updateDonHang(DonHangDTORequest request);
+
+    void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException;
 
     DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products);
 }

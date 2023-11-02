@@ -12,6 +12,7 @@ app.controller('ctrl', function ($scope, $http) {
 
     $http.get("/admin/san-pham/get-all").then(r => {
         $scope.items = r.data.content;
+        $scope.totalPage = r.data.totalPages;
         $scope.getPageNumbers(r.data.totalPages)
         $scope.filterData = {}
     }).catch(e => console.log(e))
@@ -41,14 +42,26 @@ app.controller('ctrl', function ($scope, $http) {
     }
 
     $scope.getPageNumbers = function (totalPages){
+        $scope.pageNumbers = []
         for (let i = 0; i< totalPages;i++){
             $scope.pageNumbers.push(i);
         }
     }
 
     $scope.delete = function (ma){
+
+
         if(confirm("Xóa sản phẩm? ")){
             $http.delete("/admin/san-pham/delete/"+ma).then(r => {
+
+                if ($scope.pageNumber == $scope.totalPage - 1) {
+                    if ($scope.items.length == 1 && $scope.pageNumber > 0) {
+                        $scope.pageNumber -=1;
+                        $scope.totalPage -=1;
+                    }
+                }
+
+                $scope.getPageNumbers($scope.totalPage)
                 $scope.getAll($scope.pageNumber)
                 alert("Xóa thành công")
             }).catch(e => {
@@ -65,7 +78,6 @@ app.controller('ctrl', function ($scope, $http) {
     $scope.updateTrangThaiHienThi = function (switchId,maSP){
         let trangThai = document.getElementById(switchId).checked
         $http.put("/admin/san-pham/update-TrangThai-HienThi/"+maSP,trangThai).then(r => {
-            console.log("update hiển thị",r.data)
         }).catch(e => {
             alert("Lỗi!!!")
             document.getElementById(switchId).checked = trangThai == true ? false : true
@@ -96,11 +108,13 @@ app.controller('ctrl', function ($scope, $http) {
     $scope.getPropertiesInFilter();
 
     $scope.filter = function (filterData){
+        console.log(filterData)
         $scope.pageNumber = 0
         $scope.filterDto = filterData
         $scope.pageNumbers = []
         $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
             $scope.items = r.data.content;
+            $scope.totalPage = r.data.totalPages;
             $scope.getPageNumbers(r.data.totalPages)
             isfilter = true;
         }).catch(e => console.log(e))
@@ -122,115 +136,90 @@ app.controller('ctrl', function ($scope, $http) {
         if(button.className == "bx bx-sort-up"){
             $scope.resetIconButton()
             button.className = "bx bx-sort-down"
-            $scope.filterDto = {sort : 3}
+            $scope.filterDto.sort = 3
         }else if(button.className == "bx bx-sort"){
             $scope.resetIconButton()
             button.className = "bx bx-sort-up"
-            $scope.filterDto = {sort : 4}
+            $scope.filterDto.sort =  4
         }else{
             button.className = "bx bx-sort"
-            $scope.clearFilter()
-            return
+            // $scope.clearFilter()
+            delete $scope.filterDto.sort
         }
-        $scope.pageNumber = 0
-        $scope.pageNumbers = []
-        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
-            $scope.items = r.data.content;
-            $scope.getPageNumbers(r.data.totalPages)
-            isfilter = true;
-        }).catch(e => console.log(e))
+
+        $scope.filter($scope.filterDto)
+
+        // $scope.pageNumber = 0
+        // $scope.pageNumbers = []
+        // $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
+        //     $scope.items = r.data.content;
+        //     $scope.getPageNumbers(r.data.totalPages)
+        //     isfilter = true;
+        // }).catch(e => console.log(e))
     }
     $scope.sortColor = function (){
         let button = document.getElementById("sortColor")
         if(button.className == "bx bx-sort-up"){
             $scope.resetIconButton()
-            $scope.filterDto = {sort : 7}
+            $scope.filterDto.sort = 7
             button.className = "bx bx-sort-down"
         }else if(button.className == "bx bx-sort"){
             $scope.resetIconButton()
-            $scope.filterDto = {sort : 8}
+            $scope.filterDto.sort = 8
             button.className = "bx bx-sort-up"
         }else{
             button.className = "bx bx-sort"
-            $scope.clearFilter()
-            return
+            delete $scope.filterDto.sort
         }
-        $scope.pageNumber = 0
-        $scope.pageNumbers = []
-        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
-            $scope.items = r.data.content;
-            $scope.getPageNumbers(r.data.totalPages)
-            isfilter = true;
-        }).catch(e => console.log(e))
+        $scope.filter($scope.filterDto)
     }
     $scope.sortBrand = function (){
         let button = document.getElementById("sortBrand")
         if(button.className == "bx bx-sort-up"){
             $scope.resetIconButton()
-            $scope.filterDto = {sort : 9}
+            $scope.filterDto.sort = 9
             button.className = "bx bx-sort-down"
         }else if(button.className == "bx bx-sort"){
             $scope.resetIconButton()
-            $scope.filterDto = {sort : 10}
+            $scope.filterDto.sort = 10
             button.className = "bx bx-sort-up"
         }else{
             button.className = "bx bx-sort"
-            $scope.clearFilter()
-            return
+            delete $scope.filterDto.sort
         }
-        $scope.pageNumber = 0
-        $scope.pageNumbers = []
-        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
-            $scope.items = r.data.content;
-            $scope.getPageNumbers(r.data.totalPages)
-            isfilter = true;
-        }).catch(e => console.log(e))
+        $scope.filter($scope.filterDto)
     }
     $scope.sortAcount = function (){
         let button = document.getElementById("sortAcount")
         if(button.className == "bx bx-sort-up"){
             $scope.resetIconButton()
             button.className = "bx bx-sort-down"
-            $scope.filterDto = {sort : 5}
+            $scope.filterDto.sort = 5
         }else if(button.className == "bx bx-sort"){
             $scope.resetIconButton()
             button.className = "bx bx-sort-up"
-            $scope.filterDto = {sort : 6}
+            $scope.filterDto.sort = 6
         }else{
             button.className = "bx bx-sort"
-            $scope.clearFilter()
-            return
+            delete $scope.filterDto.sort
         }
-        $scope.pageNumber = 0
-        $scope.pageNumbers = []
-        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
-            $scope.items = r.data.content;
-            $scope.getPageNumbers(r.data.totalPages)
-            isfilter = true;
-        }).catch(e => console.log(e))
+        $scope.filter($scope.filterDto)
     }
     $scope.sortPrice = function (){
         let button = document.getElementById("sortPrice")
         if(button.className == "bx bx-sort-up"){
             $scope.resetIconButton()
             button.className = "bx bx-sort-down"
-            $scope.filterDto = {sort : 1}
+            $scope.filterDto.sort = 1
         }else if(button.className == "bx bx-sort"){
             $scope.resetIconButton()
             button.className = "bx bx-sort-up"
-            $scope.filterDto = {sort : 2}
+            $scope.filterDto.sort = 2
         }else{
             button.className = "bx bx-sort"
-            $scope.clearFilter()
-            return
+            delete $scope.filterDto.sort
         }
-        $scope.pageNumber = 0
-        $scope.pageNumbers = []
-        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
-            $scope.items = r.data.content;
-            $scope.getPageNumbers(r.data.totalPages)
-            isfilter = true;
-        }).catch(e => console.log(e))
+        $scope.filter($scope.filterDto)
     }
     $scope.resetIconButton = function (){
         document.getElementById("sortName").className = "bx bx-sort";
@@ -239,6 +228,8 @@ app.controller('ctrl', function ($scope, $http) {
         document.getElementById("sortPrice").className = "bx bx-sort";
         document.getElementById("sortAcount").className = "bx bx-sort";
     }
+
+
 });
 
 

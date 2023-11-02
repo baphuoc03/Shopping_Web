@@ -25,7 +25,7 @@ public class ChiTietDonHangDTORequest {
         ChiTietDonHangModel model = new ChiTietDonHangModel();
         ChiTietSanPhamModel chiTietSanPhamModel = new ChiTietSanPhamModel();
         DonHangModel donhang = new DonHangModel();
-        if(id!=null || !id.isBlank()) model.setId(id);
+        if(id!=null && !id.isBlank()) model.setId(id);
         donhang.setMa(donHangID);
         chiTietSanPhamModel.setId(sanPhamCT);
         model.setDonHang(donhang);

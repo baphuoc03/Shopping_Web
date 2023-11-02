@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietSanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
@@ -91,10 +92,12 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     public List<ChiTietSanPhamDtoResponse> saveAll(List<Float> sizes, ChiTietSanPhamDtoRequest model) {
 
         List<ChiTietSanPhamDtoRequest> etitys = sizes.stream().map(s -> {
-            model.setSize(s);
-            return model;
+            ChiTietSanPhamDtoRequest request = new ChiTietSanPhamDtoRequest();
+            request.setSanPham(model.getSanPham());
+            request.setSize(s);
+            request.setSoLuong(model.getSoLuong());
+            return request;
         }).collect(Collectors.toList());
-
         return etitys.stream().map(e -> save(e)).collect(Collectors.toList());
     }
 
@@ -111,4 +114,18 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
         }
         return true;
     }
+
+    @Override
+    public List<ChiTietSanPhamDtoResponse> getChiTietSanPhamNotInDonHang(String maDonHang){
+        return chiTietSanPhamRepository.getChiTietSanPhamNotInDonHang(maDonHang).stream()
+                .map(s -> new ChiTietSanPhamDtoResponse(s)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ChiTietSanPhamDtoResponse> getBySanPhamIdOrNameContais(String keyWord){
+        return chiTietSanPhamRepository.getBySanPhamIdOrNameContais(keyWord).stream()
+                .map(s -> new ChiTietSanPhamDtoResponse(s)).collect(Collectors.toList());
+    }
+
+
 }

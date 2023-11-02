@@ -20,6 +20,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         console.log(e)
         alert("Lỗi!")
     })
+
     $http.get("/chi-tiet-san-pham" + maSP + "/get-all").then(r => {
         $scope.productDetails = r.data;
         $scope.productDetails.forEach(s => {
@@ -29,6 +30,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
                                     '<label class="btn btn-outline-secondary" for="' + s.size + '" style="width: 60px;">' + s.size + '</label>')
         })
     }).catch(e => console.log(e))
+
     $http.get("/san-pham/san-pham-tuong-tu" + maSP).then(r => {
         $scope.productsTuongTu = r.data
     }).catch(e => {

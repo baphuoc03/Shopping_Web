@@ -10,6 +10,7 @@ import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 
@@ -44,17 +45,26 @@ public class DonHangRescontroller {
         donHangService.updateTrangThai(ma,trangThai);
         return ResponseEntity.ok().build();
     }
+    @PutMapping("update-trang-thai")
+    public ResponseEntity<Integer> updatTrangThaiAll(@RequestBody List<String> ma,@RequestParam("trangThai")Integer trangThai) throws MessagingException {
+        ma.forEach(m -> {
+            try {
+                donHangService.updateTrangThai(m,trangThai);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        });
+        return ResponseEntity.ok().build();
+    }
 
-    @GetMapping("/huy-don-hang/{ma}")
-    public ResponseEntity<Integer> huyDonHang(@PathVariable("ma")String ma,@RequestParam("lyDo")String lyDo) throws MessagingException {
-        if(!donHangService.existsByMa(ma)){
-            return ResponseEntity.notFound().build();
-        }
+    @PutMapping("/huy-don-hang")
+    public ResponseEntity<Integer> huyDonHang(@RequestBody List<String> ma,@RequestParam("lyDo")String lyDo) throws MessagingException {
         donHangService.huyDonHang(ma,lyDo);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("")
+    @Transactional(rollbackFor = {Exception.class, Throwable.class})
     public ResponseEntity<?> updateDonHang(@RequestPart("donHang") DonHangDTORequest request,
                                            @RequestPart("chiTietDonHang")List<ChiTietDonHangDTORequest> products){
         if(!donHangService.existsByMa(request.getMa())){

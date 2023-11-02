@@ -34,7 +34,7 @@ public class DonHangDTORequest {
         DonHangModel donHangModel = new DonHangModel();
         donHangModel.setMa(ma);
         if(nguoiSoHuu.getUsername()!=null || !nguoiSoHuu.getUsername().isBlank()) donHangModel.setNguoiSoHuu(nguoiSoHuu);
-        if(lyDoHuy!=null || !lyDoHuy.isBlank()) donHangModel.setLyDoHuy(lyDoHuy);
+        if(lyDoHuy!=null && !lyDoHuy.isBlank()) donHangModel.setLyDoHuy(lyDoHuy);
         donHangModel.setTenNguoiNhan(tenNguoiNhan);
         donHangModel.setSoDienThoai(soDienThoai);
         donHangModel.setEmail(email);

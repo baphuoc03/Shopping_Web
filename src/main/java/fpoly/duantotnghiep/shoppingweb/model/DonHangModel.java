@@ -102,7 +102,7 @@ public class DonHangModel {
     public String toString() {
         return "DonHangModel{" +
                 "ma='" + ma + '\'' +
-                ", nguoiSoHuu=" + nguoiSoHuu == null ? "" : nguoiSoHuu.getUsername() +
+                ", nguoiSoHuu=" + (nguoiSoHuu == null ? "" : nguoiSoHuu.getUsername()) +
                 ", tenNguoiNhan='" + tenNguoiNhan + '\'' +
                 ", soDienThoai='" + soDienThoai + '\'' +
                 ", email='" + email + '\'' +
