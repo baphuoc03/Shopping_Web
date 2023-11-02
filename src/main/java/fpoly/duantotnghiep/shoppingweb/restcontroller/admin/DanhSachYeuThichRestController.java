@@ -41,4 +41,10 @@ public class DanhSachYeuThichRestController {
                 new ResponseObject("found", "Xóa thất bại", "")
         );
     }
+
+    @DeleteMapping("delete2/{sanpham}")
+    public ResponseEntity<ResponseObject> delete2(@PathVariable String nguoisohuu,@PathVariable String sanpham){
+        service.deleteDanhSachYeuThich(nguoisohuu,sanpham);
+        return ResponseEntity.ok().build();
+    }
 }

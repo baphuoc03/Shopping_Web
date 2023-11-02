@@ -11,4 +11,5 @@ public interface IDanhSachYeuThichService {
     DanhSachYeuThichResponse findById(String s);
     boolean existsById(String s);
     void deleteById(String s);
+    void deleteDanhSachYeuThich(String nguoiSoHuu,String sanPham);
 }

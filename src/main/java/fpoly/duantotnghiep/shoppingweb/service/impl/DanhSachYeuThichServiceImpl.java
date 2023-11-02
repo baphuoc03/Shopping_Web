@@ -40,4 +40,6 @@ public class DanhSachYeuThichServiceImpl implements IDanhSachYeuThichService {
     public void deleteById(String s) {
         repo.deleteById(s);
     }
+
+    public void deleteDanhSachYeuThich(String nguoiSoHuu,String sanPham){repo.deleteDanhSachYeuThichKKK(nguoiSoHuu,sanPham);}
 }
