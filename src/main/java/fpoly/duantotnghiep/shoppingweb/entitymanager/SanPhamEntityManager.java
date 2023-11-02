@@ -32,18 +32,46 @@ public class SanPhamEntityManager {
 //            queryBuider.append("And s.ten like '%"+sanPham.getTen()+"%'");
         }
 
-        if(sanPham.getMauSac()!=null) jpql.append(" And s.mauSac.ma = '"+sanPham.getMauSac()+"'");
-        if(sanPham.getDongSanPham()!=null) {
-            DongSanPhamModel dongSanPhamModel = dongSanPhamRepository.findById(sanPham.getDongSanPham()).orElse(null);
-            if(dongSanPhamModel==null){
-                jpql.append(" And s.dongSanPham.thuongHieu.id = '" + sanPham.getDongSanPham() + "'");
+        if(sanPham.getMauSac()!=null) {
+            if(sanPham.getMauSac().equalsIgnoreCase("khac")){
+                jpql.append(" And s.mauSac is null");
             }else {
-                jpql.append(" And s.dongSanPham.id = '" + sanPham.getDongSanPham() + "'");
+                jpql.append(" And s.mauSac.ma = '" + sanPham.getMauSac() + "'");
             }
         }
-        if(sanPham.getKieuDang()!=null) jpql.append(" And s.kieuDang.id = '" + sanPham.getKieuDang()+"'");
-        if(sanPham.getXuatXu()!=null) jpql.append(" And s.xuatXu.id = '" + sanPham.getXuatXu()+"'");
-        if(sanPham.getChatLieu()!=null) jpql.append(" And s.chatLieu.id = '" + sanPham.getChatLieu()+"'");
+        if(sanPham.getDongSanPham()!=null) {
+            if(sanPham.getDongSanPham().equalsIgnoreCase("khac")){
+                jpql.append(" And s.dongSanPham is null");
+            }else{
+                DongSanPhamModel dongSanPhamModel = dongSanPhamRepository.findById(sanPham.getDongSanPham()).orElse(null);
+                if(dongSanPhamModel==null){
+                    jpql.append(" And s.dongSanPham.thuongHieu.id = '" + sanPham.getDongSanPham() + "'");
+                }else {
+                    jpql.append(" And s.dongSanPham.id = '" + sanPham.getDongSanPham() + "'");
+                }
+            }
+        }
+        if(sanPham.getKieuDang()!=null) {
+            if(sanPham.getKieuDang().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.kieuDang is null");
+            }else{
+                jpql.append(" And s.kieuDang.id = '" + sanPham.getKieuDang() + "'");
+            }
+        }
+        if(sanPham.getXuatXu()!=null) {
+            if(sanPham.getXuatXu().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.xuatXu is null");
+            }else{
+                jpql.append(" And s.xuatXu.id = '" + sanPham.getXuatXu() + "'");
+            }
+        }
+        if(sanPham.getChatLieu()!=null) {
+            if(sanPham.getChatLieu().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.chatLieu is null");
+            }else {
+                jpql.append(" And s.chatLieu.id = '" + sanPham.getChatLieu() + "'");
+            }
+        }
         if(sanPham.getGiaBan()!=null) jpql.append(" And s.giaBan >= " + sanPham.getGiaBan());
         if(sanPham.getGiaMax()!=null) jpql.append(" And s.giaBan <= " + sanPham.getGiaMax());
 
@@ -72,22 +100,50 @@ public class SanPhamEntityManager {
         StringBuilder jpql = new StringBuilder("select s FROM SanPhamModel s WHERE s.trangThai = true ");
 
         if(sanPham.getTen() != null){
-            jpql.append(" And (s.ten like '%"+sanPham.getTen()+"%' Or s.ma like '%"+sanPham.getTen()+"%')");
+            jpql.append(" And (s.ten like '%"+sanPham.getTen()+"%')");
 //            queryBuider.append("And s.ten like '%"+sanPham.getTen()+"%'");
         }
 
-        if(sanPham.getMauSac()!=null) jpql.append(" And s.mauSac.ma = '"+sanPham.getMauSac()+"'");
-        if(sanPham.getDongSanPham()!=null) {
-            DongSanPhamModel dongSanPhamModel = dongSanPhamRepository.findById(sanPham.getDongSanPham()).orElse(null);
-            if(dongSanPhamModel==null){
-                jpql.append(" And s.dongSanPham.thuongHieu.id = '" + sanPham.getDongSanPham() + "'");
+        if(sanPham.getMauSac()!=null) {
+            if(sanPham.getMauSac().equalsIgnoreCase("khac")){
+                jpql.append(" And s.mauSac is null");
             }else {
-                jpql.append(" And s.dongSanPham.id = '" + sanPham.getDongSanPham() + "'");
+                jpql.append(" And s.mauSac.ma = '" + sanPham.getMauSac() + "'");
             }
         }
-        if(sanPham.getKieuDang()!=null) jpql.append(" And s.kieuDang.id = '" + sanPham.getKieuDang()+"'");
-        if(sanPham.getXuatXu()!=null) jpql.append(" And s.xuatXu.id = '" + sanPham.getXuatXu()+"'");
-        if(sanPham.getChatLieu()!=null) jpql.append(" And s.chatLieu.id = '" + sanPham.getChatLieu()+"'");
+        if(sanPham.getDongSanPham()!=null) {
+            if(sanPham.getDongSanPham().equalsIgnoreCase("khac")){
+                jpql.append(" And s.dongSanPham is null");
+            }else{
+                DongSanPhamModel dongSanPhamModel = dongSanPhamRepository.findById(sanPham.getDongSanPham()).orElse(null);
+                if(dongSanPhamModel==null){
+                    jpql.append(" And s.dongSanPham.thuongHieu.id = '" + sanPham.getDongSanPham() + "'");
+                }else {
+                    jpql.append(" And s.dongSanPham.id = '" + sanPham.getDongSanPham() + "'");
+                }
+            }
+        }
+        if(sanPham.getKieuDang()!=null) {
+            if(sanPham.getKieuDang().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.kieuDang is null");
+            }else{
+                jpql.append(" And s.kieuDang.id = '" + sanPham.getKieuDang() + "'");
+            }
+        }
+        if(sanPham.getXuatXu()!=null) {
+            if(sanPham.getXuatXu().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.xuatXu is null");
+            }else{
+                jpql.append(" And s.xuatXu.id = '" + sanPham.getXuatXu() + "'");
+            }
+        }
+        if(sanPham.getChatLieu()!=null) {
+            if(sanPham.getChatLieu().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.chatLieu is null");
+            }else {
+                jpql.append(" And s.chatLieu.id = '" + sanPham.getChatLieu() + "'");
+            }
+        }
         if(sanPham.getGiaBan()!=null) jpql.append(" And s.giaBan >= " + sanPham.getGiaBan());
         if(sanPham.getGiaMax()!=null) jpql.append(" And s.giaBan <= " + sanPham.getGiaMax());
 

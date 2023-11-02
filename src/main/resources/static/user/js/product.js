@@ -29,6 +29,7 @@ app.controller("index-ctrl", function ($scope, $http) {
     }
 
     $scope.getPageNumbers = function (totalPages) {
+        $scope.pageNumbers = []
         for (let i = 0; i < totalPages; i++) {
             $scope.pageNumbers.push(i);
         }
@@ -51,4 +52,63 @@ app.controller("index-ctrl", function ($scope, $http) {
         }
 
     }
+
+
+    ///////////////////////////////////////
+    $scope.getPropertiesInFilter = function (){
+        $http.get("/admin/mau-sac/find-all").then(r =>{
+            $scope.mauSac = r.data;
+        }).catch( e => console.log(e))
+
+        $http.get("/admin/chat-lieu/find-all").then(r =>{
+            $scope.chatLieu = r.data;
+        }).catch( e => console.log(e))
+
+        $http.get("/admin/thuong-hieu/find-all").then(r =>{
+            $scope.thuongHieu = r.data;
+        }).catch( e => console.log(e))
+
+        $http.get("/admin/xuat-xu/find-all").then(r =>{
+            $scope.xuatXu = r.data;
+        }).catch( e => console.log(e))
+
+        $http.get("/admin/kieu-dang/find-all").then(r =>{
+            $scope.kieuDang = r.data;
+        }).catch( e => console.log(e))
+    }
+    $scope.getPropertiesInFilter();
+    $scope.filter = function (filterData){
+        $scope.pageNumber = 0
+        $scope.filterDto = filterData
+        $scope.pageNumbers = []
+        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
+            $scope.items = r.data.content;
+            $scope.totalPage = r.data.totalPages;
+            $scope.getPageNumbers(r.data.totalPages)
+            isfilter = true;
+        }).catch(e => console.log(e))
+    }
+    $scope.search = function (keyWord){
+        $scope.pageNumber = 0
+        $scope.filterDto.ten = keyWord
+        $scope.pageNumbers = []
+        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
+            $scope.products = r.data.content;
+            $scope.totalPage = r.data.totalPages;
+            $scope.getPageNumbers(r.data.totalPages)
+            isfilter = true;
+        }).catch(e => console.log(e))
+    }
+    $scope.clearFilter = function (){
+        $scope.pageNumber = 0
+        $scope.pageNumbers = []
+        $http.get("/admin/san-pham/get-all").then(r => {
+            $scope.products = r.data.content;
+            $scope.getPageNumbers(r.data.totalPages)
+            $scope.filterData = {}
+            $scope.filterDto = {}
+            isfilter = false;
+        }).catch(e => console.log(e))
+    }
+    ///////////////////////////////////////
 })
