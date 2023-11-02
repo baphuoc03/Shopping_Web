@@ -23,6 +23,7 @@ public class ChiTietDonHangModel {
 
     @ManyToOne
     @JoinColumn(name = "donhang")
+    @ToString.Exclude
     private DonHangModel donHang;
 
     @ManyToOne

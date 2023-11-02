@@ -89,8 +89,9 @@
                                                         <div class="mb-3">
                                                             <label>Dòng sản phẩm</label>
                                                             <select class="form-control" ng-model="filterData.dongSanPham">
-                                                                <option>Tất cả</option>
+                                                                <option selected>Tất cả</option>
                                                                 <optgroup ng-repeat="t in thuongHieu" label="{{t.ten}}">
+                                                                    <option value="{{t.id}}">tất cả {{t.ten}}</option>
                                                                     <option ng-repeat="d in t.dongSanPhamResponeseList" value="{{d.id}}">{{d.ten}}</option>
                                                                 </optgroup>
                                                             </select>
@@ -137,17 +138,17 @@
                         </div>
                         <div class="card-body" style="min-height: 450px">
                             <table id="datatable"
-                                   class="table table-striped table-hover dt-responsive  nowrap w-100">
+                                   class="table table-hover dt-responsive  nowrap w-100">
                                 <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Ảnh</th>
-                                    <th>Tên</th>
-                                    <th>Màu</th>
-                                    <th>Dòng Sản Phẩm</th>
-                                    <th>Giá Bán</th>
-                                    <th>Giá Niêm Yết</th>
-                                    <th>Số Lượng</th>
+                                    <th ng-click="sortName()" style="cursor: pointer;width: 250px;">Tên <i class="bx bx-sort" style="float: right" id="sortName"></i></th>
+                                    <th ng-click="sortColor()" style="cursor: pointer">Ngày tạo<i class="bx bx-sort" style="float: right" id="sortColor"></i></th>
+                                    <th ng-click="sortBrand()" style="cursor: pointer">Ngày cập nhật<i class="bx bx-sort" style="float: right" id="sortBrand"></i></th>
+                                    <th ng-click="sortPrice()" style="cursor: pointer">Giá Bán <i class="bx bx-sort" style="float: right" id="sortPrice"></i></th>
+<!--                                    <th>Giá Niêm Yết <i class="fas fa-sort" style="float: right"></i></th>-->
+                                    <th ng-click="sortAcount()" style="cursor: pointer">Số Lượng <i class="bx bx-sort" style="float: right" id="sortAcount"></i></th>
                                     <th>Đăng bán</th>
                                 </tr>
                                 </thead>
@@ -156,15 +157,15 @@
                                     <td ng-click="getChiTietSP(p.ma)">{{$index + 1}}</td>
                                     <td ng-click="getChiTietSP(p.ma)">
                                         <img ng-if="p.anh[0] != null" src="/image/loadImage/product/{{p.anh[0]}}"
-                                             class="imgProduct">
+                                             class="imgProduct" style="border-radius: 15px;">
                                         <img ng-if="p.anh[0] == null" src="/image/loadImage/product/envato.png"
-                                             class="imgProduct">
+                                             class="imgProduct" style="border-radius: 15px;">
                                     </td>
-                                    <td ng-click="getChiTietSP(p.ma)"> {{p.ma}} - {{p.ten}}</td>
-                                    <td ng-click="getChiTietSP(p.ma)">{{p.mauSac}}</td>
-                                    <td ng-click="getChiTietSP(p.ma)">{{p.dongSanPham}}</td>
-                                    <td ng-click="getChiTietSP(p.ma)">{{p.giaBan}}</td>
-                                    <td ng-click="getChiTietSP(p.ma)">{{p.giaNiemYet}}</td>
+                                    <td ng-click="getChiTietSP(p.ma)" style="w: 25%"> {{p.ma}} - {{p.ten}}</td>
+                                    <td ng-click="getChiTietSP(p.ma)" style="width: 13%">{{p.ngayTao | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    <td ng-click="getChiTietSP(p.ma)" style="width: 13%">{{p.ngayCapNhat | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    <td ng-click="getChiTietSP(p.ma)" style="width: 13%">{{p.giaBan | currency : "" : 1}}đ</td>
+<!--                                    <td ng-click="getChiTietSP(p.ma)">{{p.giaNiemYet}}</td>-->
                                     <td ng-click="getChiTietSP(p.ma)">{{p.soLuong}}</td>
                                     <td>
                                         <input type="checkbox" id="switch{{p.ma}}" switch="none" ng-if="p.hienThi == 1"

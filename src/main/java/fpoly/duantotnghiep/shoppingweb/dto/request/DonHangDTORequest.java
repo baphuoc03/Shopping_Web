@@ -31,14 +31,18 @@ public class DonHangDTORequest {
     private BigDecimal phiGiaoHang;
     private int phuongThucThanhToan;
     private String trangThaiDetail;
+    private String lyDoHuy;
 
     public DonHangModel mapModel() {
         DonHangModel donHangModel = new DonHangModel();
-        VoucherModel voucherModel = new VoucherModel();
-        voucherModel.setMa(voucher);
-        donHangModel.setVoucher(voucherModel);
+        if(this.voucher!=null && this.voucher.length()>0) {
+            VoucherModel voucherModel = new VoucherModel();
+            voucherModel.setMa(voucher);
+            donHangModel.setVoucher(voucherModel);
+        }
         donHangModel.setMa(ma);
-        if(nguoiSoHuu.getUsername()!=null || nguoiSoHuu.getUsername().isBlank()) donHangModel.setNguoiSoHuu(nguoiSoHuu);
+        if(nguoiSoHuu!=null) donHangModel.setNguoiSoHuu(nguoiSoHuu);
+        if(lyDoHuy!=null && !lyDoHuy.isBlank()) donHangModel.setLyDoHuy(lyDoHuy);
         donHangModel.setTenNguoiNhan(tenNguoiNhan);
         donHangModel.setSoDienThoai(soDienThoai);
         donHangModel.setEmail(email);
@@ -54,7 +58,7 @@ public class DonHangDTORequest {
         donHangModel.setGhiChu(ghiChu);
         donHangModel.setTienGiam(tienGiam);
         donHangModel.setPhiGiaoHang(phiGiaoHang);
-        donHangModel.setPhuongThucThanhToan(phuongThucThanhToan);
+        donHangModel.setPhuongThucThanhToan(phuongThucThanhToan == 1 ? false : true);
         return donHangModel;
     }
 }

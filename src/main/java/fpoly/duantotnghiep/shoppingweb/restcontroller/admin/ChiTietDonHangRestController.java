@@ -4,6 +4,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.service.IChiTietDonHangService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +18,12 @@ public class ChiTietDonHangRestController {
     private IChiTietDonHangService chiTietDonHangService;
 
     @GetMapping("/{maDonHang}")
-    public List<ChiTietDonHangDtoResponse> getByDonHang(@PathVariable("maDonHang")String maDonHang){
+    public List<ChiTietDonHangDtoResponse> getByDonHang(@PathVariable("maDonHang") String maDonHang) {
         return chiTietDonHangService.getByDonHang(maDonHang);
     }
 
+    @GetMapping("detail/{id}")
+    public ResponseEntity<?> findById(@PathVariable("id")String id){
+        return ResponseEntity.ok(chiTietDonHangService.findById(id));
+    }
 }

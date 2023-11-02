@@ -5,6 +5,7 @@ app.controller("cart-ctrl", function ($scope, $http){
     $http.get("/cart/find-all").then(r => {
         console.log(r.data)
         $scope.cart = r.data;
+        console.log("soLuong:")
     }).catch(e => console.log(e))
 
     // $scope.updateQuantity = function (productId, quantity) {

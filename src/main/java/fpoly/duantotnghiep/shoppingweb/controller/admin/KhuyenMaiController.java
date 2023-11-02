@@ -207,7 +207,7 @@ public class KhuyenMaiController {
     private void updateGiaKhiGiam(KhuyenMaiResponse khuyenMai, List<SanPhamModel> sanPhamUpdate) {
         for (SanPhamModel sanPhamModel1 : sanPhamUpdate) {
             BigDecimal giaGiam = giaGiam(khuyenMai.getLoai(), sanPhamModel1, khuyenMai);
-            sanPhamModel1.setGiaNiemYet(giaGiam);
+            sanPhamModel1.setGiaBan(giaGiam);
             sanPhamModel1.setMa(sanPhamModel1.getMa());
             sanPhamService.save1(sanPhamModel1);
         }

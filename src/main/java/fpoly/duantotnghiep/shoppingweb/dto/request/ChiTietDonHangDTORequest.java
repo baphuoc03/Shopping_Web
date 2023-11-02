@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChiTietDonHangDTORequest {
+    private String id;
     private String donHangID;
     private String sanPhamCT;
     private Integer soLuong;
@@ -24,6 +25,7 @@ public class ChiTietDonHangDTORequest {
         ChiTietDonHangModel model = new ChiTietDonHangModel();
         ChiTietSanPhamModel chiTietSanPhamModel = new ChiTietSanPhamModel();
         DonHangModel donhang = new DonHangModel();
+        if(id!=null && !id.isBlank()) model.setId(id);
         donhang.setMa(donHangID);
         chiTietSanPhamModel.setId(sanPhamCT);
         model.setDonHang(donhang);
@@ -32,5 +34,13 @@ public class ChiTietDonHangDTORequest {
         model.setDonGia(donGia);
         model.setDonGiaSauGiam(donGiaSauGiam);
         return model;
+    }
+
+    public ChiTietDonHangDTORequest(String donHangID, String sanPhamCT, Integer soLuong, BigDecimal donGia, BigDecimal donGiaSauGiam) {
+        this.donHangID = donHangID;
+        this.sanPhamCT = sanPhamCT;
+        this.soLuong = soLuong;
+        this.donGia = donGia;
+        this.donGiaSauGiam = donGiaSauGiam;
     }
 }

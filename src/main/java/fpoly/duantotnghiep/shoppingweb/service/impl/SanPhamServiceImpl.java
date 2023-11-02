@@ -128,6 +128,8 @@ public class SanPhamServiceImpl implements ISanPhamService {
             BigDecimal giamGia = sanPhamOld.getGiaBan().subtract(sanPhamOld.getGiaNiemYet());
             model.setGiaNiemYet(model.getGiaBan().subtract(giamGia));
 
+        model.setNgayTao(sanPhamOld.getNgayTao());
+
         anhService.deleteBySanPham(model);
         anhService.saveAll(model.getImages());
         model.setTrangThai(true);
@@ -167,6 +169,11 @@ public class SanPhamServiceImpl implements ISanPhamService {
         return sanPhamEntityManager.filterMultipleProperties(sanPhamDtoFilter, pageNumber, limt);
     }
 
+    @Override
+    public Page<SanPhamDtoResponse> filterInUser(SanPhamDtoFilter sanPhamDtoFilter, Integer pageNumber, Integer limt) {
+        return sanPhamEntityManager.filterMultiplePropertiesInUser(sanPhamDtoFilter, pageNumber, limt);
+    }
+
     public Integer updateGiaBan(BigDecimal giaBan, String ma) {
         return sanPhamRepository.updateGiaBan(giaBan, ma);
     }
@@ -184,4 +191,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
                 .map(s -> new SanPhamDtoResponse(s)).collect(Collectors.toList());
         return listSP;
     }
+
+
+
 }

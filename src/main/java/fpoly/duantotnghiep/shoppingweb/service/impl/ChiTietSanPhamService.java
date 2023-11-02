@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietSanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
@@ -78,11 +79,17 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     }
 
     @Override
+    public void updateSL(String maCTSP, Long soLuong) {
+        chiTietSanPhamRepository.updateSoLuong(soLuong, maCTSP);
+
+    }
+
+    @Override
     public void delete(String id) {
         ChiTietSanPhamModel model = chiTietSanPhamRepository.findById(id).get();
-        if(model.kiemTraCoTrongDonHang()){
-            chiTietSanPhamRepository.updateTrangThai(false,model.getId());
-        }else {
+        if (model.kiemTraCoTrongDonHang()) {
+            chiTietSanPhamRepository.updateTrangThai(false, model.getId());
+        } else {
             chiTietSanPhamRepository.deleteById(id);
         }
     }
@@ -91,10 +98,12 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     public List<ChiTietSanPhamDtoResponse> saveAll(List<Float> sizes, ChiTietSanPhamDtoRequest model) {
 
         List<ChiTietSanPhamDtoRequest> etitys = sizes.stream().map(s -> {
-            model.setSize(s);
-            return model;
+            ChiTietSanPhamDtoRequest request = new ChiTietSanPhamDtoRequest();
+            request.setSanPham(model.getSanPham());
+            request.setSize(s);
+            request.setSoLuong(model.getSoLuong());
+            return request;
         }).collect(Collectors.toList());
-
         return etitys.stream().map(e -> save(e)).collect(Collectors.toList());
     }
 
@@ -102,4 +111,27 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     public Boolean existsById(String id) {
         return chiTietSanPhamRepository.existsById(id);
     }
+
+    @Override
+    public Boolean checkSoLuongSP(String id, Long soLuong){
+        ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(id).get();
+        if(soLuong > chiTietSanPhamModel.getSoLuong() || soLuong<=0){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public List<ChiTietSanPhamDtoResponse> getChiTietSanPhamNotInDonHang(String maDonHang){
+        return chiTietSanPhamRepository.getChiTietSanPhamNotInDonHang(maDonHang).stream()
+                .map(s -> new ChiTietSanPhamDtoResponse(s)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ChiTietSanPhamDtoResponse> getBySanPhamIdOrNameContais(String keyWord){
+        return chiTietSanPhamRepository.getBySanPhamIdOrNameContais(keyWord).stream()
+                .map(s -> new ChiTietSanPhamDtoResponse(s)).collect(Collectors.toList());
+    }
+
+
 }

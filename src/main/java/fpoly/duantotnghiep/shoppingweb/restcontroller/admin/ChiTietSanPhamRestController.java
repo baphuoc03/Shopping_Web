@@ -1,9 +1,12 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietSanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.SizeModel;
+import fpoly.duantotnghiep.shoppingweb.repository.IChiTietDonHangRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.sizerepo;
+import fpoly.duantotnghiep.shoppingweb.service.IChiTietDonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.validation.Valid;
@@ -29,6 +32,9 @@ public class ChiTietSanPhamRestController {
     private sizerepo sizerepo;
     @Autowired
     private IChiTietSanPhamService sanPhamService;
+
+    @Autowired
+    private IChiTietDonHangService chiTietDonHangService;
 
     @Autowired
     private IChiTietSanPhamService chiTietSanPhamService;
@@ -76,6 +82,35 @@ public class ChiTietSanPhamRestController {
             return ValidateUtil.getErrors(result);
         }
         return ResponseEntity.ok(chiTietSanPhamService.update(model));
+    }
+
+    @GetMapping("kiem-tra-so-luong/{id}")
+    public ResponseEntity<?> kiemTraSoLuong(@PathVariable("id") String id,
+                                            @RequestParam("soLuong")Long soLuong,
+                                            @RequestParam(value = "idCTDH",required = false)String idCTDH){
+        if(idCTDH.length()>0){
+            ChiTietDonHangDtoResponse chiTietDonHangDtoResponse = chiTietDonHangService.findById(idCTDH);
+            soLuong -= chiTietDonHangDtoResponse.getSoLuong();
+        }
+        System.out.println(soLuong);
+        if(!chiTietSanPhamService.checkSoLuongSP(id,soLuong)){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("get-not-in-don-hang/{maDonHang}")
+    public ResponseEntity<?> getNotInDonHang(@PathVariable("maDonHang") String maDonHang){
+        return ResponseEntity.ok(chiTietSanPhamService.getChiTietSanPhamNotInDonHang(maDonHang));
+    }
+
+    @GetMapping("get-all-ctsp")
+    public ResponseEntity<?> getAllCTS(@RequestParam(required = false) String keyWord){
+        System.out.println(keyWord);
+        if(keyWord != null){
+            if(keyWord.trim().length()>0) return ResponseEntity.ok(chiTietSanPhamService.getBySanPhamIdOrNameContais(keyWord));
+        }
+        return ResponseEntity.ok(chiTietSanPhamService.fillAllChiTietSP());
     }
 
 

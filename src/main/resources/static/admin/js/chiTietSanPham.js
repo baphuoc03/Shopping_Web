@@ -18,7 +18,6 @@ app.controller('chiTietSP-ctrl', function ($scope, $http) {
     }
     $scope.getSizes = function (){
         $http.get("/admin/san-pham/"+idSP+"/test").then(r => {
-            console.log(r.data)
             $scope.sizes = r.data;
         }).catch(e => console.log(e))
     }

@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietDonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
@@ -25,6 +26,10 @@ public class ChiTietDonHangService implements IChiTietDonHangService {
         return chiTietDonHangRepository.findAllByDonHang(donHangModel).stream().map(d -> new ChiTietDonHangDtoResponse(d)).collect(Collectors.toList());
     }
 
+    @Override
+    public ChiTietDonHangDtoResponse findById(String id) {
+        return new ChiTietDonHangDtoResponse(chiTietDonHangRepository.findById(id).get());
+    }
     @Override
     public void save(ChiTietDonHangDTORequest chiTietDonHang) {
         chiTietDonHangRepository.save(chiTietDonHang.mapModel());
