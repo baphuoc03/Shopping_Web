@@ -23,7 +23,7 @@ public class SanPhamRestController {
 
     @GetMapping("get-all")
     public ResponseEntity<Page<SanPhamDtoResponse>> getAll(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
-                                                           @RequestParam(value = "limit", defaultValue = "6") Integer limit) {
+                                                           @RequestParam(value = "limit", defaultValue = "8") Integer limit) {
 
         return ResponseEntity.ok(sanPhamService.paginationInUser(pageNumber, limit));
     }

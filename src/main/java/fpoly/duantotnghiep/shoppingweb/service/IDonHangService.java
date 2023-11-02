@@ -12,8 +12,7 @@ public interface IDonHangService {
     List<DonHangDtoResponse> getAllByTrangThai(Integer trangThai);
 
     Page<DonHangDtoResponse> getAllByTrangThai(Integer trangThai, Integer limit, Integer pageNumber);
-
-    void checkOut(DonHangDTORequest donHangDTORequest);
+    DonHangDtoResponse checkOut(DonHangDTORequest donHangDTORequest);
 
     DonHangDtoResponse findByMa(String ma);
 

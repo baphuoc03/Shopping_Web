@@ -35,4 +35,12 @@ public class ChiTietDonHangDTORequest {
         model.setDonGiaSauGiam(donGiaSauGiam);
         return model;
     }
+
+    public ChiTietDonHangDTORequest(String donHangID, String sanPhamCT, Integer soLuong, BigDecimal donGia, BigDecimal donGiaSauGiam) {
+        this.donHangID = donHangID;
+        this.sanPhamCT = sanPhamCT;
+        this.soLuong = soLuong;
+        this.donGia = donGia;
+        this.donGiaSauGiam = donGiaSauGiam;
+    }
 }

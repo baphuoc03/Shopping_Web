@@ -20,6 +20,8 @@ public interface IChiTietSanPhamService {
 
     ChiTietSanPhamDtoResponse update(ChiTietSanPhamDtoRequest entity);
 
+    void updateSL(String maCTSP, Long soLuong);
+
     void delete(String id);
 
 

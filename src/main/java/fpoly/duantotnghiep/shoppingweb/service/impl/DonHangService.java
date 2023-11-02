@@ -60,9 +60,10 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
-    public void checkOut(DonHangDTORequest donHangDTORequest) {
+    public DonHangDtoResponse checkOut(DonHangDTORequest donHangDTORequest) {
         DonHangModel model = donHangDTORequest.mapModel();
-        donHangResponsitory.save(model);
+        donHangResponsitory.saveAndFlush(model);
+        return new DonHangDtoResponse(donHangResponsitory.findById(model.getMa()).get());
     }
 
     @Override

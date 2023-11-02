@@ -79,11 +79,17 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     }
 
     @Override
+    public void updateSL(String maCTSP, Long soLuong) {
+        chiTietSanPhamRepository.updateSoLuong(soLuong, maCTSP);
+
+    }
+
+    @Override
     public void delete(String id) {
         ChiTietSanPhamModel model = chiTietSanPhamRepository.findById(id).get();
-        if(model.kiemTraCoTrongDonHang()){
-            chiTietSanPhamRepository.updateTrangThai(false,model.getId());
-        }else {
+        if (model.kiemTraCoTrongDonHang()) {
+            chiTietSanPhamRepository.updateTrangThai(false, model.getId());
+        } else {
             chiTietSanPhamRepository.deleteById(id);
         }
     }
