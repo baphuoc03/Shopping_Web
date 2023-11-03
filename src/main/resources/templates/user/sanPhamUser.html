@@ -9,124 +9,19 @@
 <body>
 
 <div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140" ng-app="index-app" ng-controller="index-ctrl">
-    <!--    banner-->
-    <div class="sec-banner bg0 p-t-80 p-b-50">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
-                    <!-- Block1 -->
-                    <div class="block1 wrap-pic-w">
-                        <img src="/userStyle/images/banner-01.jpg" alt="IMG-BANNER">
-
-                        <a href="product.html"
-                           class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-                            <div class="block1-txt-child1 flex-col-l">
-								<span class="block1-name ltext-102 trans-04 p-b-8">
-									Women
-								</span>
-
-                                <span class="block1-info stext-102 trans-04">
-									Spring 2018
-								</span>
-                            </div>
-
-                            <div class="block1-txt-child2 p-b-4 trans-05">
-                                <div class="block1-link stext-101 cl0 trans-09">
-                                    Shop Now
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
-                    <!-- Block1 -->
-                    <div class="block1 wrap-pic-w">
-                        <img src="/userStyle/images/banner-02.jpg" alt="IMG-BANNER">
-
-                        <a href="product.html"
-                           class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-                            <div class="block1-txt-child1 flex-col-l">
-								<span class="block1-name ltext-102 trans-04 p-b-8">
-									Men
-								</span>
-
-                                <span class="block1-info stext-102 trans-04">
-									Spring 2018
-								</span>
-                            </div>
-
-                            <div class="block1-txt-child2 p-b-4 trans-05">
-                                <div class="block1-link stext-101 cl0 trans-09">
-                                    Shop Now
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
-                    <!-- Block1 -->
-                    <div class="block1 wrap-pic-w">
-                        <img src="/userStyle/images/banner-03.jpg" alt="IMG-BANNER">
-
-                        <a href="product.html"
-                           class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-                            <div class="block1-txt-child1 flex-col-l">
-								<span class="block1-name ltext-102 trans-04 p-b-8">
-									Accessories
-								</span>
-
-                                <span class="block1-info stext-102 trans-04">
-									New Trend
-								</span>
-                            </div>
-
-                            <div class="block1-txt-child2 p-b-4 trans-05">
-                                <div class="block1-link stext-101 cl0 trans-09">
-                                    Shop Now
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <link rel="stylesheet" th:href="@{/user/css/products.css}">
     <!-- Product -->
-    <section class="bg0 p-t-23 p-b-140">
+    <section class="bg0 p-t-23 p-b-10">
         <div class="container">
             <div class="p-b-10">
                 <h3 class="ltext-103 cl5">
-                    Tất cả sản phẩm
+                    {{title}}
                 </h3>
             </div>
             <!--lọc-->
             <div class="flex-w flex-sb-m p-b-52">
                 <div class="flex-w flex-l-m filter-tope-group m-tb-10">
-                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-                        All Products
-                    </button>
 
-                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".women">
-                        Women
-                    </button>
-
-                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".men">
-                        Men
-                    </button>
-
-                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".bag">
-                        Bag
-                    </button>
-
-                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".shoes">
-                        Shoes
-                    </button>
-
-                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".watches">
-                        Watches
-                    </button>
                 </div>
 
                 <div class="flex-w flex-c-m m-tb-10">
@@ -152,7 +47,6 @@
 
                         <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product"
                                onchange="angular.element(this).scope().search(this.value)"
-                               ng-model="filterData.ten"
                                placeholder="Search">
                     </div>
                 </div>
@@ -160,91 +54,95 @@
                 <!-- Filter -->
                 <div class="dis-none panel-filter w-full p-t-10">
                     <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
-                        <div class="filter-col1 p-r-15 p-b-27">
+                        <div class="filter-col1 p-r-100 p-b-27">
                             <div class="mtext-102 cl2 p-b-15">
                                 Xuất xứ
-                                <select class="form-control" ng-model="filterData.xuatXu" style=" background-color: #e6e6e6;">
-                                    <option>Tất cả</option>
+                                <select class="form-control" ng-model="filterData.xuatXu"
+                                        style=" background-color: #e6e6e6;">
+                                    <option selected>Tất cả</option>
                                     <option ng-repeat="x in xuatXu" value="{{x.id}}">{{x.ten}}</option>
                                     <option value="khac">Khác</option>
                                 </select>
                             </div>
                             <div class="mtext-102 cl2 p-b-15">
                                 Màu sắc
-                                <select class="form-control" ng-model="filterData.mauSac" style=" background-color: #e6e6e6;">
-                                    <option>Tất cả</option>
+                                <select class="form-control" ng-model="filterData.mauSac"
+                                        style=" background-color: #e6e6e6;">
+                                    <option selected>Tất cả</option>
                                     <option ng-repeat="m in mauSac" value="{{m.ma}}">{{m.ten}}</option>
                                     <option value="khac">Khác</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="filter-col2 p-r-15 p-b-27">
+                        <div class="filter-col2 p-r-100 p-b-27">
                             <div class="mtext-102 cl2 p-b-15">
                                 Dòng sản phẩm
-                                <select class="form-control" ng-model="filterData.dongSanPham" style=" background-color: #e6e6e6;">
+                                <select class="form-control" ng-model="filterData.dongSanPham"
+                                        style=" background-color: #e6e6e6;">
                                     <option selected>Tất cả</option>
                                     <optgroup ng-repeat="t in thuongHieu" label="{{t.ten}}">
                                         <option value="{{t.id}}">tất cả {{t.ten}}</option>
-                                        <option ng-repeat="d in t.dongSanPhamResponeseList" value="{{d.id}}">{{d.ten}}</option>
+                                        <option ng-repeat="d in t.dongSanPhamResponeseList" value="{{d.id}}">{{d.ten}}
+                                        </option>
                                         <option value="khac">Khác</option>
                                     </optgroup>
                                 </select>
                             </div>
                             <div class="mtext-102 cl2 p-b-15">
                                 Kiểu dáng
-                                <select class="form-control" ng-model="filterData.kieuDang" style=" background-color: #e6e6e6;">
-                                    <option>Tất cả</option>
+                                <select class="form-control" ng-model="filterData.kieuDang"
+                                        style=" background-color: #e6e6e6;">
+                                    <option selected>Tất cả</option>
                                     <option ng-repeat="k in kieuDang" value="{{k.id}}">{{k.ten}}</option>
                                     <option value="khac">Khác</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="filter-col3 p-r-15 p-b-27">
-                            <div class="mtext-102 cl2 p-b-15">
-                                Chất liệu
-                                <select class="form-control" ng-model="filterData.chatLieu" style=" background-color: #e6e6e6;">
-                                    <option>Tất cả</option>
-                                    <option ng-repeat="c in chatLieu" value="{{c.id}}">{{c.ten}}</option>
-                                    <option value="khac">Khác</option>
-                                </select>
+                        <div class="filter-col3 p-r-15 p-b-27 col-5" style="">
+                            <div class="p-b-15 d-flex justify-content-center">
+                                <div class="mtext-102 cl2 p-b-15 col-6">
+                                    Chất liệu
+                                    <select class="form-control" ng-model="filterData.chatLieu"
+                                            style=" background-color: #e6e6e6;">
+                                        <option selected>Tất cả</option>
+                                        <option ng-repeat="c in chatLieu" value="{{c.id}}">{{c.ten}}</option>
+                                        <option value="khac">Khác</option>
+                                    </select>
+                                </div>
+                                <div class="mtext-102 cl2 p-b-15 col-6">
+                                    Sắp xếp
+                                    <select class="form-control" ng-model="filterData.sort">
+                                        <option></option>
+                                        <option value="1">Giá bán giảm dần</option>
+                                        <option value="2">Giá bán tăng dần</option>
+                                        <option value="3">Tên a -> z</option>
+                                        <option value="4">Tên z <- a</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="p-b-27">
+                                <div class="mtext-102 cl2 p-b-15">
+                                    Khoảng tiền
+                                    <div class="price-slider">
+                                        <div id="slider-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" style="border-radius: 50px">
+                                            <div class="ui-slider-range ui-corner-all ui-widget-header" ></div>
+                                            <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                            <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                        </div>
+                                        <span id="min-price" class="slider-price">0 ₫</span>
+                                        <span id="max-price" style="float: right" class="slider-price">10.000.000 ₫</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="filter-col4 p-b-27">
-                            <div class="mtext-102 cl2 p-b-15">
-                                Tags
-                            </div>
-
-                            <div class="flex-w p-t-4 m-r--5">
-                                <a href="#"
-                                   class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                    Fashion
-                                </a>
-
-                                <a href="#"
-                                   class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                    Lifestyle
-                                </a>
-
-                                <a href="#"
-                                   class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                    Denim
-                                </a>
-
-                                <a href="#"
-                                   class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                    Streetstyle
-                                </a>
-
-                                <a href="#"
-                                   class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                    Crafts
-                                </a>
-                            </div>
+                        <div class="row col-12 d-flex justify-content-end p-b-15">
+                            <button class="btn btn-danger me-2" style="width: 70px" ng-click="clearFilter()">Bỏ lọc</button>
+                            <button class="btn btn-primary me-2" style="width: 70px" ng-click="filter(filterData)">Lọc</button>
                         </div>
                     </div>
+
                 </div>
             </div>
             <!--Form sản phẩm-->
@@ -255,12 +153,12 @@
                     <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women" ng-repeat="p in products">
                         <!-- Block2 -->
                         <div class="block2" style="   border-radius: 10px;">
-                            <div class="block2-pic hov-img0">
+                            <div class="block2-pic hov-img0" style="border-radius: 20px;">
                                 <img src="/image/loadImage/product/{{p.anh[0]}}"
-                                     style="width: 273px;height: 273px"
+                                     style="width: 100%;height: 273px"
                                      ng-if="p.anh.length>0">
                                 <img src="/image/loadImage/product/default.png"
-                                     style="width: 273px;height: 273px"
+                                     style="width: 100%;height: 273px"
                                      ng-if="p.anh.length==0">
                                 <a href="#"
                                    class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
@@ -270,16 +168,16 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="/chi-tiet-san-pham/{{p.ma}}"
-                                       class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                    <a href="/chi-tiet-san-pham/{{p.ma}}" style="font-weight: bold; font-size: 17px; "
+                                       class="cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         {{p.ten}}
                                     </a>
 
-                                    <span class="stext-105 cl3">
-                                    <span class="stext-105 cl3" ng-if="p.giaBan>p.giaNiemYet">
+                                    <span class=" cl3">
+                                    <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
 									<del>{{p.giaBan | currency: "" : 1}}đ</del>
 								    </span>
-                                <b>{{p.giaNiemYet | currency: "" : 1}}đ</b>
+                                <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet | currency: "" : 1}}đ</b>
 								</span>
                                 </div>
 
@@ -288,31 +186,36 @@
                                         <img class="icon-heart1 dis-block trans-04"
                                              th:src="@{/userStyle/images/icons/icon-heart-01.png}"
                                              alt="ICON">
-<!--                                        <img class="icon-heart2 dis-block trans-04 ab-t-l"-->
-<!--                                             th:src="@{/userStyle/images/icons/icon-heart-02.png}"-->
-<!--                                             alt="ICON">-->
+                                        <!--                                        <img class="icon-heart2 dis-block trans-04 ab-t-l"-->
+                                        <!--                                             th:src="@{/userStyle/images/icons/icon-heart-02.png}"-->
+                                        <!--                                             alt="ICON">-->
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Pagination -->
-                    <div class="flex-c-m flex-w w-full p-t-38" style="    margin-top: 650px;">
+                </div>
+            </div>
+            <div class="row mt-5">
+                <!-- Pagination -->
+                <div class="col-12  d-flex justify-content-center ">
                         <span ng-repeat="p in pageNumbers"
                               class="">
                             <span ng-if="p==pageNumber"
                                   class="active-pagination1 flex-c-m how-pagination1 trans-04 m-all-7 "
-                            >{{p+1}}</span>
+                            >{{p + 1}}</span>
                             <span ng-if="p!=pageNumber" class="flex-c-m how-pagination1 trans-04 m-all-7 "
                                   style="cursor: pointer"
-                                  ng-click="getAll(p)">{{p+1}}</span>
+                                  ng-click="getAll(p)">{{p + 1}}</span>
                         </span>
-                    </div>
                 </div>
             </div>
         </div>
     </section>
-   </div>
+
+
+
+</div>
 <!--    modal chi tiếts-->
 <div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
     <div class="overlay-modal1 js-hide-modal1"></div>
