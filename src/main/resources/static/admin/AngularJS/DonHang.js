@@ -278,11 +278,11 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 this.detail.thanhPhoCode = this.detail.thanhPhoCode + ""
 
                 //Lấy quận huyện
-                $scope.giaoHangNhanh.getDistricts(this.detail.thanhPhoCode)
+                $scope.giaoHangNhanh.getDistricts(this.detail.thanhPhoCode)//hàm lấy quận huyện truyền vào thành phố
                 this.detail.quanHuyenCode = this.detail.quanHuyenCode + "" // set selected quận huyện
 
-                $scope.giaoHangNhanh.getWards(this.detail.quanHuyenCode)
-                this.detail.xaPhuongCode = this.detail.xaPhuongCode + ""
+                $scope.giaoHangNhanh.getWards(this.detail.quanHuyenCode)//hàm lấy xã truyền vào quận huyện
+                this.detail.xaPhuongCode = this.detail.xaPhuongCode + "" //set selected xã
 
                 $('#chuaXacNhanDetail').modal('show')
             }).catch(e => console.log(e))

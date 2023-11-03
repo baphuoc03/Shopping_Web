@@ -50,5 +50,11 @@ public interface ISanPhamService {
 
     List<SanPhamDtoResponse> getSanPhamTuongTu(String ma);
 
+    List<SanPhamDtoResponse> getBanChay(Integer limit);
+
+    List<SanPhamDtoResponse> getKhuyenMai(Integer limit);
+
+    List<SanPhamDtoResponse> getSanPhamMoi(Integer limit);
+
 //    public void updateGiaGiam(SanPhamModel sanPhamModel);
 }
