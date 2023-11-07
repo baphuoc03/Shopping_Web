@@ -7,20 +7,18 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
 import fpoly.duantotnghiep.shoppingweb.model.*;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
-import fpoly.duantotnghiep.shoppingweb.service.IChiTietDonHangService;
-import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
-import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
-import fpoly.duantotnghiep.shoppingweb.service.IGioHangService;
-import fpoly.duantotnghiep.shoppingweb.service.impl.ChiTietSanPhamService;
-import fpoly.duantotnghiep.shoppingweb.service.impl.GioHangServiceImpl;
-import fpoly.duantotnghiep.shoppingweb.service.impl.SanPhamServiceImpl;
-import fpoly.duantotnghiep.shoppingweb.service.impl.VoucherServiceImpl;
+import fpoly.duantotnghiep.shoppingweb.service.*;
+import fpoly.duantotnghiep.shoppingweb.service.impl.*;
+import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -28,6 +26,8 @@ import java.util.*;
 
 @RestController
 public class CheckoutController {
+    @Autowired
+    IKhachHangService khachHangService;
     @Autowired
     GioHangServiceImpl gioHangService;
     @Autowired
@@ -52,7 +52,19 @@ public class CheckoutController {
 
     @PostMapping("/check-out")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})//Khi có lỗi sẽ rollback
-    public ResponseEntity<?> addHoaDon(@RequestBody DonHangDTORequest donHangDTORequest) throws MessagingException {
+    public ResponseEntity<?> addHoaDon(@Valid @RequestBody DonHangDTORequest donHangDTORequest,
+                                       BindingResult result,
+                                       Authentication authentication) throws MessagingException {
+
+        if (result.hasErrors()) {
+            return ValidateUtil.getErrors(result);
+        }
+        if (authentication != null) {
+            String khachHang = authentication.getName();
+            KhachHangModel khachHangModel = new KhachHangModel();
+            khachHangModel.setUsername(khachHang);
+            donHangDTORequest.setNguoiSoHuu(khachHangModel);
+        }
         donHangDTORequest.setNgayDatHang(new Date());
         donHangDTORequest.setMa(codeDonHang());
         DonHangDtoResponse response = donHangService.checkOut(donHangDTORequest);
@@ -65,7 +77,7 @@ public class CheckoutController {
             sanPhamServic.updateSL(chtsp.getId(), sl);
         });
 //        update cart and soluong voucher
-        if(donHangDTORequest.getVoucher()!=null && !donHangDTORequest.getVoucher().isBlank()){
+        if (donHangDTORequest.getVoucher() != null && !donHangDTORequest.getVoucher().isBlank()) {
             int soLuong = voucherService.findById(donHangDTORequest.getVoucher()).getSoLuong() - 1;
             voucherService.upddateSoLuong(soLuong, donHangDTORequest.getVoucher());
         }

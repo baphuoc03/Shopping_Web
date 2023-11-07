@@ -17,23 +17,32 @@ public class DiaChiModel {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "thanhphocode")
+    @Column(name = "tennguoinhan")
+    private String tenNguoiNhan;
+
+    @Column(name = "sodienthoai")
+    private String soDienThoai;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "thanhphoName")
+    private String thanhphoName;
+
+    @Column(name = "thanhphoCode")
     private Integer thanhPhoCode;
 
-    @Column(name = "quanhuyencode")
+    @Column(name = "quanhuyenName")
+    private String quanHuyenName;
+
+    @Column(name = "quanhuyenCode")
     private Integer quanHuyenCode;
 
-    @Column(name = "xaphuongcode")
-    private String xaPhuongCode;
-
-    @Column(name = "thanhphoname")
-    private Integer thanhPhoName;
-
-    @Column(name = "quanhuyenname")
-    private Integer quanHuyenName;
-
-    @Column(name = "xaphuongname")
+    @Column(name = "xaphuongName")
     private String xaPhuongName;
+
+    @Column(name = "xaphuongCode")
+    private String xaPhuongCode;
 
     @Column(name = "diachichitiet")
     private String diaChiChiTiet;

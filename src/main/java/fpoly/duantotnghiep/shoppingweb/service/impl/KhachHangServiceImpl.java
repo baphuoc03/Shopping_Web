@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.model.DiaChiModel;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
@@ -20,8 +21,8 @@ public class KhachHangServiceImpl implements IKhachHangService {
     IKhachHangRepository khachHangRepository;
 
     @Override
-    public Page<KhachHangDtoResponse> getAll(Integer page, Integer limit){
-        Pageable pageable = PageRequest.of(page,limit);
+    public Page<KhachHangDtoResponse> getAll(Integer page, Integer limit) {
+        Pageable pageable = PageRequest.of(page, limit);
         Page<KhachHangModel> pageModel = khachHangRepository.findAll(pageable);
 
         return new PageImpl<>(pageModel.getContent().stream().map(k -> new KhachHangDtoResponse(k)).collect(Collectors.toList()),
@@ -29,8 +30,13 @@ public class KhachHangServiceImpl implements IKhachHangService {
     }
 
     @Override
-    public KhachHangDtoResponse findById(String username){
+    public KhachHangDtoResponse findById(String username) {
         return new KhachHangDtoResponse(khachHangRepository.findById(username).get());
+    }
+
+    @Override
+    public List<DiaChiModel> diaChiByTaiKhoan(String taiKhoan) {
+        return khachHangRepository.findAllDiaChiByTaiKhoan(taiKhoan);
     }
 
 }

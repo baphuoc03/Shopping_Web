@@ -25,32 +25,32 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         return total
     }
     ///////////////////////
-    $scope.getSanPham = function (){
+    $scope.getSanPham = function () {
         $http.get("/admin/san-pham/1/get-all-ctsp").then(r => {
             $scope.sanPham = r.data
         }).catch(e => console.log(e))
     }
     $scope.getSanPham()
-    $scope.addChiTietDonHang = function (item){
+    $scope.addChiTietDonHang = function (item) {
         $scope.chiTietDonHang.push({
-            sanPham :  item.sanPham,
-            anh : item.sanPhamDTO.anh.length==0? "default.png" : item.sanPhamDTO.anh[0],
-            size : item.size,
-            soLuong : 1,
-            donGia : item.sanPhamDTO.giaBan,
-            donGiaSauGiam : item.sanPhamDTO.giaNiemYet,
-            idChiTietSanPham : item.id
+            sanPham: item.sanPham,
+            anh: item.sanPhamDTO.anh.length == 0 ? "default.png" : item.sanPhamDTO.anh[0],
+            size: item.size,
+            soLuong: 1,
+            donGia: item.sanPhamDTO.giaBan,
+            donGiaSauGiam: item.sanPhamDTO.giaNiemYet,
+            idChiTietSanPham: item.id
         })
     }
-    $scope.searchSanPham = function (){
-        $http.get("/admin/san-pham/1/get-all-ctsp?keyWord="+$scope.inputProduct).then(r => {
+    $scope.searchSanPham = function () {
+        $http.get("/admin/san-pham/1/get-all-ctsp?keyWord=" + $scope.inputProduct).then(r => {
             $scope.sanPham = r.data
         }).catch(e => console.log(e))
     }
-    $scope.checkSanPhamInDonHang = function (idCTSP){
+    $scope.checkSanPhamInDonHang = function (idCTSP) {
         let result = false;
         $scope.chiTietDonHang.forEach(d => {
-            if(d.idChiTietSanPham == idCTSP){
+            if (d.idChiTietSanPham == idCTSP) {
                 result = true;
             }
         })
@@ -63,17 +63,17 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.trangThaiDonHang = 2
     $scope.huyDH = function () {
         console.log($scope.trangThaiDonHang)
-        if($scope.trangThaiDonHang == 1){
+        if ($scope.trangThaiDonHang == 1) {
             $scope.daXacNhan.huyDH();
-        }else if($scope.trangThaiDonHang == 2){
+        } else if ($scope.trangThaiDonHang == 2) {
             $scope.chuaXacNhan.huyDH();
-        }else if($scope.trangThaiDonHang == 3){
+        } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.huyDH();
         }
 
     }
     /////////////////////Check Box
-    $scope.setCheckAll = function (id,name) {
+    $scope.setCheckAll = function (id, name) {
         let setCheckbox = document.getElementById(id)
 
         let checkBox = document.getElementsByName(name)
@@ -81,20 +81,20 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             checkBox.forEach(c => {
                 c.checked = true
             })
-        }else{
+        } else {
             checkBox.forEach(c => {
                 c.checked = false
             })
         }
-        if($scope.trangThaiDonHang == 1){
+        if ($scope.trangThaiDonHang == 1) {
             $scope.daXacNhan.checkButton();
-        }else if($scope.trangThaiDonHang == 2){
+        } else if ($scope.trangThaiDonHang == 2) {
             $scope.chuaXacNhan.checkButton()
-        }else if($scope.trangThaiDonHang == 3){
+        } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.checkButton();
         }
     }
-    $scope.checkAllChecked = function(name,idCheckBoxSetAll){
+    $scope.checkAllChecked = function (name, idCheckBoxSetAll) {
         let checkBox = document.getElementsByName(name)
         let check = true;
         checkBox.forEach(c => {
@@ -103,11 +103,11 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             }
         })
         document.getElementById(idCheckBoxSetAll).checked = check
-        if($scope.trangThaiDonHang == 1){
+        if ($scope.trangThaiDonHang == 1) {
             $scope.daXacNhan.checkButton();
-        }else if($scope.trangThaiDonHang == 2){
+        } else if ($scope.trangThaiDonHang == 2) {
             $scope.chuaXacNhan.checkButton()
-        }else if($scope.trangThaiDonHang == 3){
+        } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.checkButton();
         }
     }
@@ -179,7 +179,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         totalElement: 0,
         totalPage: 0,
         page: 0,
-        id : [],
+        id: [],
         pages: [],
         init(pageNumber) {
             $http.get("/admin/don-hang/get-by-trangthai?trangThai=2&pageNumber=" + pageNumber).then(r => {
@@ -220,24 +220,24 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 }
             })
 
-            $http.put("/admin/don-hang/update-trang-thai?trangThai=1",this.id).then(r => {
+            $http.put("/admin/don-hang/update-trang-thai?trangThai=1", this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
                     }
                 }
                 this.init(this.page)
-                this.id=[]
+                this.id = []
                 document.getElementById('checkAllChuaXacNhan').checked = false
             }).catch(e => {
                 console.log(e)
             })
         },
-        setIdDonHang(id){
+        setIdDonHang(id) {
             this.id = []
             this.id.push(id)
         },
-        setAllIdDonHang(){
+        setAllIdDonHang() {
             this.id = []
             let checkBox = document.getElementsByName('checkChuaXacNhan')
             checkBox.forEach(c => {
@@ -248,15 +248,15 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         },
         huyDH() {
 
-            if($scope.lyDo==null || $scope.length==0 || $scope.lyDo == undefined){
+            if ($scope.lyDo == null || $scope.length == 0 || $scope.lyDo == undefined) {
                 $scope.messLyDo = "Không để trống lý do hủy"
                 return
-            }else if($scope.lyDo.length==200){
+            } else if ($scope.lyDo.length == 200) {
                 $scope.messLyDo = "Lý do hủy chỉ tối đa 200 ký tự"
                 return;
             }
 
-            $http.put("/admin/don-hang/huy-don-hang?lyDo="+$scope.lyDo,this.id).then(r => {
+            $http.put("/admin/don-hang/huy-don-hang?lyDo=" + $scope.lyDo, this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
@@ -264,7 +264,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 }
                 this.init(this.page)
                 $scope.lyDo = null;
-                $scope.messLyDo ="";
+                $scope.messLyDo = "";
                 this.id = []
                 $('#closeHuy').click()
                 document.getElementById('checkAllChuaXacNhan').checked = false
@@ -325,22 +325,22 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             let chiTietDonHang = [];
             $scope.chiTietDonHang.forEach(c => {
                 chiTietDonHang.push({
-                    id : c.id,
-                    donHangID : this.detail.ma,
-                    sanPhamCT : c.idChiTietSanPham,
-                    soLuong : c.soLuong,
-                    donGia : c.donGia,
-                    donGiaSauGiam : c.donGiaSauGiam
+                    id: c.id,
+                    donHangID: this.detail.ma,
+                    sanPhamCT: c.idChiTietSanPham,
+                    soLuong: c.soLuong,
+                    donGia: c.donGia,
+                    donGiaSauGiam: c.donGiaSauGiam
                 })
             })
             let formData = new FormData();
-            formData.append("donHang",new Blob([JSON.stringify(data)], {
+            formData.append("donHang", new Blob([JSON.stringify(data)], {
                 type: 'application/json'
             }))
-            formData.append("chiTietDonHang",new Blob([JSON.stringify(chiTietDonHang)], {
+            formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
                 type: 'application/json'
             }))
-            $http.put("/admin/don-hang", formData,{
+            $http.put("/admin/don-hang", formData, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             }).then(r => {
@@ -359,14 +359,14 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         updateSoLuong(idCTSP, soLuong) {
             let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP)
             let chiTietDonHang = $scope.chiTietDonHang[index]
-            $http.get("/admin/san-pham/1/kiem-tra-so-luong/"+idCTSP+"?soLuong="+soLuong+"&idCTDH="+(chiTietDonHang.id==undefined?"" : chiTietDonHang.id)).then(r => {
+            $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + idCTSP + "?soLuong=" + soLuong + "&idCTDH=" + (chiTietDonHang.id == undefined ? "" : chiTietDonHang.id)).then(r => {
                 $scope.chiTietDonHang[index].soLuong = soLuong
                 $scope.getTotalPrice()
             }).catch(e => {
-                if(chiTietDonHang.id==undefined){
+                if (chiTietDonHang.id == undefined) {
                     chiTietDonHang.soLuong = 1
-                }else{
-                    $http.get("/admin/chi-tiet-don-hang/detail/"+chiTietDonHang.id).then(r => {
+                } else {
+                    $http.get("/admin/chi-tiet-don-hang/detail/" + chiTietDonHang.id).then(r => {
                         $scope.chiTietDonHang[index].soLuong = r.data.soLuong
                     }).catch(e => console.log(e))
                 }
@@ -381,7 +381,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             let soLuong = chiTietDonHang.soLuong - 1
 
 
-            $http.get("/admin/san-pham/1/kiem-tra-so-luong/"+chiTietDonHang.idChiTietSanPham+"?soLuong="+soLuong+"&idCTDH="+"").then(r => {
+            $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + chiTietDonHang.idChiTietSanPham + "?soLuong=" + soLuong + "&idCTDH=" + "").then(r => {
                 $scope.chiTietDonHang[index].soLuong = soLuong
             }).catch(e => {
                 alert("số lượng sản phẩm đã đạt giá trị tối thiểu")
@@ -394,22 +394,22 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             let chiTietDonHang = $scope.chiTietDonHang[index]
             let soLuong = chiTietDonHang.soLuong + 1
 
-            $http.get("/admin/san-pham/1/kiem-tra-so-luong/"+chiTietDonHang.idChiTietSanPham+"?soLuong="+soLuong+"&idCTDH="+(chiTietDonHang.id==undefined?"" : chiTietDonHang.id)).then(r => {
+            $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + chiTietDonHang.idChiTietSanPham + "?soLuong=" + soLuong + "&idCTDH=" + (chiTietDonHang.id == undefined ? "" : chiTietDonHang.id)).then(r => {
                 $scope.chiTietDonHang[index].soLuong = soLuong
             }).catch(e => {
                 alert("số lượng sản phẩm đã đạt giá trị tối ta")
             })
 
         },
-        removeSanPham(idCTDH){
+        removeSanPham(idCTDH) {
             let index = $scope.chiTietDonHang.findIndex(c => c.id == idCTDH)
-            $scope.chiTietDonHang.splice(index,1)
+            $scope.chiTietDonHang.splice(index, 1)
         },
-        checkButton(){
+        checkButton() {
             let checkboxs = document.getElementsByName('checkChuaXacNhan')
             let check = true;
             checkboxs.forEach(c => {
-                if(c.checked == true){
+                if (c.checked == true) {
                     check = false;
                 }
             })
@@ -426,7 +426,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         totalPage: 0,
         page: 0,
         pages: [],
-        id : [],
+        id: [],
         init() {
             $http.get("/admin/don-hang/get-by-trangthai?trangThai=1").then(r => {
                 this.list = r.data.content;
@@ -477,11 +477,11 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 console.log(e)
             })
         },
-        setIdDonHang(id){
+        setIdDonHang(id) {
             this.id = []
             this.id.push(id)
         },
-        setAllIdDonHang(){
+        setAllIdDonHang() {
             this.id = []
             let checkBox = document.getElementsByName('checkDaXacNhan')
             checkBox.forEach(c => {
@@ -491,15 +491,15 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             })
         },
         huyDH() {
-            if($scope.lyDo==null || $scope.length==0 || $scope.lyDo == undefined){
+            if ($scope.lyDo == null || $scope.length == 0 || $scope.lyDo == undefined) {
                 $scope.messLyDo = "Không để trống lý do hủy"
                 return
-            }else if($scope.lyDo.length==200){
+            } else if ($scope.lyDo.length == 200) {
                 $scope.messLyDo = "Lý do hủy chỉ tối đa 200 ký tự"
                 return;
             }
 
-            $http.put("/admin/don-hang/huy-don-hang?lyDo="+$scope.lyDo,this.id).then(r => {
+            $http.put("/admin/don-hang/huy-don-hang?lyDo=" + $scope.lyDo, this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
@@ -507,7 +507,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 }
                 this.getList(this.page)
                 $scope.lyDo = null;
-                $scope.messLyDo ="";
+                $scope.messLyDo = "";
                 this.id = []
                 $('#closeHuy').click()
                 document.getElementById('checkAlldaXacNhan').checked = false
@@ -524,24 +524,24 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 }
             })
 
-            $http.put("/admin/don-hang/update-trang-thai?trangThai=3",this.id).then(r => {
+            $http.put("/admin/don-hang/update-trang-thai?trangThai=3", this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
                     }
                 }
                 this.init(this.page)
-                this.id=[]
+                this.id = []
                 document.getElementById('checkAlldaXacNhan').checked = false
             }).catch(e => {
                 console.log(e)
             })
         },
-        checkButton(){
+        checkButton() {
             let checkboxs = document.getElementsByName('checkDaXacNhan')
             let check = true;
             checkboxs.forEach(c => {
-                if(c.checked == true){
+                if (c.checked == true) {
                     check = false;
                 }
             })
@@ -557,7 +557,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         totalPage: 0,
         page: 0,
         pages: [],
-        id : [],
+        id: [],
         init() {
             $http.get("/admin/don-hang/get-by-trangthai?trangThai=3").then(r => {
                 this.list = r.data.content;
@@ -598,11 +598,11 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 console.log(e)
             })
         },
-        setIdDonHang(id){
+        setIdDonHang(id) {
             this.id = []
             this.id.push(id)
         },
-        setAllIdDonHang(){
+        setAllIdDonHang() {
             let checkBox = document.getElementsByName('checkDangGiao')
             this.id = []
             checkBox.forEach(c => {
@@ -612,15 +612,15 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             })
         },
         huyDH() {
-            if($scope.lyDo==null || $scope.length==0 || $scope.lyDo == undefined){
+            if ($scope.lyDo == null || $scope.length == 0 || $scope.lyDo == undefined) {
                 $scope.messLyDo = "Không để trống lý do hủy"
                 return
-            }else if($scope.lyDo.length==200){
+            } else if ($scope.lyDo.length == 200) {
                 $scope.messLyDo = "Lý do hủy chỉ tối đa 200 ký tự"
                 return;
             }
 
-            $http.put("/admin/don-hang/huy-don-hang?lyDo="+$scope.lyDo,this.id).then(r => {
+            $http.put("/admin/don-hang/huy-don-hang?lyDo=" + $scope.lyDo, this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
@@ -628,7 +628,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 }
                 this.getList(this.page)
                 $scope.lyDo = null;
-                $scope.messLyDo ="";
+                $scope.messLyDo = "";
                 this.id = []
                 $('#closeHuy').click()
                 document.getElementById('checkAllDangGiao').checked = false
@@ -645,24 +645,24 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 }
             })
 
-            $http.put("/admin/don-hang/update-trang-thai?trangThai=4",this.id).then(r => {
+            $http.put("/admin/don-hang/update-trang-thai?trangThai=4", this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
                     }
                 }
                 this.getList(this.page)
-                this.id=[]
+                this.id = []
                 document.getElementById('checkAllDangGiao').checked = false
             }).catch(e => {
                 console.log(e)
             })
         },
-        checkButton(){
+        checkButton() {
             let checkboxs = document.getElementsByName('checkDangGiao')
             let check = true;
             checkboxs.forEach(c => {
-                if(c.checked == true){
+                if (c.checked == true) {
                     check = false;
                 }
             })
@@ -757,6 +757,16 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             }
             this.pages = numbers;
         }
+    }
+    //don hang usser
+    $scope.donHangUser = function (trangThai) {
+        console.log(trangThai)
+        $http.get("/admin/don-hang/get-by-trangThai-khachHang?trangThai=" + trangThai).then(resp => {
+            $scope.donHangChuaXacNhanKh = resp.data;
+            console.log(resp.data)
+        }).catch(err => {
+            console.log(err);
+        })
     }
 ///////////////////////////////////////////
 

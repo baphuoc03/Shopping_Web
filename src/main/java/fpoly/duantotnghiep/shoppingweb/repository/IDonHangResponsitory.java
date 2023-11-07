@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.repository;
 
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,5 +24,6 @@ SELECT d FROM DonHangModel d WHERE d.trangThai = ?1 ORDER BY d.ngayDatHang DESC
             update DonHangModel d set d.trangThai = ?1 WHERE d.ma=?2
             """)
     Integer updateTrangThaiDonHang(int trangThai,String maDonHang);
-
+    @Query("SELECT dh FROM DonHangModel dh where dh.nguoiSoHuu.username = ?1 and dh.trangThai = ?2 ORDER BY dh.ngayDatHang DESC")
+    List<DonHangModel> findAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai);
 }
