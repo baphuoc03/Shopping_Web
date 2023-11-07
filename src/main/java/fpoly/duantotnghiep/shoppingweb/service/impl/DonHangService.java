@@ -169,9 +169,6 @@ public class DonHangService implements IDonHangService {
     public DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products){
         DonHangModel donHangOld = donHangResponsitory.findById(request.getMa()).orElse(null);
         DonHangModel model = request.mapModel();
-<<<<<<< HEAD
-//        model.setPhuongThucThanhToan(true);
-=======
         model.setPhuongThucThanhToan(donHangOld.getPhuongThucThanhToan());
 
         List<String> maCTSPNew = products.stream().map(c -> c.getId()).collect(Collectors.toList());
@@ -204,7 +201,6 @@ public class DonHangService implements IDonHangService {
 
         products.forEach(p -> chiTietDonHangRepository.saveAndFlush(p.mapModel()));
 
->>>>>>> 9a332dced22d1382512f27aba68988332597f7f0
         if(donHangOld.getVoucher()!=null){
             model.setVoucher(donHangOld.getVoucher());
         }
