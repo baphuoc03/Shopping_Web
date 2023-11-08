@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -131,6 +132,11 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     public List<ChiTietSanPhamDtoResponse> getBySanPhamIdOrNameContais(String keyWord){
         return chiTietSanPhamRepository.getBySanPhamIdOrNameContais(keyWord).stream()
                 .map(s -> new ChiTietSanPhamDtoResponse(s)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate){
+        return chiTietSanPhamRepository.getTotalQauntityInOrdersWithDate(firstDate,lastDate);
     }
 
 

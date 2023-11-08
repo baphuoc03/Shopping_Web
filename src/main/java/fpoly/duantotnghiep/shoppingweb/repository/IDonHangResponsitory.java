@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public interface IDonHangResponsitory extends JpaRepository<DonHangModel,String> {
@@ -23,5 +25,28 @@ SELECT d FROM DonHangModel d WHERE d.trangThai = ?1 ORDER BY d.ngayDatHang DESC
             update DonHangModel d set d.trangThai = ?1 WHERE d.ma=?2
             """)
     Integer updateTrangThaiDonHang(int trangThai,String maDonHang);
+
+    @Query("""
+    SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c 
+    WHERE c.donHang.ngayDatHang between ?1 and ?2
+""")
+    Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
+
+    @Query("""
+    SELECT COUNT(d) FROM DonHangModel d 
+    WHERE d.ngayDatHang between ?1 and ?2
+""")
+    Long getQuantityOrdersWithDate(Date firstDate, Date lastDate);
+
+    @Query("""
+    SELECT SUM(c.donGiaSauGiam*c.soLuong) - SUM(c.donHang.tienGiam) FROM ChiTietDonHangModel c 
+    WHERE c.donHang.ngayDatHang between ?1 and ?2
+""")
+    BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate);
+
+
+
+
+
 
 }

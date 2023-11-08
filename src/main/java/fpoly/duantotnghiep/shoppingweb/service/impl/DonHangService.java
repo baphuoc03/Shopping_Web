@@ -24,6 +24,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,12 +52,12 @@ public class DonHangService implements IDonHangService {
     @Override
     public Page<DonHangDtoResponse> getAllByTrangThai(Integer trangThai, Integer limit, Integer pageNumber) {
 
-        Pageable pageable = PageRequest.of(pageNumber,limit);
+        Pageable pageable = PageRequest.of(pageNumber, limit);
 
         Page<DonHangModel> pageModel = donHangResponsitory.getAllByTrangThai(trangThai, pageable);
 
         return new PageImpl<>(pageModel.getContent().stream().map(d -> new DonHangDtoResponse(d)).collect(Collectors.toList()),
-                               pageable, pageModel.getTotalElements());
+                pageable, pageModel.getTotalElements());
     }
 
     @Override
@@ -85,11 +86,11 @@ public class DonHangService implements IDonHangService {
         String subject = "";
         String messeger = "";
         String title = "";
-        if(trangThai==2) {
+        if (trangThai == 2) {
             subject = "Tạo đơn hàng!";
             title = "Tạo đơn hàng thành công";
             messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được tạo. Cảm ơn bạn đã mua hàng";
-        } else if(trangThai==1){
+        } else if (trangThai == 1) {
             subject = "Xác nhận đơn hàng!";
             title = "Xác nhận hàng thành công";
             messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận. Cảm ơn bạn đã mua hàng. Đơn hàng sẽ đến tay bạn trong vài ngày tới";
@@ -97,20 +98,20 @@ public class DonHangService implements IDonHangService {
 
         List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(maDonHang);
         BigDecimal tongTien = BigDecimal.valueOf(0);
-        for (ChiTietDonHangDtoResponse d: lstSanPham) {
+        for (ChiTietDonHangDtoResponse d : lstSanPham) {
             tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
         }
 
         Context context = new Context();
-        context.setVariable("donHang",new DonHangDtoResponse(model));
-        context.setVariable("products",lstSanPham);
-        context.setVariable("totalPrice",tongTien);
-        context.setVariable("mess",messeger);
-        context.setVariable("title",title);
+        context.setVariable("donHang", new DonHangDtoResponse(model));
+        context.setVariable("products", lstSanPham);
+        context.setVariable("totalPrice", tongTien);
+        context.setVariable("mess", messeger);
+        context.setVariable("title", title);
         String finalSubject = subject;
-        new Thread(()->{
+        new Thread(() -> {
             try {
-                sendEmailDonHang(model.getEmail(), finalSubject,"email/capNhatTrangThaiDonHang",context,lstSanPham);
+                sendEmailDonHang(model.getEmail(), finalSubject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
@@ -123,39 +124,39 @@ public class DonHangService implements IDonHangService {
     @Override
     public void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException {
 //         donHangResponsitory.updateTrangThaiDonHang(trangThai,maDonHang);
-        maDonHang.forEach(ma ->{
+        maDonHang.forEach(ma -> {
             DonHangModel model = donHangResponsitory.findById(ma).get();
             model.setLyDoHuy(lyDo);
             model.setTrangThai(0);
 
             String subject = "Hủy đơn hàng!";
-            String messeger = "Xin chào "+model.getTenNguoiNhan()+", đơn hàng của bạn đã hủy. Cảm ơn bạn đã ghé qua cửa hàng";
+            String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã hủy. Cảm ơn bạn đã ghé qua cửa hàng";
 
             List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
             ctdhModel.forEach(c -> {
                 int soLuongInDonHang = c.getSoLuong();
                 ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
-                sanPhamInDonHang.setSoLuong(soLuongInDonHang+sanPhamInDonHang.getSoLuong());
+                sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
                 chiTietSanPhamRepository.save(sanPhamInDonHang);
             });
 
 
-            List<ChiTietDonHangDtoResponse> lstSanPham = ctdhModel.stream().map(m->new ChiTietDonHangDtoResponse(m)).collect(Collectors.toList());
+            List<ChiTietDonHangDtoResponse> lstSanPham = ctdhModel.stream().map(m -> new ChiTietDonHangDtoResponse(m)).collect(Collectors.toList());
             BigDecimal tongTien = BigDecimal.valueOf(0);
-            for (ChiTietDonHangDtoResponse d: lstSanPham) {
+            for (ChiTietDonHangDtoResponse d : lstSanPham) {
                 tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
             }
 
             Context context = new Context();
-            context.setVariable("donHang",new DonHangDtoResponse(model));
-            context.setVariable("products",lstSanPham);
-            context.setVariable("totalPrice",tongTien);
-            context.setVariable("mess",messeger);
-            context.setVariable("title",subject);
-            context.setVariable("lyDo",lyDo);
-            new Thread(()->{
+            context.setVariable("donHang", new DonHangDtoResponse(model));
+            context.setVariable("products", lstSanPham);
+            context.setVariable("totalPrice", tongTien);
+            context.setVariable("mess", messeger);
+            context.setVariable("title", subject);
+            context.setVariable("lyDo", lyDo);
+            new Thread(() -> {
                 try {
-                    sendEmailDonHang(model.getEmail(), subject,"email/capNhatTrangThaiDonHang",context,lstSanPham);
+                    sendEmailDonHang(model.getEmail(), subject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
@@ -166,7 +167,7 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
-    public DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products){
+    public DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products) {
         DonHangModel donHangOld = donHangResponsitory.findById(request.getMa()).orElse(null);
         DonHangModel model = request.mapModel();
         model.setPhuongThucThanhToan(donHangOld.getPhuongThucThanhToan());
@@ -174,10 +175,10 @@ public class DonHangService implements IDonHangService {
         List<String> maCTSPNew = products.stream().map(c -> c.getId()).collect(Collectors.toList());
         List<ChiTietDonHangModel> ctdhModelOld = chiTietDonHangRepository.findAllByDonHang(model);
         ctdhModelOld.forEach(c -> {
-            if(!maCTSPNew.contains(c.getId())){
+            if (!maCTSPNew.contains(c.getId())) {
                 //Thêm lại số lượng khi xóa sản phẩm khỏi đơn hàng
                 ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
-                chiTietSanPhamModel.setSoLuong(chiTietSanPhamModel.getSoLuong()+c.getSoLuong());
+                chiTietSanPhamModel.setSoLuong(chiTietSanPhamModel.getSoLuong() + c.getSoLuong());
                 chiTietSanPhamRepository.saveAndFlush(chiTietSanPhamModel);
 
                 chiTietDonHangRepository.deleteById(c.getId());//xóa khỏi đơn hàng
@@ -185,13 +186,13 @@ public class DonHangService implements IDonHangService {
         });
 
         products.forEach(p -> {
-            if(p.getId()!=null){
+            if (p.getId() != null) {
                 ChiTietDonHangModel chiTietDHOld = chiTietDonHangRepository.findById(p.getId()).get();
                 ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(p.getSanPhamCT()).get();
-                Long soLuong = chiTietSanPhamModel.getSoLuong() - (p.getSoLuong()-chiTietDHOld.getSoLuong());
+                Long soLuong = chiTietSanPhamModel.getSoLuong() - (p.getSoLuong() - chiTietDHOld.getSoLuong());
                 chiTietSanPhamModel.setSoLuong(soLuong);
                 chiTietSanPhamRepository.saveAndFlush(chiTietSanPhamModel);
-            }else{
+            } else {
                 ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(p.getSanPhamCT()).get();
                 Long soLuong = chiTietSanPhamModel.getSoLuong() - p.getSoLuong();
                 chiTietSanPhamModel.setSoLuong(soLuong);
@@ -201,18 +202,18 @@ public class DonHangService implements IDonHangService {
 
         products.forEach(p -> chiTietDonHangRepository.saveAndFlush(p.mapModel()));
 
-        if(donHangOld.getVoucher()!=null){
+        if (donHangOld.getVoucher() != null) {
             model.setVoucher(donHangOld.getVoucher());
         }
-        if(donHangOld.getNguoiSoHuu()!=null){
+        if (donHangOld.getNguoiSoHuu() != null) {
             model.setNguoiSoHuu(donHangOld.getNguoiSoHuu());
-        }else{
+        } else {
             model.setNguoiSoHuu(null);
         }
 
 
         String subject = "Cập nhật thông tin đơn hàng!";
-        String messeger = "Xin chào "+model.getTenNguoiNhan()+", đơn hàng của bạn vừa cập nhật thông tin!";
+        String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn vừa cập nhật thông tin!";
 
 //        List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
 //        ctdhModel.forEach(c -> {
@@ -226,21 +227,21 @@ public class DonHangService implements IDonHangService {
         chiTietDonHangRepository.findAllByDonHang(model).forEach(c -> {
             c.setChiTietSanPham(chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get());
         });
-        List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangRepository.findAllByDonHang(model).stream().map(m->new ChiTietDonHangDtoResponse(m)).collect(Collectors.toList());
+        List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangRepository.findAllByDonHang(model).stream().map(m -> new ChiTietDonHangDtoResponse(m)).collect(Collectors.toList());
         BigDecimal tongTien = BigDecimal.valueOf(0);
-        for (ChiTietDonHangDtoResponse d: lstSanPham) {
+        for (ChiTietDonHangDtoResponse d : lstSanPham) {
             tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
         }
 
         Context context = new Context();
-        context.setVariable("donHang",new DonHangDtoResponse(model));
-        context.setVariable("products",lstSanPham);
-        context.setVariable("totalPrice",tongTien);
-        context.setVariable("mess",messeger);
-        context.setVariable("title",subject);
-        new Thread(()->{
+        context.setVariable("donHang", new DonHangDtoResponse(model));
+        context.setVariable("products", lstSanPham);
+        context.setVariable("totalPrice", tongTien);
+        context.setVariable("mess", messeger);
+        context.setVariable("title", subject);
+        new Thread(() -> {
             try {
-                sendEmailDonHang(model.getEmail(), subject,"email/capNhatTrangThaiDonHang",context,lstSanPham);
+                sendEmailDonHang(model.getEmail(), subject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
@@ -251,24 +252,39 @@ public class DonHangService implements IDonHangService {
 
     public void sendEmailDonHang(String email, String subject, String tempalteHtml, Context context, List<ChiTietDonHangDtoResponse> lstSanPham) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true,"utf-8");
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
         helper.setTo(email);
         helper.setSubject(subject);
-        String htmlContent = templateEngine.process(tempalteHtml,context);
-        helper.setText(htmlContent,true);
+        String htmlContent = templateEngine.process(tempalteHtml, context);
+        helper.setText(htmlContent, true);
 
         ClassPathResource resource = new ClassPathResource("./images/product/default.png");
-        helper.addInline("logo",resource);
+        helper.addInline("logo", resource);
 
         lstSanPham.forEach(s -> {
-            ClassPathResource img = new ClassPathResource("./images/product/"+s.getAnh());
+            ClassPathResource img = new ClassPathResource("./images/product/" + s.getAnh());
             try {
-                helper.addInline(s.getAnh()+"",img);
+                helper.addInline(s.getAnh() + "", img);
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
         });
 
         javaMailSender.send(mimeMessage);
+    }
+
+    @Override
+    public Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate) {
+        return donHangResponsitory.getTotalQauntityInOrdersWithDate(firstDate, lastDate) == null ? 0L : donHangResponsitory.getTotalQauntityInOrdersWithDate(firstDate, lastDate);
+    }
+
+    @Override
+    public Long getQuantityOrdersWithDate(Date firstDate, Date lastDate){
+        return donHangResponsitory.getQuantityOrdersWithDate(firstDate,lastDate) == null ? 0L : donHangResponsitory.getQuantityOrdersWithDate(firstDate,lastDate);
+    }
+
+    @Override
+    public BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate){
+        return donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate) == null ? BigDecimal.valueOf(0) : donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate) ;
     }
 }
