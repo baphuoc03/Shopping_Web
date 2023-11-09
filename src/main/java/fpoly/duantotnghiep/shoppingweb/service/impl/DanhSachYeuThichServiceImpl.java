@@ -3,6 +3,8 @@ package fpoly.duantotnghiep.shoppingweb.service.impl;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DanhSachYeuThichResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DanhSachYeuThichRequest;
 import fpoly.duantotnghiep.shoppingweb.model.DanhSachYeuThichModel;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDanhSachYeuThichRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IDanhSachYeuThichService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class DanhSachYeuThichServiceImpl implements IDanhSachYeuThichService {
     }
 
     public DanhSachYeuThichResponse save(DanhSachYeuThichRequest danhSachYeuThichRequest){
-        DanhSachYeuThichModel model = repo.save(danhSachYeuThichRequest.maptomodel());
+        DanhSachYeuThichModel model = repo.saveAndFlush(danhSachYeuThichRequest.maptomodel());
         return new DanhSachYeuThichResponse(model);
     }
 
@@ -42,4 +44,16 @@ public class DanhSachYeuThichServiceImpl implements IDanhSachYeuThichService {
     }
 
     public void deleteDanhSachYeuThich(String nguoiSoHuu,String sanPham){repo.deleteDanhSachYeuThichKKK(nguoiSoHuu,sanPham);}
+
+    public Boolean exitByKhachHangAndSanPham(SanPhamModel modelSP, KhachHangModel modelKH){
+        return repo.existsBySanPhamAndNguoiSoHuu(modelSP,modelKH);
+    }
+
+    @Override
+    public List<DanhSachYeuThichResponse> getByNguoiSoHuu(String maNguoiSoHuu){
+        KhachHangModel khachHangModel = new KhachHangModel();
+        khachHangModel.setUsername(maNguoiSoHuu);
+        return repo.getByNguoiSoHuu(khachHangModel).stream()
+                .map(d -> new DanhSachYeuThichResponse(d)).collect(Collectors.toList());
+    }
 }
