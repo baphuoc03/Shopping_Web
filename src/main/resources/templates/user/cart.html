@@ -3,6 +3,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/user/home}">
 <head>
+    <meta charset="UTF-8">
+    <title>Product Detail</title>
 </head>
 <body ng-app="cart-app" ng-controller="cart-ctrl">
 <div class="main-content" layout:fragment="content">
@@ -40,39 +42,44 @@
                                         <th>Giá</th>
                                         <th>Số lượng</th>
                                         <th colspan="2">Thành tiền</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ng-repeat="c in cart">
-                                        <td>
-                                            <img src="/image/loadImage/product/{{c.anh}}" alt="product-img"
-                                                 title="product-img" class="avatar-md"/>
+<!--&gt;>>>>>> 9a332dced22d1382512f27aba68988332597f7f0-->
+<!--                                    </tr>-->
+<!--                                    </thead>-->
+<!--                                    <tbody>-->
+<!--                                    <tr ng-repeat="c in cart">-->
+<!--                                        <td>-->
+<!--                                            <img src="/image/loadImage/product/{{c.anh}}" alt="product-img"-->
+<!--                                                 title="product-img" class="avatar-md"/>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <h5 class="font-size-14 text-truncate"><a-->
+<!--                                                    href="/chi-tiet-san-pham/{{c.maSanPham}}"-->
+<!--                                                    class="text-dark">{{c.tenSanPham}}</a></h5>-->
+<!--                                            <p class="mb-0">Size : <span class="fw-medium">{{c.size}}</span>-->
+<!--                                            </p>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            {{c.donGia}}-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <div class="me-3" style="width: 120px;">-->
+<!--<<<<<<< HEAD-->
+<!--                                                <input type="text" value="{{c.soLuong}}" name="demo_vertical"/>-->
+<!--=======-->
+<!--&lt;!&ndash;                                                                                                <input type="text" value="{{c.soLuong}}" name="demo_vertical"/>&ndash;&gt;-->
+<!--&gt;>>>>>> 69a588d93240e0c82e2f169c958f1fe9f15135e8-->
+<!--                                                <input id="{{c.id}}" dis-->
+<!--                                                       onchange="angular.element(this).scope().getUpdateSL(this.id,this.value)"-->
+<!--                                                       class="form-control input-number text-center"-->
+<!--                                                       value="{{c.soLuong}}">-->
+<!--&gt;>>>>>> 9a332dced22d1382512f27aba68988332597f7f0-->
+<!--                                            </div>-->
                                         </td>
                                         <td>
-                                            <h5 class="font-size-14 text-truncate"><a
-                                                    href="/chi-tiet-san-pham/{{c.maSanPham}}"
-                                                    class="text-dark">{{c.tenSanPham}}</a></h5>
-                                            <p class="mb-0">Size : <span class="fw-medium">{{c.size}}</span>
-                                            </p>
+                                            {{c.donGia * c.soLuong}}
                                         </td>
                                         <td>
-                                            {{c.donGiaSauGiam}}
-                                        </td>
-                                        <td>
-                                            <div class="me-3" style="width: 120px;">
-<!--                                                                                                <input type="text" value="{{c.soLuong}}" name="demo_vertical"/>-->
-                                                <input id="{{c.id}}" dis
-                                                       onchange="angular.element(this).scope().getUpdateSL(this.id,this.value)"
-                                                       class="form-control input-number text-center"
-                                                       value="{{c.soLuong}}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {{c.donGiaSauGiam * c.soLuong}}
-                                        </td>
-                                        <td>
-                                            <a href="" ng-click="removeProductIncart(c.id)"
-                                               class="action-icon text-danger">
+                                            <a href="" ng-click="removeProductIncart(c.id)" class="action-icon text-danger">
                                                 <i class="mdi mdi-trash-can font-size-18"></i></a>
                                         </td>
                                     </tr>
@@ -86,7 +93,7 @@
                                 </div> <!-- end col -->
                                 <div class="col-sm-6">
                                     <div class="text-sm-end mt-2 mt-sm-0">
-                                        <a href="/check-out" class="btn btn-success">
+                                        <a href="ecommerce-checkout.html" class="btn btn-success">
                                             <i class="mdi mdi-cart-arrow-right me-1"></i> Checkout </a>
                                     </div>
                                 </div> <!-- end col -->

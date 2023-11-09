@@ -83,6 +83,8 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
                 } else {
                     alert("Success")
                 }
+            }).catch(e => {
+                document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
             })
         }
     }
