@@ -760,12 +760,25 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     }
     //don hang usser
     $scope.donHangUser = function (trangThai) {
-        console.log(trangThai)
         $http.get("/admin/don-hang/get-by-trangThai-khachHang?trangThai=" + trangThai).then(resp => {
             $scope.donHangChuaXacNhanKh = resp.data;
             console.log(resp.data)
         }).catch(err => {
             console.log(err);
+        })
+    }
+    $scope.findByMaDonHangUser = function (ma) {
+        $http.get("/admin/don-hang/" + ma).then(function (res) {
+            const donHang = res.data;
+            $scope.maDonHang = donHang.ma
+        })
+
+    }
+    $scope.huyDonUser = function (ma) {
+        lyDoHuy = $scope.lyDoHuy
+        $http.put("/admin/don-hang/huy-don-hang-user?ma=" + ma, lyDoHuy).then(function (res) {
+            location.reload()
+            alert("Update success");
         })
     }
 ///////////////////////////////////////////

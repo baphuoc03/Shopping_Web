@@ -23,4 +23,8 @@ public class HomeController {
     public String licSu() {
         return "/user/HoaDonUser";
     }
+    @GetMapping("lich-su-mua-hang1")
+    public String licSu1() {
+        return "/user/hoaDonNguoiDung";
+    }
 }

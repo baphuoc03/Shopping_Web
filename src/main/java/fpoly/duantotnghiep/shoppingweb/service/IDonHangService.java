@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface IDonHangService {
     List<DonHangDtoResponse> getAllByTrangThai(Integer trangThai);
 
-    List<DonHangDtoResponse> getAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai);
+    List<DonHangReponseUser> getAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai);
 
     Page<DonHangDtoResponse> getAllByTrangThai(Integer trangThai, Integer limit, Integer pageNumber);
 
@@ -28,6 +29,8 @@ public interface IDonHangService {
 //    DonHangDtoResponse updateDonHang(DonHangDTORequest request);
 
     void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException;
+
+    void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException;
 
     DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products);
 }

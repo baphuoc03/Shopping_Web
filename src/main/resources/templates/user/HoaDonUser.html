@@ -39,24 +39,27 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th scope="col"><input type="checkbox" name=""></th>
                                     <th scope="col">Mã</th>
                                     <th scope="col">Người nhận</th>
                                     <th scope="col">Số điện thoạt</th>
                                     <th scope="col">Ngày đặt</th>
+                                    <th scope="col"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="d in donHangChuaXacNhanKh">
-                                    <th scope="row">
-                                        <input type="checkbox" name="">
-                                    </th>
                                     <td>{{d.ma}}</td>
                                     <td>{{d.tenNguoiNhan}}</td>
                                     <td>{{d.soDienThoai}}</td>
                                     <td>{{d.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    <td>
+                                        <button ng-click="findByMaDonHangUser(d.ma)" type="button"
+                                                class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#huyModal">
+                                            Hủy
+                                        </button>
+                                    </td>
                                 </tr>
-
                                 </tbody>
                             </table>
                         </div>
@@ -71,19 +74,17 @@
                                     <th scope="col">Người nhận</th>
                                     <th scope="col">Số điện thoạt</th>
                                     <th scope="col">Ngày đặt</th>
+                                    <th scope="col"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="d in donHangChuaXacNhanKh">
-                                    <th scope="row">
-                                        <input type="checkbox" name="">
-                                    </th>
                                     <td>{{d.ma}}</td>
                                     <td>{{d.tenNguoiNhan}}</td>
                                     <td>{{d.soDienThoai}}</td>
                                     <td>{{d.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    <td>{{d.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                 </tr>
-
                                 </tbody>
                             </table>
                         </div>
@@ -102,9 +103,6 @@
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="d in donHangChuaXacNhanKh">
-                                    <th scope="row">
-                                        <input type="checkbox" name="">
-                                    </th>
                                     <td>{{d.ma}}</td>
                                     <td>{{d.tenNguoiNhan}}</td>
                                     <td>{{d.soDienThoai}}</td>
@@ -128,9 +126,6 @@
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="d in donHangChuaXacNhanKh">
-                                    <th scope="row">
-                                        <input type="checkbox" name="">
-                                    </th>
                                     <td>{{d.ma}}</td>
                                     <td>{{d.tenNguoiNhan}}</td>
                                     <td>{{d.soDienThoai}}</td>
@@ -147,7 +142,6 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th scope="col"><input type="checkbox" name="" id=""></th>
                                     <th scope="col">Mã</th>
                                     <th scope="col">Người nhận</th>
                                     <th scope="col">Số điện thoạt</th>
@@ -157,9 +151,6 @@
                                 <tbody>
 
                                 <tr ng-repeat="d in donHangChuaXacNhanKh">
-                                    <th scope="row">
-                                        <input type="checkbox" name="">
-                                    </th>
                                     <td>{{d.ma}}</td>
                                     <td>{{d.tenNguoiNhan}}</td>
                                     <td>{{d.soDienThoai}}</td>
@@ -172,6 +163,29 @@
                 </div>
             </div>
         </section>
+        <!--        modal huy-->
+        <div class="modal" id="huyModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Lý do hủy đơn</label>
+                            <textarea class="form-control" ng-model="lyDoHuy" id="exampleFormControlTextarea1"
+                                      rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" ng-click="huyDonUser(maDonHang)"
+                                data-bs-dismiss="modal">Xác nhận
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
     <script>
         function switchTab(tabId) {
