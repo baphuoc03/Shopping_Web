@@ -7,11 +7,9 @@ import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,10 +30,12 @@ public class ThongKeRestController {
     @Autowired
     private SanPhamEntityManager sanPhamEntityManager;
 
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     @GetMapping("tong-quat")
-    public ResponseEntity<?> getTotalQauntityInOrdersWithDate(@RequestParam(defaultValue = "#{new java.util.Date()}")
+    public ResponseEntity<?> getTotalQauntityInOrdersWithDate(@RequestParam(required = false)
                                                               @DateTimeFormat(pattern = "yyyy-MM-dd")Date firstDate,
-                                                              @RequestParam(defaultValue = "#{new java.util.Date()}")
+                                                              @RequestParam(required = false)
                                                               @DateTimeFormat(pattern = "yyyy-MM-dd")Date lastDate){
 
         lastDate.setHours(23); lastDate.setMinutes(59); lastDate.setSeconds(59);
@@ -43,7 +43,7 @@ public class ThongKeRestController {
 
 
         Map<String,String> result = new HashMap<>();
-        result.put("quantityProducts",donHangService.getTotalQauntityInOrdersWithDate(firstDate,lastDate).toString());
+        result.put("quantityProducts",donHangService.getTotalQauntityInOrdersWithDate(firstDate, lastDate).toString());
         result.put("quantityOrders",donHangService.getQuantityOrdersWithDate(firstDate,lastDate).toString());
         result.put("totalPrice",donHangService.getTotalPriceInOrdersWithDate(firstDate,lastDate).toString());
 
@@ -70,10 +70,18 @@ public class ThongKeRestController {
     public ResponseEntity<?> getSanPhamBanChay(){
         return ResponseEntity.ok(sanPhamEntityManager.getSanPhamBanChay());
     }
+    @GetMapping("san-pham/{ma}")
+    public ResponseEntity<?> getChiTietSanPham(@PathVariable("ma")String ma){
+        return ResponseEntity.ok(thongKeEntityManager.getChiTietSanPhamDaBan(ma));
+
+    }
+
 
     @GetMapping("san-pham-ton")
     public ResponseEntity<?> getSanPhamTon(){
         return ResponseEntity.ok(sanPhamEntityManager.getSanPhamTon());
     }
+
+
 
 }

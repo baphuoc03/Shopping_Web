@@ -19,7 +19,7 @@
 <div class="main-content" layout:fragment="content">
     <style>
         .nameProduct{
-            width:200px;
+            width:300px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -30,18 +30,18 @@
 
             <div class="row d-flex justify-content-between">
 
-                <div class="col-xl-2 col-md-6">
+                <div class="col-xl-2 col-md-6" >
                     <!-- card -->
-                    <div class="card card-h-100">
+                    <div class="card card-h-100" style="height: 144px">
                         <!-- card body -->
                         <div class="card-body">
                             <div id="reportrange" 
                                  style="cursor: pointer; padding: 5px 10px; height: 100%; width: 100%">
                                 <div class="d-flex justify-content-center mb-2"><i class="fa fa-calendar"></i>&nbsp;</div>
-                                <div class="d-flex justify-content-center mb-2">
+                                <div class="d-flex justify-content-center mb-1">
                                     <span id="start" class="text-center col-12"></span>
                                 </div>
-                                <div class="d-flex justify-content-center mb-2">
+                                <div class="d-flex justify-content-center mb-1">
                                     <span  class="text-center col-12" id="connect">Hôm nay</span>
                                 </div>
                                 <div class="d-flex justify-content-center">
@@ -147,9 +147,9 @@
                             <table class="table align-middle table-nowrap">
                                 <thead>
                                 <tr>
-                                    <th colspan="2">Sản phẩm</th>
-                                    <th>Còn lại</th>
-                                    <th>Đã bán</th>
+                                    <th colspan="2" style="width: 70%">Sản phẩm</th>
+                                    <th style="width: 15%"><span  class="d-flex justify-content-center">Còn lại</span></th>
+                                    <th  style="width: 15%"><span  class="d-flex justify-content-center"> Đã bán </span></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -163,21 +163,21 @@
                                         </div>
                                     </td>
 
-                                    <td style="width: 200px">
+                                    <td style="width: 300px">
                                         <div>
-                                            <h5 class="font-size-15 nameProduct"><a href="" class="text-dark">{{s.sanPham.ten}}</a></h5>
+                                            <h5 class="font-size-15 nameProduct"><a class="text-dark">{{s.sanPham.ten}}</a></h5>
                                             <span class="text-muted">{{s.sanPham.giaBan | currency : "" : 1}}đ</span>
                                         </div>
                                     </td>
 
                                     <td>
-                                        <p class="mb-1"><a href="" class="text-dark">{{s.sanPham.soLuong==0?'Hết hàng':s.sanPham.soLuong}}</a></p>
+                                        <p class="mb-1 mb-1 d-flex justify-content-center"><a href="" class="text-dark">{{s.sanPham.soLuong==0?'Hết hàng':s.sanPham.soLuong}}</a></p>
 <!--                                        <span class="text-muted">243K</span>-->
                                     </td>
 
                                     <td>
                                         <div class="text-end">
-                                            <p class="mb-1"><a href="" class="text-dark">{{s.soLuong}}</a></p>
+                                            <p class="mb-1 d-flex justify-content-center"><a href="" class="text-dark">{{s.soLuong}}</a></p>
                                         </div>
                                     </td>
                                 </tr>
@@ -202,8 +202,8 @@
                                 <thead>
                                 <tr>
                                     <th colspan="2">Sản phẩm</th>
-                                    <th>Ngày thêm</th>
-                                    <th>Còn lại</th>
+                                    <th style="width: 15%"><span  class="d-flex justify-content-center">Ngày thêm</span></th>
+                                    <th  style="width: 15%"><span  class="d-flex justify-content-center">Còn lại</span></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -219,13 +219,13 @@
 
                                     <td style="width: 200px">
                                         <div>
-                                            <h5 class="font-size-15 nameProduct"><a href="" class="text-dark">{{s.ten}}</a></h5>
+                                            <h5 class="font-size-15 nameProduct"><a href="/admin/san-pham/{{s.ma}}" class="text-dark">{{s.ten}}</a></h5>
                                             <span class="text-muted">{{s.giaBan | currency : "" : 1}}đ</span>
                                         </div>
                                     </td>
                                     <td>
                                         <div  style="width: 80px;">
-                                        <p class="mb-1 text-dark">{{s.ngayTao | date:'yyyy-MM-dd'}}</p>
+                                        <p class="mb-1 text-dark">{{s.ngayTao | date:'dd-MM-yyyy'}}</p>
                                         <p class="mb-1 text-dark">{{s.ngayTao | date:'HH:mm:ss'}}</p>
                                         </div>
                                     </td>
@@ -245,7 +245,7 @@
         </div>
 <!--        ////////////-->
 
-        <div class="row">
+        <div class="row mt-5">
             <div class="container">
                 <!-- card -->
                 <div class="card">
