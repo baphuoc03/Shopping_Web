@@ -41,26 +41,54 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     })
 
 
-    $scope.addDSYT = function () {
-        let className = heartButton.className;
-
-        if (className == "mdi mdi-heart-outline text-dark") {
-            heartButton.className = "mdi mdi-heart text-danger"
-        } else {
-            heartButton.className = "mdi mdi-heart-outline text-dark"
+    $scope.addDSYT = function (id) {
+        let heartButton = document.getElementById("" + id)
+        console.log(heartButton.className)
+        // let className = heartButton.className;
+        let data = {
+            "sanPham": id
         }
-    }
-    $scope.addDSYT1 = function (id) {
-        let heartButton = document.getElementById("heart" + id)
-        let className = heartButton.className;
-
-        if (className == "mdi mdi-heart-outline text-dark") {// thêm vào danh sách yêu thích
-            heartButton.className = "mdi mdi-heart text-danger"
+        if (heartButton.className == "far fa-heart" || heartButton.className == "far fa-heart ng-scope") {// thêm vào danh sách yêu thích
+            $http.post("/danh-sach-yeu-thich/add", data).then(r => {
+                heartButton.className = "fas fa-heart"
+                alert("Đã thêm vào danh sách yêu thích!")
+            })
         } else { // xóa khỏi danh sách yêu thích
-            heartButton.className = "mdi mdi-heart-outline text-dark"
-        }
 
+            heartButton.className = "far fa-heart"
+        }
     }
+    $scope.getMaSanPhamInDSTY()
+
+    $scope.addDSYT1 = function (id) {
+        console.log(id)
+
+        let data ={
+            "sanPham": id
+        }
+        $http.post("/danh-sach-yeu-thich/add",data).then(r => {
+            alert("Đã thêm vào danh sách yêu thích!")
+        })
+    }
+
+    $scope.checkSanPhamInDSYT=function (maSP){
+        let reult = false;
+        $http.get("/danh-sach-yeu-thich/check/"+maSP).then(r => {
+            reult = r.data
+        }).catch(e => console.log(e))
+        console.log(reult)
+        return reult
+    }
+
+    $scope.getMaSanPhamInDSTY = function (){
+        $http.get("/danh-sach-yeu-thich/get-ma-san-pham-in-dsyt").then(r => {
+            $scope.maSpInDSYT = r.data
+            console.log($scope.maSpInDSYT.length)
+            document.getElementById("buttonHeart").setAttribute("data-notify", ""+$scope.maSpInDSYT.length)
+        }).catch(e => console.log(e))
+    }
+    $scope.getMaSanPhamInDSTY()
+
 
     $scope.showImg = function (nameImg) {
         document.getElementById("show-Img").src = "/image/loadImage/product/" + nameImg
