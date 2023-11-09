@@ -46,8 +46,9 @@ public class VoucherRestController {
     }
 
     @GetMapping("/{id}")
-    public VoucherReponse findById(@PathVariable("id") String id) {
-        return service.findById(id);
+    public ResponseEntity<?> findById(@PathVariable("id") String id) {
+        System.out.println(id);
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @DeleteMapping("/{id}")

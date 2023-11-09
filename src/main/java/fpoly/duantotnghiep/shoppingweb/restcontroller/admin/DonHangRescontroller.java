@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
@@ -34,13 +35,19 @@ public class DonHangRescontroller {
     }
 
     @GetMapping("get-by-trangThai-khachHang")
-    public ResponseEntity<List<DonHangDtoResponse>> getByKhachHangAndTrangThai(@RequestParam("trangThai") Integer trangThai,
+    public ResponseEntity<List<DonHangReponseUser>> getByKhachHangAndTrangThai(@RequestParam("trangThai") Integer trangThai,
                                                                                Authentication authentication) {
         if (authentication != null) {
             String khachHang = authentication.getName();
             return ResponseEntity.ok(donHangService.getAllByKhachHangAndTrangThai(khachHang, trangThai));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @PutMapping("huy-don-hang-user")
+    public ResponseEntity<?> huyDonHangUser(@RequestBody String lyDoHuy, @RequestParam String ma) throws MessagingException {
+        donHangService.huyDonHangUser(ma, lyDoHuy);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/{ma}")

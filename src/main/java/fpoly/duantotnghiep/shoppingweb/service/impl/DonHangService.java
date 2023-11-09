@@ -2,6 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietDonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
@@ -50,9 +51,9 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
-    public List<DonHangDtoResponse> getAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai) {
+    public List<DonHangReponseUser> getAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai) {
 
-        return donHangResponsitory.findAllByKhachHangAndTrangThai(nguoiSoHuu, trangThai).stream().map(d -> new DonHangDtoResponse(d)).collect(Collectors.toList());
+        return donHangResponsitory.findAllByKhachHangAndTrangThai(nguoiSoHuu, trangThai).stream().map(d -> new DonHangReponseUser(d)).collect(Collectors.toList());
 
     }
 
@@ -172,6 +173,14 @@ public class DonHangService implements IDonHangService {
 
             donHangResponsitory.saveAndFlush(model);
         });
+    }
+
+    @Override
+    public void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException {
+        DonHangModel model = donHangResponsitory.findById(maDonHang).get();
+        model.setLyDoHuy(lyDo);
+        model.setTrangThai(0);
+        donHangResponsitory.save(model);
     }
 
     @Override

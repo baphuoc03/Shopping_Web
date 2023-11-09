@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -23,10 +24,12 @@ public class SecurityCustomerConfig {
 
     @Bean("Filter-user")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        String[] authen = {"/lich-su-mua-hang1","/danh-sach-yeu-thich/**"};
         http
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests(requests -> requests
+                                .requestMatchers(authen).authenticated()
                                 .anyRequest().permitAll()
                 )
                 .userDetailsService(customerService)
