@@ -57,8 +57,7 @@
                         <div class="filter-col1 p-r-100 p-b-27">
                             <div class="mtext-102 cl2 p-b-15">
                                 Xuất xứ
-                                <select class="form-control" ng-model="filterData.xuatXu"
-                                        style=" background-color: #e6e6e6;">
+                                <select class="form-control" ng-model="filterData.xuatXu">
                                     <option selected>Tất cả</option>
                                     <option ng-repeat="x in xuatXu" value="{{x.id}}">{{x.ten}}</option>
                                     <option value="khac">Khác</option>
@@ -66,8 +65,7 @@
                             </div>
                             <div class="mtext-102 cl2 p-b-15">
                                 Màu sắc
-                                <select class="form-control" ng-model="filterData.mauSac"
-                                        style=" background-color: #e6e6e6;">
+                                <select class="form-control" ng-model="filterData.mauSac">
                                     <option selected>Tất cả</option>
                                     <option ng-repeat="m in mauSac" value="{{m.ma}}">{{m.ten}}</option>
                                     <option value="khac">Khác</option>
@@ -78,8 +76,7 @@
                         <div class="filter-col2 p-r-100 p-b-27">
                             <div class="mtext-102 cl2 p-b-15">
                                 Dòng sản phẩm
-                                <select class="form-control" ng-model="filterData.dongSanPham"
-                                        style=" background-color: #e6e6e6;">
+                                <select class="form-control" ng-model="filterData.dongSanPham">
                                     <option selected>Tất cả</option>
                                     <optgroup ng-repeat="t in thuongHieu" label="{{t.ten}}">
                                         <option value="{{t.id}}">tất cả {{t.ten}}</option>
@@ -91,8 +88,7 @@
                             </div>
                             <div class="mtext-102 cl2 p-b-15">
                                 Kiểu dáng
-                                <select class="form-control" ng-model="filterData.kieuDang"
-                                        style=" background-color: #e6e6e6;">
+                                <select class="form-control" ng-model="filterData.kieuDang">
                                     <option selected>Tất cả</option>
                                     <option ng-repeat="k in kieuDang" value="{{k.id}}">{{k.ten}}</option>
                                     <option value="khac">Khác</option>
@@ -105,7 +101,7 @@
                                 <div class="mtext-102 cl2 p-b-15 col-6">
                                     Chất liệu
                                     <select class="form-control" ng-model="filterData.chatLieu"
-                                            style=" background-color: #e6e6e6;">
+                                            >
                                         <option selected>Tất cả</option>
                                         <option ng-repeat="c in chatLieu" value="{{c.id}}">{{c.ten}}</option>
                                         <option value="khac">Khác</option>
@@ -127,7 +123,7 @@
                                     Khoảng tiền
                                     <div class="price-slider">
                                         <div id="slider-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" style="border-radius: 50px">
-                                            <div class="ui-slider-range ui-corner-all ui-widget-header" ></div>
+                                            <div class="ui-slider-range ui-corner-all ui-widget-header" style="background-color: white"></div>
                                             <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
                                             <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
                                         </div>
@@ -149,7 +145,7 @@
                 <!--                1 sản phẩm-->
                 <!-- Load more -->
                 <div class="flex-c-m flex-w w-full  d-flex justify-content-start">
-                    <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women" ng-repeat="p in products">
+                    <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women" style="padding: 20px" ng-repeat="p in products">
                         <!-- Block2 -->
                         <div class="block2" style="   border-radius: 10px;">
                             <div class="block2-pic hov-img0" style="border-radius: 20px;">

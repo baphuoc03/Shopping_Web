@@ -50,17 +50,17 @@ public class SanPhamRestController {
     }
 
     @GetMapping("ban-chay")
-    public ResponseEntity<?> getBanChay(@RequestParam(defaultValue = "5")Integer limit){
+    public ResponseEntity<?> getBanChay(@RequestParam(defaultValue = "4")Integer limit){
         return ResponseEntity.ok(sanPhamService.getBanChay(limit));
     }
 
     @GetMapping("khuyen-mai")
-    public ResponseEntity<?> getKhuyenMai(@RequestParam(defaultValue = "5")Integer limit){
+    public ResponseEntity<?> getKhuyenMai(@RequestParam(defaultValue = "4")Integer limit){
         return ResponseEntity.ok(sanPhamService.getKhuyenMai(limit));
     }
 
     @GetMapping("san-pham-moi")
-    public ResponseEntity<?> getSanPhamMoi(@RequestParam(defaultValue = "5")Integer limit){
+    public ResponseEntity<?> getSanPhamMoi(@RequestParam(defaultValue = "4")Integer limit){
         return ResponseEntity.ok(sanPhamService.getSanPhamMoi(limit));
     }
 
