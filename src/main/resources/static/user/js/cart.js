@@ -8,21 +8,14 @@ app.controller("cart-ctrl", function ($scope, $http){
         console.log("soLuong:")
     }).catch(e => console.log(e))
 
-    // $scope.updateQuantity = function (productId, quantity) {
-    //     let productIndex = $scope.cart.findIndex(product => product.id == productId);
-    //     if (productIndex !== -1) {
-    //         $scope.cart[productIndex].quantity = quantity;
-    //     }
-    //     console.log($scope.cart[productIndex]);
-    // }
 
-    $scope.getUpdateSL = function (id, soLuong){
-        let index = $scope.cart.findIndex(c => c.id == id);
-        $scope.cart[index].soLuong = soLuong;
-        console.log($scope.cart[index]);
+    $scope.updateSl = function (id, soLuong){
+        $http.put("/cart/update-sl/" + id + "/" + soLuong).then(r =>{
+            console.log(r.data)
+            $scope.cart = r.data;
+            $scope.getTotal();
+        })
     }
-
-
 
     $scope.setUpdateSL = function (){
         console.log(document.getElementById("slUpdate").getAttribute("name"))
@@ -41,7 +34,7 @@ app.controller("cart-ctrl", function ($scope, $http){
         if (confirm("Cập nhật số lượng sản phẩm trong giỏ?")) {
 
 
-            $http.put("/cart/update-soLuong?idCTSP=" + id + "&soLuong=" + soLuong).then(function (response) {
+            $http.put("/cart/update-sl?idCTSP=" + id + "&soLuong=" + soLuong).then(function (response) {
                 console.log(response.data)
                 if(response.data == null || response.data.length == 0){
                     alert("Phân loại của sản phẩm không đủ số lượng!!!")
@@ -63,6 +56,13 @@ app.controller("cart-ctrl", function ($scope, $http){
                 // $scope.cart.slice(index,1)
             })
         }
+    }
+    $scope.getTotal = function (){
+        var totalPrice = 0;
+        for (let i = 0; i < $scope.cart.length; i++) {
+            totalPrice += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+        }
+        return totalPrice;
     }
 })
 

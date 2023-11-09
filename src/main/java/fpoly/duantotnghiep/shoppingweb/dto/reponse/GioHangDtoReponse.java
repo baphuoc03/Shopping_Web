@@ -31,6 +31,7 @@ public class GioHangDtoReponse {
         donGiaSauGiam = model.getSanPham().getGiaNiemYet();
         size = model.getSize().getMa();
         anh = model.getSanPham().getImages().size() == 0 ? "default.png" : model.getSanPham().getImages().get(0).getTen();
+//        soLuong = model.getSoLuong();
         soLuong = sl;
     }
 

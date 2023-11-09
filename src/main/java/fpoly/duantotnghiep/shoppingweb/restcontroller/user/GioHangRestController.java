@@ -38,13 +38,12 @@ public class GioHangRestController {
         service.addOrUpdateToCart(idCTSP,sl);
         return service.laySpTrongGio();
     }
-    @PutMapping("update-sl")
-    public List<GioHangDtoReponse> updateSL(@RequestParam("idCTSP")String idCTSP,@RequestParam("sl")Integer sl){
+    @PutMapping("update-sl/{idCTSP}/{sl}")
+    public ResponseEntity<List<GioHangDtoReponse>> updateSL(@PathVariable("idCTSP")String idCTSP,@PathVariable("sl")Integer sl){
         Long slSanPham = chiTietSanPhamRepository.getReferenceById(idCTSP).getSoLuong();
-        System.out.println("sl SP: "+slSanPham+" - SL: "+sl);
         if(slSanPham < sl || sl <= 0) return null;
         service.updateSoLuong(idCTSP,sl);
-        return service.laySpTrongGio();
+        return ResponseEntity.ok(service.laySpTrongGio());
     }
     @DeleteMapping("/remove/{key}")
     public  List<GioHangDtoReponse>removeProductInCart(@PathVariable("key")String idCTSP){

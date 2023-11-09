@@ -4,6 +4,8 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.productDetails = [];
     $scope.images = [];
     $scope.idCTSP = ""
+    $scope.soLuongAdd=1
+
     var heartButton = document.getElementById("heart")
     const sizeZone = $("#sizes-zone")
     const pathName = location.pathname;
@@ -71,7 +73,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         if (idCtsp == null) {
             return;
         }
-        var sl = 1
+        let sl = parseInt(document.getElementById("soLuong").value)
         console.log("sốluong: " + sl)
         if (confirm("Thêm sản phẩm vào giỏ hàng?")) {
             $http.post("/cart/add-to-cart?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {

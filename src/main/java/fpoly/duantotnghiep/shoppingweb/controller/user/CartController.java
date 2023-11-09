@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/cart")
+@RequestMapping("/gio-hang")
 public class CartController {
     @GetMapping()
     private String show(){
-        return "/user/cart";
+        return "/user/GioHang";
     }
 }

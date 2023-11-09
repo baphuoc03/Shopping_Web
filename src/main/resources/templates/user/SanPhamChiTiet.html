@@ -12,7 +12,21 @@
 <div style="margin-top: 10px" class="main-content" ng-app="ctsp-app" ng-controller="ctsp-ctrl"
      layout:fragment="contentUser">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css" rel="stylesheet">
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+        <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
+            Trang chủ
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
 
+        <a href="product.html" class="stext-109 cl8 hov-cl1 trans-04">
+            Sản phẩm
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
+
+        <span class="stext-109 cl4">
+				 {{product.ten}}
+			</span>
+    </div>
     <!-- Product Detail -->
     <section class="sec-product-detail bg0 p-t-65 p-b-60">
         <div class="container">
@@ -26,8 +40,9 @@
                             <div class="slick3 gallery-lb">
                                 <div class="item-slick3" data-thumb="/image/loadImage/product/{{product.anh[0]}}">
                                     <div class="wrap-pic-w pos-relative d-flex justify-content-center">
-                                        <img src="/image/loadImage/product/{{product.anh[0]}}" ng-if="product.anh.length>0"
-                                        style="width: 275px;height: 275px">
+                                        <img src="/image/loadImage/product/{{product.anh[0]}}"
+                                             ng-if="product.anh.length>0"
+                                             style="width: 275px;height: 275px">
                                         <img src="/image/loadImage/product/default.png" ng-if="product.anh.length==0"
                                              style="width: 275px;height: 275px">
 
@@ -91,25 +106,15 @@
                                 <b>{{product.giaNiemYet | currency: "" : 1}}đ</b>
 						</span>
 
-                        <p class="stext-102 cl3 p-t-23">
-                            Kiểu dáng: {{product.kieuDang}}
-                        </p>
-                        <p class="stext-102 cl3 p-t-23">
-                            Xuất xứ: {{product.xuatXu}}
-                        </p>
-                        <p class="stext-102 cl3 p-t-23">
-                            Dòng sản phẩm: {{product.dongSanPham}}
-                        </p>
-
                         <!--Size  -->
                         <div class="p-t-3">
-                            <div class=" row p-b-10">
-                                <div class="col-2 size-203 flex-col-l flex-c-m respon6">
-                                    Size
+                            <div class="row p-b-10">
+                                <div class="col-12 size-203 flex-col-l flex-c-m respon6">
+                                    Khích thước
                                 </div>
 
-                                <div class=" col-10 size-204 respon6-next">
-                                    <div class="rs1-select2  bg0">
+                                <div class=" col-12 size-204 p-b-10 respon6-next">
+                                    <div class="rs1-select2 p-b-10 bg0">
                                         <form id="form">
                                             <div class="btn-group" id="sizes-zone" role="group"
                                                  aria-label="Basic radio toggle button group"></div>
@@ -118,7 +123,7 @@
                                 </div>
                             </div>
 
-<!--add -->
+                            <!--add -->
                             <div class="row p-b-10">
                                 <div class="size-600 flex-w flex-m respon6-next">
                                     <div class="col-6" style="border-radius: 30px;">
@@ -127,7 +132,8 @@
                                                 <i class="fs-16 zmdi zmdi-minus"></i>
                                             </div>
 
-                                            <input class="mtext-104 cl3 txt-center num-product" type="number" name="">
+                                            <input class="mtext-104 cl3 txt-center num-product" type="number"
+                                                   id="soLuong" value="1">
                                             <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                                 <i class="fs-16 zmdi zmdi-plus"></i>
                                             </div>
@@ -143,7 +149,6 @@
                             </div>
                         </div>
 
-                        <!--  -->
                         <div class="flex-w flex-m p-l-100 p-t-40 respon7">
                             <div class="flex-m bor9 p-r-10 m-r-11">
                                 <a href="#" ng-click="addDSYT()"
@@ -183,7 +188,7 @@
                         </li>
 
                         <li class="nav-item p-b-10">
-                            <a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Đanh giá</a>
+                            <a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Đánh giá</a>
                         </li>
                     </ul>
 

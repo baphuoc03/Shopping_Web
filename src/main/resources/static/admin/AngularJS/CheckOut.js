@@ -11,6 +11,8 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     $scope.wards = []
     $scope.districts = []
     $scope.voucherDH = ""
+    $scope.loginIn = false;
+    $scope.isSelectSaveDC = false;
     $scope.getValue = function () {
         $scope.textInner = "Thành Phố: " + $scope.city + "/ Quận huyện: " + $scope.district + " / Xã: " + $scope.xa
     }
@@ -76,8 +78,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode)
 
         var donHang = {
-            ten: $scope.ten,
-            tenNguoiNhan: $scope.tenNguoiNhan,
+            tenNguoiNhan: $scope.nguoiNhan,
             soDienThoai: $scope.soDienThoai,
             email: $scope.email,
             phuongThucThanhToan: $scope.phuongThucThanhToan,
@@ -93,13 +94,48 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             phiGiaoHang: $scope.feeShipped,
             tienGiam: $scope.giaGiam
         }
+        var diaChi = {
+            tenNguoiNhan: $scope.nguoiNhan,
+            soDienThoai: $scope.soDienThoai,
+            email: $scope.email,
+            thanhPhoCode: $scope.thanhPhoCode,
+            thanhPhoName: $scope.citys[indexCity].ProvinceName,
+            quanHuyenCode: $scope.quanHuyenCode,
+            quanHuyenName: $scope.districts[indexDistrict].DistrictName,
+            xaPhuongCode: $scope.xaPhuongCode,
+            xaPhuongName: $scope.wards[indexWard].WardName,
+            diaChiChiTiet: $scope.diaChiChiTiet
+        }
+        if ($scope.isSelectSaveDC) {
+            console.log("Chọn")
+            $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
+                alert("Thêm Thành Công dc")
+
+            })
+        } else {
+            console.log("Không chọn")
+        }
         $http.post("http://localhost:8080/check-out", donHang).then(r => {
             location.reload();
             alert("Thêm Thành Công")
+        }).catch(err =>{
+          $scope.errNguoiNhan = err.data.tenNguoiNhan
+          $scope.errSoDienThoai = err.data.soDienThoai
+          $scope.errEmail = err.data.email
+          $scope.errThanhPhoCode = err.data.thanhPhoCode
+          $scope.errQuanHuyenCode = err.data.quanHuyenCode
+          $scope.errXaPhuongCode = err.data.xaPhuongCode
+          $scope.errDiaChiChiTiet = err.data.diaChiChiTiet
+          $scope.errThanhToan = err.data.phuongThucThanhToan
+
         })
     }
 
     $scope.getDataAPI = function (maVC) {
+        if($scope.sumTotal == 0){
+            console.log("không có tiền")
+            return;
+        }
         var data = {
             voucher: maVC,
             tongThanhToan: $scope.sumTotal + 0
@@ -132,7 +168,6 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         var data = {
             tienHang: $scope.sumTotal
         };
-
         $http.post('/check-out/disable-voucher', data)
             .then(function (response) {
                 var disabledVoucherList = response.data;
@@ -149,4 +184,35 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             });
     };
 
+    $http.get("/dia-chi-khach-hang")
+        .then(function (response) {
+            // Nếu API trả về tên tài khoản, hiển thị tên tài khoản
+            $scope.loginIn = true;
+            console.log(response.data)
+            $scope.diaChiByTaiKhoan = response.data;
+        })
+        .catch(function (error) {
+            // Không đăng nhập hoặc có lỗi, giữ trạng thái loggedIn là false
+            $scope.loginIn = false;
+        });
+    $scope.getDiaChiById = function (idDiaChi) {
+        var data = {
+            id: idDiaChi
+        }
+        $http.post('/dia-chi-by-id', data)
+            .then(function (response) {
+                let diaChi = response.data;
+                $scope.tenNguoiNhan = diaChi.nguoiNhan;
+                $scope.soDienThoai = diaChi.soDienThoai;
+                $scope.email = diaChi.email;
+                $scope.diaChiChiTiet = diaChi.diaChiChiTiet;
+                $scope.thanhPhoCode = diaChi.thanhPhoCode;
+                // $scope.citys[indexCity].ProvinceName,
+                $scope.quanHuyenCode = diaChi.quanHuyenCode;
+
+                // $scope.districts[indexDistrict].DistrictName,
+                $scope.xaPhuongCode = diaChi.xaPhuongCode;
+                // $scope.wards[indexWard].WardName,
+            })
+    }
 });
