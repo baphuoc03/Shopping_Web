@@ -14,7 +14,10 @@ import java.util.List;
 public interface IDonHangService {
     List<DonHangDtoResponse> getAllByTrangThai(Integer trangThai);
 
+    List<DonHangDtoResponse> getAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai);
+
     Page<DonHangDtoResponse> getAllByTrangThai(Integer trangThai, Integer limit, Integer pageNumber);
+
     DonHangDtoResponse checkOut(DonHangDTORequest donHangDTORequest);
 
     DonHangDtoResponse findByMa(String ma);

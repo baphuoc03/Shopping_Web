@@ -40,44 +40,63 @@
 </head>
 <body>
 <div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140" ng-app="checkOut" ng-controller="checkOutCtrl">
-    <div class="container-fluid" style="margin-top: 40px;margin-bottom: 20px;">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <div class="container" style="margin-top: 40px;margin-bottom: 20px;">
         <div class="row">
             <div class="col-6" style="border-right: 1px solid black;">
                 <div class="row">
                     <div class="col-6">
                         <h3 style="margin-bottom: 10px;">Thông tin vận chuyển</h3>
                     </div>
-                    <div class="col-6 flex-r">
-                        <p style="margin-bottom: 10px;">Bạn đã có tài khoản? <a href="">Đăng nhập ngay</a></p>
+                    <div class="col-6 flex-r" ng-if="loginIn">
+                        <p style="margin-bottom: 10px;">
+                            <a href="/dang-nhap" data-bs-toggle="modal" data-bs-target="#myModalDiaChi">Chọn địa chỉ có
+                                sẵn</a>
+                        </p>
+                    </div>
+                    <div class="col-6 flex-r" ng-if="!loginIn">
+                        <p style="margin-bottom: 10px;">
+                            Bạn đã có tài khoản?
+                            <a href="/dang-nhap">Đăng nhập</a>
+                        </p>
+
                     </div>
                 </div>
                 <form class="row g-3">
                     <div class="col-md-6">
-                        <label for="inputEmail4" class="form-label"></label>
-                        <input type="email" class="form-control rounded-4" ng-model="tenNguoiNhan"
+                        <input type="text" class="form-control rounded-4" name="boGoc" ng-model="nguoiNhan"
                                placeholder="Người nhận" id="inputEmail4">
+                        <p class="form-text text-danger">{{errNguoiNhan}}</p>
+
                     </div>
                     <div class="col-md-6">
-                        <label for="inputPassword4" class="form-label"></label>
                         <input type="text" placeholder="Số điện thoại"
                                ng-model="soDienThoai"
+                               name="boGoc"
                                class="form-control  rounded-4"
                                id="inputPassword4">
+                        <p class="form-text text-danger">{{errSoDienThoai}}</p>
                     </div>
                     <div class="col-12">
-                        <label for="inputAddress" class="form-label"></label>
                         <input type="text"
                                ng-model="email"
+                               name="boGoc"
                                class="form-control  rounded-4"
                                id="inputAddress" placeholder="Mail">
+                        <p class="form-text text-danger">{{errEmail}}</p>
+
                     </div>
                     <div class="col-12">
-                        <label for="inputAddress2" class="form-label"></label>
-                        <input type="text" ng-model="diaChiChiTiet" class="form-control rounded-4" id="inputAddress2"
+                        <input type="text" ng-model="diaChiChiTiet" name="boGoc" class="form-control rounded-4" id="inputAddress2"
                                placeholder="Địa chỉ: ví dụ(193 Phú Diễn)">
+                        <p class="form-text text-danger">{{errDiaChiChiTiet}}</p>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label"></label>
                         <select title="Country" id="city" ng-model="thanhPhoCode"
                                 onchange="angular.element(this).scope().cityChange(this.value)"
                                 class="form-select  rounded-4">
@@ -86,9 +105,9 @@
                                 {{c.ProvinceName}}
                             </option>
                         </select>
+                        <p class="form-text text-danger">{{errThanhPhoCode}}</p>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label"></label>
                         <select id="district" data-placeholder="Quận huyện"
                                 ng-model="quanHuyenCode"
                                 onchange="angular.element(this).scope().districtChange(this.value)"
@@ -99,9 +118,9 @@
                                     value="{{d.DistrictID}}">{{d.DistrictName}}
                             </option>
                         </select>
+                        <p class="form-text text-danger">{{errQuanHuyenCode}}</p>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label"></label>
                         <select title="Country" id="ward" ng-model="xaPhuongCode"
                                 onchange="angular.element(this).scope().getFeeShipped(getElementById('district').value,this.value)"
                                 class="form-select  rounded-4">
@@ -110,16 +129,22 @@
                                 {{w.WardName}}
                             </option>
                         </select>
+                        <p class="form-text text-danger">{{errXaPhuongCode}}</p>
                     </div>
                     <div class="col-12">
-                        <label for="inputAddress2" class="form-label"></label>
-                        <input type="text" class="form-control  rounded-4" placeholder="Ghi chú: ">
+                        <input type="text" class="form-control rounded-4" placeholder="Ghi chú: ">
+                    </div>
+                    <div class="col-md-12 ml-3">
+                        <input type="checkbox" ng-model="isSelectSaveDC" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Lưu địa chỉ cho lần sau</label>
                     </div>
                 </form>
 
                 <h3 style="margin-bottom: 30px; margin-top: 30px;">Phương thức thanh toán</h3>
-                <div class="rounded-4 p-3 border border-primary" style="margin-bottom: 10px; margin-top: 30px;">
-                    <div class="form-check">
+                <div class="rounded-4 p-3 border" style="margin-bottom: 10px; margin-top: 30px; border-radius: 25px">
+
+                    <p class="form-text text-danger">{{errThanhToan}}</p>
+                    <div class="form-check" >
                         <input class="form-check-input" type="radio" name="paymentMethod"
                                value="0" ng-model="phuongThucThanhToan">
                         <label class="form-check-label">
@@ -127,7 +152,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="rounded-4 p-3 border border-primary">
+                <div class="rounded-4 p-3 border" style="border-radius: 25px">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="paymentMethod"
                                value="1"
@@ -139,17 +164,11 @@
                 </div>
 
             </div>
+            <!--            giỏ hàng check out-->
             <div class="col-6">
-                <h3 style="margin-bottom: 10px;">Giỏ hàng</h3>
+                <h3 style="margin-bottom: 10px;">Đơn hàng</h3>
                 <table class="table table-striped mt-2">
                     <tbody>
-                    <tr>
-                        <th scope="row">Sản phẩm</th>
-                        <td></td>
-                        <td>Số lượng</td>
-                        <td>Giá tiền</td>
-                        <td>Thành tiền</td>
-                    </tr>
                     <tr ng-repeat="i in cart">
                         <th scope="row">
                             <img style="width: 100px; height: 100px" src="/image/loadImage/product/{{i.anh}}"
@@ -177,10 +196,9 @@
                             <h6 style="color: aliceblue;"><b>Voucher</b></h6>
                         </div>
                         <div class="col-4 " style="margin-top: 15px;">
-                            <p class="blinking-text" style="color: aliceblue;">3 voucher có thể áp dụng</p>
+<!--                            <p class="blinking-text" style="color: aliceblue;">3 voucher có thể áp dụng</p>-->
                         </div>
                         <div class="col-4 flex-r" style="margin-top: 15px;color: aliceblue;">
-                            <i class="bi bi-tag"></i>
                             <a href="#"
                                style="color: white"
                                data-bs-toggle="modal"
@@ -218,13 +236,15 @@
                     <br><br>
                     <div class="row">
                         <div class="col-6">
-                            <button type="button" style="background-color: #717fe0;" class="btn">Quay lại mua hàng
+                            <button
+                                    class="flex-c-m stext-80 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+                                <a href="/gio-hang"></a> Quay lại giỏ hàng
                             </button>
                         </div>
                         <div class="col-6 flex-r">
-                            <button type="button" style="background-color: #717fe0;" class="btn" ng-click="create()">
-                                Hoàn tất đơn
-                                hàng
+                            <button ng-click="create()"
+                                    class="flex-c-m stext-80 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+                               Thanh toán
                             </button>
                         </div>
                     </div>
@@ -232,6 +252,41 @@
             </div>
         </div>
     </div>
+    <!--    modal diaChi-->
+    <div class="modal" id="myModalDiaChi">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header ">
+                    <h4 class="modal-title">Địa chỉ</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container-fluid row" ng-repeat="dc in diaChiByTaiKhoan">
+                        <div class="col-9">
+                            <p><b>{{dc.tenNguoiNhan}}</b> | {{dc.soDienThoai}} <br>
+                                {{dc.diaChiChiTiet}} <br>
+                                {{dc.xaPhuongName}}, {{dc.quanHuyenName}}, {{dc.thanhphoName}}
+                            </p>
+                        </div>
+                        <div class="col-3 flex-r">
+                            <a href="#" style="text-decoration: none; " data-bs-dismiss="modal"
+                               ng-click="getDiaChiById(dc.id)">Chọn</a>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--    modal voucher-->
     <div class="modal" id="myModal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -240,7 +295,6 @@
                     <h4 class="modal-title">Chọn Voucher</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-
                 <!-- Modal body -->
                 <div class="modal-body" style="background-color: #dedede">
                     <div class="col-12" ng-repeat="v in vouchers">
@@ -258,8 +312,8 @@
                                     <span class="badge badge-success">Valid</span>
                                     <h3 class="lead">{{v.ma}}</h3>
                                     <p class="text-muted mb-0">
-                                        Giảm giá {{v.mucGiam | currency: "" : 1}}đ Cho đơn hàng trên
-                                        {{v.mucGiamToiDa | currency: "" : 1}}đ
+                                        Giảm giá {{v.mucGiam | currency: "" : 1}} Cho đơn hàng trên
+                                        {{v.giaTriToiThieu | currency: "" : 1}}đ <b ng-if="v.loai === PHAN TRAM">Giảm tối đa {{v.mucGiamToiDa}}</b>
                                     </p>
                                     <input ng-model="voucher" name="voucher" value="{{v.ma}}"
                                            class="form-check-input" type="hidden">

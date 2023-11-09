@@ -19,4 +19,8 @@ public class HomeController {
     public String thanhToan() {
         return "/user/thanhToan";
     }
+    @GetMapping("lich-su-mua-hang")
+    public String licSu() {
+        return "/user/HoaDonUser";
+    }
 }

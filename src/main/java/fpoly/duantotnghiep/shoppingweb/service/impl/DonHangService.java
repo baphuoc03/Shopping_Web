@@ -50,6 +50,14 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
+    public List<DonHangDtoResponse> getAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai) {
+
+        return donHangResponsitory.findAllByKhachHangAndTrangThai(nguoiSoHuu, trangThai).stream().map(d -> new DonHangDtoResponse(d)).collect(Collectors.toList());
+
+    }
+
+
+    @Override
     public Page<DonHangDtoResponse> getAllByTrangThai(Integer trangThai, Integer limit, Integer pageNumber) {
 
         Pageable pageable = PageRequest.of(pageNumber, limit);
