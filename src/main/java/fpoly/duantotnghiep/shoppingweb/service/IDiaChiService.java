@@ -15,7 +15,7 @@ public interface IDiaChiService {
     Page<DiaChiDTOResponse> getAll(Integer page, Integer limit);
     DiaChiDTOResponse findById(Long id);
     Boolean exsistsById(Long id);
-    DiaChiDTOResponse add(DiaChiDTORequest diaChi) throws MessagingException;
+    DiaChiDTOResponse add(DiaChiDTORequest diaChi);
     DiaChiDTOResponse update(DiaChiDTORequest diaChi);
     void deleteById(Long id);
 }

@@ -1,7 +1,9 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.DiaChiModel;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,9 +14,10 @@ import lombok.NoArgsConstructor;
 public class DiaChiDTORequest {
 
     private Long id;
-    @NotBlank(message = "Không để trống code Thành Phố")
+    private String taiKhoan;
+    @NotNull(message = "Không để trống code Thành Phố")
     private Integer thanhPhoCode;
-    @NotBlank(message = "Không để trống code Quận Huyện")
+    @NotNull(message = "Không để trống code Quận Huyện")
     private Integer quanHuyenCode;
     @NotBlank(message = "Không để trống code Xã Phường")
     private String xaPhuongCode;
@@ -29,7 +32,10 @@ public class DiaChiDTORequest {
 
     public DiaChiModel mapToModel(){
         DiaChiModel diaChiModel = new DiaChiModel();
+        KhachHangModel model = new KhachHangModel();
         diaChiModel.setId(id);
+        model.setUsername(taiKhoan);
+        diaChiModel.setTaiKhoan(model);
         diaChiModel.setThanhPhoCode(thanhPhoCode);
         diaChiModel.setQuanHuyenCode(quanHuyenCode);
         diaChiModel.setXaPhuongCode(xaPhuongCode);

@@ -58,7 +58,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
             heartButton.className = "far fa-heart"
         }
     }
-    $scope.getMaSanPhamInDSTY()
+    // $scope.getMaSanPhamInDSTY()
 
     $scope.addDSYT1 = function (id) {
         console.log(id)

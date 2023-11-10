@@ -9,7 +9,8 @@
 
 </head>
 <body>
-<div style="margin-top: 10px" class="main-content" ng-app="ctsp-app" ng-controller="ctsp-ctrl" layout:fragment="contentUser">
+<div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140" ng-app="diaChi" ng-controller="diaChiCtrl">
+     layout:fragment="contentUser">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css" rel="stylesheet">
 
     <!-- Product Detail -->
@@ -30,44 +31,82 @@
                     <div class="mb-3 row">
                         <label for="inputPassword" class="col-sm-2 col-form-label">Tên</label>
                         <div class="col-sm-3">
-                            <input type="password" class="form-control" >
+                            <input type="password" class="form-control">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label for="inputPassword" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-3">
-                            <input type="password" class="form-control" >
+                            <input type="password" class="form-control">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label for="inputPassword" class="col-sm-2 col-form-label">Giới Tính</label>
                         <div class="col-sm-3">
-                            <input type="password" class="form-control" >
+                            <input type="password" class="form-control">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label for="inputPassword" class="col-sm-2 col-form-label">Ngày Sinh</label>
                         <div class="col-sm-3">
-                            <input type="password" class="form-control" >
+                            <input type="password" class="form-control">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label for="inputPassword" class="col-sm-2 col-form-label">Số điện thoại</label>
                         <div class="col-sm-3">
-                            <input type="password" class="form-control" >
+                            <input type="password" class="form-control">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary ">Lưu</button>
                 </div>
-
-        <div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
-			<span class="stext-107 cl6 p-lr-25">
-				SKU: JAK-01
-			</span>
-
-            <span class="stext-107 cl6 p-lr-25">
-				Categories: Jacket, Men
-			</span>
+            </div>
+            <form class="row g-3">
+            <div class="col-12">
+                <input type="text" ng-model="diaChiChiTiet" name="boGoc" class="form-control rounded-4"
+                       id="inputAddress2"
+                       placeholder="Địa chỉ: ví dụ(193 Phú Diễn)">
+                <p class="form-text text-danger" id="eDiaChi"></p>
+            </div>
+            <div class="col-md-4">
+                <select title="Country" id="city" ng-model="thanhPhoCode"
+                        onchange="angular.element(this).scope().cityChange(this.value)"
+                        class="form-select  rounded-4">
+                    <option selected>Tỉnh/thành phố</option>
+                    <option ng-repeat="c in citys" value="{{c.ProvinceID}}">
+                        {{c.ProvinceName}}
+                    </option>
+                </select>
+                <p class="form-text text-danger" id="eThanhPho"></p>
+            </div>
+            <div class="col-md-4">
+                <select id="district" data-placeholder="Quận huyện"
+                        ng-model="quanHuyenCode"
+                        onchange="angular.element(this).scope().districtChange(this.value)"
+                        title="Country"
+                        class="form-select rounded-4">
+                    <option selected>Quận/huyện</option>
+                    <option ng-repeat="d in districts"
+                            value="{{d.DistrictID}}">{{d.DistrictName}}
+                    </option>
+                </select>
+                <p class="form-text text-danger" id="eQuanHuyen"></p>
+            </div>
+            <div class="col-md-4">
+                <select title="Country" id="ward" ng-model="xaPhuongCode"
+                        onchange="angular.element(this).scope().getFeeShipped(getElementById('district').value,this.value)"
+                        class="form-select  rounded-4">
+                    <option selected>Xã/phường</option>
+                    <option ng-repeat="w in wards" value="{{w.WardCode}}">
+                        {{w.WardName}}
+                    </option>
+                </select>
+                <p class="form-text text-danger" id="eXaPhuong"></p>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="create()">Submit</button>
+                </div>
+            </form>
         </div>
     </section>
 </div>

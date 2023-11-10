@@ -60,7 +60,7 @@ public class DiaChiServiceImpl implements IDiaChiService {
     }
 
     @Override
-    public DiaChiDTOResponse add(DiaChiDTORequest diaChi) throws MessagingException {
+    public DiaChiDTOResponse add(DiaChiDTORequest diaChi) {
        DiaChiModel diaChiModel = diaChiRepository.save(diaChi.mapToModel());
         return new DiaChiDTOResponse(diaChiModel);
     }
