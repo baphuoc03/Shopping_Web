@@ -9,4 +9,8 @@ public class KhachHangController {
     public String viewThongTinUser(){
         return "/user/ThongTinKhachHang";
     }
+    @GetMapping("fomr")
+    public String viewLogin(){
+        return "/user/ThongTinKhachHang.html";
+    }
 }

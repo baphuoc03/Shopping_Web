@@ -16,51 +16,83 @@
     <!-- Product Detail -->
     <section class="sec-product-detail bg0 p-t-65 p-b-60">
         <div class="container">
-            <div class=" m-t-50 p-t-43 p-b-40">
-                <!-- Tab01 -->
-                <div class="tab01">
-                    <!-- Nav tabs -->
-                    <h1> Thông tin của tôi</h1>
-                    <!-- Tab panes -->
-                    <div class="mb-3 row">
-                        <label for="inputPassword" class="col-sm-2 col-form-label">Tên đăng nhâp</label>
-                        <div class="col-sm-3">
-                            <input type="password" class="form-control" id="inputPassword">
+            <form id="formUser" method="put" enctype="multipart/form-data">
+                <link th:href="@{/admin/css/fileupload.css}" rel="stylesheet" type="text/css"/>
+                <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+                <!-- start page title -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <h4 class="mb-sm-0 font-size-18">Thông tin của bạn</h4>
                         </div>
                     </div>
-                    <div class="mb-3 row">
-                        <label for="inputPassword" class="col-sm-2 col-form-label">Tên</label>
-                        <div class="col-sm-3">
-                            <input type="password" class="form-control">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-6 d-flex justify-content-center">
+                                <div class="mb-3">
+                                    <div class="container">
+                                        <fieldset class="form-group">
+                                            <input type="file" accept=".jpg,.gif,.png" id="pro-image" name="pro-image"
+                                                   style="display: none;"
+                                                   onchange="angular.element(this).scope().addFile()"
+                                                   class="form-control">
+                                        </fieldset>
+                                        <div class="preview-images-zone user  d-flex justify-content-center">
+                                            <div class="preview-image preview-show-1" ng-if="user.anhDaiDien!=null">
+                                                <div class="image-cancel" data-no="1" ng-click="removeFile(this.id)">x</div>
+                                                <div class="image-zone"><img id="pro-img-1" src="/image/loadImage/user/{{user.anhDaiDien}}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span id="ma" class="form-control text-center" style="border: none">{{user.username}}</span>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="hoVaTen">Họ và tên</label>
+                                    <input id="hoVaTen" ng-model="user.hoVaTen" name="hoVaTen" class="form-control" ng-focus="removeErrors('hoVaTenER')">
+                                    <i  class="er" id="hoVaTenER"></i>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="gioiTinh">Giới tính</label>
+                                    <select class="form-control" id="gioiTinh" name="gioiTinh" ng-model="user.gioiTinh">
+                                        <option ng-repeat="g in gioiTinh" value="{{g.value}}">{{g.text}}</option>
+                                    </select>
+                                    <i  class="er" id="gioiTinhER"></i>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ngaySinh">Ngày sinh</label>
+                                    <input id="ngaySinh" ng-model="user.ngaySinh" name="ngaySinh" class="form-control" type="date">
+                                    <i  class="er" id="ngaySinhER"></i>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sdt">Số điện thoại</label>
+                                    <input id="sdt" ng-model="user.soDienThoai" name="soDienThoai" class="form-control" ng-focus="removeErrors('soDienThoaiER')">
+                                    <i  class="er" id="soDienThoaiER"></i>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email">Email</label>
+                                    <input id="email" ng-model="user.email" name="email" class="form-control" ng-focus="removeErrors('emailER')">
+                                    <i  class="er" id="emailER"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-footer ">
+                        <div class="d-flex flex-wrap gap-2" style="float: right">
+                            <button type="submit"
+                                    class="btn btn-primary waves-effect waves-light" id="sm" ng-click="update()">Cập nhật thông tin
+                            </button>
                         </div>
                     </div>
-                    <div class="mb-3 row">
-                        <label for="inputPassword" class="col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-3">
-                            <input type="password" class="form-control">
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="inputPassword" class="col-sm-2 col-form-label">Giới Tính</label>
-                        <div class="col-sm-3">
-                            <input type="password" class="form-control">
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="inputPassword" class="col-sm-2 col-form-label">Ngày Sinh</label>
-                        <div class="col-sm-3">
-                            <input type="password" class="form-control">
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <label for="inputPassword" class="col-sm-2 col-form-label">Số điện thoại</label>
-                        <div class="col-sm-3">
-                            <input type="password" class="form-control">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary ">Lưu</button>
                 </div>
-            </div>
+            </form>
+            <br>
+            <h4 class="mb-sm-0 font-size-18">Địa chỉ</h4>
+            <br>
             <form class="row g-3">
             <div class="col-12">
                 <input type="text" ng-model="diaChiChiTiet" name="boGoc" class="form-control rounded-4"

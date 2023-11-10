@@ -10,6 +10,17 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         $scope.voucherDH = ""
         $scope.loginIn = false;
         $scope.isSelectSaveDC = false;
+    $scope.user = {
+        gioiTinh : null
+    };
+    $scope.gioiTinh = [
+        {value : null, text : "Không xác định"},
+        {value : true, text : "Nam"},
+        {value : false, text : "Nữ"}
+    ]
+    const labelAddImg = '<label for="pro-image" id="labelAddImg" class="addImg d-flex align-items-center justify-content-center" >' +
+        '<i class="bx bxs-image-add"></i>' +
+        '</label>'
 
         $scope.getValue = function () {
             $scope.textInner = "Thành Phố: " + $scope.city + "/ Quận huyện: " + $scope.district + " / Xã: " + $scope.xa
@@ -58,5 +69,41 @@ app.controller('diaChiCtrl', function ($scope, $http) {
                 alert("Thêm Thành Công")
             })
         }
+        $scope.update = function () {
+            let anhDaiDien = document.getElementById("pro-image").files.length == 0 ? null : document.getElementById("pro-image").files[0];
+            let formData = new FormData();
+            if ($scope.user.gioiTinh == undefined) $scope.user.gioiTinh = null;
+            formData.append("ThongTinKhachHang", new Blob([JSON.stringify($scope.user)], {
+                type: 'application/json'
+            }))
+            formData.append("img", anhDaiDien)
+
+            $http.put("/khach-hang", formData, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).then(r => {
+                alert("Cập nhật thành công")
+                document.getElementById("imgUser").src = "/image/loadImageUser/" + r.data.username
+            }).catch(e => {
+                document.getElementById("hoVaTenER").innerText = e.data.hoVaTen == undefined ? "" : e.data.hoVaTen;
+                document.getElementById("soDienThoaiER").innerText = e.data.soDienThoai == undefined ? "" : e.data.soDienThoai;
+                document.getElementById("emailER").innerText = e.data.email == undefined ? "" : e.data.email;
+            })
+        }
+        $http.get("/khach-hang/getUser").then(r => {
+            r.data.gioiTinh = JSON.stringify(r.data.gioiTinh)
+            $scope.user = r.data
+            $scope.user.ngaySinh = new Date(r.data.ngaySinh)
+            if ($scope.user.anhDaiDien == null) $(".preview-images-zone").append(labelAddImg);
+            else {
+                let imgUser = new DataTransfer();
+                imgUser.items.add(new File([$scope.user.anhDaiDien], $scope.user.anhDaiDien, {
+                    lastModified: new Date()
+                }))
+                document.getElementById("pro-image").files = imgUser.files;
+            }
+            ;
+            // document.getElementById("gioiTinh").value = $scope.user.gioiTinh+""
+        }).catch(e => console.log(e))
     }
 );

@@ -2,6 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.user;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KhachHangDTORequest;
+import fpoly.duantotnghiep.shoppingweb.dto.request.NhanVienDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.security.ResetPasswordDto;
 import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
@@ -10,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -47,5 +49,22 @@ public class khachHangRestController {
         if (result.hasErrors())
             return ValidateUtil.getErrors(result);
         return ResponseEntity.ok(khachHangService.add(khachHang));
+    }
+    @GetMapping("getUser")
+    public ResponseEntity<?> getUser(Authentication authentication){
+        String username = authentication.getName();
+        return ResponseEntity.ok(khachHangService.findById(username));
+    }
+    @PutMapping("update")
+    public ResponseEntity<?> updateKhachHang(@Valid @RequestBody KhachHangDTORequest khachHang,
+                                            BindingResult result){
+        if(khachHang.getUsername()!=null && !khachHang.getUsername().isBlank()){
+            if(!khachHangService.exsistsByUsername(khachHang.getUsername())){
+                result.addError(new FieldError("username","username","Username Không tồn tại"));
+                if(!result.hasErrors()) return ValidateUtil.getErrors(result);
+            }
+        }
+        if(result.hasErrors()) return ValidateUtil.getErrors(result);
+        return ResponseEntity.ok(khachHangService.update(khachHang));
     }
 }
