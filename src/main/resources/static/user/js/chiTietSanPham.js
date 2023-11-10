@@ -5,6 +5,9 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.images = [];
     $scope.idCTSP = ""
     $scope.soLuongAdd=1
+    $scope.soLuong = ""
+    $scope.size = ""
+    $scope.lengthFoot = 26
 
     var heartButton = document.getElementById("heart")
     const sizeZone = $("#sizes-zone")
@@ -28,8 +31,8 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         $scope.productDetails.forEach(s => {
             if (s.soLuong <= 0) sizeZone.append('<input type="radio" class="btn-check" name="ctsp" id="' + s.size + '" autocomplete="off" disabled>\n' +
                 '<label class="btn btn-outline-secondary" for="' + s.size + '" style="width: 60px;">' + s.size + '</label>')
-            else sizeZone.append('<input type="radio" ng-model="idCTSP" value="' + s.id + '" class="btn-check" name="ctsp" id="' + s.size + '" autocomplete="off" >\n' +
-                '<label class="btn btn-outline-secondary" for="' + s.size + '" style="width: 60px;">' + s.size + '</label>')
+            else sizeZone.append('<input type="radio" ng-model="idCTSP" value="' + s.id + '" class="btn-check" name="ctsp" id="' + s.size + '" autocomplete="off" ng-click="getSoLuong(' + s.id + ')">\n' +
+                '<label class="btn btn-outline-secondary" for="' + s.size + '" style="width: 60px;" onclick="angular.element(this).scope().getSoLuong(\'' + s.id + '\')">' + s.size + '</label>')
         })
     }).catch(e => console.log(e))
 
@@ -83,8 +86,8 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.getMaSanPhamInDSTY = function (){
         $http.get("/danh-sach-yeu-thich/get-ma-san-pham-in-dsyt").then(r => {
             $scope.maSpInDSYT = r.data
-            console.log($scope.maSpInDSYT.length)
-            document.getElementById("buttonHeart").setAttribute("data-notify", ""+$scope.maSpInDSYT.length)
+            // console.log($scope.maSpInDSYT.length)
+            // document.getElementById("buttonHeart").setAttribute("data-notify", ""+$scope.maSpInDSYT.length)
         }).catch(e => console.log(e))
     }
     $scope.getMaSanPhamInDSTY()
@@ -117,4 +120,27 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         }
     }
 
+    $scope.getSoLuong = function (idCTSP){
+        $http.get("/chi-tiet-san-pham/1/"+idCTSP).then(r => {
+            $scope.soLuong = "Còn lại " + r.data + " sản phẩm"
+        }).catch(e => console.log(e))
+    }
+    $scope.getSizePhuHop = function (){
+        let sizes = []
+        $http.get("/size/get-by-chieu-dai?chieuDai="+$scope.lengthFoot).then(r => {
+            sizes = r.data
+            if(sizes.length == 0){
+                $scope.size = "Không có kích thước phù hợp"
+            }else{
+                for (let i=0;i<sizes.length;i++){
+                    if(i==0){
+                        $scope.size = sizes[i].ma + "";
+                    }else{
+                        $scope.size += ", " + sizes[i].ma;
+                    }
+                }
+            }
+        }).catch(e => console.log(e))
+    }
+    $scope.getSizePhuHop()
 })

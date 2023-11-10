@@ -109,8 +109,12 @@
                         <!--Size  -->
                         <div class="p-t-3">
                             <div class="row p-b-10">
-                                <div class="col-12 size-203 flex-col-l flex-c-m respon6">
+                                <div class="col-12 size-203 d-flex justify-content-between respon6 mb-3 mt-3" >
                                     Kích thước
+
+                                    <i style="float: right;padding-right: 25px;text-decoration: underline;font-size: 14px"
+                                       data-toggle="modal" data-target="#huongDanChonSize">
+                                        Hướng dẫn chọn size</i>
                                 </div>
 
                                 <div class=" col-12 size-204 p-b-10 respon6-next">
@@ -119,8 +123,12 @@
                                             <div class="btn-group" id="sizes-zone" role="group"
                                                  aria-label="Basic radio toggle button group"></div>
                                         </form>
+                                        <div class="col-12 size-203 flex-col-l flex-c-m respon6 mt-1" style="padding: 0px" >
+                                            <i>{{soLuong}}</i>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
 
                             <!--add -->
@@ -331,7 +339,34 @@
         </div>
     </section>
 
-
+    <!-- //---------------------------------------------------------------- -->
+    <div class="modal fade" id="huongDanChonSize" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Hướng Dẫn Chọn Size</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between">
+                        <h5 style="font-size: 17px">Độ dài bàn chân:</h5>
+                        <h5 style="font-size: 17px"> {{lengthFoot}} CM </h5>
+                    </div>
+                    <input type="range" class="form-range" min="20" max="32" step="0.5" ng-model="lengthFoot"
+                           onchange="angular.element(this).scope().getSizePhuHop()"
+                           style="width: 100%;" ng-change="showLength()">
+                    <h5 style="font-size: 17px">Size phù hợp là: {{size}}</h5>
+                    <hr>
+                    <img src="/image/loadImage/user/lengthFoot.jpg " style="width: 70%; height: 150px; margin-left: 15%;"
+                         class="text-center"/>
+                    <p class="text-center font-italic">Hướng dẫn đo chiều dài bàn chân</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Related Products -->
     <section class="sec-relate-product bg0 p-t-45 p-b-105">
         <div class="container">
