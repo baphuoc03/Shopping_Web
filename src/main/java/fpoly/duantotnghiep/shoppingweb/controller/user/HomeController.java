@@ -19,12 +19,14 @@ public class HomeController {
     public String thanhToan() {
         return "/user/thanhToan";
     }
+
     @GetMapping("lich-su-mua-hang")
     public String licSu() {
-        return "/user/HoaDonUser";
-    }
-    @GetMapping("lich-su-mua-hang1")
-    public String licSu1() {
         return "/user/hoaDonNguoiDung";
+    }
+
+    @GetMapping("chi-tiet-don-hang/{ma}")
+    public String chiTietDonHang() {
+        return "/user/hoaDonChiTietUser";
     }
 }

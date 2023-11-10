@@ -760,7 +760,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     }
     //don hang usser
     $scope.donHangUser = function (trangThai) {
-        $http.get("/admin/don-hang/get-by-trangThai-khachHang?trangThai=" + trangThai).then(resp => {
+        $http.get("/don-hang/get-by-trangThai-khachHang?trangThai=" + trangThai).then(resp => {
             $scope.donHangChuaXacNhanKh = resp.data;
             console.log(resp.data)
         }).catch(err => {
@@ -768,19 +768,26 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         })
     }
     $scope.findByMaDonHangUser = function (ma) {
-        $http.get("/admin/don-hang/" + ma).then(function (res) {
+        $http.get("/don-hang/" + ma).then(function (res) {
             const donHang = res.data;
             $scope.maDonHang = donHang.ma
+            $scope.nguoiNhan = donHang.tenNguoiNhan
+            $scope.soDT = donHang.soDienThoai
+            $scope.email = donHang.email
+            $scope.ghiChu = donHang.ghiChu
+            $scope.diaChiCT = donHang.diaChiChiTiet
+            $scope.tienGiam = donHang.tienGiam
+            $scope.phiGiaoHang = donHang.phiGiaoHang
+            $scope.lyDoHuy = donHang.lyDoHuy
+            $scope.chiTietDon = donHang.chiTietDonHang
         })
-
     }
     $scope.huyDonUser = function (ma) {
         lyDoHuy = $scope.lyDoHuy
-        $http.put("/admin/don-hang/huy-don-hang-user?ma=" + ma, lyDoHuy).then(function (res) {
+        $http.put("/don-hang/huy-don-hang-user?ma=" + ma, lyDoHuy).then(function (res) {
             location.reload()
             alert("Update success");
         })
     }
-///////////////////////////////////////////
 
 })

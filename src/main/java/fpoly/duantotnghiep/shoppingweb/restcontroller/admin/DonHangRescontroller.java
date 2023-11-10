@@ -34,21 +34,7 @@ public class DonHangRescontroller {
         return donHangService.getAllByTrangThai(trangThai, limit, pageNumber);
     }
 
-    @GetMapping("get-by-trangThai-khachHang")
-    public ResponseEntity<List<DonHangReponseUser>> getByKhachHangAndTrangThai(@RequestParam("trangThai") Integer trangThai,
-                                                                               Authentication authentication) {
-        if (authentication != null) {
-            String khachHang = authentication.getName();
-            return ResponseEntity.ok(donHangService.getAllByKhachHangAndTrangThai(khachHang, trangThai));
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
 
-    @PutMapping("huy-don-hang-user")
-    public ResponseEntity<?> huyDonHangUser(@RequestBody String lyDoHuy, @RequestParam String ma) throws MessagingException {
-        donHangService.huyDonHangUser(ma, lyDoHuy);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
 
     @GetMapping("/{ma}")
     public ResponseEntity<DonHangDtoResponse> getByMa(@PathVariable("ma") String ma) {
