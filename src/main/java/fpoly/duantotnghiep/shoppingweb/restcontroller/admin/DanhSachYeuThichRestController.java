@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,10 @@ public class DanhSachYeuThichRestController {
     @PostMapping("add")
     public ResponseEntity<?> add(@RequestBody DanhSachYeuThichRequest danhSachYeuThichRequest,
                                  Authentication authentication) throws IOException {
+        if(authentication==null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         String username = authentication.getName();
 
         danhSachYeuThichRequest.setNguoiSoHuu(username);
@@ -53,6 +58,10 @@ public class DanhSachYeuThichRestController {
 //                    new ResponseObject("found", "Xóa thất bại", "")
 //            );
 //        }
+
+        if(authentication==null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         SanPhamModel sanpham = new SanPhamModel();
         KhachHangModel khachHangModel = new KhachHangModel();

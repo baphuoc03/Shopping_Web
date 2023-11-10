@@ -1,15 +1,16 @@
 package fpoly.duantotnghiep.shoppingweb.config.security;
 
 import fpoly.duantotnghiep.shoppingweb.service.seucrity.CustomerService;
-import fpoly.duantotnghiep.shoppingweb.service.seucrity.UserAdminService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 import java.util.List;
 
 @Configuration
@@ -48,7 +49,11 @@ public class SecurityCustomerConfig {
                                 .invalidateHttpSession(true)
                                 .deleteCookies("JSESSIONID")
                                 .clearAuthentication(true)
-                );
+                ).exceptionHandling(han -> han.defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
+                                        , new AntPathRequestMatcher("/danh-sach-yeu-thich/delete/**","DELETE"))
+
+                                        .defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
+                                        , new AntPathRequestMatcher("/danh-sach-yeu-thich/add","POST")));
 
         return http.build();
     }

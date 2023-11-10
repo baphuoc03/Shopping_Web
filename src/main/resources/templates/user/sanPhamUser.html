@@ -203,9 +203,29 @@
         </div>
     </section>
 
-
+    <!--    /////////Modal đăng nhập-->
+    <div class="modal fade" id="dangNhap" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Thông Báo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Đăng nhập để sử dụng tính năng!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#dangNhap').modal('hide')">Trở về</button>
+                    <a href="/dang-nhap" class="btn btn-primary text-white">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
+
 <!--    modal chi tiếts-->
 <div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
     <div class="overlay-modal1 js-hide-modal1"></div>
