@@ -70,8 +70,8 @@ public class ThongKeRestController {
     public ResponseEntity<?> getSanPhamBanChay(){
         return ResponseEntity.ok(sanPhamEntityManager.getSanPhamBanChay());
     }
-    @GetMapping("san-pham/{ma}")
-    public ResponseEntity<?> getChiTietSanPham(@PathVariable("ma")String ma){
+    @GetMapping("san-pham-ban-chay/{ma}")
+    public ResponseEntity<?> getChiTietBanChay(@PathVariable("ma")String ma){
         return ResponseEntity.ok(thongKeEntityManager.getChiTietSanPhamDaBan(ma));
 
     }

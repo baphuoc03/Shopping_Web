@@ -3,6 +3,7 @@ app.controller("ctrl", function ($scope, $http){
     $scope.tongQuat = {}
     $scope.sanPhamBanChay = [];
     $scope.sanPhamTon = [];
+    $scope.chiTietBanChay = []
 
     $scope.getTongQuat = function (firstDay,lastDay){
         $http.get("/admin/thong-ke/tong-quat?firstDate="+firstDay+"&lastDate="+lastDay).then(r => {
@@ -18,6 +19,13 @@ app.controller("ctrl", function ($scope, $http){
 
     }
     $scope.getSanPhamBanChay()
+
+    $scope.getChiTietSpBanChay = function (maSP){
+        $http.get("/admin/thong-ke/san-pham-ban-chay/"+maSP).then(r => {
+            $scope.chiTietBanChay = r.data
+            $('#chiTietBanChay').modal('show')
+        }).catch(e => console.log(e))
+    }
 
     $scope.getSanPhamTon = function (){
         $http.get("/admin/thong-ke/san-pham-ton").then(r => {

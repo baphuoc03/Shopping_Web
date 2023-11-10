@@ -81,7 +81,7 @@ public class ThongKeEntityManager {
                                  FROM ChiTietSanPhamModel s LEFT JOIN ChiTietDonHangModel cd ON s.id = cd.chiTietSanPham.id
                                  WHERE s.sanPham.ma = :maSanPham 
                                  GROUP BY s
-                                 
+                                 ORDER BY soLuong DESC, s.size.ma ASC 
                                  """,Tuple.class)
                                 .setParameter("maSanPham",maSanPham)
                                 .getResultList().stream()
