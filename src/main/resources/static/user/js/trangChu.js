@@ -22,7 +22,7 @@ app.controller("ctrl", function ($scope, $http) {
         $http.get("/danh-sach-yeu-thich/get-ma-san-pham-in-dsyt").then(r => {
             $scope.maSpInDSYT = r.data
             console.log($scope.maSpInDSYT.length)
-            document.getElementById("buttonHeart").setAttribute("data-notify", ""+$scope.maSpInDSYT.length)
+            // document.getElementById("buttonHeart").setAttribute("data-notify", ""+$scope.maSpInDSYT.length)
         }).catch(e => console.log(e))
     }
     $scope.getMaSanPhamInDSTY()

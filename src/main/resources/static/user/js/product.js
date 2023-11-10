@@ -198,7 +198,7 @@ app.controller("index-ctrl", function ($scope, $http) {
     $scope.getMaSanPhamInDSTY = function (){
         $http.get("/danh-sach-yeu-thich/get-ma-san-pham-in-dsyt").then(r => {
             $scope.maSpInDSYT = r.data
-            document.getElementById("buttonHeart").setAttribute("data-notify", ""+$scope.maSpInDSYT.length)
+            // document.getElementById("buttonHeart").setAttribute("data-notify", ""+$scope.maSpInDSYT.length)
         }).catch(e => console.log(e))
     }
     $scope.getMaSanPhamInDSTY()
