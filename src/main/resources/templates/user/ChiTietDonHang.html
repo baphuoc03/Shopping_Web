@@ -12,10 +12,10 @@
 </head>
 <body>
 <div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140" >
-    <div class="page-content container" ng-app="ctdh-app" ng-controller="ctdh-ctrl">
-        <div class="container-fluid bg-white" >
-            <div class="card-header">
-                <h5 class="modal-title" id="donHangDetailTitle">Thông tin đơn hàng</h5>
+    <div class="page-content container-fulid" ng-app="ctdh-app" ng-controller="ctdh-ctrl" style="background-color: #f9f9fa">
+        <div class="container bg-white" >
+            <div class="card-header" style="background-color: #717fe0">
+                <h5 style="color:white;" class="modal-title" id="donHangDetailTitle">Thông tin đơn hàng</h5>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -114,19 +114,6 @@
                 <div style="max-height: 220px;overflow-y: auto;">
                     <table id="datatable"
                            class="table table-hover dt-responsive  nowrap w-100">
-                        <thead>
-                        <tr style="position: sticky;
-                                            top: 0;
-                                            z-index: 1;
-                                            background: white;">
-                            <th>Sản phẩm</th>
-                            <th>Số lượng</th>
-                            <th>Đơn giá</th>
-                            <th>Giảm giá</th>
-                            <th>Đơn giá sau giảm</th>
-                            <th>Thành tiền</th>
-                        </tr>
-                        </thead>
                         <tbody>
                         <tr ng-repeat="d in chiTietDonHang">
                             <td>
@@ -190,11 +177,6 @@
                     </tbody>
                 </table>
             </div>
-            <!--        <div class="card-footer">-->
-            <!--            <button type="button" class="btn btn-secondary" data-dismiss="modal"-->
-            <!--                    ng-click="closeModal('#donHangDetail')">Đóng-->
-            <!--            </button>-->
-            <!--        </div>-->
         </div>
     </div>
 </div>

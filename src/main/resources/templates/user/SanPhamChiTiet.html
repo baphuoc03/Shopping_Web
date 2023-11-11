@@ -40,11 +40,12 @@
                             <div class="slick3 gallery-lb">
                                 <div class="item-slick3" data-thumb="/image/loadImage/product/{{product.anh[0]}}">
                                     <div class="wrap-pic-w pos-relative d-flex justify-content-center">
-                                        <img src="/image/loadImage/product/{{product.anh[0]}}"
+                                        <img src="/image/loadImage/product/{{product.anh[0]}}" style="height: 550px;"
                                              ng-if="product.anh.length>0"
-                                             style="width: 275px;height: 275px">
+                                        >
                                         <img src="/image/loadImage/product/default.png" ng-if="product.anh.length==0"
-                                             style="width: 275px;height: 275px">
+                                             style="height: 550px;"
+                                        >
 
                                         <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
                                            href="images/product-detail-01.jpg">
@@ -93,28 +94,48 @@
                                 <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 m-t-10">
                                 <p>Hàng trong kho: {{product.soLuong}}</p>
                             </div>
                         </div>
                         <br>
 
                         <span class="mtext-106 cl2">
-                                    <span class="stext-105 cl3" ng-if="p.giaBan>p.giaNiemYet">
+                                    <span class="stext-105 cl3" ng-if="product.giaBan > product.giaNiemYet">
 									<del>{{product.giaBan | currency: "" : 1}}đ</del>
 								    </span>
                                 <b>{{product.giaNiemYet | currency: "" : 1}}đ</b>
 						</span>
 
+                        <p class="m-t-10">
+                            Kiểu dáng: {{product.kieuDang}}
+                        </p>
+
+                        <p>
+                            Thương hiệu: {{product.thuongHieu}}
+                        </p>
+                        <p>
+                            Dòng sản phẩm: {{product.dongSanPham}}
+                        </p>
                         <!--Size  -->
+<!--<<<<<<< HEAD-->
                         <div class="p-t-3">
                             <div class="row p-b-10">
                                 <div class="col-12 size-203 d-flex justify-content-between respon6 mb-3 mt-3" >
                                     Kích thước
 
-                                    <i style="float: right;padding-right: 25px;text-decoration: underline;font-size: 14px"
+                                    <i style="float: right;padding-right: 25px;text-decoration: underline;font-size: 14px;cursor: pointer"
                                        data-toggle="modal" data-target="#huongDanChonSize">
                                         Hướng dẫn chọn size</i>
+<!--=======-->
+<!--                        <div class="">-->
+<!--                            <hr>-->
+<!--                            <div class="row p-b-10 m-t-10">-->
+<!--                                <div class="col-12 size-203 flex-col-l flex-c-m respon6">-->
+<!--                                    <p class="mtext-104 cl3 js-name-detail">-->
+<!--                                        Size-->
+<!--                                    </p>-->
+<!--&gt;>>>>>> tuandv-->
                                 </div>
 
                                 <div class=" col-12 size-204 p-b-10 respon6-next">

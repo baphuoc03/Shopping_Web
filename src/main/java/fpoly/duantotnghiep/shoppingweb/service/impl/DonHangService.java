@@ -82,6 +82,11 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
+    public DonHangReponseUser findByMaUser(String ma) {
+        return new DonHangReponseUser((donHangResponsitory.findById(ma).orElse(new DonHangModel())));
+    }
+
+    @Override
     public Boolean existsByMa(String ma) {
         return donHangResponsitory.existsById(ma);
     }

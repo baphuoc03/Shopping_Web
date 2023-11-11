@@ -64,12 +64,12 @@
                             Bạn đã có tài khoản?
                             <a href="/dang-nhap">Đăng nhập</a>
                         </p>
-
                     </div>
                 </div>
                 <form class="row g-3">
                     <div class="col-md-6">
-                        <input type="text" class="form-control rounded-4" name="boGoc" ng-model="nguoiNhan"
+                        <input type="text" class="form-control rounded-4" name="boGoc"
+                                ng-model="nguoiNhan"
                                placeholder="Người nhận" id="inputEmail4">
                         <p class="form-text text-danger">{{errNguoiNhan}}</p>
 
@@ -78,12 +78,14 @@
                         <input type="text" placeholder="Số điện thoại"
                                ng-model="soDienThoai"
                                name="boGoc"
+
                                class="form-control  rounded-4"
                                id="inputPassword4">
                         <p class="form-text text-danger">{{errSoDienThoai}}</p>
                     </div>
                     <div class="col-12">
                         <input type="text"
+
                                ng-model="email"
                                name="boGoc"
                                class="form-control  rounded-4"
@@ -146,19 +148,19 @@
 
                     <p class="form-text text-danger">{{errThanhToan}}</p>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="paymentMethod"
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="khiNhanHang"
                                value="0" ng-model="phuongThucThanhToan">
-                        <label class="form-check-label">
+                        <label class="form-check-label" for="khiNhanHang">
                             Thanh toán khi nhận hàng
                         </label>
                     </div>
                 </div>
                 <div class="rounded-4 p-3 border" style="border-radius: 25px">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="paymentMethod"
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="online"
                                value="1"
                                ng-model="phuongThucThanhToan">
-                        <label class="form-check-label">
+                        <label class="form-check-label" for="online">
                             <img alt="" style="width: 100px;" src="/userStyle/images/icons/Logo-VNPAY-QR-768x143.webp">
                         </label>
                     </div>
@@ -180,7 +182,6 @@
                             <p>_size:{{i.size}}</p>
                         </td>
                         <td>
-                            <!--                            <input class="border-primary" type="number" value="{{i.soLuong}}">-->
                             <p>{{i.soLuong}}</p>
                         </td>
 
@@ -268,7 +269,7 @@
                 <div class="modal-body">
                     <div class="container-fluid row" ng-repeat="dc in diaChiByTaiKhoan">
                         <div class="col-9">
-                            <p><b>{{dc.tenNguoiNhan}}</b> | {{dc.soDienThoai}} <br>
+                            <p>
                                 {{dc.diaChiChiTiet}} <br>
                                 {{dc.xaPhuongName}}, {{dc.quanHuyenName}}, {{dc.thanhphoName}}
                             </p>
@@ -342,10 +343,18 @@
                             </span>
                                         </div>
                                         <a target="_blank" ng-click="getDataAPI(v.ma)"
+                                           ng-disabled="isDisabledVC(voucherS)"
                                            class="btn btn-sm btn-outline-danger btn-block"
                                            data-bs-dismiss="modal">
                                             Sử dụng
                                         </a>
+
+                                        <!--                                        <a target="_blank" ng-click="getDataAPI(v.ma)" ng-if="disVoucher === true"-->
+                                        <!--                                           class="btn btn-sm btn-outline-danger btn-block disabled"-->
+                                        <!--                                           data-bs-dismiss="modal">-->
+                                        <!--                                            Sử dụng-->
+                                        <!--                                        </a>-->
+
                                     </div>
                                 </div>
                             </div>
@@ -380,15 +389,24 @@
                                 <div class="info m-3 d-flex align-items-center">
                                     <div class="w-100">
                                         <div class="block">
-                            <span class="time font-weight-light">
-                                <span style="font-size: 10pt">Còn {{v.soLuong}}</span>
-                            </span>
+                                            <span class="time font-weight-light">
+                                                <span style="font-size: 10pt">Còn {{v.soLuong}}</span>
+                                            </span>
                                         </div>
                                         <a target="_blank" ng-click="getDataAPI(v.ma)"
+                                           ng-if="v.giaTriToiThieu <= sumTotal"
                                            class="btn btn-sm btn-outline-danger btn-block"
                                            data-bs-dismiss="modal">
                                             Sử dụng
                                         </a>
+
+                                        <a target="_blank" ng-click="getDataAPI(v.ma)"
+                                           ng-if="v.giaTriToiThieu > sumTotal"
+                                           class="btn btn-sm btn-outline-danger btn-block disabled"
+                                           data-bs-dismiss="modal">
+                                            Sử dụng
+                                        </a>
+
                                     </div>
                                 </div>
                             </div>

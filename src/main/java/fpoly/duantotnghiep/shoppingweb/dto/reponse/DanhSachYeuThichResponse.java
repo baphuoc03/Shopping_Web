@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 public class DanhSachYeuThichResponse {
     private String id;
     private String nguoiSoHuu;
-
     private String sanPham;
 
     public DanhSachYeuThichResponse(DanhSachYeuThichModel ds){
