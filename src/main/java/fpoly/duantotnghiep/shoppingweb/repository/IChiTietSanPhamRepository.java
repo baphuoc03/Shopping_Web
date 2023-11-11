@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.util.Date;
 import java.util.List;
 
 @SessionScope
@@ -43,4 +44,10 @@ public interface IChiTietSanPhamRepository extends JpaRepository<ChiTietSanPhamM
     WHERE c.sanPham.ten LIKE concat('%',?1,'%') or c.sanPham.ma LIKE concat('%',?1,'%') 
 """)
     List<ChiTietSanPhamModel> getBySanPhamIdOrNameContais(String keyWord);
+
+    @Query("""
+    SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c 
+    WHERE c.donHang.ngayDatHang in (?1,?2)
+""")
+    Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
 }

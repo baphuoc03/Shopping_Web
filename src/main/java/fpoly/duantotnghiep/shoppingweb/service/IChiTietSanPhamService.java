@@ -3,6 +3,7 @@ package fpoly.duantotnghiep.shoppingweb.service;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietSanPhamDtoRequest;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IChiTietSanPhamService {
@@ -34,4 +35,6 @@ public interface IChiTietSanPhamService {
     List<ChiTietSanPhamDtoResponse> getChiTietSanPhamNotInDonHang(String maDonHang);
 
     List<ChiTietSanPhamDtoResponse> getBySanPhamIdOrNameContais(String keyWord);
+
+    Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
 }

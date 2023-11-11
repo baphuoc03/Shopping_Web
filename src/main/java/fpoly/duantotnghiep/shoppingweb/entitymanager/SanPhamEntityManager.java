@@ -1,13 +1,20 @@
 package fpoly.duantotnghiep.shoppingweb.entitymanager;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fpoly.duantotnghiep.shoppingweb.dto.filter.SanPhamDtoFilter;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
+import fpoly.duantotnghiep.shoppingweb.dto.thongKe.SanPhamBanChayDto;
 import fpoly.duantotnghiep.shoppingweb.model.DongSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDongSanPhamRepository;
+import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
+import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
+import fpoly.duantotnghiep.shoppingweb.service.impl.SanPhamServiceImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.persistence.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -23,6 +31,8 @@ public class SanPhamEntityManager {
     private EntityManager entityManager;
     @Autowired
     private IDongSanPhamRepository dongSanPhamRepository;
+    @Autowired
+    private ISanPhamRepository sanPhamRepository;
 
     public Page<SanPhamDtoResponse> filterMultipleProperties(SanPhamDtoFilter sanPham, Integer pageNumber, Integer limit){
         StringBuilder jpql = new StringBuilder("select s FROM SanPhamModel s WHERE s.trangThai = true ");
@@ -32,18 +42,46 @@ public class SanPhamEntityManager {
 //            queryBuider.append("And s.ten like '%"+sanPham.getTen()+"%'");
         }
 
-        if(sanPham.getMauSac()!=null) jpql.append(" And s.mauSac.ma = '"+sanPham.getMauSac()+"'");
-        if(sanPham.getDongSanPham()!=null) {
-            DongSanPhamModel dongSanPhamModel = dongSanPhamRepository.findById(sanPham.getDongSanPham()).orElse(null);
-            if(dongSanPhamModel==null){
-                jpql.append(" And s.dongSanPham.thuongHieu.id = '" + sanPham.getDongSanPham() + "'");
+        if(sanPham.getMauSac()!=null) {
+            if(sanPham.getMauSac().equalsIgnoreCase("khac")){
+                jpql.append(" And s.mauSac is null");
             }else {
-                jpql.append(" And s.dongSanPham.id = '" + sanPham.getDongSanPham() + "'");
+                jpql.append(" And s.mauSac.ma = '" + sanPham.getMauSac() + "'");
             }
         }
-        if(sanPham.getKieuDang()!=null) jpql.append(" And s.kieuDang.id = '" + sanPham.getKieuDang()+"'");
-        if(sanPham.getXuatXu()!=null) jpql.append(" And s.xuatXu.id = '" + sanPham.getXuatXu()+"'");
-        if(sanPham.getChatLieu()!=null) jpql.append(" And s.chatLieu.id = '" + sanPham.getChatLieu()+"'");
+        if(sanPham.getDongSanPham()!=null) {
+            if(sanPham.getDongSanPham().equalsIgnoreCase("khac")){
+                jpql.append(" And s.dongSanPham is null");
+            }else{
+                DongSanPhamModel dongSanPhamModel = dongSanPhamRepository.findById(sanPham.getDongSanPham()).orElse(null);
+                if(dongSanPhamModel==null){
+                    jpql.append(" And s.dongSanPham.thuongHieu.id = '" + sanPham.getDongSanPham() + "'");
+                }else {
+                    jpql.append(" And s.dongSanPham.id = '" + sanPham.getDongSanPham() + "'");
+                }
+            }
+        }
+        if(sanPham.getKieuDang()!=null) {
+            if(sanPham.getKieuDang().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.kieuDang is null");
+            }else{
+                jpql.append(" And s.kieuDang.id = '" + sanPham.getKieuDang() + "'");
+            }
+        }
+        if(sanPham.getXuatXu()!=null) {
+            if(sanPham.getXuatXu().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.xuatXu is null");
+            }else{
+                jpql.append(" And s.xuatXu.id = '" + sanPham.getXuatXu() + "'");
+            }
+        }
+        if(sanPham.getChatLieu()!=null) {
+            if(sanPham.getChatLieu().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.chatLieu is null");
+            }else {
+                jpql.append(" And s.chatLieu.id = '" + sanPham.getChatLieu() + "'");
+            }
+        }
         if(sanPham.getGiaBan()!=null) jpql.append(" And s.giaBan >= " + sanPham.getGiaBan());
         if(sanPham.getGiaMax()!=null) jpql.append(" And s.giaBan <= " + sanPham.getGiaMax());
 
@@ -72,22 +110,50 @@ public class SanPhamEntityManager {
         StringBuilder jpql = new StringBuilder("select s FROM SanPhamModel s WHERE s.trangThai = true ");
 
         if(sanPham.getTen() != null){
-            jpql.append(" And (s.ten like '%"+sanPham.getTen()+"%' Or s.ma like '%"+sanPham.getTen()+"%')");
+            jpql.append(" And (s.ten like '%"+sanPham.getTen()+"%')");
 //            queryBuider.append("And s.ten like '%"+sanPham.getTen()+"%'");
         }
 
-        if(sanPham.getMauSac()!=null) jpql.append(" And s.mauSac.ma = '"+sanPham.getMauSac()+"'");
-        if(sanPham.getDongSanPham()!=null) {
-            DongSanPhamModel dongSanPhamModel = dongSanPhamRepository.findById(sanPham.getDongSanPham()).orElse(null);
-            if(dongSanPhamModel==null){
-                jpql.append(" And s.dongSanPham.thuongHieu.id = '" + sanPham.getDongSanPham() + "'");
+        if(sanPham.getMauSac()!=null) {
+            if(sanPham.getMauSac().equalsIgnoreCase("khac")){
+                jpql.append(" And s.mauSac is null");
             }else {
-                jpql.append(" And s.dongSanPham.id = '" + sanPham.getDongSanPham() + "'");
+                jpql.append(" And s.mauSac.ma = '" + sanPham.getMauSac() + "'");
             }
         }
-        if(sanPham.getKieuDang()!=null) jpql.append(" And s.kieuDang.id = '" + sanPham.getKieuDang()+"'");
-        if(sanPham.getXuatXu()!=null) jpql.append(" And s.xuatXu.id = '" + sanPham.getXuatXu()+"'");
-        if(sanPham.getChatLieu()!=null) jpql.append(" And s.chatLieu.id = '" + sanPham.getChatLieu()+"'");
+        if(sanPham.getDongSanPham()!=null) {
+            if(sanPham.getDongSanPham().equalsIgnoreCase("khac")){
+                jpql.append(" And s.dongSanPham is null");
+            }else{
+                DongSanPhamModel dongSanPhamModel = dongSanPhamRepository.findById(sanPham.getDongSanPham()).orElse(null);
+                if(dongSanPhamModel==null){
+                    jpql.append(" And s.dongSanPham.thuongHieu.id = '" + sanPham.getDongSanPham() + "'");
+                }else {
+                    jpql.append(" And s.dongSanPham.id = '" + sanPham.getDongSanPham() + "'");
+                }
+            }
+        }
+        if(sanPham.getKieuDang()!=null) {
+            if(sanPham.getKieuDang().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.kieuDang is null");
+            }else{
+                jpql.append(" And s.kieuDang.id = '" + sanPham.getKieuDang() + "'");
+            }
+        }
+        if(sanPham.getXuatXu()!=null) {
+            if(sanPham.getXuatXu().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.xuatXu is null");
+            }else{
+                jpql.append(" And s.xuatXu.id = '" + sanPham.getXuatXu() + "'");
+            }
+        }
+        if(sanPham.getChatLieu()!=null) {
+            if(sanPham.getChatLieu().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.chatLieu is null");
+            }else {
+                jpql.append(" And s.chatLieu.id = '" + sanPham.getChatLieu() + "'");
+            }
+        }
         if(sanPham.getGiaBan()!=null) jpql.append(" And s.giaBan >= " + sanPham.getGiaBan());
         if(sanPham.getGiaMax()!=null) jpql.append(" And s.giaBan <= " + sanPham.getGiaMax());
 
@@ -113,4 +179,33 @@ public class SanPhamEntityManager {
                 .skip(pageable.getOffset()).limit(limit).map(m -> new SanPhamDtoResponse(m)).collect(Collectors.toList())
                 ,pageable,listContent.size());
     }
+
+    public List<SanPhamBanChayDto> getSanPhamBanChay(){
+        return entityManager.createQuery("""
+                                 SELECT s.sanPham.ma AS sanPham, SUM(cd.soLuong) AS soLuong
+                                 FROM ChiTietSanPhamModel s JOIN ChiTietDonHangModel cd ON s.id = cd.chiTietSanPham.id
+                                 GROUP BY s.sanPham.ma
+                                 order by soLuong DESC 
+                            """, Tuple.class)
+                            .getResultList()
+                            .stream()
+                            .limit(5)
+                            .map(r -> new SanPhamBanChayDto(
+                                    new SanPhamDtoResponse(sanPhamRepository.findById(r.get("sanPham").toString()).get()),
+                                    ((Number) r.get("soLuong")).longValue()
+                            )).collect(Collectors.toList());
+    }
+    public List<SanPhamDtoResponse> getSanPhamTon(){
+        return entityManager.createQuery("""
+                                 SELECT s 
+                                 FROM SanPhamModel s 
+                                 order by s.ngayTao , s.soLuong DESC
+                            """, Tuple.class)
+                .getResultList()
+                .stream()
+                .limit(5)
+                .map(r -> new SanPhamDtoResponse((SanPhamModel) r.get(0))
+                ).collect(Collectors.toList());
+    }
+
 }

@@ -37,7 +37,7 @@ public class SanPhamRestController {
     @PostMapping("filter")
     public ResponseEntity<Page<SanPhamDtoResponse>> filter(@RequestBody SanPhamDtoFilter sanPhamDtoFilter,
                                                            @RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
-                                                           @RequestParam(value = "limit", defaultValue = "5") Integer limit) {
+                                                           @RequestParam(value = "limit", defaultValue = "8") Integer limit) {
         return ResponseEntity.ok(sanPhamService.filterInUser(sanPhamDtoFilter,pageNumber,limit));
     }
 
@@ -47,6 +47,21 @@ public class SanPhamRestController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(sanPhamService.findByMa(ma));
+    }
+
+    @GetMapping("ban-chay")
+    public ResponseEntity<?> getBanChay(@RequestParam(defaultValue = "4")Integer limit){
+        return ResponseEntity.ok(sanPhamService.getBanChay(limit));
+    }
+
+    @GetMapping("khuyen-mai")
+    public ResponseEntity<?> getKhuyenMai(@RequestParam(defaultValue = "4")Integer limit){
+        return ResponseEntity.ok(sanPhamService.getKhuyenMai(limit));
+    }
+
+    @GetMapping("san-pham-moi")
+    public ResponseEntity<?> getSanPhamMoi(@RequestParam(defaultValue = "4")Integer limit){
+        return ResponseEntity.ok(sanPhamService.getSanPhamMoi(limit));
     }
 
 }

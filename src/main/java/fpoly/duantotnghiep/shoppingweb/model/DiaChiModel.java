@@ -26,22 +26,22 @@ public class DiaChiModel {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "thanhphoName")
+    @Column(name = "thanhphoname")
     private String thanhphoName;
 
-    @Column(name = "thanhphoCode")
+    @Column(name = "thanhphocode")
     private Integer thanhPhoCode;
 
-    @Column(name = "quanhuyenName")
+    @Column(name = "quanhuyenname")
     private String quanHuyenName;
 
-    @Column(name = "quanhuyenCode")
+    @Column(name = "quanhuyencode")
     private Integer quanHuyenCode;
 
-    @Column(name = "xaphuongName")
+    @Column(name = "xaphuongname")
     private String xaPhuongName;
 
-    @Column(name = "xaphuongCode")
+    @Column(name = "xaphuongcode")
     private String xaPhuongCode;
 
     @Column(name = "diachichitiet")

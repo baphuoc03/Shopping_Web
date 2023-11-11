@@ -44,6 +44,15 @@ public class CheckoutController {
         return ResponseEntity.ok(voucherService.voucherEligible());
     }
 
+    @GetMapping("get-khach-hang-thanh-toan")
+    public ResponseEntity<KhachHangDtoResponse> getKhachHangThanhToan(Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.ok(new KhachHangDtoResponse());
+        }
+        String userName = authentication.getName();
+        return ResponseEntity.ok(khachHangService.findById(userName));
+    }
+
     @PostMapping("/check-out/disable-voucher")
     public ResponseEntity<List<VoucherReponse>> disabledVoucher(@RequestBody Map<String, Double> request) {
         Double giaTri = Double.parseDouble(request.get("tienHang").toString());

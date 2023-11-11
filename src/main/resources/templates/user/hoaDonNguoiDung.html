@@ -9,9 +9,9 @@
 <body>
 <div layout:fragment="contentUser">
     <div class="page-content" ng-app="donhang-app" ng-controller="donhang-ctrl">
-        <div class="container">
+        <div class="container-fulid" style="background-color:#f9f9fa;" >
             <!-- Tab01 -->
-            <div class="tab01">
+            <div class="tab01 container">
                 <!-- Nav tabs -->
                 <nav class="navbar navbar-expand-sm bg-light justify-content-center" style="height: 80px;">
                     <ul class="navbar-nav">
@@ -34,7 +34,7 @@
                 </nav>
 
                 <!-- Tab panes -->
-                <div class="tab-content" style="background-color:#f9f9fa;">
+                <div class="tab-content" >
                     <div class="row">
                         <div class="input-group m-l-30 m-r-30 m-t-20 m-b-20">
                             <input type="search" class="form-control m-r-10 rounded" placeholder="Search"
@@ -49,24 +49,23 @@
                         <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
                             <div class="row"
                                  style="height: 500px; display: flex; justify-content: center; align-items: center;">
-                                <img style="height: 100px; width: 100px"
+                                <img style="height: 300px; width: 300px"
                                      src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">
-                                <h4>Chưa có đơn hàng</h4>
+                                <h4 style="text-align: center">Chưa có đơn hàng</h4>
                             </div>
                         </div>
                         <div class="row"></div>
                         <div class="m-l-10 m-r-10 m-b-10" style="background-color: white;"
-                             ng-repeat="d in donHangChuaXacNhanKh" ng-if="donHangChuaXacNhanKh.length >0">
-                            <div class="row m-t-10 m-r-10 m-l-10">
-                                <div class="col-6 m-t-10">
-                                    <h5>{{d.ma}}</h5>
+                             ng-repeat="d in donHangChuaXacNhanKh" ng-if="donHangChuaXacNhanKh.length >0" >
+                            <div class="row m-t-10 m-r-3 m-l-3" style="background-color: #717fe0; height: 50px">
+                                <div class="col-6 m-t-17">
+                                    <h5 style="color: white">{{d.ma}}</h5>
                                 </div>
                                 <div class="col-6 m-t-3">
-                                    <h5 class="flex-r m-t-10" style="color: red;">Chờ xác nhận</h5>
+                                    <h5 class="flex-r m-t-10" style="color: white;">Chờ xác nhận</h5>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="row m-r-10 m-l-10" ng-repeat="ct in d.chiTietDonHang">
+                            <div class="row m-r-10 m-l-10 m-t-10" ng-repeat="ct in d.chiTietDonHang">
                                 <div class="col-1">
                                     <img src="/image/loadImage/product/{{ct.anh}}" style="width: 100px; height: 100px;"
                                          alt="chờ xác nhận">
@@ -90,12 +89,12 @@
                             </div>
                             <div class="row flex-r mr-3 m-t-10 m-b-15">
                                 <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
-                                    <button ng-click="findByMaDonHangUser(d.ma)" type="button"
-                                            class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#huyModal">
-                                        Hủy
+                                    <button type="button" class="btn btn-secondary ml-2 m-b-10 btn-danger"
+                                       ng-click="findByMaDonHangUser(d.ma)"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#huyModal">Hủy
                                     </button>
-                                    <a href="/chi-tiet-don-hang/{{d.ma}}" type="button" class="btn btn-secondary ml-2 m-b-10"
+                                    <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button" class="btn btn-secondary ml-2 m-b-10"
                                        ng-click="findByMaDonHangUser(d.ma)">Xem chi tiết đơn hàng
                                     </a>
                                 </div>
@@ -108,20 +107,20 @@
                         <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
                             <div class="row"
                                  style="height: 500px; display: flex; justify-content: center; align-items: center;">
-                                <img style="height: 100px; width: 100px"
+                                <img style="height: 300px; width: 300px"
                                      src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">
-                                <h4>Chưa có đơn hàng</h4>
+                                 <h4 style="text-align: center">Chưa có đơn hàng</h4>
                             </div>
                         </div>
                         <div class="row"></div>
                         <div class="m-l-10 m-r-10 m-b-10" style="background-color: white;"
                              ng-repeat="d in donHangChuaXacNhanKh" ng-if="donHangChuaXacNhanKh.length >0">
-                            <div class="row m-t-10 m-r-10 m-l-10">
+                            <div class="row m-t-10 m-r-3 m-l-3" style="background-color: #717fe0; height: 50px">
                                 <div class="col-6 m-t-10">
-                                    <h5>{{d.ma}}</h5>
+                                    <h5 style="color: white;">{{d.ma}}</h5>
                                 </div>
                                 <div class="col-6 m-t-3">
-                                    <h5 class="flex-r m-t-10" style="color: red;">Đã xác nhận</h5>
+                                    <h5 class="flex-r m-t-10" style="color: white;">Đã xác nhận</h5>
                                 </div>
                             </div>
                             <hr>
@@ -158,24 +157,24 @@
                     </div>
                     <!-- Đang giao -->
                     <div class="tab-pane" id="dangGiao" role="tabpanel">
-
                         <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
                             <div class="row"
                                  style="height: 500px; display: flex; justify-content: center; align-items: center;">
-                                <img style="height: 100px; width: 100px"
+                                <img style="height: 300px; width: 300px"
                                      src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">
-                                <h4>Chưa có đơn hàng</h4>
+                                 <h4 style="text-align: center">Chưa có đơn hàng</h4>
+
                             </div>
                         </div>
                         <div class="row"></div>
                         <div class="m-l-10 m-r-10 m-b-10" style="background-color: white;"
                              ng-repeat="d in donHangChuaXacNhanKh" ng-if="donHangChuaXacNhanKh.length >0">
-                            <div class="row m-t-10 m-r-10 m-l-10">
+                            <div class="row m-t-10 m-r-3 m-l-3" style="background-color: #717fe0; height: 50px">
                                 <div class="col-6 m-t-10">
-                                    <h5>{{d.ma}}</h5>
+                                    <h5 class="flex-r m-t-10" style="color: white;">{{d.ma}}</h5>
                                 </div>
                                 <div class="col-6 m-t-3">
-                                    <h5 class="flex-r m-t-10" style="color: red;">Đang giao</h5>
+                                    <h5 class="flex-r m-t-10" style="color: white;">Đang giao</h5>
                                 </div>
                             </div>
                             <hr>
@@ -215,20 +214,21 @@
                         <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
                             <div class="row"
                                  style="height: 500px; display: flex; justify-content: center; align-items: center;">
-                                <img style="height: 100px; width: 100px"
+                                <img style="height: 300px; width: 300px"
                                      src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">
-                                <h4>Chưa có đơn hàng</h4>
+                                 <h4 style="text-align: center">Chưa có đơn hàng</h4>
+
                             </div>
                         </div>
                         <div class="row"></div>
                         <div class="m-l-10 m-r-10 m-b-10" style="background-color: white;"
                              ng-repeat="d in donHangChuaXacNhanKh" ng-if="donHangChuaXacNhanKh.length >0">
-                            <div class="row m-t-10 m-r-10 m-l-10">
+                            <div class="row m-t-10 m-r-3 m-l-3" style="background-color: #717fe0; height: 50px">
                                 <div class="col-6 m-t-10">
-                                    <h5>{{d.ma}}</h5>
+                                    <h5 style="color: white;">{{d.ma}}</h5>
                                 </div>
                                 <div class="col-6 m-t-3">
-                                    <h5 class="flex-r m-t-10" style="color: red;">Hoàn thành</h5>
+                                    <h5 class="flex-r m-t-10" style="color: white;">Hoàn thành</h5>
                                 </div>
                             </div>
                             <hr>
@@ -268,20 +268,21 @@
                         <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
                             <div class="row"
                                  style="height: 500px; display: flex; justify-content: center; align-items: center;">
-                                <img style="height: 100px; width: 100px"
+                                <img style="height: 300px; width: 300px"
                                      src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">
-                                <h4>Chưa có đơn hàng</h4>
+                                 <h4 style="text-align: center">Chưa có đơn hàng</h4>
+
                             </div>
                         </div>
                         <div class="row"></div>
                         <div class="m-l-10 m-r-10 m-b-10" style="background-color: white;"
                              ng-repeat="d in donHangChuaXacNhanKh" ng-if="donHangChuaXacNhanKh.length >0">
-                            <div class="row m-t-10 m-r-10 m-l-10">
+                            <div class="row m-t-10 m-r-3 m-l-3" style="background-color: #717fe0; height: 50px">
                                 <div class="col-6 m-t-10">
-                                    <h5>{{d.ma}}</h5>
+                                    <h5 style="color: white;">{{d.ma}}</h5>
                                 </div>
                                 <div class="col-6 m-t-3">
-                                    <h5 class="flex-r m-t-10" style="color: red;">Hủy</h5>
+                                    <h5 class="flex-r m-t-10" style="color: white;">Hủy</h5>
                                 </div>
                             </div>
                             <hr>

@@ -25,6 +25,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -292,5 +293,20 @@ public class DonHangService implements IDonHangService {
         });
 
         javaMailSender.send(mimeMessage);
+    }
+
+    @Override
+    public Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate) {
+        return donHangResponsitory.getTotalQauntityInOrdersWithDate(firstDate, lastDate) == null ? 0L : donHangResponsitory.getTotalQauntityInOrdersWithDate(firstDate, lastDate);
+    }
+
+    @Override
+    public Long getQuantityOrdersWithDate(Date firstDate, Date lastDate){
+        return donHangResponsitory.getQuantityOrdersWithDate(firstDate,lastDate) == null ? 0L : donHangResponsitory.getQuantityOrdersWithDate(firstDate,lastDate);
+    }
+
+    @Override
+    public BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate){
+        return donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate) == null ? BigDecimal.valueOf(0) : donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate) ;
     }
 }

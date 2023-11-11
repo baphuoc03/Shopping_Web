@@ -1,15 +1,21 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+<body data-layout="horizontal" data-topbar="dark">
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http:/www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/user/home}">
+      layout:decorate="~{/user/trangChu}">
 <head>
 </head>
 <body>
-<div class="main-content" layout:fragment="content">
-    <div class="page-content" ng-app="ctdh-app" ng-controller="ctdh-ctrl">
-        <div class="container-fluid bg-white" >
-            <div class="card-header">
-                <h5 class="modal-title" id="donHangDetailTitle">Thông tin đơn hàng</h5>
+<div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140" >
+    <div class="page-content container-fulid" ng-app="ctdh-app" ng-controller="ctdh-ctrl" style="background-color: #f9f9fa">
+        <div class="container bg-white" >
+            <div class="card-header" style="background-color: #717fe0">
+                <h5 style="color:white;" class="modal-title" id="donHangDetailTitle">Thông tin đơn hàng</h5>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -98,23 +104,16 @@
                         <textarea class="form-control">{{donHang.ghiChu}}</textarea>
                     </div>
                 </div>
+                <div class="row" ng-if="donHang.trangThai==0">
+                    <div class="mb-3 col-12">
+                        <label>Lý do hủy</label>
+                        <textarea class="form-control">{{donHang.lyDoHuy}}</textarea>
+                    </div>
+                </div>
                 <hr>
                 <div style="max-height: 220px;overflow-y: auto;">
                     <table id="datatable"
-                           class="table table-striped table-hover dt-responsive  nowrap w-100">
-                        <thead>
-                        <tr style="position: sticky;
-                                            top: 0;
-                                            z-index: 1;
-                                            background: white;">
-                            <th>Sản phẩm</th>
-                            <th>Số lượng</th>
-                            <th>Đơn giá</th>
-                            <th>Giảm giá</th>
-                            <th>Đơn giá sau giảm</th>
-                            <th>Thành tiền</th>
-                        </tr>
-                        </thead>
+                           class="table table-hover dt-responsive  nowrap w-100">
                         <tbody>
                         <tr ng-repeat="d in chiTietDonHang">
                             <td>
@@ -178,11 +177,6 @@
                     </tbody>
                 </table>
             </div>
-            <!--        <div class="card-footer">-->
-            <!--            <button type="button" class="btn btn-secondary" data-dismiss="modal"-->
-            <!--                    ng-click="closeModal('#donHangDetail')">Đóng-->
-            <!--            </button>-->
-            <!--        </div>-->
         </div>
     </div>
 </div>

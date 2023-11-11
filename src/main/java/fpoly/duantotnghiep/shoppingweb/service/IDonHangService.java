@@ -6,7 +6,10 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
+import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public interface IDonHangService {
@@ -34,4 +37,14 @@ public interface IDonHangService {
     void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException;
 
     DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products);
+
+    @Query("""
+    SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c 
+    WHERE c.donHang.ngayDatHang in (?1,?2)
+""")
+    Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
+
+    Long getQuantityOrdersWithDate(Date firstDate, Date lastDate);
+
+    BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate);
 }

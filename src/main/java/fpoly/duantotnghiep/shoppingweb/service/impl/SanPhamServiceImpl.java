@@ -56,15 +56,15 @@ public class SanPhamServiceImpl implements ISanPhamService {
     }
 
     @Override
-    public Page<SanPhamDtoResponse> paginationInUser(Integer page, Integer limit){
-        Pageable pageable = PageRequest.of(page,limit);
+    public Page<SanPhamDtoResponse> paginationInUser(Integer page, Integer limit) {
+        Pageable pageable = PageRequest.of(page, limit);
         List<SanPhamDtoResponse> pageContent = sanPhamRepository.findAll().stream()
                 .filter(s -> s.getTrangThai() == true)
                 .filter(s -> s.getHienThi() == true)
                 .map(s -> new SanPhamDtoResponse(s))
                 .collect(Collectors.toList());
         Page<SanPhamDtoResponse> pageDto = new PageImpl<>(pageContent.stream().skip(pageable.getOffset()).limit(limit).collect(Collectors.toList())
-                ,pageable,pageContent.size());
+                , pageable, pageContent.size());
         return pageDto;
     }
 
@@ -125,8 +125,8 @@ public class SanPhamServiceImpl implements ISanPhamService {
         SanPhamModel model = entity.mapToModel();
 
         SanPhamModel sanPhamOld = sanPhamRepository.findById(model.getMa()).get();
-            BigDecimal giamGia = sanPhamOld.getGiaBan().subtract(sanPhamOld.getGiaNiemYet());
-            model.setGiaNiemYet(model.getGiaBan().subtract(giamGia));
+        BigDecimal giamGia = sanPhamOld.getGiaBan().subtract(sanPhamOld.getGiaNiemYet());
+        model.setGiaNiemYet(model.getGiaBan().subtract(giamGia));
 
         model.setNgayTao(sanPhamOld.getNgayTao());
 
@@ -179,11 +179,11 @@ public class SanPhamServiceImpl implements ISanPhamService {
     }
 
     @Override
-    public List<SanPhamDtoResponse> getSanPhamTuongTu(String ma){
+    public List<SanPhamDtoResponse> getSanPhamTuongTu(String ma) {
         List<SanPhamDtoResponse> listSP = new ArrayList<>();
         SanPhamModel sanPhamModel = sanPhamRepository.findById(ma).orElse(null);
 
-        if(sanPhamModel==null || sanPhamModel.getDongSanPham() == null) return listSP;
+        if (sanPhamModel == null || sanPhamModel.getDongSanPham() == null) return listSP;
 
         listSP = dongSanPhamRepository.findById(sanPhamModel.getDongSanPham().getId()).get().getDanhSachSanPham()
                 .stream()
@@ -192,6 +192,28 @@ public class SanPhamServiceImpl implements ISanPhamService {
         return listSP;
     }
 
+    @Override
+    public List<SanPhamDtoResponse> getBanChay(Integer limit) {
+        List<SanPhamDtoResponse> lst = sanPhamRepository.getBanChay(PageRequest.of(0, limit))
+                .getContent().stream()
+                .map(s -> new SanPhamDtoResponse(s)).collect(Collectors.toList());
+        return lst;
+    }
 
+    @Override
+    public List<SanPhamDtoResponse> getKhuyenMai(Integer limit) {
+        List<SanPhamDtoResponse> lst = sanPhamRepository.getKhuyenMai(PageRequest.of(0, limit))
+                .getContent().stream()
+                .map(s -> new SanPhamDtoResponse(s)).collect(Collectors.toList());
+        return lst;
+    }
 
+    @Override
+    public List<SanPhamDtoResponse> getSanPhamMoi(Integer limit) {
+        List<SanPhamDtoResponse> lst = sanPhamRepository.getSanPhamMoi(PageRequest.of(0, limit))
+                .getContent().stream()
+                .map(s -> new SanPhamDtoResponse(s)).collect(Collectors.toList());
+
+        return lst;
+    }
 }
