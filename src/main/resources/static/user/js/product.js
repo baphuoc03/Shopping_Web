@@ -213,4 +213,9 @@ app.controller("index-ctrl", function ($scope, $http) {
             alert("Đã thêm vào danh sách yêu thích!")
         })
     }
+    $scope.login = function (){
+        var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
+        document.cookie = "url="+window.location.href+"; expires="+expires;
+        location.href = "/dang-nhap";
+    }
 })

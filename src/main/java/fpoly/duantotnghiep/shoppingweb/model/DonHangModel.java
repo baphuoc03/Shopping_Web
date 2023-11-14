@@ -80,6 +80,19 @@ public class DonHangModel {
     @Column(name = "lydohuy")
     private String lyDoHuy;
 
+    @Column(name = "ngayxacnhan")
+    private Date ngayXacNhan;
+
+    @Column(name = "ngaygiaohang")
+    private Date ngayGiaoHang;
+
+    @Column(name = "ngayhoanthanh")
+    private Date ngayHoanThanh;
+
+    @Column(name = "ngayhuy")
+    private Date ngayHuy;
+
+
     @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
     private List<ChiTietDonHangModel> danhSachSanPham;
 
