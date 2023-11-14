@@ -27,7 +27,7 @@ public class DiaChiModel {
     private String email;
 
     @Column(name = "thanhphoname")
-    private String thanhphoName;
+    private String thanhPhoName;
 
     @Column(name = "thanhphocode")
     private Integer thanhPhoCode;

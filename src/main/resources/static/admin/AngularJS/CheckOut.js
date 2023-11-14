@@ -128,7 +128,6 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             alert("Thanh toán thành công")
             location.href = "/trang-chu"
         }).catch(err => {
-
             console.log(err)
             $scope.errThanhPhoCode = err.data.thanhPhoCode == undefined ? "" : err.data.thanhPhoCode
             $scope.errQuanHuyenCode = err.data.quanHuyenCode == undefined ? "" : err.data.quanHuyenCode
