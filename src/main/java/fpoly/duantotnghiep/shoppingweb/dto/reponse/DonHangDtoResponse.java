@@ -34,6 +34,10 @@ public class DonHangDtoResponse {
     private String lyDoHuy;
     private String voucherCode;
     private String voucherName;
+    private Date ngayXacNhan;
+    private Date ngayGiaoHang;
+    private Date ngayHoanThanh;
+    private Date ngayHuy;
 
 
     public DonHangDtoResponse(DonHangModel model) {
@@ -57,6 +61,12 @@ public class DonHangDtoResponse {
         this.trangThaiDetail = model.trangThaiDetail();
         this.phuongThucThanhToan = model.getPhuongThucThanhToan() == true ? "Thanh toán khi nhận hàng" : "Thanh toán online";
         this.lyDoHuy = model.getLyDoHuy();
+
+        if(model.getNgayXacNhan()!=null) this.ngayXacNhan = model.getNgayXacNhan();
+        if(model.getNgayGiaoHang()!=null) this.ngayGiaoHang = model.getNgayGiaoHang();
+        if(model.getNgayHoanThanh()!=null) this.ngayHoanThanh = model.getNgayHoanThanh();
+        if(model.getNgayHuy()!=null) this.ngayHuy = model.getNgayHuy();
+
         if(model.getVoucher()!=null){
             voucherCode = model.getVoucher().getMa();
             voucherName = model.getVoucher().getTen();

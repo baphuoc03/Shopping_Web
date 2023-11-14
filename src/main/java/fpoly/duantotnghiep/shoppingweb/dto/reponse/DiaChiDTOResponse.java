@@ -26,7 +26,7 @@ public class DiaChiDTOResponse {
         this.id = model.getId();
         this.thanhPhoCode = model.getThanhPhoCode();
         this.xaPhuongCode = model.getXaPhuongCode();
-        this.thanhPhoName = model.getThanhphoName();
+        this.thanhPhoName = model.getThanhPhoName();
         this.quanHuyenName = model.getQuanHuyenName();
         this.quanHuyenCode = model.getQuanHuyenCode();
         this.xaPhuongName = model.getXaPhuongName();

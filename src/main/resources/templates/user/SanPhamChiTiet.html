@@ -12,7 +12,63 @@
 <div style="margin-top: 10px" class="main-content" ng-app="ctsp-app" ng-controller="ctsp-ctrl"
      layout:fragment="contentUser">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css" rel="stylesheet">
-    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+    <!--    cart-->
+    <div class="wrap-header-cart js-panel-cart">
+        <div class="s-full js-hide-cart"></div>
+
+        <div class="header-cart flex-col-l p-l-65 p-r-25">
+            <div class="header-cart-title flex-w flex-sb-m p-b-8">
+				<span class="mtext-103 cl2">
+					Giỏ hàng
+				</span>
+
+                <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+                    <i class="zmdi zmdi-close"></i>
+                </div>
+            </div>
+
+            <div class="header-cart-content flex-w js-pscroll">
+                <ul class="header-cart-wrapitem w-full">
+                    <li class="header-cart-item flex-w flex-t m-b-12" ng-repeat="c in cart">
+                        <div class="header-cart-item-img" ng-click="removeProductIncart(c.id)">
+                            <img src="/image/loadImage/product/{{c.anh}}"
+                                 style="width: 60px; height: 80px" alt="IMG">
+                        </div>
+
+                        <div class="header-cart-item-txt p-t-8">
+                            <a href="/chi-tiet-san-pham/{{c.maSanPham}}"
+                               class="header-cart-item-info">
+                                {{c.tenSanPham}}
+                            </a>
+                            <span class="header-cart-item-info">
+								{{c.soLuong}} x {{c.donGiaSauGiam | currency: "" : 1}}đ
+							</span>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="w-full">
+                    <div class="header-cart-total w-full p-tb-40">
+                        Tổng tiền: {{ getTotal() | currency: "" : 1}}đ
+                    </div>
+
+                    <div class="header-cart-buttons flex-w w-full">
+                        <a href="/gio-hang"
+                           class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+                            Xem giỏ hàng
+                        </a>
+
+                        <a href="/thanh-toan"
+                           class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+                            Thanh toán
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    end cart-->
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg container">
         <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
             Trang chủ
             <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
@@ -48,7 +104,7 @@
                                         >
 
                                         <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                                           href="images/product-detail-01.jpg">
+                                           href="/image/loadImage/product/{{product.anh[0]}}">
                                             <i class="fa fa-expand"></i>
                                         </a>
                                     </div>
@@ -101,10 +157,10 @@
                         <br>
 
                         <span class="mtext-106 cl2">
-                                    <span class="stext-105 cl3" ng-if="product.giaBan > product.giaNiemYet">
-									<del>{{product.giaBan | currency: "" : 1}}đ</del>
+                                    <span class="stext-105 cl3" ng-if="product.giaBan < product.giaNiemYet">
+									<del>{{product.giaNiemYet | currency: "" : 1}}đ</del>
 								    </span>
-                                <b>{{product.giaNiemYet | currency: "" : 1}}đ</b>
+                                <b>{{product.giaBan | currency: "" : 1}}đ</b>
 						</span>
 
                         <p class="m-t-10">
@@ -118,24 +174,14 @@
                             Dòng sản phẩm: {{product.dongSanPham}}
                         </p>
                         <!--Size  -->
-<!--<<<<<<< HEAD-->
+                        <!--<<<<<<< HEAD-->
                         <div class="p-t-3">
                             <div class="row p-b-10">
-                                <div class="col-12 size-203 d-flex justify-content-between respon6 mb-3 mt-3" >
+                                <div class="col-12 size-203 d-flex justify-content-between respon6 mb-3 mt-3">
                                     Kích thước
-
-                                    <i style="float: right;padding-right: 25px;text-decoration: underline;font-size: 14px;cursor: pointer"
+                                    <i style="float: right;padding-right: 25px;text-decoration: underline;font-size: 14px;cursor: pointer; color: blue"
                                        data-toggle="modal" data-target="#huongDanChonSize">
                                         Hướng dẫn chọn size</i>
-<!--=======-->
-<!--                        <div class="">-->
-<!--                            <hr>-->
-<!--                            <div class="row p-b-10 m-t-10">-->
-<!--                                <div class="col-12 size-203 flex-col-l flex-c-m respon6">-->
-<!--                                    <p class="mtext-104 cl3 js-name-detail">-->
-<!--                                        Size-->
-<!--                                    </p>-->
-<!--&gt;>>>>>> tuandv-->
                                 </div>
 
                                 <div class=" col-12 size-204 p-b-10 respon6-next">
@@ -144,7 +190,8 @@
                                             <div class="btn-group" id="sizes-zone" role="group"
                                                  aria-label="Basic radio toggle button group"></div>
                                         </form>
-                                        <div class="col-12 size-203 flex-col-l flex-c-m respon6 mt-1" style="padding: 0px" >
+                                        <div class="col-12 size-203 flex-col-l flex-c-m respon6 mt-1"
+                                             style="padding: 0px">
                                             <i>{{soLuong}}</i>
                                         </div>
                                     </div>
@@ -382,7 +429,8 @@
                            style="width: 100%;" ng-change="showLength()">
                     <h5 style="font-size: 17px">Size phù hợp là: {{size}}</h5>
                     <hr>
-                    <img src="/image/loadImage/user/lengthFoot.jpg " style="width: 70%; height: 150px; margin-left: 15%;"
+                    <img src="/image/loadImage/user/lengthFoot.jpg "
+                         style="width: 70%; height: 150px; margin-left: 15%;"
                          class="text-center"/>
                     <p class="text-center font-italic">Hướng dẫn đo chiều dài bàn chân</p>
                 </div>

@@ -22,31 +22,31 @@ app.controller("index-ctrl", function ($scope, $http) {
         max: 10000000,
         step: 100000,
         values: [0, 10000000],
-        slide: function( event, ui ) {
-            let min = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(ui.values[ 0 ] )
-            let max = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(ui.values[ 1 ] )
+        slide: function (event, ui) {
+            let min = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(ui.values[0])
+            let max = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(ui.values[1])
             $scope.filterData.giaBan = ui.values[0]
             $scope.filterData.giaMax = ui.values[1]
-            $( "#min-price").html(min);
-            $( "#max-price").html(max);
+            $("#min-price").html(min);
+            $("#max-price").html(max);
         }
     })
-    $scope.resetRange = function (){
-        $( "#min-price").html(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(0));
-        $( "#max-price").html(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(10000000));
+    $scope.resetRange = function () {
+        $("#min-price").html(new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(0));
+        $("#max-price").html(new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(10000000));
         $("#slider-range").slider({
             range: true,
             min: 0,
             max: 10000000,
             step: 100000,
             values: [0, 10000000],
-            slide: function( event, ui ) {
-                let min = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(ui.values[ 0 ] )
-                let max = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(ui.values[ 1 ] )
+            slide: function (event, ui) {
+                let min = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(ui.values[0])
+                let max = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(ui.values[1])
                 $scope.filterData.giaBan = ui.values[0]
                 $scope.filterData.giaMax = ui.values[1]
-                $( "#min-price").html(min);
-                $( "#max-price").html(max);
+                $("#min-price").html(min);
+                $("#max-price").html(max);
             }
         })
     }
@@ -75,36 +75,36 @@ app.controller("index-ctrl", function ($scope, $http) {
     }
 
     $scope.addDSYT = function (id) {
-        let heartButton = document.getElementById(""+ id)
+        let heartButton = document.getElementById("" + id)
         // let className = heartButton.className;
-        let data ={
+        let data = {
             "sanPham": id
         }
         if (heartButton.className == "far fa-heart" || heartButton.className == "far fa-heart ng-scope") {// thêm vào danh sách yêu thích
-            $http.post("/danh-sach-yeu-thich/add",data).then(r => {
+            $http.post("/danh-sach-yeu-thich/add", data).then(r => {
                 heartButton.className = "fas fa-heart"
                 alert("Đã thêm vào danh sách yêu thích!")
                 $scope.getMaSanPhamInDSTY()// gọi lại list $scope.maSpInDSYT
 
             }).catch(e => {
                 heartButton.className = "far fa-heart" //lỗi thì ko đổi giữ nguyên icon
-                if(e.status=="401"){//Bắt lỗi chưa đăng nhập
+                if (e.status == "401") {//Bắt lỗi chưa đăng nhập
                     console.log("aaaa")
                     $('#dangNhap').modal('show') // hiển thị modal
                 }
             })
         } else { // xóa khỏi danh sách yêu thích
-            $http.delete("/danh-sach-yeu-thich/delete/"+id).then(r => {
+            $http.delete("/danh-sach-yeu-thich/delete/" + id).then(r => {
                 heartButton.className = "far fa-heart"
 
-                let index = $scope.maSpInDSYT.findIndex(m => m == id+"");// xóa thì xóa mã sản phẩm ở trong list $scope.maSpInDSYT ko cần gọi lại api
-                $scope.maSpInDSYT.splice(index,1)
+                let index = $scope.maSpInDSYT.findIndex(m => m == id + "");// xóa thì xóa mã sản phẩm ở trong list $scope.maSpInDSYT ko cần gọi lại api
+                $scope.maSpInDSYT.splice(index, 1)
 
                 alert("Đã xóa danh sách yêu thích!")
             }).catch(e => {
                 heartButton.className = "fas fa-heart"//lỗi thì ko đổi giữ nguyên icon
 
-                if(e.status=="401"){//Bắt lỗi chưa đăng nhập
+                if (e.status == "401") {//Bắt lỗi chưa đăng nhập
                     $('#dangNhap').modal('show') // hiển thị modal
                 }
             })
@@ -114,29 +114,29 @@ app.controller("index-ctrl", function ($scope, $http) {
 
 
     ///////////////////////////////////////
-    $scope.getPropertiesInFilter = function (){
-        $http.get("/admin/mau-sac/find-all").then(r =>{
+    $scope.getPropertiesInFilter = function () {
+        $http.get("/admin/mau-sac/find-all").then(r => {
             $scope.mauSac = r.data;
-        }).catch( e => console.log(e))
+        }).catch(e => console.log(e))
 
-        $http.get("/admin/chat-lieu/find-all").then(r =>{
+        $http.get("/admin/chat-lieu/find-all").then(r => {
             $scope.chatLieu = r.data;
-        }).catch( e => console.log(e))
+        }).catch(e => console.log(e))
 
-        $http.get("/admin/thuong-hieu/find-all").then(r =>{
+        $http.get("/admin/thuong-hieu/find-all").then(r => {
             $scope.thuongHieu = r.data;
-        }).catch( e => console.log(e))
+        }).catch(e => console.log(e))
 
-        $http.get("/admin/xuat-xu/find-all").then(r =>{
+        $http.get("/admin/xuat-xu/find-all").then(r => {
             $scope.xuatXu = r.data;
-        }).catch( e => console.log(e))
+        }).catch(e => console.log(e))
 
-        $http.get("/admin/kieu-dang/find-all").then(r =>{
+        $http.get("/admin/kieu-dang/find-all").then(r => {
             $scope.kieuDang = r.data;
-        }).catch( e => console.log(e))
+        }).catch(e => console.log(e))
     }
     $scope.getPropertiesInFilter();
-    $scope.filter = function (filterData){
+    $scope.filter = function (filterData) {
 
 
         $scope.pageNumber = 0
@@ -145,7 +145,7 @@ app.controller("index-ctrl", function ($scope, $http) {
         console.log($scope.filterDto = filterData)
 
         $scope.pageNumbers = []
-        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
+        $http.post("/admin/san-pham/filter", $scope.filterDto).then(r => {
             $scope.title = "Có " + r.data.totalElements + " sản phẩm liên quan"
             $scope.products = r.data.content;
             $scope.totalPage = r.data.totalPages;
@@ -153,7 +153,7 @@ app.controller("index-ctrl", function ($scope, $http) {
             isfilter = true;
         }).catch(e => console.log(e))
     }
-    $scope.search = function (keyWord){
+    $scope.search = function (keyWord) {
         $scope.pageNumber = 0
 
         $scope.filterData = {}
@@ -162,7 +162,7 @@ app.controller("index-ctrl", function ($scope, $http) {
 
         $scope.filterDto.ten = keyWord
         $scope.pageNumbers = []
-        $http.post("/admin/san-pham/filter",$scope.filterDto).then(r => {
+        $http.post("/admin/san-pham/filter", $scope.filterDto).then(r => {
             $scope.title = "Có " + r.data.totalElements + " sản phẩm liên quan"
             $scope.products = r.data.content;
             $scope.totalPage = r.data.totalPages;
@@ -170,7 +170,7 @@ app.controller("index-ctrl", function ($scope, $http) {
             isfilter = true;
         }).catch(e => console.log(e))
     }
-    $scope.clearFilter = function (){
+    $scope.clearFilter = function () {
         $scope.pageNumber = 0
         $scope.pageNumbers = []
 
@@ -187,15 +187,15 @@ app.controller("index-ctrl", function ($scope, $http) {
     }
     ///////////////////////////////////////
     ////////////////////////////////////////
-    $scope.checkSanPhamInDSYT=function (maSP){
+    $scope.checkSanPhamInDSYT = function (maSP) {
         let reult = false;
-        $http.get("/danh-sach-yeu-thich/check/"+maSP).then(r => {
+        $http.get("/danh-sach-yeu-thich/check/" + maSP).then(r => {
             reult = r.data
         }).catch(e => console.log(e))
         return reult
     }
 
-    $scope.getMaSanPhamInDSTY = function (){
+    $scope.getMaSanPhamInDSTY = function () {
         $http.get("/danh-sach-yeu-thich/get-ma-san-pham-in-dsyt").then(r => {
             $scope.maSpInDSYT = r.data
             // document.getElementById("buttonHeart").setAttribute("data-notify", ""+$scope.maSpInDSYT.length)
@@ -206,11 +206,33 @@ app.controller("index-ctrl", function ($scope, $http) {
     $scope.addDSYT1 = function (id) {
         console.log(id)
 
-        let data ={
+        let data = {
             "sanPham": id
         }
-        $http.post("/danh-sach-yeu-thich/add",data).then(r => {
+        $http.post("/danh-sach-yeu-thich/add", data).then(r => {
             alert("Đã thêm vào danh sách yêu thích!")
         })
+    }
+
+    //    cart show
+
+    $http.get("/cart/find-all").then(r => {
+        console.log(r.data)
+        $scope.cart = r.data;
+        console.log("soLuong:")
+    }).catch(e => console.log(e))
+
+    $scope.getTotal = function () {
+        var totalPrice = 0;
+        for (let i = 0; i < $scope.cart.length; i++) {
+            totalPrice += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+        }
+        return totalPrice;
+    }
+
+    $scope.login = function (){
+        var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
+        document.cookie = "url="+window.location.href+"; expires="+expires;
+        location.href = "/dang-nhap";
     }
 })

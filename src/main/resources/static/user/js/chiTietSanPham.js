@@ -4,7 +4,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.productDetails = [];
     $scope.images = [];
     $scope.idCTSP = ""
-    $scope.soLuongAdd=1
+    $scope.soLuongAdd = 1
     $scope.soLuong = ""
     $scope.size = null
     $scope.lengthFoot = 26
@@ -71,24 +71,24 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.addDSYT1 = function (id) {
         console.log(id)
 
-        let data ={
+        let data = {
             "sanPham": id
         }
-        $http.post("/danh-sach-yeu-thich/add",data).then(r => {
+        $http.post("/danh-sach-yeu-thich/add", data).then(r => {
             alert("Đã thêm vào danh sách yêu thích!")
         })
     }
 
-    $scope.checkSanPhamInDSYT=function (maSP){
+    $scope.checkSanPhamInDSYT = function (maSP) {
         let reult = false;
-        $http.get("/danh-sach-yeu-thich/check/"+maSP).then(r => {
+        $http.get("/danh-sach-yeu-thich/check/" + maSP).then(r => {
             reult = r.data
         }).catch(e => console.log(e))
         console.log(reult)
         return reult
     }
 
-    $scope.getMaSanPhamInDSTY = function (){
+    $scope.getMaSanPhamInDSTY = function () {
         $http.get("/danh-sach-yeu-thich/get-ma-san-pham-in-dsyt").then(r => {
             $scope.maSpInDSYT = r.data
             // console.log($scope.maSpInDSYT.length)
@@ -122,22 +122,22 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         }
     }
 
-    $scope.getSoLuong = function (idCTSP){
-        $http.get("/chi-tiet-san-pham/1/"+idCTSP).then(r => {
+    $scope.getSoLuong = function (idCTSP) {
+        $http.get("/chi-tiet-san-pham/1/" + idCTSP).then(r => {
             $scope.soLuong = "Còn lại " + r.data + " sản phẩm"
         }).catch(e => console.log(e))
     }
-    $scope.getSizePhuHop = function (){
+    $scope.getSizePhuHop = function () {
         let sizes = []
-        $http.get("/size/get-by-chieu-dai?chieuDai="+$scope.lengthFoot).then(r => {
+        $http.get("/size/get-by-chieu-dai?chieuDai=" + $scope.lengthFoot).then(r => {
             sizes = r.data
-            if(sizes.length == 0){
+            if (sizes.length == 0) {
                 $scope.size = "Không có kích thước phù hợp"
-            }else{
-                for (let i=0;i<sizes.length;i++){
-                    if(i==0){
+            } else {
+                for (let i = 0; i < sizes.length; i++) {
+                    if (i == 0) {
                         $scope.size = sizes[i].ma + "";
-                    }else{
+                    } else {
                         $scope.size += ", " + sizes[i].ma;
                     }
                 }
@@ -145,4 +145,26 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         }).catch(e => console.log(e))
     }
     $scope.getSizePhuHop()
+
+//    cart show
+    $http.get("/cart/find-all").then(r => {
+        console.log(r.data)
+        $scope.cart = r.data;
+        console.log("soLuong:")
+    }).catch(e => console.log(e))
+
+    $scope.getTotal = function () {
+        var totalPrice = 0;
+        for (let i = 0; i < $scope.cart.length; i++) {
+            totalPrice += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+        }
+        return totalPrice;
+    }
+
+
+    $scope.login = function (){
+        var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
+        document.cookie = "url="+window.location.href+"; expires="+expires;
+        location.href = "/dang-nhap";
+    }
 })
