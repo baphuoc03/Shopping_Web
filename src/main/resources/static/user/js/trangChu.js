@@ -79,4 +79,11 @@ app.controller("ctrl", function ($scope, $http) {
         console.log("soLuong:")
     }).catch(e => console.log(e))
 
+    $scope.login = function (){
+        var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
+        document.cookie = "url="+window.location.href+"; expires="+expires;
+        location.href = "/dang-nhap";
+    }
+
+
 })

@@ -7,14 +7,18 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
 import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
+import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 
@@ -73,8 +77,16 @@ public class DonHangRescontroller {
 
     @PutMapping("")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})
-    public ResponseEntity<?> updateDonHang(@RequestPart("donHang") DonHangDTORequest request,
+    public ResponseEntity<?> updateDonHang(@Valid @RequestPart("donHang") DonHangDTORequest request,
+                                           BindingResult result,
                                            @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products) {
+        if(products.size()<=0){
+            result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn hàng"));
+        }
+
+        if(result.hasErrors()){
+            return ValidateUtil.getErrors(result);
+        }
         if (!donHangService.existsByMa(request.getMa())) {
             return ResponseEntity.notFound().build();
         }

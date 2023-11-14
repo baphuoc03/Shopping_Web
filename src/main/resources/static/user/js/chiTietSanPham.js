@@ -160,4 +160,9 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     }
 
 
+    $scope.login = function (){
+        var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
+        document.cookie = "url="+window.location.href+"; expires="+expires;
+        location.href = "/dang-nhap";
+    }
 })

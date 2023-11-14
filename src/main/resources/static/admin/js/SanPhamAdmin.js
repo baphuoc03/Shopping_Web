@@ -230,6 +230,28 @@ app.controller('ctrl', function ($scope, $http) {
     }
 
 
+    $scope.toastSuccess = function (text) {
+
+        $.toast({
+            heading: 'Thành công',
+            text: text,
+            position: 'top-right',
+            icon: 'success',
+            stack: false
+        })
+    }
+    $scope.toastSuccess("Thành công")
+    $scope.toastError = function (text) {
+
+        $.toast({
+            heading: 'Thành công',
+            text: text,
+            position: 'top-right',
+            icon: 'error',
+            stack: false
+        })
+    }
+
 });
 
 

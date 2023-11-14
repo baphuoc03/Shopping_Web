@@ -4,6 +4,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.chiTietDonHang = []
     $scope.sanPham = [];
     const limit = 10;
+    $scope.er = {}
 
 
     $scope.closeModal = function (id) {
@@ -41,6 +42,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             donGiaSauGiam: item.sanPhamDTO.giaNiemYet,
             idChiTietSanPham: item.id
         })
+        $scope.er.soLuongSP = ""
     }
     $scope.searchSanPham = function () {
         $http.get("/admin/san-pham/1/get-all-ctsp?keyWord=" + $scope.inputProduct).then(r => {
@@ -148,6 +150,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         cityChange(idCity) {
             $http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" + idCity, this.headers).then(res => {
                 this.districts = res.data.data;
+                this.wards.length = 0
             }).catch(err => console.log(err))
             // $scope.chuaXacNhan.detail.quanHuyenCode = this.districts[0].DistrictID +""
         },
@@ -299,9 +302,9 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             let indexDistrict = $scope.giaoHangNhanh.districts.findIndex(d => d.DistrictID == this.detail.quanHuyenCode)
             let indexWard = $scope.giaoHangNhanh.wards.findIndex(w => w.WardCode == this.detail.xaPhuongCode)
 
-            this.detail.thanhPhoName = $scope.giaoHangNhanh.citys[indexCity].ProvinceName;
-            this.detail.quanHuyenName = $scope.giaoHangNhanh.districts[indexDistrict].DistrictName;
-            this.detail.xaPhuongName = $scope.giaoHangNhanh.wards[indexWard].WardName
+            this.detail.thanhPhoName = $scope.giaoHangNhanh.citys[indexCity] == undefined ? "" : $scope.giaoHangNhanh.citys[indexCity].ProvinceName;
+            this.detail.quanHuyenName = $scope.giaoHangNhanh.districts[indexDistrict] == undefined ? "" : $scope.giaoHangNhanh.districts[indexDistrict].DistrictName;
+            this.detail.xaPhuongName = $scope.giaoHangNhanh.wards[indexWard] == undefined ? "" : $scope.giaoHangNhanh.wards[indexWard].WardName == undefined
             let data = {
                 ma: this.detail.ma,
                 nguoiSoHuu: {username: this.detail.nguoiSoHuu},
@@ -346,7 +349,10 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             }).then(r => {
                 let index = this.list.findIndex(d => d.ma == this.detail.ma)
                 this.list[index] = this.detail
-            }).catch(e => console.log(e))
+            }).catch(e => {
+                $scope.er = e.data
+                console.log($scope.er)
+            })
 
         },
         setPageNumbers() {
