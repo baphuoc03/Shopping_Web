@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/trangChu}">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sách Yêu Thích</title>
+</head>
+<body>
+<div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140" ng-app="danh-sach-yeu-thich"
+     ng-controller="danh-sach-yeu-thich-ctrl">
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Ảnh</th>
+                <th scope="col">Tên Sản Phẩm</th>
+                <th scope="col">Giá Bán</th>
+                <th>Chức năng</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="p in items">
+                <td>
+                    <img src="/image/loadImage/product/{{p.sanPhamm.anh[0]}}"
+                         style="width: 100%;height: 273px"
+                         ng-if="p.sanPhamm.anh.length>0">
+                    <img src="/image/loadImage/product/default.png"
+                         style="width: 100%;height: 273px"
+                         ng-if="p.anh.length==0">
+                </td>
+                <td>{{p.sanPhamm.ten}}</td>
+                <td>{{p.sanPhamm.giaBan}}</td>
+                <td><button ng-click="delete(p.sanPhamm.ma)">Xóa</button></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

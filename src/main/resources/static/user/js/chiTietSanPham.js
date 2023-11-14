@@ -42,49 +42,66 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
 
 
     $scope.addDSYT = function (id) {
-        let heartButton = document.getElementById("" + id)
-        console.log(heartButton.className)
+        let heartButton = document.getElementById(""+ id)
         // let className = heartButton.className;
-        let data = {
-            "sanPham": id
-        }
-        if (heartButton.className == "far fa-heart" || heartButton.className == "far fa-heart ng-scope") {// thêm vào danh sách yêu thích
-            $http.post("/danh-sach-yeu-thich/add", data).then(r => {
-                heartButton.className = "fas fa-heart"
-                alert("Đã thêm vào danh sách yêu thích!")
-            })
-        } else { // xóa khỏi danh sách yêu thích
-
-            heartButton.className = "far fa-heart"
-        }
-    }
-    // $scope.getMaSanPhamInDSTY()
-
-    $scope.addDSYT1 = function (id) {
-        console.log(id)
-
         let data ={
             "sanPham": id
         }
-        $http.post("/danh-sach-yeu-thich/add",data).then(r => {
-            alert("Đã thêm vào danh sách yêu thích!")
-        })
+        if (heartButton.className == "far fa-heart" || heartButton.className == "far fa-heart ng-scope") {// thêm vào danh sách yêu thích
+            $http.post("/danh-sach-yeu-thich/add",data).then(r => {
+                heartButton.className = "fas fa-heart"
+                alert("Đã thêm vào danh sách yêu thích!")
+                $scope.getMaSanPhamInDSTY()// gọi lại list $scope.maSpInDSYT
+
+            }).catch(e => {
+                heartButton.className = "far fa-heart" //lỗi thì ko đổi giữ nguyên icon
+                if(e.status=="401"){//Bắt lỗi chưa đăng nhập
+                    console.log("aaaa")
+                    $('#dangNhap').modal('show') // hiển thị modal
+                }
+            })
+        } else { // xóa khỏi danh sách yêu thích
+            $http.delete("/danh-sach-yeu-thich/delete/"+id).then(r => {
+                heartButton.className = "far fa-heart"
+
+                let index = $scope.maSpInDSYT.findIndex(m => m == id+"");// xóa thì xóa mã sản phẩm ở trong list $scope.maSpInDSYT ko cần gọi lại api
+                $scope.maSpInDSYT.splice(index,1)
+
+                alert("Đã xóa danh sách yêu thích!")
+            }).catch(e => {
+                heartButton.className = "fas fa-heart"//lỗi thì ko đổi giữ nguyên icon
+
+                if(e.status=="401"){//Bắt lỗi chưa đăng nhập
+                    $('#dangNhap').modal('show') // hiển thị modal
+                }
+            })
+        }
+
     }
+
+    // $scope.addDSYT1 = function (id) {
+    //     console.log(id)
+    //
+    //     let data ={
+    //         "sanPham": id
+    //     }
+    //     $http.post("/danh-sach-yeu-thich/add",data).then(r => {
+    //         alert("Đã thêm vào danh sách yêu thích!")
+    //     })
+    // }
 
     $scope.checkSanPhamInDSYT=function (maSP){
         let reult = false;
         $http.get("/danh-sach-yeu-thich/check/"+maSP).then(r => {
             reult = r.data
         }).catch(e => console.log(e))
-        console.log(reult)
         return reult
     }
 
     $scope.getMaSanPhamInDSTY = function (){
         $http.get("/danh-sach-yeu-thich/get-ma-san-pham-in-dsyt").then(r => {
             $scope.maSpInDSYT = r.data
-            console.log($scope.maSpInDSYT.length)
-            document.getElementById("buttonHeart").setAttribute("data-notify", ""+$scope.maSpInDSYT.length)
+            // document.getElementById("buttonHeart").setAttribute("data-notify", ""+$scope.maSpInDSYT.length)
         }).catch(e => console.log(e))
     }
     $scope.getMaSanPhamInDSTY()

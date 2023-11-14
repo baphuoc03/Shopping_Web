@@ -12,4 +12,12 @@ app.controller("danh-sach-yeu-thich-ctrl", function($scope, $http){
         })
     }
     $scope.findAll();
+
+    $scope.delete = function (ma){
+        var url = "/danh-sach-yeu-thich/delete" +"/"+ ma;
+        $http.delete(url).then(function (r){
+            alert("Dlete thành công!!!")
+            location.reload();
+        })
+    }
 })
