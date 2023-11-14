@@ -11,11 +11,23 @@
 <head>
 </head>
 <body>
-<div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140" >
-    <div class="page-content container-fulid" ng-app="ctdh-app" ng-controller="ctdh-ctrl" style="background-color: #f9f9fa">
-        <div class="container bg-white" >
-            <div class="card-header" style="background-color: #717fe0">
-                <h5 style="color:white;" class="modal-title" id="donHangDetailTitle">Thông tin đơn hàng</h5>
+<div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140">
+    <div class="page-content container-fulid" ng-app="ctdh-app" ng-controller="ctdh-ctrl"
+         style="background-color: #f9f9fa">
+        <div class="container bg-white">
+            <div class="card-header row" style="background-color: #717fe0">
+                <div class="col-4">
+                    <a href="/lich-su-mua-hang1">
+                        <h6 style="color: white">
+                            Quay lại
+                        </h6>
+                    </a>
+
+                </div>
+                <div class="col-4">
+                    <h6 style="color: white; text-align: center">Thông tin đơn hàng</h6>
+                </div>
+
             </div>
             <div class="card-body">
                 <div class="row">
@@ -134,7 +146,8 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="d-flex justify-content-end">{{d.donGiaSauGiam * d.soLuong | currency: "" : 1}} đ
+                                <div class="d-flex justify-content-end">{{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
+                                    đ
                                 </div>
                             </td>
                         </tr>

@@ -41,4 +41,9 @@ public class HomeController {
     public String licSu1() {
         return "/user/hoaDonChiTietUser";
     }
+
+    @GetMapping("danh-sach-yeu-thich")
+    public String danhSachYeuThich(){
+        return "/user/danhSachYeuThich";
+    }
 }
