@@ -6,8 +6,13 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.idCTSP = ""
     $scope.soLuongAdd = 1
     $scope.soLuong = ""
-    $scope.size = ""
+    $scope.size = null
     $scope.lengthFoot = 26
+    // const idSP = pathName[pathName.length - 1]
+    // $scope.form ={
+    //     sanPham : idSP
+    // };
+    // $scope.sizes = [];
 
     var heartButton = document.getElementById("heart")
     const sizeZone = $("#sizes-zone")
@@ -91,19 +96,15 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         }).catch(e => console.log(e))
     }
     $scope.getMaSanPhamInDSTY()
-
-
     $scope.showImg = function (nameImg) {
         document.getElementById("show-Img").src = "/image/loadImage/product/" + nameImg
     }
     //add to cart
-    $scope.CTSP = null
     $scope.addToCart = function () {
-        let form = document.getElementById("form")
         let idCtsp = form.elements["ctsp"].value
-        if (idCtsp == null) {
-            return;
-        }
+        // if (idCtsp == null) {
+        //     return;
+        // }
         let sl = parseInt(document.getElementById("soLuong").value)
         console.log("sốluong: " + sl)
         if (confirm("Thêm sản phẩm vào giỏ hàng?")) {
@@ -115,7 +116,8 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
                     alert("Success")
                 }
             }).catch(e => {
-                document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
+                document.getElementById("eSize").innerText = e.data.eSize = undefined ? "" : e.data.eSize
+                console.log(e)
             })
         }
     }

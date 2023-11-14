@@ -16,10 +16,17 @@ app.controller("cart-ctrl", function ($scope, $http) {
     })
 
     $scope.updateSl = function (id, soLuong) {
+        if (soLuong <= 0 || soLuong.length > 1 || soLuong.length > 1) {
+            alert("Số lượng phải là số nguyên > 0!!!")
+            return
+        }
+        if (!parseInt(soLuong)) {
+            alert("Số lượng phải là số nguyên > 0!!")
+            return
+        }
         $http.put("/cart/update-sl/" + id + "/" + soLuong).then(r => {
             console.log(r.data)
             $scope.cart = r.data;
-            // $scope.getTotal();
         })
     }
 
