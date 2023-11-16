@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class CheckoutController {
     @Autowired
     IKhachHangService khachHangService;

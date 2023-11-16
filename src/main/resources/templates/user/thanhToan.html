@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Thanh toán</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
 
         .coupon .kanan {
@@ -69,7 +70,7 @@
                 <form class="row g-3">
                     <div class="col-md-6">
                         <input type="text" class="form-control rounded-4" name="boGoc"
-                                ng-model="nguoiNhan"
+                               ng-model="nguoiNhan"
                                placeholder="Người nhận" id="inputEmail4">
                         <p class="form-text text-danger">{{errNguoiNhan}}</p>
 
@@ -409,13 +410,11 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                </div>
             </div>
         </div>
     </div>
-</div>
+    <!--    Xác nhận-->
 
+</div>
 </body>
 </html>

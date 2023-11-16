@@ -5,6 +5,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .voucher-container {
+            position: relative;
+        }
+
+        .voucher-details {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            z-index: 1;
+        }
+
+        .voucher-container:hover .voucher-details {
+            display: block;
+        }
+    </style>
 </head>
 <body>
 <div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140 container-fluid" ng-app="cart-app"
@@ -184,24 +204,27 @@
                         </div>
                     </div>
                     <div class="row flex-w flex-t bor12 p-t-15 p-b-30">
-                        <div class="col-6 m-t-5 " id="voucher-container" ng-repeat="v in vouchers">
-                            <p ng-mouseenter="showDetails = true" ng-mouseleave="showDetails = false"
-                               ng-if="v.loai === 'PHAN TRAM'"
-                               class="voucher-name flex-c-m stext-100 cl0 btn-danger p-lr-15 trans-04 pointer"
-                               style="height: 40px; text-align: center">
-                                Giảm {{v.mucGiam | currency: '' : 0}}%
+                        <div ng-repeat="voucher in vouchers" class="voucher-container col-6 m-t-10" ng-mouseenter="showDetails($index)"
+                             ng-mouseleave="hideDetails()">
+                            <p class="voucher-name flex-c-m stext-100 cl0 btn-danger p-lr-15 trans-04 pointer"
+                               style="color: #fff; height: 40px; text-align: center" ng-if="voucher.loai == 'TIEN'">
+                                Giảm {{voucher.mucGiam}}đ
                             </p>
-                            <p ng-if="v.loai === 'TIEN'"
-                               ng-mouseenter="showDetails = true" ng-mouseleave="showDetails = false"
-                               class="voucher-name flex-c-m stext-100 cl0 btn-danger p-lr-15 trans-04 pointer"
-                               style="height: 40px; text-align: center">
-                                Giảm {{v.mucGiam | currency: '' : 0}}đ
+                            <p class="voucher-name flex-c-m stext-100 cl0 btn-danger p-lr-15 trans-04 pointer"
+                               style="color: #fff; height: 40px; text-align: center" ng-if="voucher.loai == 'PHAN TRAM'">
+                                Giảm {{voucher.mucGiam}}%
                             </p>
-                            <div id="voucher-details" style="height: 50px" ng-if="showDetails">
-                                Voucher {{v.ma}} giảm {{v.mucGiam}} cho đơn hàng {{v.giaTriToiThieu}}
+
+                            <div class="voucher-details" style="width: 200px; height: 100px; background-color: #ccc;"
+                                 ng-if="selectedVoucher === voucher">
+                                <p style="text-align: center;" ng-if="voucher.loai == 'TIEN'">Giảm {{voucher.mucGiam}}đ cho đơn hàng
+                                    trên {{voucher.giaTriToiThieu}}
+                                </p>
+                                <p style="text-align: center;" ng-if="voucher.loai == 'PHAN TRAM'">Giảm {{voucher.mucGiam}}% cho đơn
+                                    hàng trên
+                                    {{voucher.giaTriToiThieu}}, giảm tối thiệu {{voucher.mucGiamToiDa}}</p>
                             </div>
                         </div>
-
                     </div>
 
 
@@ -216,28 +239,6 @@
             </div>
         </div>
     </form>
-
-    <style>
-        #voucher-container {
-            position: relative;
-        }
-
-        #voucher-details {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: #717fe0;
-            border: 1px solid #ccc;
-            padding: 10px;
-            z-index: 1;
-        }
-
-        #voucher-name:hover + #voucher-details,
-        #voucher-details:hover {
-            display: block;
-        }
-    </style>
 </div>
 </body>
 </html>

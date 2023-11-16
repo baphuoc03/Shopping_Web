@@ -46,4 +46,8 @@ public class HomeController {
     public String danhSachYeuThich(){
         return "/user/danhSachYeuThich";
     }
+    @GetMapping("12")
+    public String danhSa(){
+        return "/user/test11";
+    }
 }

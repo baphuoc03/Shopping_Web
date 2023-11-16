@@ -220,7 +220,6 @@ app.controller("index-ctrl", function ($scope, $http) {
         console.log(r.data)
         $scope.cart = r.data;
     }).catch(e => console.log(e))
-s
     $scope.getTotal = function () {
         var totalPrice = 0;
         for (let i = 0; i < $scope.cart.length; i++) {
