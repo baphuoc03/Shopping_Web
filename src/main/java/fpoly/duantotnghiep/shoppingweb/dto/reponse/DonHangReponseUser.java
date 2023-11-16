@@ -33,6 +33,7 @@ public class DonHangReponseUser {
     private String lyDoHuy;
     private String voucherCode;
     private String voucherName;
+    private BigDecimal tongTien;
     private List<ChiTietDonHangDtoResponse> chiTietDonHang;
 
 
@@ -57,6 +58,7 @@ public class DonHangReponseUser {
         this.trangThaiDetail = model.trangThaiDetail();
         this.phuongThucThanhToan = model.getPhuongThucThanhToan() == true ? "Thanh toán khi nhận hàng" : "Thanh toán online";
         this.lyDoHuy = model.getLyDoHuy();
+        this.tongTien = model.getTongTien();
         if (model.getVoucher() != null) {
             voucherCode = model.getVoucher().getMa();
             voucherName = model.getVoucher().getTen();
