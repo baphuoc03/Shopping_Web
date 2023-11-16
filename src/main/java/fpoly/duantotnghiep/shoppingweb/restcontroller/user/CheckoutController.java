@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class CheckoutController {
     @Autowired
     IKhachHangService khachHangService;
@@ -42,6 +43,15 @@ public class CheckoutController {
     @GetMapping("/check-out/voucher")
     public ResponseEntity<List<VoucherReponse>> checkOutVoucher() {
         return ResponseEntity.ok(voucherService.voucherEligible());
+    }
+
+    @GetMapping("get-khach-hang-thanh-toan")
+    public ResponseEntity<KhachHangDtoResponse> getKhachHangThanhToan(Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.ok(new KhachHangDtoResponse());
+        }
+        String userName = authentication.getName();
+        return ResponseEntity.ok(khachHangService.findById(userName));
     }
 
     @PostMapping("/check-out/disable-voucher")

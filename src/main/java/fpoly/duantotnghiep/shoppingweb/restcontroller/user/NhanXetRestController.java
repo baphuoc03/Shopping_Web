@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller("nhanXet-rest-user")
 @RequestMapping("nhan-xet")
-public class NhanXetController {
+public class NhanXetRestController {
     @Autowired
     private INhanXetService nhanXetService;
     @Autowired

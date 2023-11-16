@@ -88,10 +88,10 @@
                                             <h4 class="mt-1 mb-3">{{product.ten}}</h4>
 
                                             <h6 class="text-success text-uppercase"
-                                                ng-if="product.giaBan>product.giaNiemYet">-
-                                                {{product.giaBan - product.giaNiemYet | currency: "" : 1}}đ</h6>
+                                                ng-if="product.giaBan<product.giaNiemYet">-
+                                                {{product.giaNiemYet - product.giaBan | currency: "" : 1}}đ</h6>
                                             <h5 class="mb-4">Giá :
-                                                <span class="text-muted me-2" ng-if="p.giaBan>p.giaNiemYet"><del>{{product.giaBan | currency: "" : 1}}đ</del></span>
+                                                <span class="text-muted me-2" ng-if="product.giaBan<product.giaNiemYet"><del>{{product.giaBan | currency: "" : 1}}đ</del></span>
                                                 <b>{{product.giaNiemYet | currency: "" : 1}}đ</b>
                                             </h5>
                                             <p class="text-muted mb-4">Mô tả</p>

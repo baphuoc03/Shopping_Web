@@ -22,6 +22,7 @@ public interface IDonHangService {
     DonHangDtoResponse checkOut(DonHangDTORequest donHangDTORequest);
 
     DonHangDtoResponse findByMa(String ma);
+    DonHangReponseUser findByMaUser(String ma);
 
     Boolean existsByMa(String ma);
 

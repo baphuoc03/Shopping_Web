@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
 import fpoly.duantotnghiep.shoppingweb.model.DiaChiModel;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,15 +20,18 @@ public class DiaChiDTOResponse {
     private String quanHuyenName;
     private String xaPhuongName;
     private String diaChiChiTiet;
+//    private KhachHangDtoResponse taiKhoan;
 
     public DiaChiDTOResponse(DiaChiModel model) {
         this.id = model.getId();
-        this.thanhPhoCode= model.getThanhPhoCode();
+        this.thanhPhoCode = model.getThanhPhoCode();
         this.xaPhuongCode = model.getXaPhuongCode();
-        this.thanhPhoName = model.getThanhphoName();
+        this.thanhPhoName = model.getThanhPhoName();
         this.quanHuyenName = model.getQuanHuyenName();
+        this.quanHuyenCode = model.getQuanHuyenCode();
         this.xaPhuongName = model.getXaPhuongName();
         this.diaChiChiTiet = model.getDiaChiChiTiet();
+//        this.taiKhoan = new KhachHangDtoResponse(model.getTaiKhoan());
     }
 
 }

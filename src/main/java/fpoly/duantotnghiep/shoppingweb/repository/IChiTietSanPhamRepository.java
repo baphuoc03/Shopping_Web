@@ -50,4 +50,5 @@ public interface IChiTietSanPhamRepository extends JpaRepository<ChiTietSanPhamM
     WHERE c.donHang.ngayDatHang in (?1,?2)
 """)
     Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
+
 }

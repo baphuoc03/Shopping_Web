@@ -82,6 +82,11 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
+    public DonHangReponseUser findByMaUser(String ma) {
+        return new DonHangReponseUser((donHangResponsitory.findById(ma).orElse(new DonHangModel())));
+    }
+
+    @Override
     public Boolean existsByMa(String ma) {
         return donHangResponsitory.existsById(ma);
     }
@@ -102,8 +107,20 @@ public class DonHangService implements IDonHangService {
         } else if (trangThai == 1) {
             subject = "Xác nhận đơn hàng!";
             title = "Xác nhận hàng thành công";
-            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận. Cảm ơn bạn đã mua hàng. Đơn hàng sẽ đến tay bạn trong vài ngày tới";
+            model.setNgayXacNhan(new Date());
+            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận. Cảm ơn bạn đã mua hàng. Đơn hàng đang được đóng gói và sẽ đến tay bạn trong vài ngày tới";
+        }else if (trangThai == 3) {
+            subject = "Chuyển giao đơn hàng!";
+            title = "Đơn hàng đang được giao";
+            model.setNgayGiaoHang(new Date());
+            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được giao. Cảm ơn bạn đã mua hàng. Đơn hàng đang được giao và sẽ đến tay bạn trong vài ngày tới";
+        }else if (trangThai == 4) {
+            subject = "Hoàn thành đơn hàng!";
+            title = "Đơn hàng đã giao thành công";
+            model.setNgayHoanThanh(new Date());
+            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn được giao thành công. Cảm ơn bạn đã mua hàng.";
         }
+
 
         List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(maDonHang);
         BigDecimal tongTien = BigDecimal.valueOf(0);
@@ -137,6 +154,7 @@ public class DonHangService implements IDonHangService {
             DonHangModel model = donHangResponsitory.findById(ma).get();
             model.setLyDoHuy(lyDo);
             model.setTrangThai(0);
+            model.setNgayHuy(new Date());
 
             String subject = "Hủy đơn hàng!";
             String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã hủy. Cảm ơn bạn đã ghé qua cửa hàng";

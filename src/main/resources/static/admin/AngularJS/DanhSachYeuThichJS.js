@@ -2,6 +2,7 @@ var app = angular.module("danh-sach-yeu-thich",[])
 app.controller("danh-sach-yeu-thich-ctrl", function($scope, $http){
     $scope.form = {}
     $scope.items = []
+    $scope.productDetails = [];
 
     $scope.findAll = function () {
         $http.get("/danh-sach-yeu-thich/find-all").then(resp => {
@@ -20,4 +21,14 @@ app.controller("danh-sach-yeu-thich-ctrl", function($scope, $http){
             location.reload();
         })
     }
+
+    $scope.getDetail =function (maSP){
+        var productDetails = []
+        $http.get("/chi-tiet-san-pham/" + maSP + "/get-all").then(r => {
+            productDetails = r.data;
+        }).catch(e => console.log(e))
+        console.log(productDetails)
+        return productDetails
+    }
+
 })
