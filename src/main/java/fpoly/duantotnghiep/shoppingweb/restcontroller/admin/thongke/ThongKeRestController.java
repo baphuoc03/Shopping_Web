@@ -42,10 +42,11 @@ public class ThongKeRestController {
         firstDate.setHours(00); firstDate.setMinutes(00); firstDate.setSeconds(00);
 
 
-        Map<String,String> result = new HashMap<>();
+        Map<String,Object> result = new HashMap<>();
         result.put("quantityProducts",donHangService.getTotalQauntityInOrdersWithDate(firstDate, lastDate).toString());
         result.put("quantityOrders",donHangService.getQuantityOrdersWithDate(firstDate,lastDate).toString());
         result.put("totalPrice",donHangService.getTotalPriceInOrdersWithDate(firstDate,lastDate).toString());
+        result.put("sanPhamDaBan",thongKeEntityManager.getSanPhamDaBanWithDate(firstDate,lastDate));
 
         return ResponseEntity.ok(result);
     }
@@ -80,6 +81,19 @@ public class ThongKeRestController {
     @GetMapping("san-pham-ton")
     public ResponseEntity<?> getSanPhamTon(){
         return ResponseEntity.ok(sanPhamEntityManager.getSanPhamTon());
+    }
+
+
+    @GetMapping("san-pham-da-ban")
+    public ResponseEntity<?> getSanPhamDaBanWithDate(@RequestParam(required = false)
+                                                              @DateTimeFormat(pattern = "yyyy-MM-dd")Date firstDate,
+                                                              @RequestParam(required = false)
+                                                              @DateTimeFormat(pattern = "yyyy-MM-dd")Date lastDate){
+
+        lastDate.setHours(23); lastDate.setMinutes(59); lastDate.setSeconds(59);
+        firstDate.setHours(00); firstDate.setMinutes(00); firstDate.setSeconds(00);
+
+        return ResponseEntity.ok(thongKeEntityManager.getSanPhamDaBanWithDate(firstDate,lastDate));
     }
 
 

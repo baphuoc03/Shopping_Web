@@ -1,13 +1,18 @@
 package fpoly.duantotnghiep.shoppingweb.entitymanager;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.thongKe.ChiTietSanPhamThongKeDto;
+import fpoly.duantotnghiep.shoppingweb.dto.thongKe.SanPhamBanChayDto;
+import fpoly.duantotnghiep.shoppingweb.dto.thongKe.SanPhamDaBanDto;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
+import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.math.BigDecimal;
@@ -18,6 +23,10 @@ import java.util.stream.Collectors;
 public class ThongKeEntityManager {
     @Autowired
     private EntityManager entityManager;
+    @Autowired
+    private ISanPhamRepository sanPhamRepository;
+
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public Map<Integer,Long> getQuantityOrderByYear(String year){
 
@@ -94,28 +103,82 @@ public class ThongKeEntityManager {
 
     }
 
-    public Long getTotalQauntityInOrdersWithDate(String firstDate, String lastDate){
+    public Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate){
         StringBuilder jpql = new StringBuilder("SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c ");
         if (firstDate!=null && lastDate!=null){
-            jpql.append("WHERE c.donHang.ngayDatHang between "+firstDate+" and "+lastDate);
+            jpql.append("WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate");
         }
         System.out.println(jpql);
-        System.out.println((Long) entityManager.createQuery(jpql.toString()).getSingleResult());
-        return (Long) entityManager.createQuery(jpql.toString()).getSingleResult();
+        System.out.println((Long) entityManager.createQuery(jpql.toString()).setParameter("firstDate",firstDate)
+                .setParameter("lastDate",lastDate).getSingleResult());
+        return (Long) entityManager.createQuery(jpql.toString())
+                .setParameter("firstDate",firstDate)
+                .setParameter("lastDate",lastDate)
+                .getSingleResult();
     }
     public Long getQuantityOrdersWithDate(String firstDate, String lastDate){
         StringBuilder jpql = new StringBuilder("SELECT COUNT(d) FROM DonHangModel d  ");
         if (firstDate!=null && lastDate!=null){
-            jpql.append("WHERE d.ngayDatHang between "+firstDate+" and "+lastDate);
+            jpql.append("WHERE d.ngayDatHang between '"+firstDate+"' and '"+lastDate+"'");
         }
         return (Long) entityManager.createQuery(jpql.toString()).getSingleResult();
     }
     public BigDecimal getTotalPriceInOrdersWithDate(String firstDate, String lastDate){
         StringBuilder jpql = new StringBuilder("SELECT SUM(c.donGiaSauGiam*c.soLuong) - SUM(c.donHang.tienGiam) FROM ChiTietDonHangModel c  ");
         if (firstDate!=null && lastDate!=null){
-            jpql.append("WHERE c.donHang.ngayDatHang between "+firstDate+" and "+lastDate);
+            jpql.append("WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate");
         }
-        return (BigDecimal) entityManager.createQuery(jpql.toString()).getSingleResult();
+        return (BigDecimal) entityManager
+                .createQuery(jpql.toString())
+                .setParameter("firstDate",firstDate)
+                .setParameter("lastDate",lastDate)
+                .getSingleResult();
     }
 
+
+
+    public List<ChiTietSanPhamThongKeDto> getChiTietSanPhamDaBanWithDate(String maSanPham,Date firstDate, Date lastDate){
+
+        return entityManager.createQuery("""
+                                SELECT s AS sanPham, SUM(cd.soLuong) AS soLuong
+                                 FROM ChiTietSanPhamModel s LEFT JOIN ChiTietDonHangModel cd ON s.id = cd.chiTietSanPham.id
+                                 WHERE s.sanPham.ma = :maSanPham AND cd.donHang.ngayDatHang BETWEEN :firstDate And :lastDate
+                                 GROUP BY s
+                                 ORDER BY soLuong DESC, s.size.ma ASC 
+                                 """,Tuple.class)
+                .setParameter("maSanPham",maSanPham)
+                .setParameter("firstDate",firstDate)
+                .setParameter("lastDate",lastDate)
+                .getResultList().stream()
+                .map(r -> new ChiTietSanPhamThongKeDto(
+                        (ChiTietSanPhamModel) r.get("sanPham"),
+                        (Long)  r.get("soLuong")
+                ))
+                .collect(Collectors.toList());
+
+
+    }
+    public List<SanPhamDaBanDto> getSanPhamDaBanWithDate(Date firstDate, Date lastDate){
+        List<SanPhamBanChayDto> listSanPham = entityManager.createQuery("""
+                                                                 SELECT s.sanPham.ma AS sanPham, SUM(cd.soLuong) AS soLuong
+                                                                 FROM ChiTietSanPhamModel s JOIN ChiTietDonHangModel cd ON s.id = cd.chiTietSanPham.id
+                                                                 WHERE cd.donHang.ngayDatHang BETWEEN :firstDate And :lastDate
+                                                                 GROUP BY s.sanPham.ma
+                                                                 order by soLuong DESC 
+                                                            """, Tuple.class)
+                                                .setParameter("firstDate",firstDate)
+                                                .setParameter("lastDate",lastDate)
+                                                .getResultList()
+                                                .stream()
+                                                .limit(5)
+                                                .map(r -> new SanPhamBanChayDto(
+                                                        new SanPhamDtoResponse(sanPhamRepository.findById(r.get("sanPham").toString()).get()),
+                                                        ((Number) r.get("soLuong")).longValue()
+                                                )).collect(Collectors.toList());
+
+        List<SanPhamDaBanDto> result = listSanPham.stream()
+                                        .map(s -> new SanPhamDaBanDto(s,getChiTietSanPhamDaBanWithDate(s.getSanPham().getMa(),firstDate,lastDate)))
+                                        .collect(Collectors.toList());
+        return result;
+    }
 }
