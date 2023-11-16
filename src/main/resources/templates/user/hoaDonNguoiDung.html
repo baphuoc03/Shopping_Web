@@ -139,7 +139,7 @@
                                     <h5 class="flex-r m-t-10" style="color: white;">Chờ xác nhận</h5>
                                 </div>
                             </div>
-                            <div class="row m-r-10 m-l-10 m-t-10" ng-repeat="ct in d.chiTietDonHang">
+                            <div class="row m-r-10 m-l-10 m-t-10" ng-repeat="ct in d.chiTietDon">
                                 <div class="col-1">
                                     <img src="/image/loadImage/product/{{ct.anh}}" style="width: 100px; height: 100px;"
                                          alt="chờ xác nhận">
@@ -408,116 +408,115 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!--        modal huy-->
-    <div class="modal" id="huyModal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Lý do hủy đơn</label>
-                        <textarea class="form-control" ng-model="lyDoHuy" id="exampleFormControlTextarea1"
-                                  rows="3"></textarea>
-                    </div>
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" ng-click="huyDonUser(maDonHang)"
-                            data-bs-dismiss="modal">Xác nhận
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- Đánh giá-->
-    <div class="modal" id="danhGia">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body" style="text-align: center;">
-                    <h4>Đánh giá</h4>
-                    <p>Bạn cảm thấy sản phẩm này thế nào?
-                        <h9 style="color: red;">*</h9>
-                    </p>
-                    <div class="row">
-
-                        <div class="col-md-12">
-
-                            <div class="stars">
-
-                                <form action="">
-
-                                    <input class="star star-5" id="star-5" type="radio" name="star"/>
-
-                                    <label class="star star-5" for="star-5"></label>
-
-                                    <input class="star star-4" id="star-4" type="radio" name="star"/>
-
-                                    <label class="star star-4" for="star-4"></label>
-
-                                    <input class="star star-3" id="star-3" type="radio" name="star"/>
-
-                                    <label class="star star-3" for="star-3"></label>
-
-                                    <input class="star star-2" id="star-2" type="radio" name="star"/>
-
-                                    <label class="star star-2" for="star-2"></label>
-
-                                    <input class="star star-1" id="star-1" type="radio" name="star"/>
-
-                                    <label class="star star-1" for="star-1"></label>
-                                </form>
-
-                            </div>
+        <!--        modal huy-->
+        <div class="modal" id="huyModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Lý do hủy đơn</label>
+                            <textarea class="form-control" ng-model="lyDoHuy" id="exampleFormControlTextarea1"
+                                      rows="3"></textarea>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Chia sẻ cảm nhận của bạn về sản
-                            phẩm
-                            <h9 style="color: red;">*</h9>
-                        </label>
-                        <textarea class="form-control" id="exampleFormControlTextarea11" rows="3"></textarea>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" ng-click="huyDonUser(maDonHang)"
+                                data-bs-dismiss="modal">Xác nhận
+                        </button>
                     </div>
-                    <button type="button" class="btn btn-secondary">Gửi đánh giá</button>
+
+                </div>
+            </div>
+        </div>
+        <!-- Đánh giá-->
+        <div class="modal" id="danhGia">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body" style="text-align: center;">
+                        <h4>Đánh giá</h4>
+                        <p>Bạn cảm thấy sản phẩm này thế nào?
+                            <h9 style="color: red;">*</h9>
+                        </p>
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <div class="stars">
+
+                                    <form action="">
+
+                                        <input class="star star-5" id="star-5" type="radio" name="star"/>
+
+                                        <label class="star star-5" for="star-5"></label>
+
+                                        <input class="star star-4" id="star-4" type="radio" name="star"/>
+
+                                        <label class="star star-4" for="star-4"></label>
+
+                                        <input class="star star-3" id="star-3" type="radio" name="star"/>
+
+                                        <label class="star star-3" for="star-3"></label>
+
+                                        <input class="star star-2" id="star-2" type="radio" name="star"/>
+
+                                        <label class="star star-2" for="star-2"></label>
+
+                                        <input class="star star-1" id="star-1" type="radio" name="star"/>
+
+                                        <label class="star star-1" for="star-1"></label>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Chia sẻ cảm nhận của bạn về sản
+                                phẩm
+                                <h9 style="color: red;">*</h9>
+                            </label>
+                            <textarea class="form-control" id="exampleFormControlTextarea11" rows="3"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-secondary">Gửi đánh giá</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script>
-    function switchTab(tabId) {
-        // Hide all tab content
-        var tabContent = document.querySelectorAll(".tab-pane");
-        tabContent.forEach(function (tab) {
-            tab.classList.remove("show", "active");
-        });
+<!--<script>-->
+<!--    function switchTab(tabId) {-->
+<!--        // Hide all tab content-->
+<!--        var tabContent = document.querySelectorAll(".tab-pane");-->
+<!--        tabContent.forEach(function (tab) {-->
+<!--            tab.classList.remove("show", "active");-->
+<!--        });-->
 
-        // Show the selected tab content
-        var selectedTab = document.getElementById(tabId);
-        selectedTab.classList.add("show", "active");
-    }
+<!--        // Show the selected tab content-->
+<!--        var selectedTab = document.getElementById(tabId);-->
+<!--        selectedTab.classList.add("show", "active");-->
+<!--    }-->
 
-    switchTab('choXacNhan')
-
-    // Add click event listeners to each tab link
-    var tabLinks = document.querySelectorAll(".nav-link");
-    tabLinks.forEach(function (link) {
-        link.addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent the default link behavior
-            var tabId = link.getAttribute("href").substring(1);
-            switchTab(tabId);
-        });
-    });
-</script>
+<!--    switchTab('choXacNhan')-->
+<!--    // Add click event listeners to each tab link-->
+<!--    var tabLinks = document.querySelectorAll(".nav-link");-->
+<!--    tabLinks.forEach(function (link) {-->
+<!--        link.addEventListener("click", function (e) {-->
+<!--            e.preventDefault(); // Prevent the default link behavior-->
+<!--            var tabId = link.getAttribute("href").substring(1);-->
+<!--            switchTab(tabId);-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 </div>
 </body>
 </html>
