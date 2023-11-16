@@ -114,6 +114,8 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
                     alert("Phân loại của sản phẩm không đủ số lượng!!!")
                 } else {
                     alert("Success")
+
+                    $scope.cartShow()
                 }
             }).catch(e => {
                 document.getElementById("eSize").innerText = e.data.eSize = undefined ? "" : e.data.eSize
@@ -147,24 +149,25 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.getSizePhuHop()
 
 //    cart show
-    $http.get("/cart/find-all").then(r => {
-        console.log(r.data)
-        $scope.cart = r.data;
-        console.log("soLuong:")
-    }).catch(e => console.log(e))
-
-    $scope.getTotal = function () {
-        var totalPrice = 0;
-        for (let i = 0; i < $scope.cart.length; i++) {
-            totalPrice += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+    $scope.cartShow = function () {
+        $http.get("/cart/find-all").then(r => {
+            console.log(r.data)
+            $scope.cart = r.data;
+            console.log("soLuong:")
+        }).catch(e => console.log(e))
+        $scope.getTotal = function () {
+            var totalPrice = 0;
+            for (let i = 0; i < $scope.cart.length; i++) {
+                totalPrice += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+            }
+            return totalPrice;
         }
-        return totalPrice;
     }
 
 
-    $scope.login = function (){
-        var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
-        document.cookie = "url="+window.location.href+"; expires="+expires;
+    $scope.login = function () {
+        var expires = (new Date(Date.now() + 60 * 1000)).toUTCString();
+        document.cookie = "url=" + window.location.href + "; expires=" + expires;
         location.href = "/dang-nhap";
     }
 

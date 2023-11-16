@@ -117,16 +117,21 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             diaChiChiTiet: $scope.diaChiChiTiet
         }
         if ($scope.isSelectSaveDC) {
-            console.log("Chọn")
             $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
-                alert("Thêm Thành Công dc")
             })
         } else {
             console.log("Không chọn")
         }
         $http.post("http://localhost:8080/check-out", donHang).then(r => {
-            alert("Thanh toán thành công")
-            location.href = "/trang-chu"
+            Swal.fire({
+                title: 'Đặt hàng thành công',
+                text: 'Cảm ơn bạn đã mua hàng tại hydra sneaker!!!',
+                icon: 'success',
+                timer: 1700,
+                showConfirmButton: false
+            }).then(() => {
+                window.location.href = "http://localhost:8080/gio-hang";
+            });
         }).catch(err => {
             console.log(err)
             $scope.errThanhPhoCode = err.data.thanhPhoCode == undefined ? "" : err.data.thanhPhoCode
@@ -207,9 +212,9 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         $scope.email = khachByThanhToan.email;
     })
 
-    $scope.login = function (){
-        var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
-        document.cookie = "url="+window.location.href+"; expires="+expires;
+    $scope.login = function () {
+        var expires = (new Date(Date.now() + 60 * 1000)).toUTCString();
+        document.cookie = "url=" + window.location.href + "; expires=" + expires;
         location.href = "/dang-nhap";
     }
 });

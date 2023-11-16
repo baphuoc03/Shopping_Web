@@ -219,9 +219,7 @@ app.controller("index-ctrl", function ($scope, $http) {
     $http.get("/cart/find-all").then(r => {
         console.log(r.data)
         $scope.cart = r.data;
-        console.log("soLuong:")
     }).catch(e => console.log(e))
-
     $scope.getTotal = function () {
         var totalPrice = 0;
         for (let i = 0; i < $scope.cart.length; i++) {
@@ -230,9 +228,10 @@ app.controller("index-ctrl", function ($scope, $http) {
         return totalPrice;
     }
 
-    $scope.login = function (){
-        var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
-        document.cookie = "url="+window.location.href+"; expires="+expires;
+    //dang nhap
+    $scope.login = function () {
+        var expires = (new Date(Date.now() + 60 * 1000)).toUTCString();
+        document.cookie = "url=" + window.location.href + "; expires=" + expires;
         location.href = "/dang-nhap";
     }
 })

@@ -85,5 +85,4 @@ app.controller("ctrl", function ($scope, $http) {
         location.href = "/dang-nhap";
     }
 
-
 })
