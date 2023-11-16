@@ -179,7 +179,6 @@ app.controller("ctrl", function ($scope, $http){
     }
     $scope.getChartMonth()
 
-
     $(function() {
 
         var start = moment();
@@ -233,5 +232,14 @@ app.controller("ctrl", function ($scope, $http){
         cb(start, end);
 
     });
+
+    $scope.setDropDown = function(id){
+        var content = document.getElementById(id);
+        if(content.style.display=='none'){
+            content.style.display='flow-root'
+        }else{
+            content.style.display='none'
+        }
+    }
 
 })

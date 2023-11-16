@@ -167,4 +167,83 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         document.cookie = "url="+window.location.href+"; expires="+expires;
         location.href = "/dang-nhap";
     }
+
+    $scope.nhanXet = {
+        pageNumber : 0,
+        totalElement : 0,
+        pageNumbers : [],
+        contents : [],
+        totalPages : 0,
+        avg : 0,
+        rating : [1,2,3,4,5],
+        rates : {},
+        rate : "",
+        haveContent : false,
+        init(){
+            this.rate = "";
+            this.pageNumber = 0
+            $http.get("/nhan-xet?maSP="+maSP.substring(1)).then(r => {
+                this.contents = r.data.content;
+                this.totalElement = r.data.totalElements;
+                this.totalPages = r.data.totalPages;
+                this.setPageNumbers()
+                if(this.totalElement > 0) this.haveContent = true
+
+                this.setdefaultButtons('all')
+            })
+            $http.get("/nhan-xet/avg-by-sanpham?maSP="+maSP.substring(1)).then(r => {
+                this.avg = r.data.toFixed(1)
+            })
+            $http.get("/nhan-xet/avg-rates-by-sanpham?maSP="+maSP.substring(1)).then(r => {
+                this.rates = r.data
+            })
+
+        },setPageNumbers() {
+            let numbers = [];
+            for (let i = 0; i < this.totalPages; i++) {
+                numbers.push(i)
+            }
+            this.pageNumbers = numbers;
+        },get(page){
+            this.pageNumber = page
+            $http.get("/nhan-xet?maSP="+maSP.substring(1)+"&page="+page+"&rate="+this.rate).then(r => {
+                this.contents = r.data.content;
+            })
+        },filterByRate(rate){
+            this.pageNumber = 0
+            this.rate = rate;
+            $http.get("/nhan-xet?maSP="+maSP.substring(1)+"&rate="+rate).then(r => {
+                this.contents = r.data.content;
+                this.totalElement = r.data.totalElements;
+                this.totalPages = r.data.totalPages;
+                this.setPageNumbers()
+                this.setdefaultButtons('rate'+rate)
+            })
+
+        },setdefaultButtons(id){
+            var button = document.getElementsByName("filterNhanXet")
+
+            button.forEach(b => {
+                if(b.id == id){
+                    b.style.backgroundColor = "lightgray"
+                    b.style.color = "white"
+                }else {
+                    b.style.backgroundColor = "white"
+                    b.style.color = "black"
+                }
+            })
+        }
+    }
+    $scope.nhanXet.init()
+
+
+    const starRatingWrapper = document.querySelector('.star-rating');
+    const frontStars =  document.querySelector('.front-stars');
+
+    const rate = e => {
+        const percentage = e.target.value + '%';
+
+        starRatingWrapper.title = percentage;
+        frontStars.style.width = percentage;
+    };
 })

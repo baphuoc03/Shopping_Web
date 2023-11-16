@@ -240,7 +240,7 @@ app.controller('ctrl', function ($scope, $http) {
             stack: false
         })
     }
-    $scope.toastSuccess("Thành công")
+    // $scope.toastSuccess("Thành công")
     $scope.toastError = function (text) {
 
         $.toast({
