@@ -316,23 +316,7 @@
                                     <div class="p-b-10 p-t-10 m-lr-15-sm d-flex align-items-center bg-light" ng-if="nhanXet.haveContent">
                                         <div class="col-lg-3 text-center">
                                             <span style="font-size: 30px;color: orange">{{nhanXet.avg}}/5</span>
-                                            <div class="star-rating" title="70%">
-                                                <div class="back-stars">
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <div class="front-stars" style="width: 60%">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <div id="rater-step"></div>
                                         </div>
                                         <div class="col-lg-9 ">
                                             <button class="btn"  ng-click="nhanXet.init()" name="filterNhanXet" id="all"

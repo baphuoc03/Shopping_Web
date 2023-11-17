@@ -116,7 +116,14 @@
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1">
                                     <span class="text-muted mb-3 d-block text-truncate" style="font-weight: bold;font-size: 15px">Doanh thu</span>
-                                    <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center" id="doanhThu"
+                                         data-bs-toggle="tooltip" data-bs-html="true"
+                                         data-bs-custom-class="custom-tooltip"
+                                         title="<div>
+                                                <b >Tổng tiền: {{tongQuat.doanhThuDetail.tongTien | currency: '' : 1}} đ</b>
+                                                <br>
+                                                <b>Tiền giảm: {{tongQuat.doanhThuDetail.tienGiam | currency: '' : 1}} đ</b>
+                                                </div>">
                                         <span class="col-4 d-flex align-items-start" style="font-weight: bold;font-size:40px">
                                             <i class="mdi mdi-cash-multiple"></i>
                                         </span>
