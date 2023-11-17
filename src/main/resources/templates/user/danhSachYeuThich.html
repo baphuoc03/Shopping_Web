@@ -68,7 +68,7 @@
 
     </div>
     <form class="bg0 p-t-10 p-b-85">
-        <div class="container" ng-repeat="i in items">
+        <div class="container p-t-10 p-b-10" ng-repeat="i in items">
             <div class="row">
                 <div class="col-2">
                     <img src="/image/loadImage/product/{{i.sanPhamm.anh[0]}}" style="width: 100px; height: 150px; border-radius: 20%;"
@@ -85,24 +85,24 @@
                     </div>
                     <div class="row m-t-20">
                         <div class="col-2">
-                            <input type="email" class="form-control" id="exampleInputEmail1" style="width: 90px;"
+                            <input type="number" class="form-control" id="soLuongInPut{{i.sanPhamm.ma}}" style=""
                                    placeholder="Số lượng" aria-describedby="emailHelp">
                         </div>
-                        <div class="col-3">
-                            <select class="form-select" style="border: none; width: 80px;"
+                        <div class="col-3 d-flex">
+                            <select class="form-select" id="{{i.sanPhamm.ma}}" style=" width: 80px;" onchange="angular.element(this).scope().getSoLuong(this.value,this.id)"
                                     aria-label="Default select example">
-                                <option ng-repeat="s in getDetail(i.sanPhamm.ma)" selected>Size</option>
-                                <option value="1"></option>
-
+                                <option  selected>Size</option>
+                                <option ng-repeat="s in i.chietTietSanPham" value="{{s.id}}">{{s.size}}</option>
                             </select>
+                            <span style="display: flex;align-items: center;padding-left: 10px" id="soLuong{{i.sanPhamm.ma}}"></span>
                         </div>
                     </div>
                     <div class="row m-t-20">
                         <div class="col-6">
                             <h5>Giá : {{i.sanPhamm.giaBan}}</h5>
                         </div>
-                        <div class="col-6">
-                            <button type="button" class="btn btn-secondary">Thêm vào giỏ hàng</button>
+                        <div class="col-6 d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary" ng-click="addToCart(i.sanPhamm.ma,'soLuongInPut'+i.sanPhamm.ma)">Thêm vào giỏ hàng</button>
                         </div>
                     </div>
                 </div>
@@ -110,6 +110,7 @@
                     <button ng-click="delete(i.sanPhamm.ma)" class="btn-close" aria-label="Close"></button>
                 </div>
             </div>
+            <hr>
         </div>
     </form>
 </div>
