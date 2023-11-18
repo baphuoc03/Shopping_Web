@@ -51,7 +51,6 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
 
     $scope.addDSYT = function (id) {
         let heartButton = document.getElementById("" + id)
-        console.log(heartButton.className)
         // let className = heartButton.className;
         let data = {
             "sanPham": id
@@ -60,12 +59,34 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
             $http.post("/danh-sach-yeu-thich/add", data).then(r => {
                 heartButton.className = "fas fa-heart"
                 alert("Đã thêm vào danh sách yêu thích!")
+                $scope.getMaSanPhamInDSTY()// gọi lại list $scope.maSpInDSYT
+
+            }).catch(e => {
+                heartButton.className = "far fa-heart" //lỗi thì ko đổi giữ nguyên icon
+                if (e.status == "401") {//Bắt lỗi chưa đăng nhập
+                    console.log("aaaa")
+                    $('#dangNhap').modal('show') // hiển thị modal
+                }
             })
         } else { // xóa khỏi danh sách yêu thích
+            $http.delete("/danh-sach-yeu-thich/delete/" + id).then(r => {
+                heartButton.className = "far fa-heart"
 
-            heartButton.className = "far fa-heart"
+                let index = $scope.maSpInDSYT.findIndex(m => m == id + "");// xóa thì xóa mã sản phẩm ở trong list $scope.maSpInDSYT ko cần gọi lại api
+                $scope.maSpInDSYT.splice(index, 1)
+
+                alert("Đã xóa danh sách yêu thích!")
+            }).catch(e => {
+                heartButton.className = "fas fa-heart"//lỗi thì ko đổi giữ nguyên icon
+
+                if (e.status == "401") {//Bắt lỗi chưa đăng nhập
+                    $('#dangNhap').modal('show') // hiển thị modal
+                }
+            })
         }
+
     }
+
     // $scope.getMaSanPhamInDSTY()
 
     $scope.addDSYT1 = function (id) {
