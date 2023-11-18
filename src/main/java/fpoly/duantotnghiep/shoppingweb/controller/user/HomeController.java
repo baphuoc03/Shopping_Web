@@ -22,6 +22,10 @@ public class HomeController {
     public String sanPham() {
         return "/user/sanPhamUser";
     }
+    @GetMapping("san-pham/get-all/thuong-hieu/{id}")
+    public String sanPhamByThuongHieu() {
+        return "/user/filterProduct";
+    }
 
     @GetMapping("thanh-toan")
     public String thanhToan() {
