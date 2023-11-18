@@ -143,7 +143,7 @@
                                     <h5 class="flex-r m-t-10" style="color: white;">Chờ xác nhận</h5>
                                 </div>
                             </div>
-                            <div class="row m-r-10 m-l-10 m-t-10" ng-repeat="ct in d.chiTietDonHang">
+                            <div class="row m-r-10 m-l-10 m-t-10" ng-repeat="ct in d.chiTietDon">
                                 <div class="col-1">
                                     <img src="/image/loadImage/product/{{ct.anh}}" style="width: 100px; height: 100px;"
                                          alt="chờ xác nhận">
@@ -444,7 +444,6 @@
                     <div class="modal-header">
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-
                     <!-- Modal body -->
                     <div class="modal-body" style="text-align: center;">
                         <h4>Đánh giá</h4>
@@ -494,7 +493,6 @@
                                 phẩm
                                 <h9 style="color: red;">*</h9>
                             </label>
-
                             <input type="text" class="form-control" placeholder="Tiêu đề" ng-model="danhGia.tieuDe" ng-focus="erDanhGia.tieuDe=''">
                             <i class="er " >{{erDanhGia.tieuDe == undefined ? "" : erDanhGia.tieuDe}}</i>
                             <textarea class="form-control mt-3" ng-model="danhGia.noiDung" ng-focus="erDanhGia.noiDung=''"
@@ -509,31 +507,30 @@
     </div>
 
 </div>
-<script>
-    function switchTab(tabId) {
-        // Hide all tab content
-        var tabContent = document.querySelectorAll(".tab-pane");
-        tabContent.forEach(function (tab) {
-            tab.classList.remove("show", "active");
-        });
+<!--<script>-->
+<!--    function switchTab(tabId) {-->
+<!--        // Hide all tab content-->
+<!--        var tabContent = document.querySelectorAll(".tab-pane");-->
+<!--        tabContent.forEach(function (tab) {-->
+<!--            tab.classList.remove("show", "active");-->
+<!--        });-->
 
-        // Show the selected tab content
-        var selectedTab = document.getElementById(tabId);
-        selectedTab.classList.add("show", "active");
-    }
+<!--        // Show the selected tab content-->
+<!--        var selectedTab = document.getElementById(tabId);-->
+<!--        selectedTab.classList.add("show", "active");-->
+<!--    }-->
 
-    switchTab('choXacNhan')
-
-    // Add click event listeners to each tab link
-    var tabLinks = document.querySelectorAll(".nav-link");
-    tabLinks.forEach(function (link) {
-        link.addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent the default link behavior
-            var tabId = link.getAttribute("href").substring(1);
-            switchTab(tabId);
-        });
-    });
-</script>
+<!--    switchTab('choXacNhan')-->
+<!--    // Add click event listeners to each tab link-->
+<!--    var tabLinks = document.querySelectorAll(".nav-link");-->
+<!--    tabLinks.forEach(function (link) {-->
+<!--        link.addEventListener("click", function (e) {-->
+<!--            e.preventDefault(); // Prevent the default link behavior-->
+<!--            var tabId = link.getAttribute("href").substring(1);-->
+<!--            switchTab(tabId);-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 </div>
 </body>
 </html>
