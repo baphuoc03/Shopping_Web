@@ -765,6 +765,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         }
     }
     //don hang usser
+    $scope.donHangChuaXacNhanKh = []
     $scope.donHangUser = function (trangThai) {
         $http.get("/don-hang/get-by-trangThai-khachHang?trangThai=" + trangThai).then(resp => {
             $scope.donHangChuaXacNhanKh = resp.data;
@@ -793,9 +794,24 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.huyDonUser = function (ma) {
         lyDoHuy = $scope.lyDoHuy
         $http.put("/don-hang/huy-don-hang-user?ma=" + ma, lyDoHuy).then(function (res) {
-            location.reload()
-            alert("Update success");
+            // location.reload()
+            let index = $scope.donHangChuaXacNhanKh.findIndex(d => d.ma == ma)
+            $scope.donHangChuaXacNhanKh.splice(index,1);
+            alert("Hủy thành công");
         })
+    }
+    $scope.setMaSanPham = function (maSP){
+        console.log(maSP);
+        $scope.danhGia.sanPham = maSP
+    }
+    $scope.danhGia = {}
+    $scope.erDanhGia = {}
+    $scope.addDanhGia = function (){
+        $http.post("/nhan-xet",$scope.danhGia).then(r => {
+            $('#danhGia').modal('hide')
+            alert("Thành công")
+            $scope.danhGia = {}
+        }).catch(e => $scope.erDanhGia = e.data)
     }
 
 })
