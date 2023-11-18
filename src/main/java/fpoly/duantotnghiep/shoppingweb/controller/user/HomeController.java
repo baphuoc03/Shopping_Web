@@ -44,7 +44,7 @@ public class HomeController {
 
     @GetMapping("danh-sach-yeu-thich")
     public String danhSachYeuThich() {
-        return "/user/danhSachYeuThich";
+        return "/user/dsyt";
     }
 
     @GetMapping("1")
