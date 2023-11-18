@@ -63,7 +63,20 @@
                         <!-- card body -->
                         <div class="card-body">
                             <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
+                                <div class="flex-grow-1"
+                                     data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="bottom"
+                                     data-bs-custom-class="custom-tooltip"
+                                     title="<div>
+                                                <b>Chưa xác nhận: {{tongQuat.ordersDetail.TH2 == null ? 0 : tongQuat.ordersDetail.TH2}}</b>
+                                                <br>
+                                                <b>Đã xác nhận: {{tongQuat.ordersDetail.TH1 == null ? 0 : tongQuat.ordersDetail.TH1}}</b>
+                                                <br>
+                                                <b>Đang giao: {{tongQuat.ordersDetail.TH3 == null ? 0 : tongQuat.ordersDetail.TH3}}</b>
+                                                <br>
+                                                <b>Đã giao: {{tongQuat.ordersDetail.TH4 == null ? 0 : tongQuat.ordersDetail.TH4}}</b>
+                                                <br>
+                                                <b>Hủy: {{tongQuat.ordersDetail.TH0 == null ? 0 : tongQuat.ordersDetail.TH0}}</b>
+                                                </div>">
                                     <span class="text-muted mb-3 d-block text-truncate" style="font-weight: bold;font-size: 15px">Số lượng đơn hàng</span>
                                     <div class="d-flex align-items-center">
                                         <span class="col-4" style="font-weight: bold;font-size: 40px">
