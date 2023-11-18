@@ -244,9 +244,5 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         }
     }
     $scope.nhanXet.init()
-
-
-
-
 })
 
