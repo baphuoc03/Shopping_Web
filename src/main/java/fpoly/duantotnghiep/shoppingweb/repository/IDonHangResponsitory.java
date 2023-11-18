@@ -29,7 +29,7 @@ public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String
 
     @Query("""
                 SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c 
-                WHERE c.donHang.ngayDatHang between ?1 and ?2
+                WHERE c.donHang.ngayDatHang between ?1 and ?2 AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
             """)
     Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
 
@@ -41,7 +41,7 @@ public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String
 
     @Query("""
                 SELECT SUM(c.donGiaSauGiam*c.soLuong) - SUM(c.donHang.tienGiam) FROM ChiTietDonHangModel c 
-                WHERE c.donHang.ngayDatHang between ?1 and ?2
+                WHERE c.donHang.ngayDatHang between ?1 and ?2 AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
             """)
     BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate);
 
