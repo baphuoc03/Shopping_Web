@@ -71,6 +71,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             $scope.chuaXacNhan.huyDH();
         } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.huyDH();
+        }else if ($scope.trangThaiDonHang == 5) {
+            $scope.chuaThanhToan.huyDH();
         }
 
     }
@@ -94,6 +96,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             $scope.chuaXacNhan.checkButton()
         } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.checkButton();
+        }else if ($scope.trangThaiDonHang == 5) {
+            $scope.chuaThanhToan.checkButton();
         }
     }
     $scope.checkAllChecked = function (name, idCheckBoxSetAll) {
@@ -111,6 +115,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             $scope.chuaXacNhan.checkButton()
         } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.checkButton();
+        }else if ($scope.trangThaiDonHang == 5) {
+            $scope.chuaThanhToan.checkButton();
         }
     }
 
@@ -425,6 +431,147 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     }
     $scope.chuaXacNhan.init(0)
 
+    $scope.chuaThanhToan = {
+        list: [],
+        detail: {},
+        totalElement: 0,
+        totalPage: 0,
+        page: 0,
+        id: [],
+        pages: [],
+        init(pageNumber) {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=5&pageNumber=" + pageNumber).then(r => {
+                this.list = r.data.content;
+                this.totalElement = r.data.totalElements;
+                this.totalPage = r.data.totalPages;
+                this.setPageNumbers()
+            })
+        },
+        getList(pageNumber) {
+            $scope.trangThaiDonHang = 5
+            this.page = pageNumber;
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=5&pageNumber=" + pageNumber).then(r => {
+                this.list = r.data.content;
+                this.totalElement = r.data.totalElements;
+                this.totalPage = r.data.totalPages;
+                this.setPageNumbers()
+            })
+        },
+        xacNhanDH(ma) {
+            if (!confirm("Xác nhận đơn hàng?")) return;
+
+            $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=2").then(r => {
+                if (this.page == this.totalPage - 1) {
+                    if (this.list.length == 1 && this.page > 0) {
+                        this.page--;
+                    }
+                }
+                this.init(this.page)
+                document.getElementById('checkAllChuaTT').checked = false
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        xacNhanDHAll() {
+            if (!confirm("Xác nhận đơn hàng?")) return;
+            let checkBox = document.getElementsByName('checkChuaTT')
+            checkBox.forEach(c => {
+                if (c.checked == true) {
+                    this.id.push(c.value)
+                }
+            })
+
+            $http.put("/admin/don-hang/update-trang-thai?trangThai=2", this.id).then(r => {
+                if (this.page == this.totalPage - 1) {
+                    if (this.list.length == 1 && this.page > 0) {
+                        this.page--;
+                    }
+                }
+                this.init(this.page)
+                this.id = []
+                document.getElementById('checkAllChuaTT').checked = false
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        setIdDonHang(id) {
+            this.id = []
+            this.id.push(id)
+        },
+        setAllIdDonHang() {
+            this.id = []
+            let checkBox = document.getElementsByName('checkChuaTT')
+            checkBox.forEach(c => {
+                if (c.checked == true) {
+                    this.id.push(c.value)
+                }
+            })
+        },
+        huyDH() {
+
+            if ($scope.lyDo == null || $scope.length == 0 || $scope.lyDo == undefined) {
+                $scope.messLyDo = "Không để trống lý do hủy"
+                return
+            } else if ($scope.lyDo.length == 200) {
+                $scope.messLyDo = "Lý do hủy chỉ tối đa 200 ký tự"
+                return;
+            }
+
+            $http.put("/admin/don-hang/huy-don-hang?lyDo=" + $scope.lyDo, this.id).then(r => {
+                if (this.page == this.totalPage - 1) {
+                    if (this.list.length == 1 && this.page > 0) {
+                        this.page--;
+                    }
+                }
+                this.init(this.page)
+                $scope.lyDo = null;
+                $scope.messLyDo = "";
+                this.id = []
+                $('#closeHuy').click()
+                document.getElementById('checkAllChuaTT').checked = false
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        getDetail(ma) {
+            $http.get("/admin/don-hang/" + ma).then(r => {
+                this.detail = r.data;
+                $scope.chuaXacNhan.detail = r.data
+                this.detail.thanhPhoCode = this.detail.thanhPhoCode + ""
+
+                //Lấy quận huyện
+                $scope.giaoHangNhanh.getDistricts(this.detail.thanhPhoCode)//hàm lấy quận huyện truyền vào thành phố
+                this.detail.quanHuyenCode = this.detail.quanHuyenCode + "" // set selected quận huyện
+
+                $scope.giaoHangNhanh.getWards(this.detail.quanHuyenCode)//hàm lấy xã truyền vào quận huyện
+                this.detail.xaPhuongCode = this.detail.xaPhuongCode + "" //set selected xã
+
+                $('#chuaXacNhanDetail').modal('show')
+            }).catch(e => console.log(e))
+
+            $http.get("/admin/chi-tiet-don-hang/" + ma).then(r => {
+                $scope.chiTietDonHang = r.data;
+            }).catch(e => console.log(e))
+        },
+        setPageNumbers() {
+            let numbers = [];
+            for (let i = 0; i < this.totalPage; i++) {
+                numbers.push(i)
+            }
+            this.pages = numbers;
+        },
+        checkButton() {
+            let checkboxs = document.getElementsByName('checkChuaTT')
+            let check = true;
+            checkboxs.forEach(c => {
+                if (c.checked == true) {
+                    check = false;
+                }
+            })
+            document.getElementById("huyAll5").disabled = check;
+            document.getElementById("xacNhanAll5").disabled = check;
+        }
+    }
     $scope.daXacNhan = {
         list: [],
         detail: {},
