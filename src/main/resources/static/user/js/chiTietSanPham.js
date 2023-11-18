@@ -196,6 +196,12 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
             })
             $http.get("/nhan-xet/avg-by-sanpham?maSP="+maSP.substring(1)).then(r => {
                 this.avg = r.data.toFixed(1)
+                raterJs({
+                    rating: Number.parseFloat(this.avg),
+                    starSize: 22, step: .1, element: document.querySelector("#rater-step"), rateCallback: function (e, t) {
+                        this.setRating(e), t()
+                    }
+                });
             })
             $http.get("/nhan-xet/avg-rates-by-sanpham?maSP="+maSP.substring(1)).then(r => {
                 this.rates = r.data
@@ -238,15 +244,5 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         }
     }
     $scope.nhanXet.init()
-
-
-    const starRatingWrapper = document.querySelector('.star-rating');
-    const frontStars =  document.querySelector('.front-stars');
-
-    const rate = e => {
-        const percentage = e.target.value + '%';
-
-        starRatingWrapper.title = percentage;
-        frontStars.style.width = percentage;
-    };
 })
+

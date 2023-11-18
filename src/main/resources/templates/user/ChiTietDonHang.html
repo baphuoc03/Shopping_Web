@@ -134,28 +134,55 @@
                 </div>
             </div>
             <div class="row">
-                <ul class="step-wizard-list">
+                <div class="col-6 m-t-80 m-b-80" ng-if="donHang.trangThai === 0">
+                    <h4 class="m-l-20" style="color: red">Đơn hàng đã hủy</h4>
+                    <span class="m-l-20">{{donHang.ngayHuy | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                </div>
+                <ul class="step-wizard-list" ng-if="donHang.trangThai != 0">
+                    <!--                    Chờ xác nhận-->
                     <li class="step-wizard-item">
                         <span class="progress-count">1</span>
-                        <span class="progress-label">Chờ xác nhận</span>
+                        <span class="progress-label">Đặt hàng</span>
+                        <span class="progress-label">{{donHang.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
-                    <li class="step-wizard-item ">
+                    <!--                    Đã xác nhận-->
+                    <li class="step-wizard-item" ng-if="donHang.trangThai != 2">
                         <span class="progress-count">2</span>
                         <span class="progress-label">Đã xác nhận</span>
+                        <span class="progress-label">{{donHang.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
-                    <li class="step-wizard-item ">
+                    <li class="step-wizard-item current-item" ng-if="donHang.trangThai === 2">
+                        <span class="progress-count">2</span>
+                        <span class="progress-label">Đã xác nhận</span>
+                        <span class="progress-label">{{donHang.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                    </li>
+                    <!--                   Đang giao -->
+                    <li class="step-wizard-item" ng-if="donHang.trangThai != 1">
                         <span class="progress-count">3</span>
                         <span class="progress-label">Đang giao</span>
+                        <span class="progress-label">{{donHang.ngayGiaoHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
-                    <li class="step-wizard-item current-item">
+                    <li class="step-wizard-item  current-item" ng-if="donHang.trangThai === 1">
+                        <span class="progress-count">3</span>
+                        <span class="progress-label">Đang giao</span>
+                        <span class="progress-label">{{donHang.ngayGiaoHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                    </li>
+                    <!--                    Hoàn thành-->
+                    <li class="step-wizard-item" ng-if="donHang.trangThai != 3">
                         <span class="progress-count">4</span>
                         <span class="progress-label">Hoàn thành</span>
+                        <span class="progress-label">{{donHang.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                    </li>
+                    <li class="step-wizard-item current-item" ng-if="donHang.trangThai === 3">
+                        <span class="progress-count">4</span>
+                        <span class="progress-label">Hoàn thành</span>
+                        <span class="progress-label">{{donHang.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
                 </ul>
             </div>
             <div class="DM1xQK"></div>
             <div class="card-body">
-                <h3 class="m-t-20 m-b-20">Thông tin đơn hàng</h3>
+                <h4 class="m-t-20 m-b-20">Thông tin đơn hàng</h4>
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="mb-3">

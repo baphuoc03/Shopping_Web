@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @Data
 public class ChiTietDonHangDtoResponse {
     private String id;
+    private String maSanPham;
     private String sanPham;
     private String anh;
     private float size;
@@ -21,6 +22,7 @@ public class ChiTietDonHangDtoResponse {
     private String idChiTietSanPham;
 
     public ChiTietDonHangDtoResponse(ChiTietDonHangModel model) {
+        this.maSanPham = model.getChiTietSanPham().getSanPham().getMa();
         this.id = model.getId();
         this.sanPham = model.getChiTietSanPham().getSanPham().getTen();
         this.anh = model.getChiTietSanPham().getSanPham().getImages().size()>0 ? model.getChiTietSanPham().getSanPham().getImages().get(0).getTen() : "default.png";

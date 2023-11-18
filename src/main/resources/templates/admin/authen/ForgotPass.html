@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8"/>
-    <title>Login | Hydra Sneaker</title>
+    <title>Quên mật khẩu | Hydra Sneaker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
     <meta content="Themesbrand" name="author"/>
@@ -110,11 +110,12 @@
             $http.post(pathName, $scope.username == undefined ?"  " : $scope.username).then(r=>{
                 // $scope.success = r.data.success
                 // $scope.loading = false;
-                document.cookie = "username="+$scope.username();
+                document.cookie = "username="+$scope.username;
                 console.log($scope.username)
 
                 location.href = "/admin/quen-mat-khau/xac-nhan"
             }).catch(e =>{
+                console.log(e)
                 document.getElementById("erUsername").innerText = e.data.er;
                 $scope.success = "";
                 $scope.loading = false;
