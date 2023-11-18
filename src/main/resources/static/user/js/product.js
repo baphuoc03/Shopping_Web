@@ -215,7 +215,7 @@ app.controller("index-ctrl", function ($scope, $http) {
     }
 
     //    cart show
-
+    $scope.cart = [];
     $http.get("/cart/find-all").then(r => {
         console.log(r.data)
         $scope.cart = r.data;

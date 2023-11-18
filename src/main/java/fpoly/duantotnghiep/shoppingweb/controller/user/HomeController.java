@@ -43,11 +43,17 @@ public class HomeController {
     }
 
     @GetMapping("danh-sach-yeu-thich")
-    public String danhSachYeuThich(){
-        return "/user/danhSachYeuThich";
+    public String danhSachYeuThich() {
+        return "/user/dsyt";
     }
-    @GetMapping("12")
-    public String danhSa(){
-        return "/user/test11";
+
+    @GetMapping("1")
+    public String danhSa() {
+        return "/user/trangChu1";
+    }
+
+    @GetMapping("2")
+    public String danhSa1() {
+        return "/user/sanPhamNguoiDung";
     }
 }

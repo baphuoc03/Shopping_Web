@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.math.BigDecimal;
 import java.util.Map;
@@ -180,5 +181,46 @@ public class ThongKeEntityManager {
                                         .map(s -> new SanPhamDaBanDto(s,getChiTietSanPhamDaBanWithDate(s.getSanPham().getMa(),firstDate,lastDate)))
                                         .collect(Collectors.toList());
         return result;
+    }
+
+    public Map<String,String> getDoanhThuDetailByDate(Date firstDate, Date lastDate){
+        Map<String,String> result = new HashMap<>();
+        BigDecimal tongTien = (BigDecimal) entityManager
+                .createQuery("""
+                                SELECT SUM(c.donGia*c.soLuong) FROM ChiTietDonHangModel c  
+                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate
+                            """)
+                .setParameter("firstDate",firstDate)
+                .setParameter("lastDate",lastDate)
+                .getSingleResult();
+        BigDecimal tienGiam = (BigDecimal) entityManager
+                .createQuery("""
+                                                SELECT SUM((c.donGia-c.donGiaSauGiam)*c.soLuong) + SUM(c.donHang.tienGiam) FROM ChiTietDonHangModel c  
+                                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate
+                                            """)
+                .setParameter("firstDate",firstDate)
+                .setParameter("lastDate",lastDate)
+                .getSingleResult();
+        result.put("tongTien",tongTien == null ? "0" : tongTien+"");
+        result.put("tienGiam",tienGiam == null ? "0" : tienGiam+"");
+        return result;
+    }
+    public Map<String, Long> getDetailOrdersByDate(Date firstDate, Date lastDate){
+        return entityManager.createQuery("""
+                SELECT d.trangThai, COUNT(d)
+                FROM DonHangModel d
+                WHERE d.ngayDatHang between :firstDate AND :lastDate
+                GROUP BY d.trangThai
+            """, Tuple.class)
+                .setParameter("firstDate",firstDate)
+                .setParameter("lastDate",lastDate)
+                .getResultList()
+                .stream()
+                .collect(
+                        Collectors.toMap(
+                                tuple -> "TH" + (((Number) tuple.get(0)).intValue()),
+                                tuple -> ((Number) tuple.get(1)).longValue()
+                        )
+                );
     }
 }

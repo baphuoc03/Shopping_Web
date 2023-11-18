@@ -6,8 +6,12 @@ app.controller("danh-sach-yeu-thich-ctrl", function($scope, $http){
 
     $scope.findAll = function () {
         $http.get("/danh-sach-yeu-thich/find-all").then(resp => {
-            console.log(resp.data)
             $scope.items = resp.data;
+            $scope.items.forEach(item => {
+                $http.get("/chi-tiet-san-pham/" + item.sanPhamm.ma + "/get-all").then(r => {
+                    item.chietTietSanPham = r.data;
+                }).catch(e => console.log(e))
+            })
         }).catch(error =>{
             console.log(error)
         })
@@ -27,8 +31,18 @@ app.controller("danh-sach-yeu-thich-ctrl", function($scope, $http){
         $http.get("/chi-tiet-san-pham/" + maSP + "/get-all").then(r => {
             productDetails = r.data;
         }).catch(e => console.log(e))
-        console.log(productDetails)
         return productDetails
+    }
+    $scope.getSoLuong = function (idCTSP,idSpan) {
+        $http.get("/chi-tiet-san-pham/1/" + idCTSP).then(r => {
+            document.getElementById('soLuong'+idSpan).innerText = "Còn lại " + r.data
+        }).catch(e => console.log(e))
+    }
+
+    $scope.addToCart = function (idSlCTSP, idInputSoLuong){
+        var soLuong = document.getElementById(idInputSoLuong).value
+        var ctsp = document.getElementById(idSlCTSP).value
+        console.log(soLuong,ctsp)
     }
 
 })
