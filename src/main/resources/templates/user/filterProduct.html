@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div layout:fragment="contentUser" class="bg0 p-b-140" ng-app="index-app" ng-controller="index-ctrl">
+<div layout:fragment="contentUser" class="bg0 p-b-140" ng-app="filter-app" ng-controller="filter-ctrl">
     <link rel="stylesheet" th:href="@{/user/css/products.css}">
 
     <!--    cart-->
@@ -73,22 +73,12 @@
             <!--lọc-->
             <div class="flex-w flex-sb-m p-b-52">
                 <div class="flex-w flex-l-m m-t-50 filter-tope-group m-tb-10">
-                    <h3 class="ltext-103 cl5" style="font-family: Arial, Helvetica, sans-serif;">
-                        Sản Phẩm
+                    <h3 class="cl5" style="font-family: Arial, Helvetica, sans-serif;font-size: 40px;font-weight: bold;">
+                        Thương hiệu: {{products[0].thuongHieu}}
                     </h3>
                 </div>
 
                 <div class="flex-w flex-c-m m-t-30">
-                    <div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
-                        <i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
-                        <i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-                        Filter
-                    </div>
-                    <div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
-                        <i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
-                        <i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-                        Search
-                    </div>
                 </div>
 
                 <!-- Search product -->
@@ -105,102 +95,6 @@
                 </div>
 
                 <!-- Filter -->
-                <div class="dis-none panel-filter w-full p-t-10">
-                    <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
-                        <div class="filter-col1 p-r-100 p-b-27">
-                            <div class="mtext-102 cl2 p-b-15">
-                                Xuất xứ
-                                <select class="form-control" ng-model="filterData.xuatXu">
-                                    <option selected>Tất cả</option>
-                                    <option ng-repeat="x in xuatXu" value="{{x.id}}">{{x.ten}}</option>
-                                    <option value="khac">Khác</option>
-                                </select>
-                            </div>
-                            <div class="mtext-102 cl2 p-b-15">
-                                Màu sắc
-                                <select class="form-control" ng-model="filterData.mauSac">
-                                    <option selected>Tất cả</option>
-                                    <option ng-repeat="m in mauSac" value="{{m.ma}}">{{m.ten}}</option>
-                                    <option value="khac">Khác</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="filter-col2 p-r-100 p-b-27">
-                            <div class="mtext-102 cl2 p-b-15">
-                                Dòng sản phẩm
-                                <select class="form-control" ng-model="filterData.dongSanPham">
-                                    <option selected>Tất cả</option>
-                                    <optgroup ng-repeat="t in thuongHieu" label="{{t.ten}}">
-                                        <option value="{{t.id}}">tất cả {{t.ten}}</option>
-                                        <option ng-repeat="d in t.dongSanPhamResponeseList" value="{{d.id}}">{{d.ten}}
-                                        </option>
-                                        <option value="khac">Khác</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-                            <div class="mtext-102 cl2 p-b-15">
-                                Kiểu dáng
-                                <select class="form-control" ng-model="filterData.kieuDang">
-                                    <option selected>Tất cả</option>
-                                    <option ng-repeat="k in kieuDang" value="{{k.id}}">{{k.ten}}</option>
-                                    <option value="khac">Khác</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="filter-col3 p-r-15 p-b-27 col-5" style="">
-                            <div class="p-b-15 d-flex justify-content-center">
-                                <div class="mtext-102 cl2 p-b-15 col-6">
-                                    Chất liệu
-                                    <select class="form-control" ng-model="filterData.chatLieu"
-                                    >
-                                        <option selected>Tất cả</option>
-                                        <option ng-repeat="c in chatLieu" value="{{c.id}}">{{c.ten}}</option>
-                                        <option value="khac">Khác</option>
-                                    </select>
-                                </div>
-                                <div class="mtext-102 cl2 p-b-15 col-6">
-                                    Sắp xếp
-                                    <select class="form-control" ng-model="filterData.sort">
-                                        <option></option>
-                                        <option value="1">Giá bán giảm dần</option>
-                                        <option value="2">Giá bán tăng dần</option>
-                                        <option value="3">Tên a -> z</option>
-                                        <option value="4">Tên z <- a</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="p-b-27">
-                                <div class="mtext-102 cl2 p-b-15">
-                                    Khoảng tiền
-                                    <div class="price-slider">
-                                        <div id="slider-range"
-                                             class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                             style="border-radius: 50px">
-                                            <div class="ui-slider-range ui-corner-all ui-widget-header"
-                                                 style="background-color: white"></div>
-                                            <span tabindex="0"
-                                                  class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                            <span tabindex="0"
-                                                  class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                        </div>
-                                        <span id="min-price" class="slider-price">0 ₫</span>
-                                        <span id="max-price" style="float: right"
-                                              class="slider-price">10.000.000 ₫</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row col-12 d-flex justify-content-end p-b-15">
-                            <button class="btn btn-danger me-2" style="width: 70px" ng-click="clearFilter()">Bỏ lọc
-                            </button>
-                            <button class="btn btn-primary me-2" style="width: 70px" ng-click="filter(filterData)">Lọc
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
             </div>
             <!--Form sản phẩm-->
             <div class="flex-c-m flex-w w-full  d-flex justify-content-start">
@@ -287,6 +181,7 @@
             </div>
         </div>
     </div>
+
 </div>
 </body>
 </html>

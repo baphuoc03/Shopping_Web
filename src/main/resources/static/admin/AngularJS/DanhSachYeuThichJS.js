@@ -43,6 +43,22 @@ app.controller("danh-sach-yeu-thich-ctrl", function($scope, $http){
         var soLuong = document.getElementById(idInputSoLuong).value
         var ctsp = document.getElementById(idSlCTSP).value
         console.log(soLuong,ctsp)
+        if (confirm("Thêm sản phẩm vào giỏ hàng?")) {
+            $http.post("/cart/add-to-cart?idCTSP=" + ctsp + "&sl=" + soLuong).then(function (response) {
+                console.log(response.data)
+                if (response.data == null || response.data.length == 0) {
+                    alert("Phân loại của sản phẩm không đủ số lượng!!!")
+                } else {
+                    alert("Success")
+
+                    $scope.cartShow()
+                }
+            }).catch(e => {
+                document.getElementById("eSize").innerText = e.data.eSize = undefined ? "" : e.data.eSize
+                console.log(e)
+            })
+        }
     }
+
 
 })
