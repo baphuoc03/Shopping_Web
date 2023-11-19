@@ -947,9 +947,9 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             alert("Hủy thành công");
         })
     }
-    $scope.setMaSanPham = function (maSP){
-        console.log(maSP);
-        $scope.danhGia.sanPham = maSP
+    $scope.setChiTietDH = function (maCTDH){
+        console.log(maCTDH);
+        $scope.danhGia.chiTietDonHang = maCTDH
     }
     $scope.danhGia = {}
     $scope.erDanhGia = {}

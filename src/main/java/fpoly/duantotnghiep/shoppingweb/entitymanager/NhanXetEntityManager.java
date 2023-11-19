@@ -23,7 +23,7 @@ public class NhanXetEntityManager {
     public Map<String,Long> getAvgRatesByMaSP(String maSP){
         return entityManager.createQuery("""
                                  SELECT n.rating, count(n) FROM NhanXetModel n
-                                 WHERE n.sanPham.ma =: maSP
+                                 WHERE n.chiTietDonHangModel.chiTietSanPham.sanPham.ma =: maSP
                                  GROUP BY n.rating
                             """, Tuple.class)
                 .setParameter("maSP",maSP)

@@ -79,9 +79,6 @@ public class SanPhamModel {
     private List<AnhModel> Images;
 
     @OneToMany(mappedBy = "sanPham", fetch = FetchType.EAGER)
-    private List<NhanXetModel> nhanXet;
-
-    @OneToMany(mappedBy = "sanPham", fetch = FetchType.EAGER)
     private List<ChiTietSanPhamModel> ctsp;
 
     public Long getSoLuongSanPham() {
@@ -108,7 +105,6 @@ public class SanPhamModel {
                 ", ngayCapNhat=" + ngayCapNhat +
                 ", hienThi=" + hienThi +
                 ", trangThai=" + trangThai +
-                ", nhanXet=" + nhanXet +
                 ", ctsp=" + ctsp +
                 '}';
     }

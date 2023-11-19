@@ -9,7 +9,7 @@ public interface INhanXetService {
 
     Page<NhanXetDtoResponse> getNhanXetBySanPhamAndRate(Integer page, Integer limit, String maSP, Float rate);
 
-    NhanXetDtoResponse add(NhanXetDtoRequest nhanXetDtoRequest);
+    void add(NhanXetDtoRequest nhanXetDtoRequest);
 
     Float getAvgRatingBySanPham(String maSP);
 }

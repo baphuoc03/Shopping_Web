@@ -41,9 +41,8 @@ public class NhanXetRestController {
         if(result.hasErrors()){
             return ValidateUtil.getErrors(result);
         }
-
-        nhanXetDtoRequest.setKhachHang(authentication.getName());
-        return ResponseEntity.ok(nhanXetService.add(nhanXetDtoRequest));
+        nhanXetService.add(nhanXetDtoRequest);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("avg-by-sanpham")

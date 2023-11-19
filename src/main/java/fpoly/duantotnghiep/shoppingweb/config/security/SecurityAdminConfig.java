@@ -26,7 +26,8 @@ public class SecurityAdminConfig {
 //    @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         String[] adminPermitAll = {"/admin/AngularJs/**", "/admin/assets/**", "/admin/css/**", "/admin/images/**", "/admin/js/**",
-                "/admin/quen-mat-khau", "/image/**", "/admin/dat-lai-mat-khau/**","/admin/quen-mat-khau/xac-nhan"};
+                "/admin/quen-mat-khau", "/image/**", "/admin/dat-lai-mat-khau/**","/admin/quen-mat-khau/xac-nhan",
+                "/admin/AngularJS/CheckOut.js","/admin/AngularJS/DonHang.js","/admin/AngularJS/DanhSachYeuThichJS.js"};
         http    .securityMatcher("/admin/**")
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())

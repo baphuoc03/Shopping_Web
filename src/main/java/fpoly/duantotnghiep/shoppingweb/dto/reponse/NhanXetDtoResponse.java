@@ -12,8 +12,8 @@ import java.util.Date;
 @Data
 public class NhanXetDtoResponse {
     private String id;
+    private ChiTietSanPhamDtoResponse chiTietSanPhamDtoResponse;
     private KhachHangDtoResponse khachHang;
-    private SanPhamDtoResponse sanPham;
     private Float rating;
     private String tieuDe;
     private String noiDung;
@@ -21,8 +21,8 @@ public class NhanXetDtoResponse {
 
     public NhanXetDtoResponse(NhanXetModel model) {
         this.id = model.getId();
-        this.khachHang = new KhachHangDtoResponse(model.getKhachHang());
-        this.sanPham = new SanPhamDtoResponse(model.getSanPham());
+        this.chiTietSanPhamDtoResponse = new ChiTietSanPhamDtoResponse(model.getChiTietDonHangModel().getChiTietSanPham());
+        this.khachHang = new KhachHangDtoResponse(model.getChiTietDonHangModel().getDonHang().getNguoiSoHuu());
         this.rating = model.getRating();
         this.tieuDe = model.getTieuDe();
         this.noiDung = model.getNoiDung();

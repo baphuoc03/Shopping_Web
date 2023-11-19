@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
+import fpoly.duantotnghiep.shoppingweb.model.ChiTietDonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.NhanXetModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
@@ -21,8 +22,7 @@ import java.util.Date;
 @Data
 public class NhanXetDtoRequest {
     private String id;
-    private String khachHang;
-    private String sanPham;
+    private String chiTietDonHang;
     @NotNull(message = "Có thể cho chúng tôi mức độ hài lòng của bạn")
     private Float rating;
     @NotBlank(message = "Không để trống tiêu đề")
@@ -37,13 +37,9 @@ public class NhanXetDtoRequest {
         NhanXetModel model = new NhanXetModel();
         if(id!=null) model.setId(this.id);
 
-        KhachHangModel khachHangModel = new KhachHangModel();
-        khachHangModel.setUsername(khachHang);
-        model.setKhachHang(khachHangModel);
-
-        SanPhamModel sanPhamModel = new SanPhamModel();
-        sanPhamModel.setMa(sanPham);
-        model.setSanPham(sanPhamModel);
+        ChiTietDonHangModel chiTietDonHangModel = new ChiTietDonHangModel();
+        chiTietDonHangModel.setId(chiTietDonHang);
+        model.setChiTietDonHangModel(chiTietDonHangModel);
 
         model.setRating(this.rating);
         model.setTieuDe(this.tieuDe);

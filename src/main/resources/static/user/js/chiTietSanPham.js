@@ -215,6 +215,9 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
 
                 this.setdefaultButtons('all')
             })
+
+
+        },getAvgRate(){
             $http.get("/nhan-xet/avg-by-sanpham?maSP="+maSP.substring(1)).then(r => {
                 this.avg = r.data.toFixed(1)
                 raterJs({
@@ -223,11 +226,11 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
                         this.setRating(e), t()
                     }
                 });
+                console.log(this.avg)
             })
             $http.get("/nhan-xet/avg-rates-by-sanpham?maSP="+maSP.substring(1)).then(r => {
                 this.rates = r.data
             })
-
         },setPageNumbers() {
             let numbers = [];
             for (let i = 0; i < this.totalPages; i++) {
@@ -265,5 +268,6 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         }
     }
     $scope.nhanXet.init()
+    $scope.nhanXet.getAvgRate()
 })
 

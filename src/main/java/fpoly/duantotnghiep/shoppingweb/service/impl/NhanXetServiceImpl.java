@@ -41,10 +41,9 @@ public class NhanXetServiceImpl implements INhanXetService{
     }
 
     @Override
-    public NhanXetDtoResponse add(NhanXetDtoRequest nhanXetDtoRequest){
+    public void add(NhanXetDtoRequest nhanXetDtoRequest){
         NhanXetModel model = nhanXetRepository.save(nhanXetDtoRequest.mapToModel());
         model.setThoiGian(new Date());
-        return new NhanXetDtoResponse(model);
     }
 
     @Override
