@@ -34,7 +34,7 @@ public class ThongKeEntityManager {
         return entityManager.createQuery("""
                 SELECT MONTH(d.ngayDatHang) AS month, COUNT(d)  AS quantity
                 FROM DonHangModel d
-                WHERE YEAR(d.ngayDatHang) = :year
+                WHERE  YEAR(d.ngayDatHang) = :year 
                 GROUP BY MONTH(d.ngayDatHang)
             """, Tuple.class)
                 .setParameter("year",year)
@@ -52,7 +52,7 @@ public class ThongKeEntityManager {
         return entityManager.createQuery("""
                 SELECT MONTH(d.donHang.ngayDatHang) AS month, SUM(d.soLuong*d.donGiaSauGiam) - SUM(d.donHang.tienGiam)  AS revenue
                 FROM ChiTietDonHangModel d
-                WHERE YEAR(d.donHang.ngayDatHang) = :year
+                WHERE YEAR(d.donHang.ngayDatHang) = :year AND d.donHang.trangThai <> 0 AND  d.donHang.trangThai <> 5
                 GROUP BY MONTH(d.donHang.ngayDatHang)
             """, Tuple.class)
                 .setParameter("year",year)
@@ -70,7 +70,7 @@ public class ThongKeEntityManager {
         return entityManager.createQuery("""
                 SELECT MONTH(d.donHang.ngayDatHang) AS month, SUM(d.soLuong)  AS quantity
                 FROM ChiTietDonHangModel d
-                WHERE YEAR(d.donHang.ngayDatHang) = :year
+                WHERE YEAR(d.donHang.ngayDatHang) = :year AND d.donHang.trangThai <> 0 AND  d.donHang.trangThai <> 5
                 GROUP BY MONTH(d.donHang.ngayDatHang)
             """, Tuple.class)
                 .setParameter("year",year)
@@ -89,7 +89,7 @@ public class ThongKeEntityManager {
         return entityManager.createQuery("""
                                 SELECT s AS sanPham, SUM(cd.soLuong) AS soLuong
                                  FROM ChiTietSanPhamModel s LEFT JOIN ChiTietDonHangModel cd ON s.id = cd.chiTietSanPham.id
-                                 WHERE s.sanPham.ma = :maSanPham 
+                                 WHERE s.sanPham.ma = :maSanPham AND cd.donHang.trangThai <> 0 AND  cd.donHang.trangThai <> 5
                                  GROUP BY s
                                  ORDER BY soLuong DESC, s.size.ma ASC 
                                  """,Tuple.class)
@@ -143,7 +143,7 @@ public class ThongKeEntityManager {
         return entityManager.createQuery("""
                                 SELECT s AS sanPham, SUM(cd.soLuong) AS soLuong
                                  FROM ChiTietSanPhamModel s LEFT JOIN ChiTietDonHangModel cd ON s.id = cd.chiTietSanPham.id
-                                 WHERE s.sanPham.ma = :maSanPham AND cd.donHang.ngayDatHang BETWEEN :firstDate And :lastDate
+                                 WHERE s.sanPham.ma = :maSanPham AND cd.donHang.ngayDatHang BETWEEN :firstDate And :lastDate and cd.donHang.trangThai <> 0 AND  cd.donHang.trangThai <> 5
                                  GROUP BY s
                                  ORDER BY soLuong DESC, s.size.ma ASC 
                                  """,Tuple.class)
@@ -163,7 +163,7 @@ public class ThongKeEntityManager {
         List<SanPhamBanChayDto> listSanPham = entityManager.createQuery("""
                                                                  SELECT s.sanPham.ma AS sanPham, SUM(cd.soLuong) AS soLuong
                                                                  FROM ChiTietSanPhamModel s JOIN ChiTietDonHangModel cd ON s.id = cd.chiTietSanPham.id
-                                                                 WHERE cd.donHang.ngayDatHang BETWEEN :firstDate And :lastDate
+                                                                 WHERE cd.donHang.ngayDatHang BETWEEN :firstDate And :lastDate AND cd.donHang.trangThai <> 0 AND  cd.donHang.trangThai <> 5
                                                                  GROUP BY s.sanPham.ma
                                                                  order by soLuong DESC 
                                                             """, Tuple.class)
@@ -188,7 +188,7 @@ public class ThongKeEntityManager {
         BigDecimal tongTien = (BigDecimal) entityManager
                 .createQuery("""
                                 SELECT SUM(c.donGia*c.soLuong) FROM ChiTietDonHangModel c  
-                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate
+                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
                             """)
                 .setParameter("firstDate",firstDate)
                 .setParameter("lastDate",lastDate)
@@ -196,7 +196,7 @@ public class ThongKeEntityManager {
         BigDecimal tienGiam = (BigDecimal) entityManager
                 .createQuery("""
                                                 SELECT SUM((c.donGia-c.donGiaSauGiam)*c.soLuong) + SUM(c.donHang.tienGiam) FROM ChiTietDonHangModel c  
-                                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate
+                                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
                                             """)
                 .setParameter("firstDate",firstDate)
                 .setParameter("lastDate",lastDate)
@@ -209,7 +209,7 @@ public class ThongKeEntityManager {
         return entityManager.createQuery("""
                 SELECT d.trangThai, COUNT(d)
                 FROM DonHangModel d
-                WHERE d.ngayDatHang between :firstDate AND :lastDate
+                WHERE d.ngayDatHang between :firstDate AND :lastDate 
                 GROUP BY d.trangThai
             """, Tuple.class)
                 .setParameter("firstDate",firstDate)
