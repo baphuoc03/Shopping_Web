@@ -48,4 +48,6 @@ public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String
     @Query("SELECT dh FROM DonHangModel dh where dh.nguoiSoHuu.username = ?1 and dh.trangThai = ?2 ORDER BY dh.ngayDatHang DESC")
     List<DonHangModel> findAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai);
 
+//    gi
+
 }

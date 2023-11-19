@@ -25,6 +25,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -199,6 +200,13 @@ public class DonHangService implements IDonHangService {
         model.setNgayHuy(new Date());
         model.setLyDoHuy(lyDo);
         model.setTrangThai(0);
+        List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
+        ctdhModel.forEach(c -> {
+            int soLuongInDonHang = c.getSoLuong();
+            ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
+            sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
+            chiTietSanPhamRepository.save(sanPhamInDonHang);
+        });
         donHangResponsitory.save(model);
     }
 
@@ -322,5 +330,11 @@ public class DonHangService implements IDonHangService {
     @Override
     public BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate) {
         return donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate) == null ? BigDecimal.valueOf(0) : donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate);
+    }
+
+    @Override
+    public void deleteDonHangQuaHanThanhToan(){
+        LocalDateTime threeHoursAgo = LocalDateTime.now().minusHours(8);
+        List<DonHangModel> finByDonHangByThoiGian = donHangResponsitory.
     }
 }
