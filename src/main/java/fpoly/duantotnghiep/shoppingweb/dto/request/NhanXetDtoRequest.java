@@ -32,6 +32,7 @@ public class NhanXetDtoRequest {
     @Size(max = 200,message = "Nội dung tối đa 200 ký tự")
     private String noiDung;
     private Date thoiGian;
+    private Boolean pheDuyet;
 
     public NhanXetModel mapToModel(){
         NhanXetModel model = new NhanXetModel();
@@ -45,6 +46,8 @@ public class NhanXetDtoRequest {
         model.setTieuDe(this.tieuDe);
         model.setNoiDung(this.noiDung);
         model.setThoiGian(this.thoiGian);
+
+        if(pheDuyet != null) model.setPheDuyet(pheDuyet);
 
         return model;
     }

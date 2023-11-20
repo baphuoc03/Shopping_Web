@@ -6,6 +6,7 @@ import fpoly.duantotnghiep.shoppingweb.service.INhanXetService;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -27,10 +28,10 @@ public class NhanXetRestController {
                                           @RequestParam(required = false)Float rate){
 
         if(rate != null){
-            return ResponseEntity.ok(nhanXetService.getNhanXetBySanPhamAndRate(page,limit,maSP,rate));
+            return ResponseEntity.ok(nhanXetService.getNhanXetBySanPhamAndRate(page,limit,maSP,rate,true));
         }
 
-        return ResponseEntity.ok(nhanXetService.getNhanXetBySanPham(page,limit,maSP));
+        return ResponseEntity.ok(nhanXetService.getNhanXetBySanPhamAndPheDuyet(page,limit,maSP,true));
     }
 
     @PostMapping()
@@ -47,11 +48,12 @@ public class NhanXetRestController {
 
     @GetMapping("avg-by-sanpham")
     public ResponseEntity<?> getAvgBySanPham(@RequestParam String maSP){
-        return ResponseEntity.ok(nhanXetService.getAvgRatingBySanPham(maSP));
+        return ResponseEntity.ok(nhanXetService.getAvgRatingBySanPhamAndPheDuyet(maSP,true));
     }
 
     @GetMapping("avg-rates-by-sanpham")
     public ResponseEntity<?> getAvgRatesByMaSP(@RequestParam String maSP){
-        return ResponseEntity.ok(nhanXetEntityManager.getAvgRatesByMaSP(maSP));
+        return ResponseEntity.ok(nhanXetEntityManager.getAvgRatesByMaSPAndPheDuyet(maSP,true));
     }
+
 }

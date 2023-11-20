@@ -38,6 +38,7 @@ public class NhanXetModel {
     @CreationTimestamp
     private Date thoiGian;
 
-
+    @Column(name = "pheduyet")
+    private Boolean pheDuyet;
 
 }

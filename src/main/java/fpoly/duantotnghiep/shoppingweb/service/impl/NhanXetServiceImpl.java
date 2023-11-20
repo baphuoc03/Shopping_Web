@@ -23,6 +23,36 @@ public class NhanXetServiceImpl implements INhanXetService{
     private INhanXetRepository nhanXetRepository;
 
     @Override
+    public Page<NhanXetDtoResponse> getNhanXetBySanPhamAndPheDuyet(Integer page, Integer limit, String maSP, Boolean pheDuyet){
+
+        Page<NhanXetModel> pageModel = nhanXetRepository.getBySanPhamMaAndPheDuyet(maSP, pheDuyet, PageRequest.of(page,limit));
+
+        return new PageImpl<>(pageModel.getContent().stream().map(n -> new NhanXetDtoResponse(n)).collect(Collectors.toList()),
+                pageModel.getPageable(),pageModel.getTotalElements());
+    }
+
+    @Override
+    public Page<NhanXetDtoResponse> getNhanXetBySanPhamAndRate(Integer page, Integer limit, String maSP, Float rate, Boolean pheDuyet){
+
+        Page<NhanXetModel> pageModel = nhanXetRepository.getBySanPhamMaAndRateAndPheDuyet(maSP, rate, pheDuyet, PageRequest.of(page,limit));
+
+        return new PageImpl<>(pageModel.getContent().stream().map(n -> new NhanXetDtoResponse(n)).collect(Collectors.toList()),
+                pageModel.getPageable(),pageModel.getTotalElements());
+    }
+
+    @Override
+    public void add(NhanXetDtoRequest nhanXetDtoRequest){
+        nhanXetDtoRequest.setPheDuyet(false);
+        nhanXetRepository.save(nhanXetDtoRequest.mapToModel());
+//        model.setThoiGian(new Date());
+    }
+
+    @Override
+    public Float getAvgRatingBySanPhamAndPheDuyet(String maSP, Boolean pheDuyet){
+        return nhanXetRepository.getAvgRatingBySanPhamAndPheDuyet(maSP,pheDuyet);
+    }
+
+    @Override
     public Page<NhanXetDtoResponse> getNhanXetBySanPham(Integer page, Integer limit, String maSP){
 
         Page<NhanXetModel> pageModel = nhanXetRepository.getBySanPhamMa(maSP, PageRequest.of(page,limit));
@@ -32,7 +62,7 @@ public class NhanXetServiceImpl implements INhanXetService{
     }
 
     @Override
-    public Page<NhanXetDtoResponse> getNhanXetBySanPhamAndRate(Integer page, Integer limit, String maSP, Float rate){
+    public Page<NhanXetDtoResponse> getAllNhanXetBySanPhamAndRate(Integer page, Integer limit, String maSP, Float rate){
 
         Page<NhanXetModel> pageModel = nhanXetRepository.getBySanPhamMaAndRate(maSP, rate, PageRequest.of(page,limit));
 
@@ -41,13 +71,19 @@ public class NhanXetServiceImpl implements INhanXetService{
     }
 
     @Override
-    public void add(NhanXetDtoRequest nhanXetDtoRequest){
-        NhanXetModel model = nhanXetRepository.save(nhanXetDtoRequest.mapToModel());
-        model.setThoiGian(new Date());
-    }
-
-    @Override
     public Float getAvgRatingBySanPham(String maSP){
         return nhanXetRepository.getAvgRatingBySanPham(maSP);
     }
+
+    @Override
+    public Integer pheDuyetNhanXet(Boolean pheDuyet, String id){
+        return nhanXetRepository.pheDuyetNhanXet(pheDuyet,id);
+    }
+
+    @Override
+    public Boolean existsById(String id){
+        return nhanXetRepository.existsById(id);
+    }
+
+
 }
