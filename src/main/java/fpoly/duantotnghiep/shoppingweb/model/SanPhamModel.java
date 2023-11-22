@@ -75,6 +75,20 @@ public class SanPhamModel {
     @Formula("(SELECT SUM(c.soluong) FROM chitietsanpham c WHERE c.sanpham = ma)")
     private Long soLuong;
 
+    @Formula("""
+            (SELECT k.MucGiam FROM khuyenmai_sanpham ks join sanpham s on s.Ma = ks.SanPham
+             									join KhuyenMai k on k.Ma = ks.KhuyenMai
+             where k.NgayBatDau <= NOW() And k.NgayKetThuc >=NOW() and s.Ma = ma)
+            """)
+    private Float mucGiam;
+
+    @Formula("""
+            (SELECT k.Loai FROM khuyenmai_sanpham ks join sanpham s on s.Ma = ks.SanPham
+             									join KhuyenMai k on k.Ma = ks.KhuyenMai
+             where k.NgayBatDau <= NOW() And k.NgayKetThuc >=NOW() and s.Ma = ma)
+            """)
+    private String loaiGiam;
+
     @OneToMany(mappedBy = "sanPham", fetch = FetchType.EAGER)
     private List<AnhModel> Images;
 

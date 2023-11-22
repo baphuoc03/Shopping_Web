@@ -5,6 +5,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.DongSanPhamRequest;
 import fpoly.duantotnghiep.shoppingweb.model.DongSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
+import fpoly.duantotnghiep.shoppingweb.model.ThuongHieuModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDongSanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IDongSanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,13 @@ public class DongSanPhamServiceImpl implements IDongSanPhamService {
 
     public void deleteById(String s) {
         repo.deleteById(s);
+    }
+
+    @Override
+    public void deleteByThuongHieu(String maTHuongHieu){
+        ThuongHieuModel thuongHieuModel = new ThuongHieuModel();
+        thuongHieuModel.setId(maTHuongHieu);
+        repo.deleteByThuongHieu(thuongHieuModel);
     }
 
 }

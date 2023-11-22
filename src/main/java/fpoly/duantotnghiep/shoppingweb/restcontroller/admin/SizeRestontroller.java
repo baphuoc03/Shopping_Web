@@ -2,6 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SizeDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SizeDTORequest;
+import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.ISizeService;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,9 @@ public class SizeRestontroller {
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private IChiTietSanPhamService chiTietSanPhamService;
 
     @Autowired
     private ISizeService service;
@@ -46,6 +50,7 @@ public class SizeRestontroller {
 
     @DeleteMapping("/delete/{ma}")
     public ResponseEntity<?> delete(@PathVariable Float ma) {
+        chiTietSanPhamService.deleteBySize(ma);
         service.deleteById(ma);
         return ResponseEntity.ok().build();
     }

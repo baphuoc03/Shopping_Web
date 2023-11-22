@@ -117,6 +117,7 @@ app.controller("index-ctrl", function ($scope, $http) {
     $scope.getPropertiesInFilter = function () {
         $http.get("/admin/mau-sac/find-all").then(r => {
             $scope.mauSac = r.data;
+            console.log(r.data)
         }).catch(e => console.log(e))
 
         $http.get("/admin/chat-lieu/find-all").then(r => {
