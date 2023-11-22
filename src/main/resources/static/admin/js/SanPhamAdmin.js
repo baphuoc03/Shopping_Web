@@ -1,3 +1,5 @@
+
+
 var app = angular.module('product-admin', []);
 app.controller('ctrl', function ($scope, $http) {
 
@@ -9,6 +11,8 @@ app.controller('ctrl', function ($scope, $http) {
     $scope.pageNumbers = [];
     $scope.pageNumber = 0;
     var isfilter = false;
+
+
 
     $http.get("/admin/san-pham/get-all").then(r => {
         $scope.items = r.data.content;
@@ -51,9 +55,9 @@ app.controller('ctrl', function ($scope, $http) {
     $scope.delete = function (ma){
 
 
-        if(confirm("Xóa sản phẩm? ")){
+        alertify.confirm("Xóa sản phẩm?", function () {
             $http.delete("/admin/san-pham/delete/"+ma).then(r => {
-
+                alertify.success("Xóa thành công")
                 if ($scope.pageNumber == $scope.totalPage - 1) {
                     if ($scope.items.length == 1 && $scope.pageNumber > 0) {
                         $scope.pageNumber -=1;
@@ -63,12 +67,13 @@ app.controller('ctrl', function ($scope, $http) {
 
                 $scope.getPageNumbers($scope.totalPage)
                 $scope.getAll($scope.pageNumber)
-                alert("Xóa thành công")
             }).catch(e => {
-                alert("Lỗi!!!")
+                alertify.error("Xóa thất bại")
                 console.log(e)
             });
-        }
+        }, function () {
+            alertify.error("Xóa thất bại")
+        })
     }
 
     $scope.getChiTietSP = function (ma){
@@ -78,8 +83,9 @@ app.controller('ctrl', function ($scope, $http) {
     $scope.updateTrangThaiHienThi = function (switchId,maSP){
         let trangThai = document.getElementById(switchId).checked
         $http.put("/admin/san-pham/update-TrangThai-HienThi/"+maSP,trangThai).then(r => {
+            alertify.success("Cập nhật thành công")
         }).catch(e => {
-            alert("Lỗi!!!")
+            alertify.error("Cập nhật thất bại")
             document.getElementById(switchId).checked = trangThai == true ? false : true
         });
     }
