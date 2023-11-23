@@ -87,10 +87,15 @@ app.controller("ctrl", function($scope, $http){
             this.init()
             this.getAvgRate()
         },pheDuyetNhanXet(id,pheDuyet){
+            let mess = pheDuyet ? 'Phê duyệt' : 'Bỏ phê duyệt'
             $http.put("/admin/nhan-xet/phe-duyet/"+id,pheDuyet).then(r => {
                 var index = this.contents.findIndex(n => n.id == id)
                 this.contents[index].pheDuyet = pheDuyet
-            }).catch(e =>console.log(e));
+                alertify.success(mess + " thành công")
+            }).catch(e => {
+                alertify.error(mess + " thất bại")
+                console.log(e)
+            });
         }
     }
     $scope.nhanXet.init()

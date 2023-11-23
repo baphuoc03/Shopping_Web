@@ -25,22 +25,23 @@
                     <div class="card-body">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
-                            <li class="nav-item" ng-click="chuaXacNhan.getList(chuaXacNhan.page)">
+                            <li class="nav-item" ng-click="chuaXacNhan.init(chuaXacNhan.page)">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#donhang1" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                    <span class="d-none d-sm-block">Chưa xác nhận</span>
+                                    <span class="d-none d-sm-block">Chưa xác nhận <span class="badge bg-danger ms-1" style="font-size: 11px">{{chuaXacNhan.totalElement}}</span></span>
+
                                 </a>
                             </li>
                             <li class="nav-item" ng-click="daXacNhan.getList(daXacNhan.page)">
                                 <a class="nav-link" data-bs-toggle="tab" href="#donhang2" role="tab">
                                     <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                    <span class="d-none d-sm-block">Đã xác nhận</span>
+                                    <span class="d-none d-sm-block">Đã xác nhận <span class="badge bg-danger ms-1" style="font-size: 11px">{{daXacNhan.totalElement}}</span></span>
                                 </a>
                             </li>
                             <li class="nav-item" ng-click="dangGiao.getList(dangGiao.page)">
                                 <a class="nav-link" data-bs-toggle="tab" href="#donhang3" role="tab">
                                     <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                    <span class="d-none d-sm-block">Đang giao</span>
+                                    <span class="d-none d-sm-block">Đang giao <span class="badge bg-danger ms-1" style="font-size: 11px">{{dangGiao.totalElement}}</span></span>
                                 </a>
                             </li>
                             <li class="nav-item" ng-click="hoanThanh.getList(hoanThanh.page)">
@@ -58,7 +59,7 @@
                             <li class="nav-item" ng-click="chuaThanhToan.getList(chuaThanhToan.page)">
                                 <a class="nav-link" data-bs-toggle="tab" href="#chuaTT" role="tab">
                                     <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                    <span class="d-none d-sm-block">Chưa thanh toán</span>
+                                    <span class="d-none d-sm-block">Chưa thanh toán <span class="badge bg-danger ms-1" style="font-size: 11px">{{chuaThanhToan.totalElement}}</span></span>
                                 </a>
                             </li>
                         </ul>
@@ -671,9 +672,9 @@
                                                                 <li class="page-item pageNumber"
                                                                     ng-repeat="p in hoanThanh.pages"
                                                                     id="{{p}}">
-                                                                    <span ng-if="p!=huy.page" class="page-link" ng-click="hoanThanh.getList(p)"
+                                                                    <span ng-if="p!=hoanThanh.page" class="page-link" ng-click="hoanThanh.getList(p)"
                                                                           style="cursor: pointer">{{p + 1}}</span>
-                                                                    <span ng-if="p==huy.page" class="page-link active"
+                                                                    <span ng-if="p==hoanThanh.page" class="page-link active"
                                                                           style="cursor: pointer">{{p + 1}}</span>
                                                                 </li>
                                                                 <li class="page-item">

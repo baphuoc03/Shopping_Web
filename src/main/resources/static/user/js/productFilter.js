@@ -41,7 +41,7 @@ app.controller("filter-ctrl", function ($scope, $http) {
         if (heartButton.className == "far fa-heart" || heartButton.className == "far fa-heart ng-scope") {// thêm vào danh sách yêu thích
             $http.post("/danh-sach-yeu-thich/add", data).then(r => {
                 heartButton.className = "fas fa-heart"
-                alert("Đã thêm vào danh sách yêu thích!")
+                alertify.success("Đã thêm vào danh sách yêu thích!")
                 $scope.getMaSanPhamInDSTY()// gọi lại list $scope.maSpInDSYT
 
             }).catch(e => {
@@ -58,7 +58,7 @@ app.controller("filter-ctrl", function ($scope, $http) {
                 let index = $scope.maSpInDSYT.findIndex(m => m == id + "");// xóa thì xóa mã sản phẩm ở trong list $scope.maSpInDSYT ko cần gọi lại api
                 $scope.maSpInDSYT.splice(index, 1)
 
-                alert("Đã xóa danh sách yêu thích!")
+                alertify.success("Đã xóa danh sách yêu thích!")
             }).catch(e => {
                 heartButton.className = "fas fa-heart"//lỗi thì ko đổi giữ nguyên icon
 
