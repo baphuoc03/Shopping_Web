@@ -125,19 +125,6 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 alert("Thêm Thành Công dc")
             })
         }
-<<<<<<< HEAD
-        $http.post("http://localhost:8080/check-out", donHang).then(r => {
-            alert("Thanh toán thành công")
-            location.href = "/trang-chu"
-        }).catch(err => {
-            console.log(err)
-            $scope.errThanhPhoCode = err.data.thanhPhoCode == undefined ? "" : err.data.thanhPhoCode
-            $scope.errQuanHuyenCode = err.data.quanHuyenCode == undefined ? "" : err.data.quanHuyenCode
-            $scope.errXaPhuongCode = err.data.xaPhuongCode == undefined ? "" : err.data.xaPhuongCode
-            $scope.errDiaChiChiTiet = err.data.diaChiChiTiet == undefined ? "" : err.data.diaChiChiTiet
-            $scope.errThanhToan = err.data.phuongThucThanhToan == undefined ? "" : err.data.phuongThucThanhToan
-=======
-       else{
 
             $http.post("http://localhost:8080/check-out", donHang).then(r => {
                 if(r.data.vnPayUrl == undefined){
@@ -145,7 +132,6 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 }else{
                     location.href = r.data.vnPayUrl
                 }
->>>>>>> afc6665 (Thanh Toan VnPay)
 
             }).catch(err => {
 
@@ -157,7 +143,6 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 $scope.errThanhToan = err.data.phuongThucThanhToan == undefined ? "" : err.data.phuongThucThanhToan
 
             })
-        }
     }
 
     $scope.getDataAPI = function (maVC) {
@@ -230,12 +215,9 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         $scope.email = khachByThanhToan.email;
     })
 
-<<<<<<< HEAD
     $scope.login = function (){
         var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
         document.cookie = "url="+window.location.href+"; expires="+expires;
         location.href = "/dang-nhap";
     }
-=======
->>>>>>> afc6665 (Thanh Toan VnPay)
 });

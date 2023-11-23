@@ -84,7 +84,6 @@ public class DonHangModel {
     @Column(name = "lydohuy")
     private String lyDoHuy;
 
-<<<<<<< HEAD
     @Column(name = "ngayxacnhan")
     private Date ngayXacNhan;
 
@@ -97,10 +96,8 @@ public class DonHangModel {
     @Column(name = "ngayhuy")
     private Date ngayHuy;
 
-=======
     @Formula("(SELECT SUM(c.dongiasaugiam*c.SoLuong) + d.phigiaohang - d.tiengiam FROM donhang d Join chitietdonhang c on c.DonHang = d.Ma where d.Ma = ma)")
     private BigDecimal tongTien;
->>>>>>> afc6665 (Thanh Toan VnPay)
 
     @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
     private List<ChiTietDonHangModel> danhSachSanPham;
