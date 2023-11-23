@@ -84,6 +84,18 @@ public class DonHangModel {
     @Column(name = "lydohuy")
     private String lyDoHuy;
 
+    @Column(name = "ngayxacnhan")
+    private Date ngayXacNhan;
+
+    @Column(name = "ngaygiaohang")
+    private Date ngayGiaoHang;
+
+    @Column(name = "ngayhoanthanh")
+    private Date ngayHoanThanh;
+
+    @Column(name = "ngayhuy")
+    private Date ngayHuy;
+
     @Formula("(SELECT SUM(c.dongiasaugiam*c.SoLuong) + d.phigiaohang - d.tiengiam FROM donhang d Join chitietdonhang c on c.DonHang = d.Ma where d.Ma = ma)")
     private BigDecimal tongTien;
 

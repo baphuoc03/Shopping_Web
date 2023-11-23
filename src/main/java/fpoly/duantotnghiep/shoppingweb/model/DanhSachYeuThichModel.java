@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,4 +28,13 @@ public class DanhSachYeuThichModel {
     @ManyToOne
     @JoinColumn(name = "sanpham")
     private SanPhamModel sanPham;
+
+    @Override
+    public String toString() {
+        return "DanhSachYeuThichModel{" +
+                "id='" + id + '\'' +
+                ", nguoiSoHuu=" + nguoiSoHuu +
+                ", sanPham=" + sanPham +
+                '}';
+    }
 }

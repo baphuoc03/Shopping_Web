@@ -21,6 +21,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -184,6 +186,7 @@ public class SanPhamEntityManager {
         return entityManager.createQuery("""
                                  SELECT s.sanPham.ma AS sanPham, SUM(cd.soLuong) AS soLuong
                                  FROM ChiTietSanPhamModel s JOIN ChiTietDonHangModel cd ON s.id = cd.chiTietSanPham.id
+                                 WHERE cd.donHang.trangThai <> 0 AND  cd.donHang.trangThai <> 5
                                  GROUP BY s.sanPham.ma
                                  order by soLuong DESC 
                             """, Tuple.class)
@@ -206,6 +209,25 @@ public class SanPhamEntityManager {
                 .limit(5)
                 .map(r -> new SanPhamDtoResponse((SanPhamModel) r.get(0))
                 ).collect(Collectors.toList());
+    }
+
+    public List<SanPhamBanChayDto> getSanPhamDaBanWithDate(Date firstDate, Date lastDate){
+        return entityManager.createQuery("""
+                                 SELECT s.sanPham.ma AS sanPham, SUM(cd.soLuong) AS soLuong
+                                 FROM ChiTietSanPhamModel s JOIN ChiTietDonHangModel cd ON s.id = cd.chiTietSanPham.id
+                                 WHERE cd.donHang.ngayDatHang BETWEEN :firstDate And :lastDate
+                                 GROUP BY s.sanPham.ma
+                                 order by soLuong DESC 
+                            """, Tuple.class)
+                .setParameter("firstDate",firstDate)
+                .setParameter("lastDate",lastDate)
+                .getResultList()
+                .stream()
+                .limit(5)
+                .map(r -> new SanPhamBanChayDto(
+                        new SanPhamDtoResponse(sanPhamRepository.findById(r.get("sanPham").toString()).get()),
+                        ((Number) r.get("soLuong")).longValue()
+                )).collect(Collectors.toList());
     }
 
 }

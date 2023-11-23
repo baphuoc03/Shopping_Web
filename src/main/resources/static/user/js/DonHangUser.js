@@ -1,5 +1,5 @@
-var app = angular.module("donhang-app", [])
-app.controller("donhangUU-ctrl", function ($scope, $http) {
+var app = angular.module("donhangUser-app", [])
+app.controller("donhangUser-ctrl", function ($scope, $http) {
 
 
 })

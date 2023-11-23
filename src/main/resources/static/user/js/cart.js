@@ -1,19 +1,13 @@
 var app = angular.module("cart-app", [])
 app.controller("cart-ctrl", function ($scope, $http) {
     $scope.cart = [];
+    $scope.vouchers = [];
 
     $http.get("/cart/find-all").then(r => {
         console.log(r.data)
         $scope.cart = r.data;
         console.log("soLuong:")
     }).catch(e => console.log(e))
-
-    $http.get("/check-out/voucher").then(resp => {
-        console.log(resp.data)
-        $scope.vouchers = resp.data;
-    }).catch(error => {
-        console.log(error)
-    })
 
     $scope.updateSl = function (id, soLuong) {
         if (soLuong <= 0) {
@@ -50,6 +44,23 @@ app.controller("cart-ctrl", function ($scope, $http) {
         }
         return totalPrice;
     }
+
+//    show voucher
+    $http.get("/check-out/voucher").then(resp => {
+        console.log(resp.data)
+        $scope.vouchers = resp.data;
+    }).catch(error => {
+        console.log(error)
+    })
+
+    $scope.showDetails = function (index) {
+        $scope.selectedVoucher = $scope.vouchers[index];
+    };
+
+    $scope.hideDetails = function () {
+        $scope.selectedVoucher = null;
+    };
+
 })
 
 

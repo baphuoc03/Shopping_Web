@@ -79,6 +79,7 @@ public class SecurityController {
     @ResponseBody
     public ResponseEntity<?> forgotPass(@RequestBody String username) throws MessagingException { //Tạo và gửi token
         HashMap<String, String> map = new HashMap<>();
+        System.out.println(username);
         if (username == null || username.isBlank()) {
             map.put("er", "Vui lòng nhập username");
             return ResponseEntity.status(400).body(map);

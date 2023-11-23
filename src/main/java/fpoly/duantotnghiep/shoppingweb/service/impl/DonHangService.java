@@ -107,8 +107,20 @@ public class DonHangService implements IDonHangService {
         } else if (trangThai == 1) {
             subject = "Xác nhận đơn hàng!";
             title = "Xác nhận hàng thành công";
-            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận. Cảm ơn bạn đã mua hàng. Đơn hàng sẽ đến tay bạn trong vài ngày tới";
+            model.setNgayXacNhan(new Date());
+            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận. Cảm ơn bạn đã mua hàng. Đơn hàng đang được đóng gói và sẽ đến tay bạn trong vài ngày tới";
+        } else if (trangThai == 3) {
+            subject = "Chuyển giao đơn hàng!";
+            title = "Đơn hàng đang được giao";
+            model.setNgayGiaoHang(new Date());
+            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được giao. Cảm ơn bạn đã mua hàng. Đơn hàng đang được giao và sẽ đến tay bạn trong vài ngày tới";
+        } else if (trangThai == 4) {
+            subject = "Hoàn thành đơn hàng!";
+            title = "Đơn hàng đã giao thành công";
+            model.setNgayHoanThanh(new Date());
+            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn được giao thành công. Cảm ơn bạn đã mua hàng.";
         }
+
 
         List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(maDonHang);
         BigDecimal tongTien = BigDecimal.valueOf(0);
@@ -142,6 +154,7 @@ public class DonHangService implements IDonHangService {
             DonHangModel model = donHangResponsitory.findById(ma).get();
             model.setLyDoHuy(lyDo);
             model.setTrangThai(0);
+            model.setNgayHuy(new Date());
 
             String subject = "Hủy đơn hàng!";
             String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã hủy. Cảm ơn bạn đã ghé qua cửa hàng";
@@ -183,6 +196,7 @@ public class DonHangService implements IDonHangService {
     @Override
     public void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException {
         DonHangModel model = donHangResponsitory.findById(maDonHang).get();
+        model.setNgayHuy(new Date());
         model.setLyDoHuy(lyDo);
         model.setTrangThai(0);
         donHangResponsitory.save(model);
@@ -301,13 +315,13 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
-    public Long getQuantityOrdersWithDate(Date firstDate, Date lastDate){
-        return donHangResponsitory.getQuantityOrdersWithDate(firstDate,lastDate) == null ? 0L : donHangResponsitory.getQuantityOrdersWithDate(firstDate,lastDate);
+    public Long getQuantityOrdersWithDate(Date firstDate, Date lastDate) {
+        return donHangResponsitory.getQuantityOrdersWithDate(firstDate, lastDate) == null ? 0L : donHangResponsitory.getQuantityOrdersWithDate(firstDate, lastDate);
     }
 
     @Override
-    public BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate){
-        return donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate) == null ? BigDecimal.valueOf(0) : donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate) ;
+    public BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate) {
+        return donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate) == null ? BigDecimal.valueOf(0) : donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate);
     }
     @Override
     public DonHangDtoResponse updateTrangThai1(String maDonHang,Integer trangThai){

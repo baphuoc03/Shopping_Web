@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -38,6 +39,9 @@ public class ChiTietDonHangModel {
 
     @Column(name = "dongiasaugiam")
     private BigDecimal donGiaSauGiam;
+
+    @OneToOne(mappedBy = "chiTietDonHangModel", fetch = FetchType.EAGER)
+    private NhanXetModel nhanXet;
 
 
 }

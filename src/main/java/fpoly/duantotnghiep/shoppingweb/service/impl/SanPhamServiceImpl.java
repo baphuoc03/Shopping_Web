@@ -68,6 +68,21 @@ public class SanPhamServiceImpl implements ISanPhamService {
         return pageDto;
     }
 
+    @Override
+    public Page<SanPhamDtoResponse> paginationInUserByThuongHieu(Integer page, Integer limit,String idThuongHieu) {
+        Pageable pageable = PageRequest.of(page, limit);
+        List<SanPhamDtoResponse> pageContent = sanPhamRepository.findAll().stream()
+                .filter(s -> s.getTrangThai() == true)
+                .filter(s -> s.getHienThi() == true)
+                .filter(s -> s.getDongSanPham() != null)
+                .filter(s -> s.getDongSanPham().getThuongHieu().getId().equals(idThuongHieu))
+                .map(s -> new SanPhamDtoResponse(s))
+                .collect(Collectors.toList());
+        Page<SanPhamDtoResponse> pageDto = new PageImpl<>(pageContent.stream().skip(pageable.getOffset()).limit(limit).collect(Collectors.toList())
+                , pageable, pageContent.size());
+        return pageDto;
+    }
+
 
     @Override
     public SanPhamDtoResponse findByMa(String ma) {

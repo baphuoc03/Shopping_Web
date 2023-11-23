@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,13 +21,9 @@ public class NhanXetModel {
     @Column(name = "id")
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "Khachhang")
-    private KhachHangModel khachHang;
-
-    @ManyToOne
-    @JoinColumn(name = "sanpham")
-    private SanPhamModel sanPham;
+    @OneToOne
+    @JoinColumn(name = "chitietdonhang")
+    private ChiTietDonHangModel chiTietDonHangModel;
 
     @Column(name = "rating")
     private Float rating;
@@ -37,6 +35,10 @@ public class NhanXetModel {
     private String noiDung;
 
     @Column(name = "thoigian")
+    @CreationTimestamp
     private Date thoiGian;
+
+    @Column(name = "pheduyet")
+    private Boolean pheDuyet;
 
 }

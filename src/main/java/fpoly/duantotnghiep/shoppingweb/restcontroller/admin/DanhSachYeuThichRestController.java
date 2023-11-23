@@ -8,8 +8,11 @@ import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDanhSachYeuThichRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IDanhSachYeuThichService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,9 +35,11 @@ public class DanhSachYeuThichRestController {
     @Autowired
     private IDanhSachYeuThichRepository repository;
 
+
     @GetMapping("find-all")
-    public List<DanhSachYeuThichResponse> findAll() {
-        return service.findAll();
+    public List<DanhSachYeuThichResponse> findAll(Authentication authentication) {
+        String username = authentication.getName();
+        return service.getByNguoiSoHuu(username);
     }
 
     @PostMapping("add")
@@ -60,6 +65,8 @@ public class DanhSachYeuThichRestController {
 //        }
 
         if(authentication==null){
+//            HttpSession session = request.getSession();
+//            session.setAttribute("url","/");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
@@ -102,4 +109,6 @@ public class DanhSachYeuThichRestController {
         }
         return service.getByNguoiSoHuu(authentication.getName()).stream().map(n -> n.getSanPham()).collect(Collectors.toList());
     }
+
+
 }

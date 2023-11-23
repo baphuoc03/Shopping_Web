@@ -1,9 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -36,6 +34,15 @@ public class MauSacModel {
     @Column(name = "ngaycapnhat")
     @UpdateTimestamp
     private Date ngayCapNhat;
+
+    @OneToMany(mappedBy = "mauSac")
+    @ToString.Exclude
+    private List<SanPhamModel> sanPham;
+
+    @PreRemove
+    private void preRemove(){
+        sanPham.forEach(s -> s.setMauSac(null));
+    }
 
     public MauSacModel(String ma) {
         this.ma = ma;

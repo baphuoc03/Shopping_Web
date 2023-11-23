@@ -20,7 +20,7 @@ public class DonHangRestController {
     private IDonHangService donHangService;
 
     @GetMapping("get-by-trangThai-khachHang")
-    public ResponseEntity<List<DonHangReponseUser>> getByKhachHangAndTrangThai(@RequestParam("trangThai") Integer trangThai,
+    public ResponseEntity<List<DonHangReponseUser>> getByKhachHangAndTrangThai(@RequestParam(name = "trangThai",defaultValue = "2") Integer trangThai,
                                                                                Authentication authentication) {
         if (authentication != null) {
             String khachHang = authentication.getName();
@@ -31,6 +31,7 @@ public class DonHangRestController {
 
     @PutMapping("huy-don-hang-user")
     public ResponseEntity<?> huyDonHangUser(@RequestBody String lyDoHuy, @RequestParam String ma) throws MessagingException {
+
         donHangService.huyDonHangUser(ma, lyDoHuy);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

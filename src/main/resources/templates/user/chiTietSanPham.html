@@ -88,10 +88,10 @@
                                             <h4 class="mt-1 mb-3">{{product.ten}}</h4>
 
                                             <h6 class="text-success text-uppercase"
-                                                ng-if="product.giaBan>product.giaNiemYet">-
-                                                {{product.giaBan - product.giaNiemYet | currency: "" : 1}}đ</h6>
+                                                ng-if="product.giaBan<product.giaNiemYet">-
+                                                {{product.giaNiemYet - product.giaBan | currency: "" : 1}}đ</h6>
                                             <h5 class="mb-4">Giá :
-                                                <span class="text-muted me-2" ng-if="p.giaBan>p.giaNiemYet"><del>{{product.giaBan | currency: "" : 1}}đ</del></span>
+                                                <span class="text-muted me-2" ng-if="product.giaBan<product.giaNiemYet"><del>{{product.giaBan | currency: "" : 1}}đ</del></span>
                                                 <b>{{product.giaNiemYet | currency: "" : 1}}đ</b>
                                             </h5>
                                             <p class="text-muted mb-4">Mô tả</p>
@@ -129,7 +129,7 @@
                                                         class="btn btn-success waves-effect  mt-2 waves-light me-3">
                                                     <i class="bx bx-shopping-bag me-1"></i>Mua Ngay
                                                 </button>
-                                                    <i class="mdi mdi-heart-outline text-dark" id="heart" style="font-size: 40px;cursor: pointer" ng-click="addDSYT()"></i>
+<!--                                                    <i class="mdi mdi-heart-outline text-dark" id="heart" style="font-size: 40px;cursor: pointer" ng-click="addDSYT()"></i>-->
                                             </div>
                                         </div>
                                     </div>
@@ -454,9 +454,7 @@
                                                             <span class="text-muted me-2" ng-if="p.giaBan>p.giaNiemYet"><del>{{p.giaBan | currency : "" : 1}}đ</del></span>
                                                             <b>{{p.giaNiemYet | currency : "" : 1}}đ</b></h5>
 
-                                                        <p class="text-muted mb-0">
-                                                            <i class="mdi mdi-heart-outline text-dark" id="heart{{p.ma}}" style="font-size: 25px;cursor: pointer" ng-click="addDSYT1(p.ma)"></i>
-                                                        </p>
+                                                            //
                                                         </div>
                                                     </div>
                                                 </div>
@@ -464,6 +462,12 @@
                                         </div>
                                     </div>
                                 </div>
+<!--                                <div class="block2-txt-child2 flex-r p-t-3">-->
+<!--                                    <i ng-if="maSpInDSYT.includes(p.ma) == false" id="{{p.ma}}"-->
+<!--                                       class="far fa-heart" ng-click="addDSYT(p.ma)"></i>-->
+<!--                                    <i ng-if="maSpInDSYT.includes(p.ma) == true" id="{{p.ma}}"-->
+<!--                                       class="fas fa-heart" ng-click="addDSYT(p.ma)"></i>-->
+<!--                                </div>-->
                             </div>
                             <!-- end row -->
                         </div>
