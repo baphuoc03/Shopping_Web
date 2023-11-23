@@ -22,6 +22,7 @@ public interface IDonHangService {
     DonHangDtoResponse checkOut(DonHangDTORequest donHangDTORequest);
 
     DonHangDtoResponse findByMa(String ma);
+
     DonHangReponseUser findByMaUser(String ma);
 
     Boolean existsByMa(String ma);
@@ -39,9 +40,9 @@ public interface IDonHangService {
     DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products);
 
     @Query("""
-    SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c 
-    WHERE c.donHang.ngayDatHang in (?1,?2)
-""")
+                SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c 
+                WHERE c.donHang.ngayDatHang in (?1,?2)
+            """)
     Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
 
     Long getQuantityOrdersWithDate(Date firstDate, Date lastDate);

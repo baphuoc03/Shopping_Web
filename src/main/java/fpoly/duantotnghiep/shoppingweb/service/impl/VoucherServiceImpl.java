@@ -75,7 +75,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public Page<VoucherReponse> findByName(String keyword, Pageable pageable) {
-        Page<VoucherModel> page = repository.findByTenLike(keyword, pageable);
+        Page<VoucherModel> page = repository.findByMotaLike(keyword, pageable);
         return page.map(x -> new VoucherReponse(x));
     }
 

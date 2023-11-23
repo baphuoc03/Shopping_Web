@@ -62,7 +62,7 @@
           href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/css/fileinput.min.css'/>
 
 <!--    toast-->
-    <link th:href="@{/admin/assets/css/jquery.toast.css}" rel="stylesheet" type="text/css"/>
+<!--    <link href="/admin/assets/css/jquery.toast.css" rel="stylesheet" type="text/css"/>-->
 
 </head>
 
@@ -508,36 +508,40 @@
 <!--chart-->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
+
 <!--date picker-->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<!--aaaaaaaaaaaaaaaaaaaaa-->
+<!--scip voucher-->
+<script>
+    function toggleDiv() {
+        var selectBox = document.getElementById('loai');
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        var divToShow = document.getElementById('mucGiamToiDa');
 
-<!--Toast-->
+        if (selectedValue === 'PHAN TRAM') {
+            divToShow.style.display = 'block';
+        } else {
+            divToShow.style.display = 'none';
+        }
+    }
 
-<!-- apexcharts -->
-<!--<script th:src="@{/admin/assets/libs/apexcharts/apexcharts.min.js}"></script>-->
+    function toggleDiv2() {
+        var option1Radio = document.querySelector('input[value="0"]');
+        var soLuong = document.getElementById('soLuong');
+        var khachHang = document.getElementById('khach');
 
-<!--&lt;!&ndash; Plugins js}&ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js}"></script>-->
-<!--<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js}"></script>-->
-<!--&lt;!&ndash; dashboard init &ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/js/pages/dashboard.init.js}"></script>-->
-
-<!--<script th:src="@{/admin/assets/js/app.js}"></script>-->
-
-<!--&lt;!&ndash; select 2 plugin &ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/libs/select2/js/select2.min.js}"></script>-->
-
-<!--&lt;!&ndash; dropzone plugin &ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/libs/dropzone/min/dropzone.min.js}"></script>-->
-
-<!--&lt;!&ndash; init js} &ndash;&gt;-->
-<!--<script th:src="@{/admin/assets/js/pages/ecommerce-select2.init.js}"></script>-->
-
-<!--<script th:src="@{/admin/assets/js/app.js}"></script>-->
+        if (option1Radio.checked) {
+            soLuong.style.display = 'block';
+            khachHang.style.display = 'none';
+        } else {
+            soLuong.style.display = 'none';
+            khachHang.style.display = 'block';
+        }
+    }
+</script>
 
 </body>
 

@@ -20,6 +20,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.*;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -331,10 +332,5 @@ public class DonHangService implements IDonHangService {
     public BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate) {
         return donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate) == null ? BigDecimal.valueOf(0) : donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate);
     }
-
-    @Override
-    public void deleteDonHangQuaHanThanhToan(){
-        LocalDateTime threeHoursAgo = LocalDateTime.now().minusHours(8);
-        List<DonHangModel> finByDonHangByThoiGian = donHangResponsitory.
-    }
 }
+

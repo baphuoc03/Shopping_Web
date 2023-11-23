@@ -69,7 +69,7 @@ public class DonHangDtoResponse {
 
         if(model.getVoucher()!=null){
             voucherCode = model.getVoucher().getMa();
-            voucherName = model.getVoucher().getTen();
+            voucherName = model.getVoucher().getMota();
         }
     }
 }
