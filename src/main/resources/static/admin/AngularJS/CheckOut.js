@@ -85,7 +85,9 @@ app.controller('checkOutCtrl', function ($scope, $http) {
 
 
 //    check-out
+
     $scope.create = function () {
+        // let tongTien = document.getElementById("tongTien").value
         let indexCity = $scope.citys.findIndex(c => c.ProvinceID == $scope.thanhPhoCode)
         let indexDistrict = $scope.districts.findIndex(d => d.DistrictID == $scope.quanHuyenCode)
         let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode)
@@ -105,7 +107,8 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             diaChiChiTiet: $scope.diaChiChiTiet,
             ghiChu: $scope.ghiChu,
             phiGiaoHang: $scope.feeShipped,
-            tienGiam: $scope.giaGiam
+            tienGiam: $scope.giaGiam,
+            tongTien : ($scope.sumTotal+$scope.feeShipped) * 100
         }
         var diaChi = {
             thanhPhoCode: $scope.thanhPhoCode,
@@ -121,9 +124,8 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
                 alert("Thêm Thành Công dc")
             })
-        } else {
-            console.log("Không chọn")
         }
+<<<<<<< HEAD
         $http.post("http://localhost:8080/check-out", donHang).then(r => {
             alert("Thanh toán thành công")
             location.href = "/trang-chu"
@@ -134,8 +136,28 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             $scope.errXaPhuongCode = err.data.xaPhuongCode == undefined ? "" : err.data.xaPhuongCode
             $scope.errDiaChiChiTiet = err.data.diaChiChiTiet == undefined ? "" : err.data.diaChiChiTiet
             $scope.errThanhToan = err.data.phuongThucThanhToan == undefined ? "" : err.data.phuongThucThanhToan
+=======
+       else{
 
-        })
+            $http.post("http://localhost:8080/check-out", donHang).then(r => {
+                if(r.data.vnPayUrl == undefined){
+                    location.href = "/trang-chu"
+                }else{
+                    location.href = r.data.vnPayUrl
+                }
+>>>>>>> afc6665 (Thanh Toan VnPay)
+
+            }).catch(err => {
+
+                console.log(err)
+                $scope.errThanhPhoCode = err.data.thanhPhoCode == undefined ? "" : err.data.thanhPhoCode
+                $scope.errQuanHuyenCode = err.data.quanHuyenCode == undefined ? "" : err.data.quanHuyenCode
+                $scope.errXaPhuongCode = err.data.xaPhuongCode == undefined ? "" : err.data.xaPhuongCode
+                $scope.errDiaChiChiTiet = err.data.diaChiChiTiet == undefined ? "" : err.data.diaChiChiTiet
+                $scope.errThanhToan = err.data.phuongThucThanhToan == undefined ? "" : err.data.phuongThucThanhToan
+
+            })
+        }
     }
 
     $scope.getDataAPI = function (maVC) {
@@ -200,6 +222,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             })
     }
 
+
     $http.get("/get-khach-hang-thanh-toan").then(function (resp) {
         let khachByThanhToan = resp.data
         $scope.nguoiNhan = khachByThanhToan.hoVaTen;
@@ -207,9 +230,12 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         $scope.email = khachByThanhToan.email;
     })
 
+<<<<<<< HEAD
     $scope.login = function (){
         var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
         document.cookie = "url="+window.location.href+"; expires="+expires;
         location.href = "/dang-nhap";
     }
+=======
+>>>>>>> afc6665 (Thanh Toan VnPay)
 });

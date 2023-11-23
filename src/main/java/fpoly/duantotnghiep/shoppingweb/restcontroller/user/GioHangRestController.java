@@ -45,15 +45,16 @@ public class GioHangRestController {
             er.put("eSize","Số lượng không hợp lệ!!");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
         }
-
-
         service.addOrUpdateToCart(idCTSP,sl);
         return ResponseEntity.ok(service.laySpTrongGio());
     }
     @PutMapping("update-sl/{idCTSP}/{sl}")
-    public ResponseEntity<List<GioHangDtoReponse>> updateSL(@PathVariable("idCTSP")String idCTSP,@PathVariable("sl")Integer sl){
-//        Long slSanPham = chiTietSanPhamRepository.getReferenceById(idCTSP).getSoLuong();
-//        if(slSanPham < sl || sl <= 0) return null;
+    public ResponseEntity<?> updateSL(@PathVariable("idCTSP")String idCTSP,@PathVariable("sl")Integer sl){
+        Map<String,String> er = new HashMap<>();
+        if(!chiTietSanPhamService.checkSoLuongSP(idCTSP, Long.valueOf(sl))){
+            er.put("sl","Số lượng trong kho không đủ");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
+        }
         service.updateSoLuong(idCTSP,sl);
         return ResponseEntity.ok(service.laySpTrongGio());
     }

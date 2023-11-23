@@ -16,7 +16,7 @@ app.controller("cart-ctrl", function ($scope, $http) {
     })
 
     $scope.updateSl = function (id, soLuong) {
-        if (soLuong <= 0 || soLuong.length > 1 || soLuong.length > 1) {
+        if (soLuong <= 0) {
             alert("Số lượng phải là số nguyên > 0!!!")
             return
         }
@@ -24,40 +24,13 @@ app.controller("cart-ctrl", function ($scope, $http) {
             alert("Số lượng phải là số nguyên > 0!!")
             return
         }
-        $http.put("/cart/update-sl/" + id + "/" + soLuong).then(r => {
+        $http.put("/cart/update-sl/" + id + "/" + soLuong).then(function (r){
             console.log(r.data)
             $scope.cart = r.data;
+        }).catch(e=>{
+            document.getElementById("sl").innerText = e.data.sl = e.data.sl
+            console.log(e)
         })
-    }
-
-    $scope.setUpdateSL = function () {
-        console.log(document.getElementById("slUpdate").getAttribute("name"))
-        var id = document.getElementById("slUpdate").getAttribute("name")
-        var soLuong = document.getElementById("slUpdate").value
-        console.log(soLuong)
-        if (soLuong <= 0 || soLuong.split('.').length > 1 || soLuong.split(',').length > 1) {
-            alert("Số lượng phải là số nguyên > 0!!!")
-            return
-        }
-        if (!parseInt(soLuong)) {
-            alert("Số lượng phải là số nguyên > 0!!!")
-            return
-        }
-
-        if (confirm("Cập nhật số lượng sản phẩm trong giỏ?")) {
-
-
-            $http.put("/cart/update-sl?idCTSP=" + id + "&soLuong=" + soLuong).then(function (response) {
-                console.log(response.data)
-                if (response.data == null || response.data.length == 0) {
-                    alert("Phân loại của sản phẩm không đủ số lượng!!!")
-                } else {
-                    alert("Success")
-                    location.reload()
-                }
-            })
-        }
-
     }
     $scope.removeProductIncart = function (idCTSP) {
         if (confirm("Xóa sản phẩm khỏi giỏ hàng?")) {

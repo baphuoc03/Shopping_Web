@@ -34,10 +34,14 @@ public class DonHangDtoResponse {
     private String lyDoHuy;
     private String voucherCode;
     private String voucherName;
+<<<<<<< HEAD
     private Date ngayXacNhan;
     private Date ngayGiaoHang;
     private Date ngayHoanThanh;
     private Date ngayHuy;
+=======
+    private BigDecimal tongTien;
+>>>>>>> afc6665 (Thanh Toan VnPay)
 
 
     public DonHangDtoResponse(DonHangModel model) {
@@ -71,5 +75,6 @@ public class DonHangDtoResponse {
             voucherCode = model.getVoucher().getMa();
             voucherName = model.getVoucher().getTen();
         }
+        this.tongTien = model.getTongTien();
     }
 }
