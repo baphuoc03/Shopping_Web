@@ -60,4 +60,8 @@ public class HomeController {
     public String danhSa1() {
         return "/user/sanPhamNguoiDung";
     }
+    @GetMapping("3")
+    public String danhSa3() {
+        return "/admin/fromVoucher";
+    }
 }

@@ -38,10 +38,10 @@ public class VoucherReponse {
 
     public VoucherReponse(VoucherModel model) {
         this.ma = model.getMa();
-        this.ten = model.getTen();
-        this.loai = model.getLoai();
+        this.ten = model.getMota();
+        this.loai = model.getLoaiMucGiam();
         this.mucGiam = model.getMucGiam();
-        this.giaTriToiThieu = model.getGiaTriToiThieu();
+        this.giaTriToiThieu = model.getGiaTriDonHang();
         this.ngayBatDau = model.getNgayBatDau();
         this.ngayKetThuc = model.getNgayKetThuc();
         this.soLuong = model.getSoLuong();

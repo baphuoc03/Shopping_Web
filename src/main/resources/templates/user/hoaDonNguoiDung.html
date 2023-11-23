@@ -71,6 +71,7 @@
             font-family: FontAwesome;
 
         }
+
         .er {
             color: red;
             font-size: 13px;
@@ -87,7 +88,14 @@
                 <ul class="nav nav-tabs nav-tabs-custom nav-justified m-t-2 bg-white" style="height: 50px"
                     role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" ng-click="donHangUser(2)" href="#choXacNhan"
+                        <a class="nav-link active" data-bs-toggle="tab" ng-click="donHangUser(5)" href="#choXacNhan"
+                           role="tab">
+                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                            <span class="d-none d-sm-block">Chờ thanh toán</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" ng-click="donHangUser(2)" href="#choXacNhan"
                            role="tab">
                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
                             <span class="d-none d-sm-block">Chờ xác nhận</span>
@@ -120,16 +128,77 @@
                 </ul>
 
                 <div class="tab-content p-3 text-muted">
+                    <!--                    chờ thanh toán-->
+<!--                    <div class="tab-pane active" id="choThanhToan" role="tabpanel">-->
+<!--                        <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">-->
+<!--                            <div class="row"-->
+<!--                                 style="height: 500px; display: flex; justify-content: center; align-items: center;">-->
+<!--                                <h4 class="m-t-2" style="text-align: center">-->
+<!--                                    <img style="height: 150px; width: 150px"-->
+<!--                                         src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">Chưa-->
+<!--                                    có đơn hàng-->
+<!--                                </h4>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="row"></div>-->
+<!--                        <div class="m-l-10 m-r-10 m-b-10" style="background-color: white;"-->
+<!--                             ng-repeat="d in donHangChuaXacNhanKh" ng-if="donHangChuaXacNhanKh.length >0">-->
+<!--                            <div class="row m-t-10 m-r-1 m-l-1" style="background-color: #717fe0; height: 50px">-->
+<!--                                <div class="col-6 m-t-17">-->
+<!--                                    <h5 style="color: white">Đơn hàng: {{d.ma}}</h5>-->
+<!--                                </div>-->
+<!--                                <div class="col-6 m-t-3">-->
+<!--                                    <h5 class="flex-r m-t-10" style="color: white;">Chờ thanh toán</h5>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="row m-r-10 m-l-10 m-t-10" ng-repeat="ct in d.chiTietDon">-->
+<!--                                <div class="col-1">-->
+<!--                                    <img src="/image/loadImage/product/{{ct.anh}}" style="width: 100px; height: 100px;"-->
+<!--                                         alt="chờ xác nhận">-->
+<!--                                </div>-->
+<!--                                <div class="col-7">-->
+<!--                                    <div class="text" style="margin-left: 10px;">-->
+<!--                                        <h8>{{ct.sanPham}}</h8>-->
+<!--                                        <p>size: {{ct.size}}</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-2">-->
+<!--                                    <h9>Số lượng: {{ct.soLuong}}</h9>-->
+<!--                                </div>-->
+<!--                                <div class="col-2">-->
+<!--                                    <h9>{{ct.donGia | currency: "" : 1}}đ</h9>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <hr>-->
+<!--                            <div class="row flex-r mr-3">-->
+<!--                                <h4 class="flex-r mr-3">Thành tiền: 1.000.000d</h4>-->
+<!--                            </div>-->
+<!--                            <div class="row flex-r mr-3 m-t-10 m-b-15">-->
+<!--                                <div class="size-101 flex-r mr-3 m-t-10 m-b-15">-->
+<!--                                    <button type="button" class="btn btn-secondary ml-2 m-b-10 btn-danger"-->
+<!--                                            ng-click="findByMaDonHangUser(d.ma)"-->
+<!--                                            data-bs-toggle="modal"-->
+<!--                                            data-bs-target="#huyModal">Hủy-->
+<!--                                    </button>-->
+<!--                                    <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"-->
+<!--                                       class="btn btn-secondary ml-2 m-b-10"-->
+<!--                                       ng-click="findByMaDonHangUser(d.ma)">Xem chi tiết đơn hàng-->
+<!--                                    </a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="row"></div>-->
+<!--                    </div>-->
                     <!--                    chờ xác nhận-->
                     <div class="tab-pane active" id="choXacNhan" role="tabpanel">
                         <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
                             <div class="row"
                                  style="height: 500px; display: flex; justify-content: center; align-items: center;">
-
-
-                                <h4 class="m-t-2" style="text-align: center"><img style="height: 150px; width: 150px"
-                                                                                  src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png"
-                                                                                  alt="">Chưa có đơn hàng</h4>
+                                <h4 class="m-t-2" style="text-align: center">
+                                    <img style="height: 150px; width: 150px"
+                                         src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">Chưa
+                                    có đơn hàng
+                                </h4>
                             </div>
                         </div>
                         <div class="row"></div>
@@ -460,32 +529,37 @@
 
                                     <form action="" id="formDanhGia">
 
-                                        <input class="star star-5" id="star-5" type="radio"  ng-click="erDanhGia.rating=''"
+                                        <input class="star star-5" id="star-5" type="radio"
+                                               ng-click="erDanhGia.rating=''"
                                                name="star" value="5" ng-model="danhGia.rating"/>
 
                                         <label class="star star-5" for="star-5"></label>
 
-                                        <input class="star star-4" id="star-4" type="radio" ng-click="erDanhGia.rating=''"
+                                        <input class="star star-4" id="star-4" type="radio"
+                                               ng-click="erDanhGia.rating=''"
                                                name="star" value="4" ng-model="danhGia.rating"/>
 
                                         <label class="star star-4" for="star-4"></label>
 
-                                        <input class="star star-3" id="star-3" type="radio" ng-click="erDanhGia.rating=''"
+                                        <input class="star star-3" id="star-3" type="radio"
+                                               ng-click="erDanhGia.rating=''"
                                                name="star" value="3" ng-model="danhGia.rating"/>
 
                                         <label class="star star-3" for="star-3"></label>
 
-                                        <input class="star star-2" id="star-2" type="radio" ng-click="erDanhGia.rating=''"
+                                        <input class="star star-2" id="star-2" type="radio"
+                                               ng-click="erDanhGia.rating=''"
                                                name="star" value="2" ng-model="danhGia.rating"/>
 
                                         <label class="star star-2" for="star-2"></label>
 
-                                        <input class="star star-1" id="star-1" type="radio" ng-click="erDanhGia.rating=''"
+                                        <input class="star star-1" id="star-1" type="radio"
+                                               ng-click="erDanhGia.rating=''"
                                                name="star" value="1" ng-model="danhGia.rating"/>
 
                                         <label class="star star-1" for="star-1"></label>
                                         <br>
-                                        <i class="er" >{{erDanhGia.rating == undefined ? "" : erDanhGia.rating}}</i>
+                                        <i class="er">{{erDanhGia.rating == undefined ? "" : erDanhGia.rating}}</i>
                                     </form>
                                 </div>
                             </div>
@@ -495,11 +569,13 @@
                                 phẩm
                                 <h9 style="color: red;">*</h9>
                             </label>
-                            <input type="text" class="form-control" placeholder="Tiêu đề" ng-model="danhGia.tieuDe" ng-focus="erDanhGia.tieuDe=''">
-                            <i class="er " >{{erDanhGia.tieuDe == undefined ? "" : erDanhGia.tieuDe}}</i>
-                            <textarea class="form-control mt-3" ng-model="danhGia.noiDung" ng-focus="erDanhGia.noiDung=''"
+                            <input type="text" class="form-control" placeholder="Tiêu đề" ng-model="danhGia.tieuDe"
+                                   ng-focus="erDanhGia.tieuDe=''">
+                            <i class="er ">{{erDanhGia.tieuDe == undefined ? "" : erDanhGia.tieuDe}}</i>
+                            <textarea class="form-control mt-3" ng-model="danhGia.noiDung"
+                                      ng-focus="erDanhGia.noiDung=''"
                                       id="exampleFormControlTextarea11" rows="3" placeholder="Nội dung"></textarea>
-                            <i class="er mb-3" >{{erDanhGia.noiDung == undefined ? "" : erDanhGia.noiDung}}</i>
+                            <i class="er mb-3">{{erDanhGia.noiDung == undefined ? "" : erDanhGia.noiDung}}</i>
                         </div>
                         <button type="button" class="btn btn-secondary" ng-click="addDanhGia()">Gửi đánh giá</button>
                     </div>
@@ -509,30 +585,6 @@
     </div>
 
 </div>
-<!--<script>-->
-<!--    function switchTab(tabId) {-->
-<!--        // Hide all tab content-->
-<!--        var tabContent = document.querySelectorAll(".tab-pane");-->
-<!--        tabContent.forEach(function (tab) {-->
-<!--            tab.classList.remove("show", "active");-->
-<!--        });-->
-
-<!--        // Show the selected tab content-->
-<!--        var selectedTab = document.getElementById(tabId);-->
-<!--        selectedTab.classList.add("show", "active");-->
-<!--    }-->
-
-<!--    switchTab('choXacNhan')-->
-<!--    // Add click event listeners to each tab link-->
-<!--    var tabLinks = document.querySelectorAll(".nav-link");-->
-<!--    tabLinks.forEach(function (link) {-->
-<!--        link.addEventListener("click", function (e) {-->
-<!--            e.preventDefault(); // Prevent the default link behavior-->
-<!--            var tabId = link.getAttribute("href").substring(1);-->
-<!--            switchTab(tabId);-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
 </div>
 </body>
 </html>
