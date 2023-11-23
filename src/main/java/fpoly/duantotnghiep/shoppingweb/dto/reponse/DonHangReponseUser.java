@@ -40,7 +40,6 @@ public class DonHangReponseUser {
     private String trangThaiDetail;
     private String phuongThucThanhToan;
     private String lyDoHuy;
-    private BigDecimal tongTien;
     private String voucherCode;
     private String voucherName;
     private Date ngayXacNhan;

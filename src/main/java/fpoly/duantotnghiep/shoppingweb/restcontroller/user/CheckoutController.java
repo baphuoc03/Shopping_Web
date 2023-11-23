@@ -106,6 +106,7 @@ public class CheckoutController {
             Map<String,String> vnPayUrl = new HashMap<>();
             vnPayUrl.put("vnPayUrl",vnpayUrl);
             int paymentStatus =vnPayService.orderReturn(request,donHangDTORequest.getDiaChiChiTiet());
+            System.out.println(paymentStatus);
             if (paymentStatus == 1){
                 donHangService.updateTrangThai1(response.getMa(), 2);
             } else {

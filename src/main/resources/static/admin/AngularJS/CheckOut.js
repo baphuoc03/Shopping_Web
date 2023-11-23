@@ -148,7 +148,6 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 $scope.errThanhToan = err.data.phuongThucThanhToan == undefined ? "" : err.data.phuongThucThanhToan
 
             })
-        }
     }
 
     $scope.getDataAPI = function (maVC) {
