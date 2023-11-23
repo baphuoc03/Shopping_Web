@@ -245,6 +245,11 @@
                                        class="btn btn-secondary ml-2 m-b-10"
                                        ng-click="findByMaDonHangUser(d.ma)">Xem chi tiết đơn hàng
                                     </a>
+                                    <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
+                                       ng-if="d.trangThai == 5"
+                                       class="btn btn-primary ml-2 m-b-10"
+                                       ng-click="findByMaDonHangUser(d.ma)">Thanh toán
+                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -992,7 +992,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             console.log(err);
         })
     }
-    $scope.donHangUser(2)
+    $scope.donHangUser(5)
 
     $scope.findByMaDonHangUser = function (ma) {
         $http.get("/don-hang/" + ma).then(function (res) {
