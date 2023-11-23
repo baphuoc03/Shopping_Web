@@ -14,6 +14,7 @@ public interface IKhachHangRepository extends JpaRepository<KhachHangModel, Stri
     @Query("SELECT  kh.danhSachDiaChi FROM KhachHangModel kh where kh.username = :taiKhoan")
     List<DiaChiModel> findAllDiaChiByTaiKhoan(@Param("taiKhoan") String taiKhoan);
 
+    List<KhachHangModel> findByUsernameIn(List<String> ma);
 
 
 }

@@ -4,6 +4,12 @@ app.controller("voucher-ctrl", function ($scope, $http) {
     var getUrlWithId = function (id) {
         return url + "/" + id;
     }
+    $http.get("http://localhost:8080/admin/khach-hang/khach-hang-voucher").then(function (res) {
+        $scope.findAllKhachHang = res.data
+    }).catch(err => console.log(err))
+
+    $scope.voucherAdd = {}
+
     //    chi tiet
     $scope.findById = function (id) {
         var urlWithId = getUrlWithId(id);
@@ -31,18 +37,19 @@ app.controller("voucher-ctrl", function ($scope, $http) {
     }
     //add
     $scope.create = function () {
-        var voucher = {
-            ten: $scope.ten,
-            loai: $scope.loai,
-            mucGiam: $scope.mucGiam,
-            mucGiamToiDa: $scope.mucGiamToiDa,
-            giaTriToiThieu: $scope.giaTriToiThieu,
-            ngayBatDau: $scope.ngayBatDau,
-            ngayKetThuc: $scope.ngayKetThuc,
-            soLuong: $scope.soLuong
-        }
-        $http.post(url, voucher).then(function (response) {
-            location.reload();
+        let formData = new FormData();
+
+        formData.append("voucher", new Blob([JSON.stringify($scope.voucherAdd)], {
+            type: 'application/json'
+        }))
+        var json = JSON.stringify(formData.get("voucher"));
+        console.log($scope.voucherAdd)
+        $http.post(url, formData,{
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        }).then(function (response) {
+
+            // location.reload();
             alert("Create success");
 
         }).catch(error => {
@@ -57,7 +64,7 @@ app.controller("voucher-ctrl", function ($scope, $http) {
 
         })
     }
-    //update
+//update
     $scope.update = function (id) {
         var urlWithId = getUrlWithId(id)
         var voucher = {
@@ -75,17 +82,6 @@ app.controller("voucher-ctrl", function ($scope, $http) {
             alert("Update success");
         })
     }
-    const currencySelector = document.getElementById("loaiGiam");
-    const input = document.getElementById("mucGiamToiDa");
-
-    input.style.display = "none";
-
-    currencySelector.addEventListener("change", function () {
-        if (currencySelector.value === "TIEN") {
-            input.style.display = "none";
-        } else {
-            input.style.display = "block";
-        }
-    });
-});
+})
+;
 

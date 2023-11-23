@@ -20,11 +20,13 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.*;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -199,6 +201,13 @@ public class DonHangService implements IDonHangService {
         model.setNgayHuy(new Date());
         model.setLyDoHuy(lyDo);
         model.setTrangThai(0);
+        List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
+        ctdhModel.forEach(c -> {
+            int soLuongInDonHang = c.getSoLuong();
+            ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
+            sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
+            chiTietSanPhamRepository.save(sanPhamInDonHang);
+        });
         donHangResponsitory.save(model);
     }
 
@@ -330,3 +339,4 @@ public class DonHangService implements IDonHangService {
         return new DonHangDtoResponse(donHangResponsitory.saveAndFlush(donHangModel));
     }
 }
+

@@ -78,7 +78,7 @@ public class DonHangReponseUser {
         this.tongTien = model.getTongTien();
         if (model.getVoucher() != null) {
             voucherCode = model.getVoucher().getMa();
-            voucherName = model.getVoucher().getTen();
+            voucherName = model.getVoucher().getMota();
         }
 
         this.chiTietDonHang = model.getDanhSachSanPham().stream().map(s -> new ChiTietDonHangDtoResponse(s)).collect(Collectors.toList());
