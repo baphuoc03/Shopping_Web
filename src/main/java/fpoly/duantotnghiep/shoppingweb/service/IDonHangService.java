@@ -47,4 +47,6 @@ public interface IDonHangService {
     Long getQuantityOrdersWithDate(Date firstDate, Date lastDate);
 
     BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate);
+
+    DonHangDtoResponse updateTrangThai1(String maDonHang, Integer trangThai);
 }

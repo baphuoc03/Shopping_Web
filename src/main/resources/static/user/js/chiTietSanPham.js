@@ -110,13 +110,10 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         if (confirm("Thêm sản phẩm vào giỏ hàng?")) {
             $http.post("/cart/add-to-cart?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
                 console.log(response.data)
-                if (response.data == null || response.data.length == 0) {
-                    alert("Phân loại của sản phẩm không đủ số lượng!!!")
-                } else {
                     alert("Success")
-                }
+
             }).catch(e => {
-                document.getElementById("eSize").innerText = e.data.eSize = undefined ? "" : e.data.eSize
+                document.getElementById("eSize").innerText = e.data.eSize = e.data.eSize
                 console.log(e)
             })
         }

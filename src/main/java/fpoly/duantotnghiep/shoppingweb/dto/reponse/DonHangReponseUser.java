@@ -1,14 +1,18 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
-import lombok.Data;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class DonHangReponseUser {
     private String ma;
@@ -31,6 +35,7 @@ public class DonHangReponseUser {
     private String trangThaiDetail;
     private String phuongThucThanhToan;
     private String lyDoHuy;
+    private BigDecimal tongTien;
     private String voucherCode;
     private String voucherName;
     private List<ChiTietDonHangDtoResponse> chiTietDonHang;
@@ -57,10 +62,14 @@ public class DonHangReponseUser {
         this.trangThaiDetail = model.trangThaiDetail();
         this.phuongThucThanhToan = model.getPhuongThucThanhToan() == true ? "Thanh toán khi nhận hàng" : "Thanh toán online";
         this.lyDoHuy = model.getLyDoHuy();
+        this.tongTien = model.getTongTien();
         if (model.getVoucher() != null) {
             voucherCode = model.getVoucher().getMa();
             voucherName = model.getVoucher().getTen();
         }
+
         this.chiTietDonHang = model.getDanhSachSanPham().stream().map(s -> new ChiTietDonHangDtoResponse(s)).collect(Collectors.toList());
     }
+
+
 }

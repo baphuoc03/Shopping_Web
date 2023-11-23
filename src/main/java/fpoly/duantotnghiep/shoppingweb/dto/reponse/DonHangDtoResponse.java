@@ -34,6 +34,7 @@ public class DonHangDtoResponse {
     private String lyDoHuy;
     private String voucherCode;
     private String voucherName;
+    private BigDecimal tongTien;
 
 
     public DonHangDtoResponse(DonHangModel model) {
@@ -61,5 +62,6 @@ public class DonHangDtoResponse {
             voucherCode = model.getVoucher().getMa();
             voucherName = model.getVoucher().getTen();
         }
+        this.tongTien = model.getTongTien();
     }
 }

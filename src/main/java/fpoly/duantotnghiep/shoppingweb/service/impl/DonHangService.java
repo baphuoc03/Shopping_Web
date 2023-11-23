@@ -309,4 +309,10 @@ public class DonHangService implements IDonHangService {
     public BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate){
         return donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate) == null ? BigDecimal.valueOf(0) : donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate) ;
     }
+    @Override
+    public DonHangDtoResponse updateTrangThai1(String maDonHang,Integer trangThai){
+        DonHangModel donHangModel = donHangResponsitory.findById(maDonHang).get();
+        donHangModel.setTrangThai(trangThai);
+        return new DonHangDtoResponse(donHangResponsitory.saveAndFlush(donHangModel));
+    }
 }
