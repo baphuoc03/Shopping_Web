@@ -1,6 +1,8 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
@@ -12,7 +14,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class DonHangReponseUser {
     private String ma;
@@ -35,6 +40,7 @@ public class DonHangReponseUser {
     private String trangThaiDetail;
     private String phuongThucThanhToan;
     private String lyDoHuy;
+    private BigDecimal tongTien;
     private String voucherCode;
     private String voucherName;
     private Date ngayXacNhan;
@@ -75,7 +81,10 @@ public class DonHangReponseUser {
             voucherCode = model.getVoucher().getMa();
             voucherName = model.getVoucher().getTen();
         }
+
         this.chiTietDonHang = model.getDanhSachSanPham().stream().map(s -> new ChiTietDonHangDtoResponse(s)).collect(Collectors.toList());
 
     }
+
+
 }

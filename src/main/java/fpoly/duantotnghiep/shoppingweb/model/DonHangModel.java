@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Formula;
 
 import java.math.BigDecimal;
@@ -60,7 +61,9 @@ public class DonHangModel {
     @Column(name = "diachichitiet")
     private String diaChiChiTiet;
 
+
     @Column(name = "ngaydathang")
+    @CreationTimestamp
     private Date ngayDatHang;
 
     @Column(name = "trangthai")
@@ -95,7 +98,6 @@ public class DonHangModel {
 
     @Formula("(SELECT SUM(c.dongiasaugiam*c.SoLuong) + d.phigiaohang - d.tiengiam FROM donhang d Join chitietdonhang c on c.DonHang = d.Ma where d.Ma = ma)")
     private BigDecimal tongTien;
-
 
     @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
     private List<ChiTietDonHangModel> danhSachSanPham;

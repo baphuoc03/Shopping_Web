@@ -131,6 +131,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         alertify.confirm("Thêm sản phẩm vào giỏ hàng?", function () {
             $http.post("/cart/add-to-cart?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
                 console.log(response.data)
+
                 if (response.data == null || response.data.length == 0) {
                     alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
                 } else {
