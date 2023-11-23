@@ -344,7 +344,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     ghiChu: $scope.chuaXacNhan.detail.ghiChu,
                     tienGiam: $scope.chuaXacNhan.detail.tienGiam,
                     phiGiaoHang: $scope.chuaXacNhan.detail.phiGiaoHang,
-                    trangThaiDetail: $scope.chuaXacNhan.detail.trangThai
+                    trangThaiDetail: $scope.chuaXacNhan.detail.trangThai,
+                    phuongThucThanhToan : $scope.chuaXacNhan.detail.phuongThucThanhToan =='true' ? 0 : 1
                 }
                 let chiTietDonHang = [];
                 $scope.chiTietDonHang.forEach(c => {
@@ -371,6 +372,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     let index = $scope.chuaXacNhan.list.findIndex(d => d.ma == $scope.chuaXacNhan.detail.ma)
                     $scope.chuaXacNhan.list[index] = $scope.chuaXacNhan.detail
                     alertify.success("Cập nhật thành công")
+                    $scope.chuaThanhToan.init($scope.chuaThanhToan.page)
+                    $scope.chuaXacNhan.init($scope.chuaXacNhan.page)
                 }).catch(e => {
                     $scope.er = e.data
                     console.log(e)
