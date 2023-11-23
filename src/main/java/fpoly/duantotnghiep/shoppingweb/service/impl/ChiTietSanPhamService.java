@@ -5,6 +5,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietSanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
+import fpoly.duantotnghiep.shoppingweb.model.SizeModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IChiTietSanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,6 +140,11 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
         return chiTietSanPhamRepository.getTotalQauntityInOrdersWithDate(firstDate,lastDate);
     }
 
-
+    @Override
+    public void deleteBySize(float size){
+        SizeModel sizeModel = new SizeModel();
+        sizeModel.setMa(size);
+        chiTietSanPhamRepository.getAllBySize(sizeModel).forEach(c -> delete(c.getId()));
+    }
 
 }

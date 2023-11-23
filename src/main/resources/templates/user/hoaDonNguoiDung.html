@@ -227,12 +227,12 @@
                                     <h9>Số lượng: {{ct.soLuong}}</h9>
                                 </div>
                                 <div class="col-2">
-                                    <h9>{{ct.donGia | currency: "" : 1}}đ</h9>
+                                    <h9>{{ct.donGiaSauGiam | currency: "" : 1}}đ</h9>
                                 </div>
                             </div>
                             <hr>
                             <div class="row flex-r mr-3">
-                                <h4 class="flex-r mr-3">Thành tiền: 1.000.000d</h4>
+                                <h4 class="flex-r mr-3">{{d.tongTien | currency: "" : 1}}đ</h4>
                             </div>
                             <div class="row flex-r mr-3 m-t-10 m-b-15">
                                 <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
@@ -403,8 +403,10 @@
                                     <h9>{{ct.donGia | currency: "" : 1}}đ</h9>
                                 </div>
                                 <div class="col-2">
-                                    <a href="#" data-bs-toggle="modal" ng-click="setMaSanPham(ct.maSanPham)"
+                                    <a href="#" data-bs-toggle="modal" ng-click="setChiTietDH(ct.id)" ng-if="ct.nhanXet==null"
                                        data-bs-target="#danhGia">Đánh giá</a>
+                                    <a href="#" ng-if="ct.nhanXet!=null"
+                                       data-bs-target="#danhGia">Đã dánh giá</a>
                                 </div>
                             </div>
                             <hr>

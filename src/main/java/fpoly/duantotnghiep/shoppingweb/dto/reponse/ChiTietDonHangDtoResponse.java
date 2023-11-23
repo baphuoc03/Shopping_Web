@@ -20,6 +20,7 @@ public class ChiTietDonHangDtoResponse {
     private BigDecimal donGia;
     private BigDecimal donGiaSauGiam;
     private String idChiTietSanPham;
+    private NhanXetDtoResponse nhanXet;
 
     public ChiTietDonHangDtoResponse(ChiTietDonHangModel model) {
         this.maSanPham = model.getChiTietSanPham().getSanPham().getMa();
@@ -31,5 +32,6 @@ public class ChiTietDonHangDtoResponse {
         this.donGia = model.getDonGia();
         this.donGiaSauGiam = model.getDonGiaSauGiam();
         this.idChiTietSanPham = model.getChiTietSanPham().getId();
+        if(model.getNhanXet() != null) this.nhanXet = new NhanXetDtoResponse(model.getNhanXet());
     }
 }

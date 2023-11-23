@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
+import fpoly.duantotnghiep.shoppingweb.model.ChiTietDonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.NhanXetModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
@@ -21,8 +22,7 @@ import java.util.Date;
 @Data
 public class NhanXetDtoRequest {
     private String id;
-    private String khachHang;
-    private String sanPham;
+    private String chiTietDonHang;
     @NotNull(message = "Có thể cho chúng tôi mức độ hài lòng của bạn")
     private Float rating;
     @NotBlank(message = "Không để trống tiêu đề")
@@ -32,23 +32,22 @@ public class NhanXetDtoRequest {
     @Size(max = 200,message = "Nội dung tối đa 200 ký tự")
     private String noiDung;
     private Date thoiGian;
+    private Boolean pheDuyet;
 
     public NhanXetModel mapToModel(){
         NhanXetModel model = new NhanXetModel();
         if(id!=null) model.setId(this.id);
 
-        KhachHangModel khachHangModel = new KhachHangModel();
-        khachHangModel.setUsername(khachHang);
-        model.setKhachHang(khachHangModel);
-
-        SanPhamModel sanPhamModel = new SanPhamModel();
-        sanPhamModel.setMa(sanPham);
-        model.setSanPham(sanPhamModel);
+        ChiTietDonHangModel chiTietDonHangModel = new ChiTietDonHangModel();
+        chiTietDonHangModel.setId(chiTietDonHang);
+        model.setChiTietDonHangModel(chiTietDonHangModel);
 
         model.setRating(this.rating);
         model.setTieuDe(this.tieuDe);
         model.setNoiDung(this.noiDung);
         model.setThoiGian(this.thoiGian);
+
+        if(pheDuyet != null) model.setPheDuyet(pheDuyet);
 
         return model;
     }

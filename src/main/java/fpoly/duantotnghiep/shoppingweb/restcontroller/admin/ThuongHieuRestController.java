@@ -5,6 +5,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.ThuongHieuDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KieuDangDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ThuongHieuDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.ThuongHieuModel;
+import fpoly.duantotnghiep.shoppingweb.service.IDongSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.IKieuDangService;
 import fpoly.duantotnghiep.shoppingweb.service.IThuongHieuService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +23,8 @@ public class ThuongHieuRestController {
     private HttpServletRequest request;
     @Autowired
     private IThuongHieuService service;
+    @Autowired
+    private IDongSanPhamService dongSanPhamService;
     @GetMapping("/find-all")
     public List<ThuongHieuDtoResponse> findAll(){
         return service.findAll();
@@ -48,6 +51,7 @@ public class ThuongHieuRestController {
     }
     @DeleteMapping("deletes")
     public ResponseEntity<?> deletes(@RequestBody List<String> id){
+        id.forEach(idTH -> dongSanPhamService.deleteByThuongHieu(idTH));
         service.deleteByIds(id);
         return ResponseEntity.ok().build();
     }
