@@ -37,8 +37,9 @@ public class DonHangRescontroller {
     @GetMapping("get-by-trangthai")
     public Page<DonHangDtoResponse> getChuaXacNhan(@RequestParam("trangThai") Integer trangThai,
                                                    @RequestParam(defaultValue = "0") Integer pageNumber,
-                                                   @RequestParam(defaultValue = "10") Integer limit) {
-        return donHangEntityManager.getDonHangByTrangThai(trangThai, pageNumber , limit);
+                                                   @RequestParam(defaultValue = "10") Integer limit,
+                                                   @RequestParam(required = false)String sdt) {
+        return donHangEntityManager.getDonHangByTrangThai(trangThai, pageNumber , limit, sdt);
     }
 
 

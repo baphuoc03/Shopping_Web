@@ -22,7 +22,7 @@ public class HomeController {
     public String sanPham() {
         return "/user/sanPhamUser";
     }
-    @GetMapping("san-pham/get-all/thuong-hieu/{id}")
+    @GetMapping("san-pham/thuong-hieu/{id}")
     public String sanPhamByThuongHieu() {
         return "/user/filterProduct";
     }
@@ -63,5 +63,9 @@ public class HomeController {
     @GetMapping("3")
     public String danhSa3() {
         return "/admin/fromVoucher";
+    }
+    @GetMapping("lien-he")
+    public String viewLienHe() {
+        return "/user/lienhe";
     }
 }

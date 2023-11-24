@@ -10,16 +10,25 @@ app.controller("filter-ctrl", function ($scope, $http) {
 
     const pathName = location.pathname;
     const thuongHieu = pathName.substring(pathName.lastIndexOf("/"))
+    $scope.filterDto = {
+        dongSanPham : thuongHieu.substring(1)
+    }
+    $scope.thuongHieu = {}
 
-    $http.get("/san-pham/thuong-hieu"+thuongHieu).then(r => {
+    $http.get("/thuong-hieu"+thuongHieu).then(r => {
+        $scope.thuongHieu = r.data
+    })
+
+    $http.post("/admin/san-pham/filter", $scope.filterDto).then(r => {
         $scope.products = r.data.content;
         $scope.getPageNumbers(r.data.totalPages)
     }).catch(e => console.log(e))
 
 
+
     $scope.getAll = function (pageNumber) {
-            $scope.pageNumber = pageNumber;
-            $http.get("/san-pham/thuong-hieu"+thuongHieu+"?pageNumber=" + pageNumber).then(r => {
+        $scope.pageNumber = pageNumber;
+        $http.post("/admin/san-pham/filter", $scope.filterDto).then(r => {
                 $scope.products = r.data.content;
                 // $scope.filterData = {}
             }).catch(e => console.log(e))
