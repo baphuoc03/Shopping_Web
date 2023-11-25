@@ -15,4 +15,8 @@ public interface IGioHangService {
 
     public void updateSoLuong(String key,Integer value);
     public void removeProductInCart(String idCTSP);
+
+    Boolean checkSanPhamTrongGio(String idCTSP);
+
+    Integer getSoLuong(String idCTSP);
 }

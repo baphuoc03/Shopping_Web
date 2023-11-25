@@ -99,6 +99,10 @@ public class SanPhamController {
                          @PathVariable("ma") String ma,
                          @RequestParam(value = "pro-image", required = false) List<MultipartFile> file) throws IOException {
 
+        if(file.size() > 5){
+            result.rejectValue("erImg","erImg","Sản phẩm có tối đa 5 ảnh");
+        }
+
         if (result.hasErrors()) {
             request.setAttribute("method", "put");
             request.setAttribute("action", "update/" + ma);

@@ -66,5 +66,13 @@ public class GioHangServiceImpl implements IGioHangService {
         return cart.getProductInCart().entrySet().stream().map(m -> new GioHangDtoReponse(repository.findById(m.getKey()).get(),m.getValue()))
                 .collect(Collectors.toList());
     }
+    @Override
+    public Boolean checkSanPhamTrongGio(String idCTSP){
+        return cart.getProductInCart().containsKey(idCTSP);
+    }
+    @Override
+    public Integer getSoLuong(String idCTSP){
+        return cart.getProductInCart().get(idCTSP);
+    }
 
 }
