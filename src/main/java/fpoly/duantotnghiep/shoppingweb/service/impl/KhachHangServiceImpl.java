@@ -36,6 +36,11 @@ public class KhachHangServiceImpl implements IKhachHangService {
     }
 
     @Override
+    public List<KhachHangDtoResponse> getAllFromVoucher() {
+        return khachHangRepository.findAll().stream().map(x -> new KhachHangDtoResponse(x)).collect(Collectors.toList());
+    }
+
+    @Override
     public KhachHangDtoResponse findById(String username) {
         return new KhachHangDtoResponse(khachHangRepository.findById(username).get());
     }
@@ -47,8 +52,8 @@ public class KhachHangServiceImpl implements IKhachHangService {
 
     @Override
     public KhachHangDtoResponse add(KhachHangDTORequest khachHang) throws MessagingException {
-            KhachHangModel khachHangModel = khachHangRepository.save(khachHang.mapToModel());
-            return new KhachHangDtoResponse(khachHangModel);
+        KhachHangModel khachHangModel = khachHangRepository.save(khachHang.mapToModel());
+        return new KhachHangDtoResponse(khachHangModel);
     }
 
     @Override
@@ -64,9 +69,15 @@ public class KhachHangServiceImpl implements IKhachHangService {
     public KhachHangDtoResponse update(KhachHangDTORequest khachHang, MultipartFile img) throws IOException {
         return null;
     }
+
     @Override
     public void deleteByUsername(String username) {
         khachHangRepository.deleteById(username);
+    }
+
+    @Override
+    public List<KhachHangModel> findByUserNameIn(List<String> maKhachHang) {
+        return khachHangRepository.findByUsernameIn(maKhachHang);
     }
 
     @Override

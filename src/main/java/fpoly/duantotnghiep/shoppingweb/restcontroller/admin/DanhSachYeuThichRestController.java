@@ -37,8 +37,9 @@ public class DanhSachYeuThichRestController {
 
 
     @GetMapping("find-all")
-    public List<DanhSachYeuThichResponse> findAll() {
-        return service.findAll();
+    public List<DanhSachYeuThichResponse> findAll(Authentication authentication) {
+        String username = authentication.getName();
+        return service.getByNguoiSoHuu(username);
     }
 
     @PostMapping("add")

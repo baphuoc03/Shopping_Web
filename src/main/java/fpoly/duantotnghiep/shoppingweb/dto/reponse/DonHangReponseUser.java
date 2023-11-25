@@ -4,8 +4,14 @@ import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Data;
+
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,9 +41,13 @@ public class DonHangReponseUser {
     private String trangThaiDetail;
     private String phuongThucThanhToan;
     private String lyDoHuy;
-    private BigDecimal tongTien;
     private String voucherCode;
     private String voucherName;
+    private Date ngayXacNhan;
+    private Date ngayGiaoHang;
+    private Date ngayHoanThanh;
+    private Date ngayHuy;
+    private BigDecimal tongTien;
     private List<ChiTietDonHangDtoResponse> chiTietDonHang;
 
 
@@ -62,13 +72,19 @@ public class DonHangReponseUser {
         this.trangThaiDetail = model.trangThaiDetail();
         this.phuongThucThanhToan = model.getPhuongThucThanhToan() == true ? "Thanh toán khi nhận hàng" : "Thanh toán online";
         this.lyDoHuy = model.getLyDoHuy();
+
+        if (model.getNgayXacNhan() != null) this.ngayXacNhan = model.getNgayXacNhan();
+        if (model.getNgayGiaoHang() != null) this.ngayGiaoHang = model.getNgayGiaoHang();
+        if (model.getNgayHoanThanh() != null) this.ngayHoanThanh = model.getNgayHoanThanh();
+        if (model.getNgayHuy() != null) this.ngayHuy = model.getNgayHuy();
         this.tongTien = model.getTongTien();
         if (model.getVoucher() != null) {
             voucherCode = model.getVoucher().getMa();
-            voucherName = model.getVoucher().getTen();
+            voucherName = model.getVoucher().getMota();
         }
 
         this.chiTietDonHang = model.getDanhSachSanPham().stream().map(s -> new ChiTietDonHangDtoResponse(s)).collect(Collectors.toList());
+
     }
 
 

@@ -42,6 +42,11 @@ public class DongSanPhamModel {
     @OneToMany(mappedBy = "dongSanPham",fetch = FetchType.LAZY)
     private List<SanPhamModel> danhSachSanPham;
 
+    @PreRemove
+    private void preRemove(){
+        danhSachSanPham.forEach(s -> s.setDongSanPham(null));
+    }
+
     public DongSanPhamModel(String id) {
         this.id = id;
     }

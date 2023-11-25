@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -22,17 +23,20 @@ public class VoucherModel {
     @Column(name = "ma")
     private String ma;
 
-    @Column(name = "ten")
-    private String ten;
+    @Column(name = "mota")
+    private String mota;
 
-    @Column(name = "loaivoucher")
-    private String loai;
+    @Column(name = "loaimucgiam")
+    private String loaiMucGiam;
 
     @Column(name = "mucgiam")
     private Double mucGiam;
 
-    @Column(name = "giatritoithieu")
-    private Double giaTriToiThieu;
+    @Column(name = "giatridonhang")
+    private Double giaTriDonHang;
+
+    @Column(name = "mucgiamtoida")
+    private Double mucGiamToiDa;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -47,7 +51,21 @@ public class VoucherModel {
     @Column(name = "soluong")
     private int soLuong;
 
-    @Column(name = "mucgiamtoida")
-    private Double mucGiamToiDa;
+    @Column(name = "trangthaihienthi")
+    private Integer trangThaiHienThi;
+
+    @Column(name = "hinhthucthanhtoan")
+    private Integer hinhThucThanhToan;
+
+    @Column(name = "trangthai")
+    private Integer trangThai;
+
+    @Column(name = "doituongsudung")
+    private Integer doiTuongSuDung;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "voucherkhachhang",
+            joinColumns = {@JoinColumn(name = "voucher")},
+            inverseJoinColumns = {@JoinColumn(name = "khachhang")})
+    private List<KhachHangModel> khachHang;
 
 }

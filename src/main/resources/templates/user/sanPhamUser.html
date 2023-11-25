@@ -73,7 +73,7 @@
             <!--lọc-->
             <div class="flex-w flex-sb-m p-b-52">
                 <div class="flex-w flex-l-m m-t-50 filter-tope-group m-tb-10">
-                    <h3 class="ltext-103 cl5">
+                    <h3 class="ltext-103 cl5" style="font-family: Arial, Helvetica, sans-serif;">
                         Sản Phẩm
                     </h3>
                 </div>
@@ -216,7 +216,7 @@
                                  style="width: 100%;height: 273px"
                                  ng-if="p.anh.length==0">
 
-                            <a href="#"  data-bs-toggle="modal" data-bs-target="#chiTietSp"
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#chiTietSp"
                                class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
                                 Xem nhanh
                             </a>
@@ -229,11 +229,16 @@
                                     {{p.ten}}
                                 </a>
 
-                                <span class=" cl3">
-                                    <span class="cl3" ng-if="p.giaBan<p.giaNiemYet">
-									<del>{{p.giaNiemYet | currency: "" : 1}}đ</del>
+                                <span class=" cl3" ng-if="p.mucGiam!=null">
+                                    <span class="cl3" >
+									    <del>{{p.giaBan | currency: "" : 1}}đ</del>
 								    </span>
-                                <b style="font-weight: bold;font-size: 15px;">{{p.giaBan | currency: "" : 1}}đ</b>
+                                    <b ng-if="p.loaiGiam == 'TIEN'" style="font-weight: bold;font-size: 15px;">{{p.giaBan - p.mucGiam  | currency: "" : 1}}đ</b>
+                                    <b ng-if="p.loaiGiam == 'PHAN TRAM'" style="font-weight: bold;font-size: 15px;">{{p.giaBan - ((p.mucGiam/100) * p.giaBan)| currency: "" : 1}}đ</b>
+								</span>
+                                <span class=" cl3" ng-if="p.mucGiam==null">
+
+                                    <b style="font-weight: bold;font-size: 15px;">{{p.giaBan | currency: "" : 1}}đ</b>
 								</span>
                             </div>
 
@@ -264,7 +269,7 @@
         </div>
     </section>
 
-    <!--    /////////Modal đăng nhập-->
+    <!--    /////////Modal đăng nhập///////////////-->
     <div class="modal fade" id="dangNhap" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -287,38 +292,6 @@
             </div>
         </div>
     </div>
-
-    <!--    modal chi tiếts-->
-    <div class="modal" id="chiTietSp">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Modal Heading</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    Modal body..ghhhhhhhhhhhhhhhhhhhhhhhhhhhh
-                    gfddddddddddddddddddddddddddd
-                    dfg
-                    dfg
-                    df
-                    gdf
-                    gdf
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
 </div>
 </body>
 </html>

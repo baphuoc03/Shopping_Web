@@ -36,7 +36,7 @@ app.controller("ctrl", function ($scope, $http) {
         if (heartButton.className == "far fa-heart" || heartButton.className == "far fa-heart ng-scope") {// thêm vào danh sách yêu thích
             $http.post("/danh-sach-yeu-thich/add", data).then(r => {
                 heartButton.className = "fas fa-heart"
-                alert("Đã thêm vào danh sách yêu thích!")
+                alertify.success("Đã thêm vào danh sách yêu thích!")
                 $scope.getMaSanPhamInDSTY()
             }).catch(e => {
                 heartButton.className = "far fa-heart"
@@ -52,7 +52,7 @@ app.controller("ctrl", function ($scope, $http) {
                 let index = $scope.maSpInDSYT.findIndex(m => m == id + "");
                 $scope.maSpInDSYT.splice(index, 1)
 
-                alert("Đã xóa danh sách yêu thích!")
+                alertify.success("Đã xóa sản phẩm ra khỏi yêu thích!")
             }).catch(e => {
                 heartButton.className = "fas fa-heart"
 
@@ -84,6 +84,5 @@ app.controller("ctrl", function ($scope, $http) {
         document.cookie = "url="+window.location.href+"; expires="+expires;
         location.href = "/dang-nhap";
     }
-
 
 })

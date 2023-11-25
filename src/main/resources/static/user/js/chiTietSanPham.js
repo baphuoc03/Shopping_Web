@@ -51,7 +51,6 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
 
     $scope.addDSYT = function (id) {
         let heartButton = document.getElementById("" + id)
-        console.log(heartButton.className)
         // let className = heartButton.className;
         let data = {
             "sanPham": id
@@ -59,13 +58,35 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         if (heartButton.className == "far fa-heart" || heartButton.className == "far fa-heart ng-scope") {// thêm vào danh sách yêu thích
             $http.post("/danh-sach-yeu-thich/add", data).then(r => {
                 heartButton.className = "fas fa-heart"
-                alert("Đã thêm vào danh sách yêu thích!")
+                alertify.success("Đã thêm vào danh sách yêu thích!")
+                $scope.getMaSanPhamInDSTY()// gọi lại list $scope.maSpInDSYT
+
+            }).catch(e => {
+                heartButton.className = "far fa-heart" //lỗi thì ko đổi giữ nguyên icon
+                if (e.status == "401") {//Bắt lỗi chưa đăng nhập
+                    console.log("aaaa")
+                    $('#dangNhap').modal('show') // hiển thị modal
+                }
             })
         } else { // xóa khỏi danh sách yêu thích
+            $http.delete("/danh-sach-yeu-thich/delete/" + id).then(r => {
+                heartButton.className = "far fa-heart"
 
-            heartButton.className = "far fa-heart"
+                let index = $scope.maSpInDSYT.findIndex(m => m == id + "");// xóa thì xóa mã sản phẩm ở trong list $scope.maSpInDSYT ko cần gọi lại api
+                $scope.maSpInDSYT.splice(index, 1)
+
+                alertify.success("Đã xóa sản phẩm ra khỏi yêu thích!")
+            }).catch(e => {
+                heartButton.className = "fas fa-heart"//lỗi thì ko đổi giữ nguyên icon
+
+                if (e.status == "401") {//Bắt lỗi chưa đăng nhập
+                    $('#dangNhap').modal('show') // hiển thị modal
+                }
+            })
         }
+
     }
+
     // $scope.getMaSanPhamInDSTY()
 
     $scope.addDSYT1 = function (id) {
@@ -107,16 +128,24 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         // }
         let sl = parseInt(document.getElementById("soLuong").value)
         console.log("sốluong: " + sl)
-        if (confirm("Thêm sản phẩm vào giỏ hàng?")) {
+        alertify.confirm("Thêm sản phẩm vào giỏ hàng?", function () {
             $http.post("/cart/add-to-cart?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
                 console.log(response.data)
-                    alert("Success")
 
+
+                if (response.data == null || response.data.length == 0) {
+                    alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
+                } else {
+                    alertify.success("Thêm thành công vào giỏ hàng")
+
+                    $scope.cartShow()
+                }
             }).catch(e => {
-                document.getElementById("eSize").innerText = e.data.eSize = e.data.eSize
+                document.getElementById("eSize").innerText = e.data.eSize = undefined ? "" : e.data.eSize
+                alertify.error("Thêm sản phẩm vào giỏ hàng thất bại!!!")
                 console.log(e)
             })
-        }
+        },function (){})
     }
 
     $scope.getSoLuong = function (idCTSP) {
@@ -144,24 +173,108 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.getSizePhuHop()
 
 //    cart show
-    $http.get("/cart/find-all").then(r => {
-        console.log(r.data)
-        $scope.cart = r.data;
-        console.log("soLuong:")
-    }).catch(e => console.log(e))
-
-    $scope.getTotal = function () {
-        var totalPrice = 0;
-        for (let i = 0; i < $scope.cart.length; i++) {
-            totalPrice += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+    $scope.cartShow = function () {
+        $http.get("/cart/find-all").then(r => {
+            console.log(r.data)
+            $scope.cart = r.data;
+            console.log("soLuong:")
+        }).catch(e => console.log(e))
+        $scope.getTotal = function () {
+            var totalPrice = 0;
+            for (let i = 0; i < $scope.cart.length; i++) {
+                totalPrice += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+            }
+            return totalPrice;
         }
-        return totalPrice;
     }
 
 
-    $scope.login = function (){
-        var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
-        document.cookie = "url="+window.location.href+"; expires="+expires;
+    $scope.login = function () {
+        var expires = (new Date(Date.now() + 60 * 1000)).toUTCString();
+        document.cookie = "url=" + window.location.href + "; expires=" + expires;
         location.href = "/dang-nhap";
     }
+
+    $scope.nhanXet = {
+        pageNumber : 0,
+        totalElement : 0,
+        pageNumbers : [],
+        contents : [],
+        totalPages : 0,
+        avg : 0,
+        rating : [1,2,3,4,5],
+        rates : {},
+        rate : "",
+        haveContent : false,
+        init(){
+            this.rate = "";
+            this.pageNumber = 0
+            $http.get("/nhan-xet?maSP="+maSP.substring(1)).then(r => {
+                this.contents = r.data.content;
+                this.totalElement = r.data.totalElements;
+                this.totalPages = r.data.totalPages;
+                this.setPageNumbers()
+                if(this.totalElement > 0) this.haveContent = true
+
+                this.setdefaultButtons('all')
+            })
+
+
+        },getAvgRate(){
+            $http.get("/nhan-xet/avg-by-sanpham?maSP="+maSP.substring(1)).then(r => {
+                try {
+                    this.avg = r.data.toFixed(1)
+                }
+                catch(err) {
+                    this.avg = r.data
+                }
+                raterJs({
+                    rating: Number.parseFloat(this.avg),
+                    starSize: 22, step: .1, element: document.querySelector("#rater-step"), rateCallback: function (e, t) {
+                        this.setRating(e), t()
+                    }
+                });
+            })
+            $http.get("/nhan-xet/avg-rates-by-sanpham?maSP="+maSP.substring(1)).then(r => {
+                this.rates = r.data
+            })
+        },setPageNumbers() {
+            let numbers = [];
+            for (let i = 0; i < this.totalPages; i++) {
+                numbers.push(i)
+            }
+            this.pageNumbers = numbers;
+        },get(page){
+            this.pageNumber = page
+            $http.get("/nhan-xet?maSP="+maSP.substring(1)+"&page="+page+"&rate="+this.rate).then(r => {
+                this.contents = r.data.content;
+            })
+        },filterByRate(rate){
+            this.pageNumber = 0
+            this.rate = rate;
+            $http.get("/nhan-xet?maSP="+maSP.substring(1)+"&rate="+rate).then(r => {
+                this.contents = r.data.content;
+                this.totalElement = r.data.totalElements;
+                this.totalPages = r.data.totalPages;
+                this.setPageNumbers()
+                this.setdefaultButtons('rate'+rate)
+            })
+
+        },setdefaultButtons(id){
+            var button = document.getElementsByName("filterNhanXet")
+
+            button.forEach(b => {
+                if(b.id == id){
+                    b.style.backgroundColor = "lightgray"
+                    b.style.color = "white"
+                }else {
+                    b.style.backgroundColor = "white"
+                    b.style.color = "black"
+                }
+            })
+        }
+    }
+    $scope.nhanXet.init()
+    $scope.nhanXet.getAvgRate()
 })
+

@@ -8,6 +8,15 @@ app.controller("ctrl", function ($scope, $http){
     $scope.getTongQuat = function (firstDay,lastDay){
         $http.get("/admin/thong-ke/tong-quat?firstDate="+firstDay+"&lastDate="+lastDay).then(r => {
             $scope.tongQuat = r.data
+            // const tooltip = new bootstrap.Tooltip('#doanhThu', {
+            //     // boundary: document.getElementById('doanhThu'),
+            //     animation : true,
+            //     html : true,
+            //     title : "<b>Tổng doanh thu: " +$scope.tongQuat.doanhThuDetail.tongTien+"</b>" +
+            //                 "<br>" +
+            //                 "<b>Tiền giảm: " +$scope.tongQuat.doanhThuDetail.tienGiam+"</b>"
+            // })
+            console.log(r.data)
         }).catch(e => console.log(e))
     }
     $scope.getTongQuat(new Date().toJSON().slice(0, 10),new Date().toJSON().slice(0, 10))
@@ -179,7 +188,6 @@ app.controller("ctrl", function ($scope, $http){
     }
     $scope.getChartMonth()
 
-
     $(function() {
 
         var start = moment();
@@ -233,5 +241,14 @@ app.controller("ctrl", function ($scope, $http){
         cb(start, end);
 
     });
+
+    $scope.setDropDown = function(id){
+        var content = document.getElementById(id);
+        if(content.style.display=='none'){
+            content.style.display='flow-root'
+        }else{
+            content.style.display='none'
+        }
+    }
 
 })

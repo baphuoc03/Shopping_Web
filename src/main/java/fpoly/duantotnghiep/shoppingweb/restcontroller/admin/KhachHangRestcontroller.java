@@ -16,7 +16,10 @@ public class KhachHangRestcontroller {
     @Autowired
     private IKhachHangService taiKhoanService;
 
-
+    @GetMapping("/khach-hang-voucher")
+    public List<KhachHangDtoResponse> findAllKhach() {
+        return taiKhoanService.getAllFromVoucher();
+    }
     @GetMapping("get-all-khach-hang")
     public ResponseEntity<Page<KhachHangDtoResponse>> getAllKhachHang(@RequestParam(defaultValue = "0")Integer page,
                                                                       @RequestParam(defaultValue = "8")Integer limit){

@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface VoucherRepository extends JpaRepository<VoucherModel, String> {
-    Page<VoucherModel> findByTenLike(String ten, Pageable pageable);
+    Page<VoucherModel> findByMotaLike(String ten, Pageable pageable);
 
-    @Query("SELECT vc  FROM VoucherModel vc where vc.giaTriToiThieu >= :sumTotalBill")
+    @Query("SELECT vc  FROM VoucherModel vc where vc.giaTriDonHang >= :sumTotalBill")
     List<VoucherModel> disabledVoucher(@Param("sumTotalBill") Double sumTotalBill);
 
     @Query("SELECT vc  FROM VoucherModel vc where current_date between vc.ngayBatDau  and vc.ngayKetThuc and vc.soLuong > 0")
@@ -28,9 +28,6 @@ public interface VoucherRepository extends JpaRepository<VoucherModel, String> {
             """)
     int updateSoLuong(int soLuong, String id);
 
-    List<VoucherModel> findAllByOrderByTenDesc();
-
-    List<VoucherModel> findAllByOrderByTenAsc();
 
     List<VoucherModel> findAllByOrderByMucGiamAsc();
 
@@ -43,8 +40,6 @@ public interface VoucherRepository extends JpaRepository<VoucherModel, String> {
 
     List<VoucherModel> findAllByOrderBySoLuongAsc();
 
-    List<VoucherModel> findAllByOrderByGiaTriToiThieuDesc();
 
-    List<VoucherModel> findAllByOrderByGiaTriToiThieuAsc();
 
 }

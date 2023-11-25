@@ -1,8 +1,11 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.ResponseEntity.ResponseObject;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import fpoly.duantotnghiep.shoppingweb.service.impl.KhachHangServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VoucherServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.validation.Valid;
@@ -23,6 +26,7 @@ import java.util.Random;
 public class VoucherRestController {
     @Autowired
     VoucherServiceImpl service;
+    KhachHangServiceImpl khachHangService;
 
     @GetMapping("/a")
     public List<VoucherReponse> findAll(
@@ -32,17 +36,26 @@ public class VoucherRestController {
         return listVC;
     }
 
+
     @PostMapping("")
-    public ResponseEntity<?> save(@Valid @RequestBody VoucherRequest voucherRequest,
+    public ResponseEntity<?> save(@Valid @RequestPart("voucher") VoucherRequest voucherRequest,
+//                                  @RequestPart(value = "idKhach", required = false) List<String> idKhachHang,
                                   BindingResult result) {
-        voucherRequest.setMa(codeVoucher());
-        validateNhap(result, voucherRequest);
-        if (result.hasErrors()) {
-            return ValidateUtil.getErrors(result);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("Oke", "Thêm thành công", service.addVoucher(voucherRequest))
-        );
+
+        System.out.println(voucherRequest);
+//        voucherRequest.setMa(codeVoucher());
+//        validateNhap(result, voucherRequest);
+//        if (result.hasErrors()) {
+//            return ValidateUtil.getErrors(result);
+//        }
+//        if (idKhachHang != null) {
+//            List<KhachHangModel> khachHang = khachHangService.findByUserNameIn(idKhachHang);
+//            voucherRequest.setKhachHang(khachHang);
+//        }
+//        return ResponseEntity.status(HttpStatus.OK).body(
+//                new ResponseObject("Oke", "Thêm thành công", service.addVoucher(voucherRequest))
+//        );
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
@@ -103,10 +116,16 @@ public class VoucherRestController {
     }
 
     private void validateNhap(BindingResult result, VoucherRequest voucherRequest) {
-        if (voucherRequest.getLoai().equals("TIEN")) {
+        if (voucherRequest.getDoiTuongSuDung() == 0) {
+            if (voucherRequest.getSoLuong() == 0) {
+                result.rejectValue("soLuong", "erSoLuong", "Vui lòng nhập số lượng");
+            }
+        }
+
+        if (voucherRequest.getLoaiMucGiam().equals("TIEN")) {
             voucherRequest.setMucGiamToiDa(voucherRequest.getMucGiam());
         }
-        if (voucherRequest.getLoai().equals("TIEN")) {
+        if (voucherRequest.getLoaiMucGiam().equals("TIEN")) {
             if (voucherRequest.getMucGiam() < 1000) {
                 result.rejectValue("mucGiam", "erMucGiam", "Mức giảm phải lớn hơn 1000");
             }

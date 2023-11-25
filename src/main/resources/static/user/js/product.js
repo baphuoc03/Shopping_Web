@@ -83,7 +83,7 @@ app.controller("index-ctrl", function ($scope, $http) {
         if (heartButton.className == "far fa-heart" || heartButton.className == "far fa-heart ng-scope") {// thêm vào danh sách yêu thích
             $http.post("/danh-sach-yeu-thich/add", data).then(r => {
                 heartButton.className = "fas fa-heart"
-                alert("Đã thêm vào danh sách yêu thích!")
+                alertify.success("Đã thêm vào danh sách yêu thích!")
                 $scope.getMaSanPhamInDSTY()// gọi lại list $scope.maSpInDSYT
 
             }).catch(e => {
@@ -100,7 +100,7 @@ app.controller("index-ctrl", function ($scope, $http) {
                 let index = $scope.maSpInDSYT.findIndex(m => m == id + "");// xóa thì xóa mã sản phẩm ở trong list $scope.maSpInDSYT ko cần gọi lại api
                 $scope.maSpInDSYT.splice(index, 1)
 
-                alert("Đã xóa danh sách yêu thích!")
+                alertify.success("Đã xóa sản phẩm ra khỏi yêu thích!!")
             }).catch(e => {
                 heartButton.className = "fas fa-heart"//lỗi thì ko đổi giữ nguyên icon
 
@@ -117,6 +117,7 @@ app.controller("index-ctrl", function ($scope, $http) {
     $scope.getPropertiesInFilter = function () {
         $http.get("/admin/mau-sac/find-all").then(r => {
             $scope.mauSac = r.data;
+            console.log(r.data)
         }).catch(e => console.log(e))
 
         $http.get("/admin/chat-lieu/find-all").then(r => {
@@ -215,13 +216,11 @@ app.controller("index-ctrl", function ($scope, $http) {
     }
 
     //    cart show
-
+    $scope.cart = [];
     $http.get("/cart/find-all").then(r => {
         console.log(r.data)
         $scope.cart = r.data;
-        console.log("soLuong:")
     }).catch(e => console.log(e))
-
     $scope.getTotal = function () {
         var totalPrice = 0;
         for (let i = 0; i < $scope.cart.length; i++) {
@@ -230,9 +229,10 @@ app.controller("index-ctrl", function ($scope, $http) {
         return totalPrice;
     }
 
-    $scope.login = function (){
-        var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
-        document.cookie = "url="+window.location.href+"; expires="+expires;
+    //dang nhap
+    $scope.login = function () {
+        var expires = (new Date(Date.now() + 60 * 1000)).toUTCString();
+        document.cookie = "url=" + window.location.href + "; expires=" + expires;
         location.href = "/dang-nhap";
     }
 })

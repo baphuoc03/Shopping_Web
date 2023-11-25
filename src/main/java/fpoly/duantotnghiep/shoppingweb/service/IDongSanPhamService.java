@@ -11,4 +11,6 @@ public interface IDongSanPhamService {
     public DongSanPhamResponese findById(String s);
     public boolean existsById(String s);
     public void deleteById(String s);
+
+    void deleteByThuongHieu(String maTHuongHieu);
 }
