@@ -6,7 +6,9 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
 import fpoly.duantotnghiep.shoppingweb.model.*;
+import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
+import fpoly.duantotnghiep.shoppingweb.repository.VoucherRepository;
 import fpoly.duantotnghiep.shoppingweb.service.*;
 import fpoly.duantotnghiep.shoppingweb.service.impl.*;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
@@ -36,6 +38,10 @@ public class CheckoutController {
     @Autowired
     IDonHangService donHangService;
     @Autowired
+    IKhachHangRepository khRepository;
+    @Autowired
+    VoucherRepository vc;
+    @Autowired
     IChiTietSanPhamService sanPhamServic;
     @Autowired
     VoucherServiceImpl voucherService;
@@ -54,10 +60,13 @@ public class CheckoutController {
         return ResponseEntity.ok(khachHangService.findById(userName));
     }
 
-    @PostMapping("/check-out/disable-voucher")
-    public ResponseEntity<List<VoucherReponse>> disabledVoucher(@RequestBody Map<String, Double> request) {
-        Double giaTri = Double.parseDouble(request.get("tienHang").toString());
-        return ResponseEntity.ok(voucherService.disabledVoucher(giaTri));
+    @GetMapping("/check-out/khach-hang-voucher")
+    public ResponseEntity<?> findVoucherByKhachHang(Authentication authen) {
+        if (authen == null) {
+            return ResponseEntity.ok().build();
+        }
+        List<VoucherModel> voucherInKhach = khRepository.findById(authen.getName()).get().getVoucher();
+        return ResponseEntity.ok(voucherInKhach);
     }
 
     @PostMapping("/check-out")
@@ -102,7 +111,7 @@ public class CheckoutController {
         Double giaGiam = null;
         if (voucherResponse != null) {
             giaGiam = voucherResponse.getMucGiam();
-            if (voucherResponse.getLoai().equals("PHAN TRAM")) {
+            if (voucherResponse.getLoaiMucGiam().equals("PHAN TRAM")) {
                 giaGiam = tongThanhToan * (voucherResponse.getMucGiam()) / 100;
                 if (giaGiam > voucherResponse.getMucGiamToiDa()) {
                     giaGiam = voucherResponse.getMucGiamToiDa();

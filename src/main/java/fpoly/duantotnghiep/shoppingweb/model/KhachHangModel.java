@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,6 +49,7 @@ public class KhachHangModel {
 
     @OneToMany(mappedBy = "nguoiSoHuu",fetch = FetchType.LAZY)
     @ToString.Exclude
+    @JsonBackReference
     private List<DonHangModel> danhSachDonHang;
 
 
@@ -56,6 +58,13 @@ public class KhachHangModel {
 //            joinColumns = { @JoinColumn(name = "voucher") },
 //            inverseJoinColumns = { @JoinColumn(name = "taikhoan") })
 //    private Set<VoucherModel> vouchers;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "voucherkhachhang",
+            joinColumns = {@JoinColumn(name = "khachhang")},
+            inverseJoinColumns = {@JoinColumn(name = "voucher")})
+    private List<VoucherModel> voucher;
+
     public KhachHangModel(String username){
         this.username = username;
     }

@@ -2,10 +2,13 @@ package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
+import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.VoucherRepository;
 import fpoly.duantotnghiep.shoppingweb.service.VoucherService;
+import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,12 +24,15 @@ import java.util.stream.Collectors;
 public class VoucherServiceImpl implements VoucherService {
     @Autowired
     private VoucherRepository repository;
-
+    @Autowired
+    private IKhachHangRepository khachHangRepository;
 
     @Override
-    public List<VoucherReponse> disabledVoucher(Double sumTotalBill) {
-        return repository.disabledVoucher(sumTotalBill).stream()
-                .map(c -> new VoucherReponse(c)).collect(Collectors.toList());
+    public List<VoucherReponse> voucherInKhachHang(String username) {
+//       List<VoucherReponse> m = repository.voucherInKhachHang(username).stream()
+//                .map(c -> new VoucherReponse(c)).collect(Collectors.toList());
+        return null;
+
     }
 
     @Override
@@ -88,6 +94,17 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public VoucherReponse addVoucher(VoucherRequest voucher) {
         VoucherModel voucherModel = repository.save(voucher.maptoModel());
+        String conten = "Tặng bạn voucher giảm: " + voucher.getMucGiam();
+        if (voucherModel.getKhachHang() != null) {
+            for (var mail : voucherModel.getKhachHang()) {
+                try {
+                    EmailUtil.sendEmail(mail.getEmail(), "Tặng bạn voucher giảm giá", "");
+                } catch (Exception e) {
+
+                }
+
+            }
+        }
         return new VoucherReponse(voucherModel);
     }
 
@@ -112,5 +129,10 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public void upddateSoLuong(int soLuong, String ma) {
         this.repository.updateSoLuong(soLuong, ma);
+    }
+
+    @Override
+    public List<KhachHangModel> findByUserNameIn(List<String> maKhachHang) {
+        return khachHangRepository.findByUsernameIn(maKhachHang);
     }
 }

@@ -15,12 +15,12 @@ public class HomeController {
 
     @GetMapping("trang-chu")
     public String trangChu() {
-        return "/user/trangChu";
+        return "/user/trangChu1";
     }
 
     @GetMapping("san-pham")
     public String sanPham() {
-        return "/user/sanPhamUser";
+        return "/user/sanPhamNguoiDung";
     }
     @GetMapping("san-pham/get-all/thuong-hieu/{id}")
     public String sanPhamByThuongHieu() {
@@ -29,10 +29,10 @@ public class HomeController {
 
     @GetMapping("thanh-toan")
     public String thanhToan() {
-        List<GioHangDtoReponse> giohang = gioHangService.laySpTrongGio();
-        if (giohang.size() == 0) {
-            return "/user/gioHang";
-        }
+//        List<GioHangDtoReponse> giohang = gioHangService.laySpTrongGio();
+//        if (giohang.size() == 0) {
+//            return "/user/gioHang";
+//        }
         return "/user/thanhToan";
     }
 
@@ -41,27 +41,9 @@ public class HomeController {
         return "/user/hoaDonNguoiDung";
     }
 
-    @GetMapping("hoa")
-    public String licSu1() {
-        return "/user/hoaDonChiTietUser";
-    }
-
     @GetMapping("danh-sach-yeu-thich")
     public String danhSachYeuThich() {
         return "/user/dsyt";
     }
 
-    @GetMapping("1")
-    public String danhSa() {
-        return "/user/trangChu1";
-    }
-
-    @GetMapping("2")
-    public String danhSa1() {
-        return "/user/sanPhamNguoiDung";
-    }
-    @GetMapping("3")
-    public String danhSa3() {
-        return "/admin/fromVoucher";
-    }
 }

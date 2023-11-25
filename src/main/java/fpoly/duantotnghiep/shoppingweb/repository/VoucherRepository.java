@@ -15,8 +15,8 @@ import java.util.List;
 public interface VoucherRepository extends JpaRepository<VoucherModel, String> {
     Page<VoucherModel> findByMotaLike(String ten, Pageable pageable);
 
-    @Query("SELECT vc  FROM VoucherModel vc where vc.giaTriDonHang >= :sumTotalBill")
-    List<VoucherModel> disabledVoucher(@Param("sumTotalBill") Double sumTotalBill);
+//    @Query("SELECT kh  FROM KhachHangModel kh where kh.username = ?1")
+//    List<VoucherModel> voucherInKhachHang(String khachHang);
 
     @Query("SELECT vc  FROM VoucherModel vc where current_date between vc.ngayBatDau  and vc.ngayKetThuc and vc.soLuong > 0")
     List<VoucherModel> findVoucherEligible();

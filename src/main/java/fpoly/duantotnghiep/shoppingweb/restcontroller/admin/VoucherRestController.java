@@ -5,6 +5,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.KhachHangServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VoucherServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -26,7 +28,6 @@ import java.util.Random;
 public class VoucherRestController {
     @Autowired
     VoucherServiceImpl service;
-    KhachHangServiceImpl khachHangService;
 
     @GetMapping("/a")
     public List<VoucherReponse> findAll(
@@ -36,26 +37,23 @@ public class VoucherRestController {
         return listVC;
     }
 
-
     @PostMapping("")
     public ResponseEntity<?> save(@Valid @RequestPart("voucher") VoucherRequest voucherRequest,
-//                                  @RequestPart(value = "idKhach", required = false) List<String> idKhachHang,
+                                  @RequestPart(value = "idKhach", required = false) List<String> idKhachHang,
                                   BindingResult result) {
 
-        System.out.println(voucherRequest);
-//        voucherRequest.setMa(codeVoucher());
-//        validateNhap(result, voucherRequest);
-//        if (result.hasErrors()) {
-//            return ValidateUtil.getErrors(result);
-//        }
-//        if (idKhachHang != null) {
-//            List<KhachHangModel> khachHang = khachHangService.findByUserNameIn(idKhachHang);
-//            voucherRequest.setKhachHang(khachHang);
-//        }
-//        return ResponseEntity.status(HttpStatus.OK).body(
-//                new ResponseObject("Oke", "Thêm thành công", service.addVoucher(voucherRequest))
-//        );
-        return ResponseEntity.ok().build();
+        if(idKhachHang != null){
+        List<KhachHangModel> khachHang = service.findByUserNameIn(idKhachHang);
+        voucherRequest.setKhachHang(khachHang);
+        }
+        voucherRequest.setMa(codeVoucher());
+        validateNhap(result, voucherRequest);
+        if (result.hasErrors()) {
+            return ValidateUtil.getErrors(result);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new ResponseObject("Oke", "Thêm thành công", service.addVoucher(voucherRequest))
+        );
     }
 
     @GetMapping("/{id}")
@@ -122,6 +120,13 @@ public class VoucherRestController {
             }
         }
 
+        if(voucherRequest.getLoaiMucGiam().equals("PHAN TRAM")){
+            if(voucherRequest.getMucGiamToiDa() == null){
+                result.rejectValue("mucGiamToiDa", "erMucGiamToiDa", "Vui lòng nhập dữ liệu");
+
+            }
+        }
+
         if (voucherRequest.getLoaiMucGiam().equals("TIEN")) {
             voucherRequest.setMucGiamToiDa(voucherRequest.getMucGiam());
         }
@@ -140,11 +145,11 @@ public class VoucherRestController {
             }
         }
 
-        if (voucherRequest.getNgayBatDau().after(voucherRequest.getNgayKetThuc())) {
-            result.rejectValue("ngayBatDau", "", "Ngày bắt đầu lớn hơn ngày kết ");
-        } else if (voucherRequest.getNgayBatDau().before(new Date())) {
-            result.rejectValue("ngayBatDau", "", "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại ");
-        }
+//        if (voucherRequest.getNgayBatDau().after(voucherRequest.getNgayKetThuc())) {
+//            result.rejectValue("ngayBatDau", "", "Ngày bắt đầu lớn hơn ngày kết ");
+//        } else if (voucherRequest.getNgayBatDau().before(new Date())) {
+//            result.rejectValue("ngayBatDau", "", "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại ");
+//        }
     }
 }
 

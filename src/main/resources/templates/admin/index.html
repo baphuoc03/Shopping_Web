@@ -61,8 +61,8 @@
     <link rel='stylesheet'
           href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/css/fileinput.min.css'/>
 
-<!--    toast-->
-<!--    <link href="/admin/assets/css/jquery.toast.css" rel="stylesheet" type="text/css"/>-->
+    <!--    toast-->
+    <!--    <link href="/admin/assets/css/jquery.toast.css" rel="stylesheet" type="text/css"/>-->
 
 </head>
 
@@ -190,7 +190,7 @@
                     <li>
                         <a href="/admin/trang-chu">
                             <i data-feather="home"></i>
-<!--                            <span class="badge rounded-pill bg-soft-success text-success float-end">9+</span>-->
+                            <!--                            <span class="badge rounded-pill bg-soft-success text-success float-end">9+</span>-->
                             <span data-key="t-dashboard">Trang chủ</span>
                         </a>
                     </li>
@@ -464,7 +464,6 @@
 <script th:src="@{/admin/assets/js/pages/ecommerce-select2.init.js}"></script>
 
 
-
 <script th:src="@{/admin/assets/js/app.js}"></script>
 <script th:src="@{/admin/js/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular.min.js}"></script>
 <script src="/admin/js/SanPhamAdmin.js"></script>
@@ -513,13 +512,14 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
 <!--scip voucher-->
 <script>
     function toggleDiv() {
         var selectBox = document.getElementById('loai');
-        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
         var divToShow = document.getElementById('mucGiamToiDa');
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
 
         if (selectedValue === 'PHAN TRAM') {
             divToShow.style.display = 'block';
@@ -529,7 +529,7 @@
     }
 
     function toggleDiv2() {
-        var option1Radio = document.querySelector('input[value="0"]');
+        var option1Radio = document.getElementById('tatCaKhachHang');
         var soLuong = document.getElementById('soLuong');
         var khachHang = document.getElementById('khach');
 

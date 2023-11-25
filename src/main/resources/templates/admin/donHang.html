@@ -9,6 +9,7 @@
         .modal-Big {
             width: 80%;
         }
+
         .er {
             color: red;
             font-size: 13px;
@@ -97,8 +98,10 @@
                                                         <tr>
                                                             <th scope="col" style="width: 50px;">
                                                                 <div class="form-check font-size-16">
-                                                                    <input type="checkbox" ng-click="setCheckAll('checkAllChuaXacNhan','checkChuaXacNhan')"
-                                                                   class="form-check-input" id="checkAllChuaXacNhan">
+                                                                    <input type="checkbox"
+                                                                           ng-click="setCheckAll('checkAllChuaXacNhan','checkChuaXacNhan')"
+                                                                           class="form-check-input"
+                                                                           id="checkAllChuaXacNhan">
                                                                 </div>
                                                             </th>
                                                             <th scope="col">Mã</th>
@@ -112,8 +115,10 @@
                                                         <tr ng-repeat="d in chuaXacNhan.list">
                                                             <th scope="row">
                                                                 <div class="form-check font-size-16">
-                                                                    <input type="checkbox" ng-click="checkAllChecked('checkChuaXacNhan','checkAllChuaXacNhan')"
-                                                                       class="form-check-input" name="checkChuaXacNhan" value="{{d.ma}}">
+                                                                    <input type="checkbox"
+                                                                           ng-click="checkAllChecked('checkChuaXacNhan','checkAllChuaXacNhan')"
+                                                                           class="form-check-input"
+                                                                           name="checkChuaXacNhan" value="{{d.ma}}">
                                                                 </div>
                                                             </th>
                                                             <td style="cursor: pointer"
@@ -151,8 +156,11 @@
                                                 <div class="row d-flex justify-content-end me-1  mb-2">
                                                     <button class="btn btn-danger me-1 col-1" id="huyAll1"
                                                             disabled ng-click="chuaXacNhan.setAllIdDonHang()"
-                                                            data-toggle="modal" data-target="#lyDo">Hủy</button>
-                                                    <button class="btn btn-primary col-2" disabled id="xacNhanAll1" ng-click="chuaXacNhan.xacNhanDHAll()">Xác nhận</button>
+                                                            data-toggle="modal" data-target="#lyDo">Hủy
+                                                    </button>
+                                                    <button class="btn btn-primary col-2" disabled id="xacNhanAll1"
+                                                            ng-click="chuaXacNhan.xacNhanDHAll()">Xác nhận
+                                                    </button>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-6"></div>
@@ -223,8 +231,8 @@
                                                     <div class="col-md-6">
                                                         <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
                                                             <div>
-<!--                                                                <a href="#" class="btn btn-light"><i-->
-<!--                                                                        class="bx bx-plus me-1"></i>Thêm mới</a>-->
+                                                                <!--                                                                <a href="#" class="btn btn-light"><i-->
+                                                                <!--                                                                        class="bx bx-plus me-1"></i>Thêm mới</a>-->
                                                             </div>
                                                             <div class="dropdown">
                                                                 <a class="btn btn-link text-muted py-1 font-size-16 shadow-none dropdown-toggle"
@@ -245,7 +253,8 @@
                                                         <tr>
                                                             <th scope="col" style="width: 50px;">
                                                                 <div class="form-check font-size-16">
-                                                                    <input type="checkbox" ng-click="setCheckAll('checkAllChuaTT','checkChuaTT')"
+                                                                    <input type="checkbox"
+                                                                           ng-click="setCheckAll('checkAllChuaTT','checkChuaTT')"
                                                                            class="form-check-input" id="checkAllChuaTT">
                                                                 </div>
                                                             </th>
@@ -260,15 +269,18 @@
                                                         <tr ng-repeat="d in chuaThanhToan.list">
                                                             <th scope="row">
                                                                 <div class="form-check font-size-16">
-                                                                    <input type="checkbox" ng-click="checkAllChecked('checkChuaTT','checkAllChuaTT')"
-                                                                           class="form-check-input" name="checkChuaTT" value="{{d.ma}}">
+                                                                    <input type="checkbox"
+                                                                           ng-click="checkAllChecked('checkChuaTT','checkAllChuaTT')"
+                                                                           class="form-check-input" name="checkChuaTT"
+                                                                           value="{{d.ma}}">
                                                                 </div>
                                                             </th>
                                                             <td style="cursor: pointer"
                                                                 ng-click="chuaThanhToan.getDetail(d.ma)">{{d.ma}}
                                                             </td>
                                                             <td style="cursor: pointer"
-                                                                ng-click="chuaThanhToan.getDetail(d.ma)">{{d.tenNguoiNhan}}
+                                                                ng-click="chuaThanhToan.getDetail(d.ma)">
+                                                                {{d.tenNguoiNhan}}
                                                             </td>
                                                             <td style="cursor: pointer"
                                                                 ng-click="chuaThanhToan.getDetail(d.ma)">{{d.soDienThoai}}
@@ -283,7 +295,8 @@
                                                                         ng-click="chuaThanhToan.setIdDonHang(d.ma)">Hủy
                                                                 </button>
                                                                 <button class="btn btn-primary"
-                                                                        ng-click="chuaThanhToan.xacNhanDH(d.ma)">Xác nhận thanh toán
+                                                                        ng-click="chuaThanhToan.xacNhanDH(d.ma)">Xác
+                                                                    nhận thanh toán
                                                                 </button>
 
                                                             </td>
@@ -299,15 +312,19 @@
                                                 <div class="row d-flex justify-content-end me-1  mb-2">
                                                     <button class="btn btn-danger me-1 col-1" id="huyAll5"
                                                             disabled ng-click="chuaThanhToan.setAllIdDonHang()"
-                                                            data-toggle="modal" data-target="#lyDo">Hủy</button>
-                                                    <button class="btn btn-primary col-2" disabled id="xacNhanAll5" ng-click="chuaThanhToan.xacNhanDHAll()">Xác nhận thanh toán</button>
+                                                            data-toggle="modal" data-target="#lyDo">Hủy
+                                                    </button>
+                                                    <button class="btn btn-primary col-2" disabled id="xacNhanAll5"
+                                                            ng-click="chuaThanhToan.xacNhanDHAll()">Xác nhận thanh toán
+                                                    </button>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-6"></div>
                                                     <div class="col-6">
                                                         <nav aria-label="Page navigation example">
                                                             <ul class="pagination justify-content-end">
-                                                                <li class="page-item" ng-click="chuaThanhToan.getList(0)"
+                                                                <li class="page-item"
+                                                                    ng-click="chuaThanhToan.getList(0)"
                                                                     ng-if="chuaThanhToan.page>0">
                                                                     <span class="page-link" style="cursor: pointer"
                                                                           aria-label="First">
@@ -326,7 +343,8 @@
                                                                 <li class="page-item pageNumber"
                                                                     ng-repeat="p in chuaThanhToan.pages"
                                                                     ng-click="chuaThanhToan.getList(p)">
-                                                                    <span ng-if="p!=chuaThanhToan.page" class="page-link"
+                                                                    <span ng-if="p!=chuaThanhToan.page"
+                                                                          class="page-link"
                                                                           style="cursor: pointer">{{p + 1}}</span>
                                                                     <span ng-if="p==chuaThanhToan.page"
                                                                           class="page-link active"
@@ -373,8 +391,10 @@
                                                         <tr>
                                                             <th scope="col" style="width: 50px;">
                                                                 <div class="form-check font-size-16">
-                                                                    <input type="checkbox" ng-click="setCheckAll('checkAlldaXacNhan','checkDaXacNhan')"
-                                                                           class="form-check-input" id="checkAlldaXacNhan">
+                                                                    <input type="checkbox"
+                                                                           ng-click="setCheckAll('checkAlldaXacNhan','checkDaXacNhan')"
+                                                                           class="form-check-input"
+                                                                           id="checkAlldaXacNhan">
                                                                 </div>
                                                             </th>
                                                             <th scope="col">Mã</th>
@@ -388,8 +408,10 @@
                                                         <tr ng-repeat="d in daXacNhan.list">
                                                             <th scope="row">
                                                                 <div class="form-check font-size-16">
-                                                                    <input type="checkbox" ng-click="checkAllChecked('checkDaXacNhan','checkAlldaXacNhan')"
-                                                                           class="form-check-input" name="checkDaXacNhan" value="{{d.ma}}">
+                                                                    <input type="checkbox"
+                                                                           ng-click="checkAllChecked('checkDaXacNhan','checkAlldaXacNhan')"
+                                                                           class="form-check-input"
+                                                                           name="checkDaXacNhan" value="{{d.ma}}">
                                                                 </div>
                                                             </th>
                                                             <td style="cursor: pointer"
@@ -408,8 +430,12 @@
                                                             <td style="width: 200px">
                                                                 <button class="btn btn-danger me-1"
                                                                         data-toggle="modal" data-target="#lyDo"
-                                                                        ng-click="daXacNhan.setIdDonHang(d.ma)">Hủy</button>
-                                                                <button class="btn btn-primary" ng-click="daXacNhan.chuyenGiao(d.ma)">Chuyển giao</button>
+                                                                        ng-click="daXacNhan.setIdDonHang(d.ma)">Hủy
+                                                                </button>
+                                                                <button class="btn btn-primary"
+                                                                        ng-click="daXacNhan.chuyenGiao(d.ma)">Chuyển
+                                                                    giao
+                                                                </button>
                                                             </td>
                                                         </tr>
                                                         </tbody>
@@ -422,8 +448,11 @@
                                                 <div class="row d-flex justify-content-end me-1  mb-2">
                                                     <button class="btn btn-danger me-1 col-1" id="huyAll2"
                                                             disabled ng-click="daXacNhan.setAllIdDonHang()"
-                                                            data-toggle="modal" data-target="#lyDo">Hủy</button>
-                                                    <button class="btn btn-primary col-2" disabled id="xacNhanAll2" ng-click="daXacNhan.chuyenGiaoDHAll()">Chuyển giao</button>
+                                                            data-toggle="modal" data-target="#lyDo">Hủy
+                                                    </button>
+                                                    <button class="btn btn-primary col-2" disabled id="xacNhanAll2"
+                                                            ng-click="daXacNhan.chuyenGiaoDHAll()">Chuyển giao
+                                                    </button>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-6"></div>
@@ -497,8 +526,10 @@
                                                         <tr>
                                                             <th scope="col" style="width: 50px;">
                                                                 <div class="form-check font-size-16">
-                                                                    <input type="checkbox" ng-click="setCheckAll('checkAllDangGiao','checkDangGiao')"
-                                                                           class="form-check-input" id="checkAllDangGiao">
+                                                                    <input type="checkbox"
+                                                                           ng-click="setCheckAll('checkAllDangGiao','checkDangGiao')"
+                                                                           class="form-check-input"
+                                                                           id="checkAllDangGiao">
                                                                 </div>
                                                             </th>
                                                             <th scope="col">Mã</th>
@@ -512,8 +543,10 @@
                                                         <tr ng-repeat="d in dangGiao.list">
                                                             <th scope="row">
                                                                 <div class="form-check font-size-16">
-                                                                    <input type="checkbox" ng-click="checkAllChecked('checkDangGiao','checkAllDangGiao')"
-                                                                           class="form-check-input" name="checkDangGiao" value="{{d.ma}}">
+                                                                    <input type="checkbox"
+                                                                           ng-click="checkAllChecked('checkDangGiao','checkAllDangGiao')"
+                                                                           class="form-check-input" name="checkDangGiao"
+                                                                           value="{{d.ma}}">
                                                                 </div>
                                                             </th>
                                                             <td style="cursor: pointer"
@@ -532,8 +565,11 @@
                                                             <td style="width: 200px">
                                                                 <button class="btn btn-danger me-1"
                                                                         data-toggle="modal" data-target="#lyDo"
-                                                                        ng-click="dangGiao.setIdDonHang(d.ma)">Hủy</button>
-                                                                <button class="btn btn-primary" ng-click="dangGiao.hoanThanh(d.ma)">Hoàn thành</button>
+                                                                        ng-click="dangGiao.setIdDonHang(d.ma)">Hủy
+                                                                </button>
+                                                                <button class="btn btn-primary"
+                                                                        ng-click="dangGiao.hoanThanh(d.ma)">Hoàn thành
+                                                                </button>
                                                             </td>
                                                         </tr>
                                                         </tbody>
@@ -546,8 +582,11 @@
                                                 <div class="row d-flex justify-content-end me-1  mb-2">
                                                     <button class="btn btn-danger me-1 col-1" id="huyAll3"
                                                             disabled ng-click="dangGiao.setAllIdDonHang()"
-                                                            data-toggle="modal" data-target="#lyDo">Hủy</button>
-                                                    <button class="btn btn-primary col-2" disabled id="xacNhanAll3" ng-click="dangGiao.hoanThanhDHAll()">Hoàn thành</button>
+                                                            data-toggle="modal" data-target="#lyDo">Hủy
+                                                    </button>
+                                                    <button class="btn btn-primary col-2" disabled id="xacNhanAll3"
+                                                            ng-click="dangGiao.hoanThanhDHAll()">Hoàn thành
+                                                    </button>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-6"></div>
@@ -573,7 +612,8 @@
                                                                 <li class="page-item pageNumber"
                                                                     ng-repeat="p in dangGiao.pages"
                                                                     id="{{p}}">
-                                                                    <span ng-if="p!=dangGiao.page" class="page-link" ng-click="dangGiao.getList(p)"
+                                                                    <span ng-if="p!=dangGiao.page" class="page-link"
+                                                                          ng-click="dangGiao.getList(p)"
                                                                           style="cursor: pointer">{{p + 1}}</span>
                                                                     <span ng-if="p==dangGiao.page"
                                                                           class="page-link active"
@@ -671,7 +711,8 @@
                                                                 <li class="page-item pageNumber"
                                                                     ng-repeat="p in hoanThanh.pages"
                                                                     id="{{p}}">
-                                                                    <span ng-if="p!=huy.page" class="page-link" ng-click="hoanThanh.getList(p)"
+                                                                    <span ng-if="p!=huy.page" class="page-link"
+                                                                          ng-click="hoanThanh.getList(p)"
                                                                           style="cursor: pointer">{{p + 1}}</span>
                                                                     <span ng-if="p==huy.page" class="page-link active"
                                                                           style="cursor: pointer">{{p + 1}}</span>
@@ -826,8 +867,9 @@
                         <i style="color: red">{{messLyDo}}</i>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" id="closeHuy"  data-dismiss="modal">Trở về</button>
-                        <button type="button" class="btn btn-primary" ng-click="huyDH()" >Hủy đơn hàng
+                        <button type="button" class="btn btn-secondary" id="closeHuy" data-dismiss="modal">Trở về
+                        </button>
+                        <button type="button" class="btn btn-primary" ng-click="huyDH()">Hủy đơn hàng
                         </button>
                     </div>
                 </div>
@@ -968,49 +1010,71 @@
                         </div>
                         <div style="width: 65%" class="d-flex flex-column">
                             <div class="col-sm-12">
-                                <div class="dropdown" >
+                                <div class="dropdown">
                                     <input data-toggle="dropdown" ng-keyup="searchSanPham()" ng-model="inputProduct"
-                                           placeholder="Thêm sản phẩm" class="form-control" style="width: 200px;float: right" >
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="margin-top: 40px;margin-left: 190px;width: 530px;max-height: 500px;overflow-y: auto;">
-                                        <li ng-repeat="s in sanPham" >
-                                            <div ng-if="checkSanPhamInDonHang(s.id)==false"  style="cursor: pointer"
-                                                 class="row d-flex justify-content-start align-items-center" ng-click="addChiTietDonHang(s)">
-                                                <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0"><img src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}" style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;"></div>
-                                                <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length==0"><img src="/image/loadImage/product/default.png" style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;"></div>
+                                           placeholder="Thêm sản phẩm" class="form-control"
+                                           style="width: 200px;float: right">
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"
+                                        style="margin-top: 40px;margin-left: 190px;width: 530px;max-height: 500px;overflow-y: auto;">
+                                        <li ng-repeat="s in sanPham">
+                                            <div ng-if="checkSanPhamInDonHang(s.id)==false" style="cursor: pointer"
+                                                 class="row d-flex justify-content-start align-items-center"
+                                                 ng-click="addChiTietDonHang(s)">
+                                                <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0"><img
+                                                        src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
+                                                        style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
+                                                </div>
+                                                <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length==0"><img
+                                                        src="/image/loadImage/product/default.png"
+                                                        style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
+                                                </div>
                                                 <div class="col-sm-4">
                                                     <div style="white-space: nowrap;
                                                         overflow: hidden;
                                                         text-overflow: ellipsis;
-                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}</div>
+                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}
+                                                    </div>
                                                     <i style="font-weight: bold;">Size: {{s.size}}</i>
                                                 </div>
                                                 <div class="col-sm-3 d-flex justify-content-center">
-                                                    <i style="text-decoration: line-through;" ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
+                                                    <i style="text-decoration: line-through;"
+                                                       ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
                                                 </div>
-                                                <div class="col-sm-3 d-flex justify-content-center" style="margin-top: 15px">
+                                                <div class="col-sm-3 d-flex justify-content-center"
+                                                     style="margin-top: 15px">
                                                     <p style="font-weight: bold;">{{s.sanPhamDTO.giaNiemYet}}</p>
                                                 </div>
                                             </div>
-<!--                                            /////////////////////////////////////////-->
-                                            <div ng-if="checkSanPhamInDonHang(s.id)==true" class="row d-flex justify-content-start align-items-center dropdown-item disabled"
-                                             style="background-color: gainsboro">
-<!--                                                <div style="position: absolute" class="d-flex justify-content-center">-->
-<!--                                                    <span style="font-weight: bold;font-size: 20px;color: black;-->
-<!--                                                                font-style: italic;">Đã có trong đơn hàng</span>-->
-<!--                                                </div>-->
-                                                <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0"><img src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}" style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;"></div>
-                                                <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length==0"><img src="/image/loadImage/product/default.png" style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;"></div>
+                                            <!--                                            /////////////////////////////////////////-->
+                                            <div ng-if="checkSanPhamInDonHang(s.id)==true"
+                                                 class="row d-flex justify-content-start align-items-center dropdown-item disabled"
+                                                 style="background-color: gainsboro">
+                                                <!--                                                <div style="position: absolute" class="d-flex justify-content-center">-->
+                                                <!--                                                    <span style="font-weight: bold;font-size: 20px;color: black;-->
+                                                <!--                                                                font-style: italic;">Đã có trong đơn hàng</span>-->
+                                                <!--                                                </div>-->
+                                                <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0"><img
+                                                        src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
+                                                        style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
+                                                </div>
+                                                <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length==0"><img
+                                                        src="/image/loadImage/product/default.png"
+                                                        style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
+                                                </div>
                                                 <div class="col-sm-4">
                                                     <div style="white-space: nowrap;
                                                         overflow: hidden;
                                                         text-overflow: ellipsis;
-                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}</div>
+                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}
+                                                    </div>
                                                     <i style="font-weight: bold;">Size: {{s.size}}</i>
                                                 </div>
                                                 <div class="col-sm-3 d-flex justify-content-center">
-                                                    <i style="text-decoration: line-through;" ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
+                                                    <i style="text-decoration: line-through;"
+                                                       ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
                                                 </div>
-                                                <div class="col-sm-3 d-flex justify-content-center" style="margin-top: 15px">
+                                                <div class="col-sm-3 d-flex justify-content-center"
+                                                     style="margin-top: 15px">
                                                     <p style="font-weight: bold;">{{s.sanPhamDTO.giaNiemYet}}</p>
                                                 </div>
                                             </div>
@@ -1051,7 +1115,8 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center">
-                                                <input id="{{d.idChiTietSanPham}}" ng-model="chiTietDonHang[$index].soLuong"
+                                                <input id="{{d.idChiTietSanPham}}"
+                                                       ng-model="chiTietDonHang[$index].soLuong"
                                                        onchange="angular.element(this).scope().chuaXacNhan.updateSoLuong(this.id,this.value)"
                                                        class="form-control me-1">
                                                 <div>
@@ -1284,42 +1349,42 @@
                                 </tbody>
                             </table>
                         </div>
-                        <table class="table" style="    border-top: 1px solid black">
-                            <tbody>
-                            <tr>
-                                <td>Tổng</td>
-                                <td colspan="4">
-                                    <div class="d-flex justify-content-end">{{getTotalPrice() | currency: "" : 1}} đ
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Khuyến mãi</td>
-                                <td colspan="4">
-                                    <div class="d-flex justify-content-end">
-                                        {{donHang.tienGiam == null ? 0 : donHang.tienGiam | currency: "" : 1}} đ
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Phí giao hàng</td>
-                                <td colspan="4">
-                                    <div class="d-flex justify-content-end">
-                                        {{donHang.phiGiaoHang | currency: "" : 1}} đ
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Thành tiền</td>
-                                <td colspan="4">
-                                    <div class="d-flex justify-content-end">
-                                        {{(getTotalPrice() + donHang.phiGiaoHang) - donHang.tienGiam | currency: "" : 1}}
-                                        đ
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                            <table class="table" style="border-top: 1px solid black">
+                                <tbody>
+                                <tr>
+                                    <td>Tổng</td>
+                                    <td colspan="4">
+                                        <div class="d-flex justify-content-end">{{getTotalPrice() | currency: "" : 1}} đ
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Khuyến mãi</td>
+                                    <td colspan="4">
+                                        <div class="d-flex justify-content-end">
+                                            {{donHang.tienGiam == null ? 0 : donHang.tienGiam | currency: "" : 1}} đ
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Phí giao hàng</td>
+                                    <td colspan="4">
+                                        <div class="d-flex justify-content-end">
+                                            {{donHang.phiGiaoHang | currency: "" : 1}} đ
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Thành tiền</td>
+                                    <td colspan="4">
+                                        <div class="d-flex justify-content-end">
+                                            {{(getTotalPrice() + donHang.phiGiaoHang) - donHang.tienGiam | currency: "" : 1}}
+                                            đ
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"

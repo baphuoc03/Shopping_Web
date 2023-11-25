@@ -2,6 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.service;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,8 +10,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface VoucherService {
-    public List<VoucherReponse> disabledVoucher(Double sumTotalBill);
-
+public List<VoucherReponse> voucherInKhachHang(String username);
     public List<VoucherReponse> findVoucherSort(String sort);
 
     public List<VoucherReponse> voucherEligible();
@@ -32,5 +32,7 @@ public interface VoucherService {
     public void deleteVouchers(List<String> ids);
 
     public void upddateSoLuong(int soLuong, String ma);
+
+    List<KhachHangModel> findByUserNameIn(List<String> maKhachHang);
 
 }

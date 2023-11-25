@@ -35,16 +35,29 @@ app.controller("voucher-ctrl", function ($scope, $http) {
             location.reload();
         })
     }
+
+    $scope.danhSachKhach = []
+    $scope.selectKhach = function (id){
+        var index = $scope.danhSachKhach.indexOf(id);
+        if (index > -1) {
+            $scope.danhSachKhach.splice(index, 1);
+        } else {
+            $scope.danhSachKhach.push(id);
+        }
+    }
+
     //add
     $scope.create = function () {
+        console.log( $scope.danhSachKhach)
         let formData = new FormData();
-
         formData.append("voucher", new Blob([JSON.stringify($scope.voucherAdd)], {
             type: 'application/json'
         }))
-        var json = JSON.stringify(formData.get("voucher"));
-        console.log($scope.voucherAdd)
-        $http.post(url, formData,{
+
+        formData.append("idKhach", new Blob([JSON.stringify($scope.danhSachKhach)], {
+            type: 'application/json'
+        }))
+        $http.post(url, formData, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         }).then(function (response) {
@@ -54,13 +67,15 @@ app.controller("voucher-ctrl", function ($scope, $http) {
 
         }).catch(error => {
             console.log(error)
-            $scope.erTen = error.data.ten
+            $scope.erTen = error.data.moTa
             $scope.erMucGiam = error.data.mucGiam
             $scope.erMucGiamToiDa = error.data.mucGiamToiDa
-            $scope.erMucGiamToiThieu = error.data.mucGiamToiThieu
+            $scope.erMucGiamToiThieu = error.data.giaTriDonHang
             $scope.erNgayBatDau = error.data.ngayBatDau
             $scope.erNgayKetThuc = error.data.ngayKetThuc
             $scope.erSoLuong = error.data.soLuong
+            $scope.erdoiTuongSuDung = error.data.doiTuongSuDung
+            $scope.erhinhThucThanhToan = error.data. hinhThucThanhToan
 
         })
     }

@@ -50,4 +50,9 @@ public class VoucherController {
         service.deleteVouchers(ids);
         return "redirect:/admin/voucher";
     }
+
+    @GetMapping("/them-voucher")
+    public String danhSa3() {
+        return "/admin/fromVoucher";
+    }
 }
