@@ -6,11 +6,12 @@ app.controller('ctrl', function ($scope, $http) {
     $scope.totalPage = 0;
     $scope.pageNumbers = [];
     $scope.pageNumber = 0;
+    $scope.keyWord = ""
 
 
     $scope.getAll = function (page){
         $scope.pageNumber = page
-        $http.get("/admin/khach-hang/get-all-khach-hang?page="+page).then(r =>{
+        $http.get("/admin/khach-hang/get-all-khach-hang?page="+page+"&keyWord="+$scope.keyWord).then(r =>{
             $scope.khachHang = r.data.content;
             $scope.totalPage = r.data.totalPages;
             $scope.getPageNumbers(r.data.totalPages)

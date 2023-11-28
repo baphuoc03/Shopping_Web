@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,6 +67,10 @@ public class SanPhamController {
     public String add(@Valid @ModelAttribute("sanPham") SanPhamDtoRequest sanPham, BindingResult result,
                       @RequestParam(value = "pro-image", required = false) List<MultipartFile> file) throws IOException {
 
+        if(file.size()>5){
+            request.setAttribute("erImg","Sản phẩm chỉ tối đa 5 ảnh");
+            result.addError(new FieldError("1","1","1"));
+        }
 
         if (result.hasErrors()) {
             request.setAttribute("method", "add");
@@ -99,11 +104,14 @@ public class SanPhamController {
                          @PathVariable("ma") String ma,
                          @RequestParam(value = "pro-image", required = false) List<MultipartFile> file) throws IOException {
 
-        if(file.size() > 5){
-            result.rejectValue("erImg","erImg","Sản phẩm có tối đa 5 ảnh");
+        if(file.size()>5){
+            request.setAttribute("erImg","Sản phẩm chỉ tối đa 5 ảnh");
+            result.addError(new FieldError("1","1","1"));
         }
 
         if (result.hasErrors()) {
+            sanPham.setterAng(anhService.findAllBySanPham(sanPham.mapToModel()).stream().map(img -> img.getTen()).collect(Collectors.toList()));
+            request.setAttribute("sanPham", sanPham);
             request.setAttribute("method", "put");
             request.setAttribute("action", "update/" + ma);
             return "admin/formSanPham";

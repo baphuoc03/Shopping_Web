@@ -3,7 +3,7 @@ app.controller("ctrl", function ($scope, $http) {
     $scope.products = [];
     $scope.maSpInDSYT = []
     $scope.getSanPham = function (number) {
-        let path = ""
+        let path = "ban-chay"
         if (number == 0) {
             path = "ban-chay"
         } else if (number == 1) {

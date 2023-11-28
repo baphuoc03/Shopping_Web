@@ -13,6 +13,8 @@ public interface INhanVienService {
 
     Page<NhanVienDtoResponse> getAll(Integer page, Integer limit);
 
+    Page<NhanVienDtoResponse> search(String keyWord, Integer page, Integer limit);
+
     NhanVienDtoResponse findById(String username);
 
     Boolean existsByUsername(String username);

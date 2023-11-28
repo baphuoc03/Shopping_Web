@@ -410,8 +410,8 @@
                                 <div class="col-2">
                                     <a href="#" data-bs-toggle="modal" ng-click="setChiTietDH(ct.id)" ng-if="ct.nhanXet==null"
                                        data-bs-target="#danhGia">Đánh giá</a>
-                                    <a href="#" ng-if="ct.nhanXet!=null"
-                                       data-bs-target="#danhGia">Đã dánh giá</a>
+                                    <a href="#" data-bs-toggle="modal" ng-if="ct.nhanXet!=null" ng-click="viewUpdateDanhGia(ct.nhanXet.id)"
+                                       data-bs-target="#danhGiaUpdate">Đã đánh giá</a>
                                 </div>
                             </div>
                             <hr>
@@ -583,6 +583,81 @@
                             <i class="er mb-3">{{erDanhGia.noiDung == undefined ? "" : erDanhGia.noiDung}}</i>
                         </div>
                         <button type="button" class="btn btn-secondary" ng-click="addDanhGia()">Gửi đánh giá</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="danhGiaUpdate">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body" style="text-align: center;">
+                        <h4>Đánh giá</h4>
+                        <p>Bạn cảm thấy sản phẩm này thế nào?
+                            <h9 style="color: red;">*</h9>
+                        </p>
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <div class="stars">
+
+                                    <form action="" id="formDanhGiapdateUpdate">
+
+                                        <input class="star star-5" id="star-5update" type="radio"
+                                               ng-click="erDanhGiaUpdate.rating=''"
+                                               name="star" value="5" ng-model="danhGiaUpdate.rating"/>
+
+                                        <label class="star star-5" for="star-5update"></label>
+
+                                        <input class="star star-4" id="star-4update" type="radio"
+                                               ng-click="erDanhGiaUpdate.rating=''"
+                                               name="star" value="4" ng-model="danhGiaUpdate.rating"/>
+
+                                        <label class="star star-4" for="star-4update"></label>
+
+                                        <input class="star star-3" id="star-3update" type="radio"
+                                               ng-click="erDanhGiaUpdate.rating=''"
+                                               name="star" value="3" ng-model="danhGiaUpdate.rating"/>
+
+                                        <label class="star star-3" for="star-3update"></label>
+
+                                        <input class="star star-2" id="star-2update" type="radio"
+                                               ng-click="erDanhGiaUpdate.rating=''"
+                                               name="star" value="2" ng-model="danhGiaUpdate.rating"/>
+
+                                        <label class="star star-2" for="star-2update"></label>
+
+                                        <input class="star star-1" id="star-1update" type="radio"
+                                               ng-click="erDanhGiaUpdate.rating=''"
+                                               name="star" value="1" ng-model="danhGiaUpdate.rating"/>
+
+                                        <label class="star star-1" for="star-1update"></label>
+                                        <br>
+                                        <i class="er">{{erDanhGiaUpdate.rating == undefined ? "" : erDanhGiaUpdate.rating}}</i>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label">Chia sẻ cảm nhận của bạn về sản
+                                phẩm
+                                <h9 style="color: red;">*</h9>
+                            </label>
+                            <input type="text" class="form-control" placeholder="Tiêu đề" ng-model="danhGiaUpdate.tieuDe"
+                                   ng-focus="erDanhGiaUpdate.tieuDe=''">
+                            <i class="er ">{{erDanhGiaUpdate.tieuDe == undefined ? "" : erDanhGiaUpdate.tieuDe}}</i>
+                            <textarea class="form-control mt-3" ng-model="danhGiaUpdate.noiDung"
+                                      ng-focus="erDanhGiaUpdate.noiDung=''"
+                                      id="exampleFormControlTextarea11update" rows="3" placeholder="Nội dung"></textarea>
+                            <i class="er mb-3">{{erDanhGiaUpdate.noiDung == undefined ? "" : erDanhGiaUpdate.noiDung}}</i>
+                        </div>
+                        <button type="button" class="btn btn-secondary" ng-click="updateDanhGia()" ng-if="danhGiaUpdate.chinhSua==false && danhGiaUpdate.pheDuyet==false">Cập nhật đánh giá</button>
                     </div>
                 </div>
             </div>

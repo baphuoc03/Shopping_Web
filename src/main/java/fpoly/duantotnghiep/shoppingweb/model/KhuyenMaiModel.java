@@ -59,6 +59,9 @@ public class KhuyenMaiModel {
     @Column(name = "ngaycapnhat")
     private Date ngayCapNhat;
 
+    @Column(name = "trangthai")
+    private Boolean trangThai;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "khuyenmai_sanpham",
             joinColumns = {@JoinColumn(name = "khuyenmai")},

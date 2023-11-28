@@ -33,7 +33,11 @@ public class NhanVienRestcontroller {
 
     @GetMapping("get-all")
     public ResponseEntity<Page<NhanVienDtoResponse>> getAllKhachHang(@RequestParam(defaultValue = "0")Integer page,
-                                                                     @RequestParam(defaultValue = "8")Integer limit){
+                                                                     @RequestParam(defaultValue = "8")Integer limit,
+                                                                     @RequestParam(required = false)String keyWord){
+        if(keyWord!=null){
+            return ResponseEntity.ok(nhanVienService.search(keyWord,page,limit));
+        }
         return ResponseEntity.ok(nhanVienService.getAll(page,limit));
     }
 

@@ -85,7 +85,7 @@
                             <h4 class="card-title mb-0">Ảnh sản phẩm</h4>
                         </div>
                         <div class="card-body">
-                            <div class="container">
+                            <div class="container-fluid">
                                 <fieldset class="form-group">
 
                                     <input type="file" accept=".jpg,.gif,.png" id="pro-image" name="pro-image"
@@ -106,8 +106,9 @@
                                                                      th:src="@{|/image/loadImage/product/${img}|}">
                                         </div>
                                     </div>
-<!--                                    <i class="er" th:if="${#fields.hasErrors('erImg')}" th:errors="${erImg}"></i>-->
+
                                 </div>
+                                <i class="er" id="erImg">{{er.anh}}</i>
                             </div>
 <!--                            <button ng-click="check()" type="button">check</button>-->
                         </div>
@@ -149,12 +150,12 @@
                                         <input id="manufacturerbrand" th:field="*{giaBan}" class="form-control">
                                         <i th:errors="*{giaBan}" class="er"></i>
                                     </div>
-                                    <div class="mb-3">
-                                        <label>Trạng thái</label>
-                                        <input th:field="*{hienThi}" type="radio" th:value="1"/>Đăng bán
-                                        <input th:field="*{hienThi}" th:checked="*{hienThi == null ? true :false}"
-                                               type="radio" th:value="0"/>Ẩn
-                                    </div>
+<!--                                    <div class="mb-3">-->
+<!--                                        <label>Trạng thái</label>-->
+<!--                                        <input th:field="*{hienThi}" type="radio" th:value="1"/>Đăng bán-->
+<!--                                        <input th:field="*{hienThi}" th:checked="*{hienThi == null ? true :false}"-->
+<!--                                               type="radio" th:value="0"/>Ẩn-->
+<!--                                    </div>-->
                                 </div>
 
                                 <div class="col-sm-6">
@@ -211,12 +212,11 @@
                             </div>
 
                             <div class="d-flex flex-wrap gap-2">
-                                <button type="submit" ng-click="sortFiles()"
-                                        class="btn btn-primary waves-effect waves-light">Save
+                                <button type="submit" ng-click="sortFiles()" th:text="${method == 'put' ? 'Cập nhật' : 'Thêm'}"
+                                        class="btn btn-primary waves-effect waves-light">
                                 </button>
-                                <button type="button"
-                                        class="btn btn-secondary waves-effect waves-light">Cancel
-                                </button>
+                                <input type="reset" value="Làm mới"
+                                        class="btn btn-secondary waves-effect waves-light">
                             </div>
 
                         </div>

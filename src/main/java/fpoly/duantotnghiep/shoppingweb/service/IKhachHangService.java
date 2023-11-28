@@ -15,6 +15,8 @@ public interface IKhachHangService {
 
     Page<KhachHangDtoResponse> getAll(Integer page, Integer limit);
 
+    Page<KhachHangDtoResponse> search(String keyWord, Integer page, Integer limit);
+
     List<KhachHangDtoResponse> getAllFromVoucher();
 
 

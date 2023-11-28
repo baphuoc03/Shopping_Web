@@ -7,10 +7,11 @@ app.controller('ctrl', function ($scope, $http) {
     $scope.totalPage = 0;
     $scope.pageNumbers = [];
     $scope.pageNumber = 0;
+    $scope.keyWord = ""
 
     $scope.getAll = function (page){
         $scope.pageNumber = page
-        $http.get("/admin/nhan-vien/get-all?page="+page).then(r =>{
+        $http.get("/admin/nhan-vien/get-all?page="+page+"&keyWord="+$scope.keyWord).then(r =>{
             $scope.nhanVien = r.data.content;
             $scope.totalPage = r.data.totalPages;
             $scope.getPageNumbers(r.data.totalPages)

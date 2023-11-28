@@ -20,8 +20,17 @@ function readImage() {
         var files = event.target.files; //FileList object
         var output = $(".preview-images-zone");
 
+        var cancelImg = document.getElementsByClassName("image-cancel")
+        if(cancelImg.length+files.length>5){
+            return
+        }
+
         for (let i = 0; i < files.length; i++) {
             var file = files[i];
+            if(file.size > 1 * 1024 * 1024){
+                document.getElementById("erImg").innerText = "Kích thước tối đa của ảnh là 1mb"
+                return;
+            }
             if (!file.type.match('image')) continue;
 
             var picReader = new FileReader();
