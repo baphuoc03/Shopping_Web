@@ -3,7 +3,6 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.user;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.*;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
-import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
 import fpoly.duantotnghiep.shoppingweb.model.*;
 import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
@@ -13,17 +12,18 @@ import fpoly.duantotnghiep.shoppingweb.service.*;
 import fpoly.duantotnghiep.shoppingweb.service.impl.*;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 @RestController
@@ -45,6 +45,8 @@ public class CheckoutController {
     IChiTietSanPhamService sanPhamServic;
     @Autowired
     VoucherServiceImpl voucherService;
+    @Autowired
+    private VnPayServiceImpl vnPayService;
 
     @GetMapping("/check-out/voucher")
     public ResponseEntity<List<VoucherReponse>> checkOutVoucher() {
@@ -71,10 +73,12 @@ public class CheckoutController {
 
     @PostMapping("/check-out")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})//Khi có lỗi sẽ rollback
-    public ResponseEntity<?> addHoaDon(@Valid @RequestBody DonHangDTORequest donHangDTORequest,
-                                       BindingResult result,
-                                       Authentication authentication) throws MessagingException {
-
+    public Object addHoaDon(@Valid @RequestBody DonHangDTORequest donHangDTORequest,
+                            BindingResult result,
+                            Authentication authentication, HttpServletRequest request) throws MessagingException {
+        if (donHangDTORequest.getPhuongThucThanhToan() != voucherService.findById1(donHangDTORequest.getVoucher()).getHinhThucThanhToan()) {
+            result.rejectValue("tienGiam", "erTongTien", "Voucher không thể sử dụng cho hình thức thanh toán này");
+        }
         if (result.hasErrors()) {
             return ValidateUtil.getErrors(result);
         }
@@ -83,6 +87,9 @@ public class CheckoutController {
             KhachHangModel khachHangModel = new KhachHangModel();
             khachHangModel.setUsername(khachHang);
             donHangDTORequest.setNguoiSoHuu(khachHangModel);
+        }
+        if (donHangDTORequest.getPhuongThucThanhToan() == 1) {
+            donHangDTORequest.setTrangThai(5);
         }
         donHangDTORequest.setNgayDatHang(new Date());
         donHangDTORequest.setMa(codeDonHang());
@@ -101,13 +108,34 @@ public class CheckoutController {
             voucherService.upddateSoLuong(soLuong, donHangDTORequest.getVoucher());
         }
         gioHangService.removeAllProdcutInCart();
+        //Thanh Toán Online
+        if (donHangDTORequest.getPhuongThucThanhToan() == 1) {
+//            DonHangReponseUser donHangReponseUser = donHangService.findByMaUser(donHangDTORequest.getMa());
+            String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+            String vnpayUrl = vnPayService.createOrder(response.getMa(), baseUrl, donHangDTORequest.getTongTien());
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.add("Location", vnpayUrl);
+//            return new ResponseEntity<String>(headers,HttpStatus.FOUND);
+            Map<String, String> vnPayUrl = new HashMap<>();
+            vnPayUrl.put("vnPayUrl", vnpayUrl);
+            int paymentStatus = vnPayService.orderReturn(request, donHangDTORequest.getDiaChiChiTiet());
+            System.out.println(paymentStatus);
+            if (paymentStatus == 1) {
+                donHangService.updateTrangThai1(response.getMa(), 2);
+            } else {
+                donHangService.updateTrangThai1(response.getMa(), 5);
+            }
+            return ResponseEntity.ok(vnPayUrl);
+        }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+
     @PostMapping("/using-voucher")
-    public Double giaGiam(@RequestBody Map<String, Object> request) {
+    public ResponseEntity<?> giaGiam(@RequestBody Map<String, Object> request, BindingResult result) {
         VoucherReponse voucherResponse = voucherService.findById(request.get("voucher").toString());
         Double tongThanhToan = Double.parseDouble(request.get("tongThanhToan").toString());
+
         Double giaGiam = null;
         if (voucherResponse != null) {
             giaGiam = voucherResponse.getMucGiam();
@@ -118,7 +146,7 @@ public class CheckoutController {
                 }
             }
         }
-        return giaGiam;
+        return ResponseEntity.ok(giaGiam);
     }
 
 

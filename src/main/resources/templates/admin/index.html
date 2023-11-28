@@ -52,6 +52,10 @@
 
     <!-- Bootstrap Css -->
     <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>
+
+    <!-- alertifyjs Css -->
+    <link href="/admin/assets/libs/alertifyjs/build/css/alertify.min.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/assets/libs/alertifyjs/build/css/themes/default.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"
             crossorigin="anonymous"></script>
@@ -61,8 +65,10 @@
     <link rel='stylesheet'
           href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/css/fileinput.min.css'/>
 
-    <!--    toast-->
-    <!--    <link href="/admin/assets/css/jquery.toast.css" rel="stylesheet" type="text/css"/>-->
+
+<!--    toast-->
+
+    <link rel="stylesheet" type="text/css" th:href="@{/userStyle/fonts/iconic/css/material-design-iconic-font.min.css}">
 
 </head>
 
@@ -432,7 +438,6 @@
 
 <script th:src="@{/admin/assets/js/app.js}"></script>
 
-
 <!-- JAVASCRIPT -->
 <script th:src="@{/admin/assets/libs/jquery/jquery.min.js}"></script>
 <script th:src="@{/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
@@ -460,6 +465,9 @@
 <!-- dropzone plugin -->
 <script th:src="@{/admin/assets/libs/dropzone/min/dropzone.min.js}"></script>
 
+<!-- alertifyjs js -->
+<script src="/admin/assets/libs/alertifyjs/build/alertify.min.js"></script>
+
 <!-- init js} -->
 <script th:src="@{/admin/assets/js/pages/ecommerce-select2.init.js}"></script>
 
@@ -485,9 +493,10 @@
 <script src="/admin/AngularJS/ThuongHieuJS.js"></script>
 <script src="/admin/AngularJS/DonHang.js"></script>
 
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="/admin/assets/libs/rater-js/index.js"></script>
 <script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>
 <script th:src="@{/admin/AngularJS/ResetPassword.js}"></script>
+<script th:src="@{/admin/AngularJS/nhanXet.js}"></script>
 
 <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js'></script>
@@ -544,5 +553,7 @@
 </script>
 
 </body>
-
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- pace js -->
+<script src="/admin/assets/libs/pace-js/pace.min.js"></script>
 </html>

@@ -37,23 +37,29 @@ public class GioHangRestController {
     public ResponseEntity<?> addToCart(@RequestParam(value = "idCTSP",required = false)String idCTSP,
                                              @RequestParam("sl")Integer sl){
         Map<String,String> er = new HashMap<>();
+        Integer soLuongCheck = sl;
+
         if(idCTSP==null || idCTSP.length()==0){
             er.put("eSize","Vui lòng chọn size");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
         }
-        if(!chiTietSanPhamService.checkSoLuongSP(idCTSP, Long.valueOf(sl))){
+        if(service.checkSanPhamTrongGio(idCTSP)){
+            soLuongCheck += service.getSoLuong(idCTSP);
+        }
+        if(!chiTietSanPhamService.checkSoLuongSP(idCTSP, Long.valueOf(soLuongCheck))){
             er.put("eSize","Số lượng không hợp lệ!!");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
         }
-
-
         service.addOrUpdateToCart(idCTSP,sl);
         return ResponseEntity.ok(service.laySpTrongGio());
     }
     @PutMapping("update-sl/{idCTSP}/{sl}")
-    public ResponseEntity<List<GioHangDtoReponse>> updateSL(@PathVariable("idCTSP")String idCTSP,@PathVariable("sl")Integer sl){
-//        Long slSanPham = chiTietSanPhamRepository.getReferenceById(idCTSP).getSoLuong();
-//        if(slSanPham < sl || sl <= 0) return null;
+    public ResponseEntity<?> updateSL(@PathVariable("idCTSP")String idCTSP,@PathVariable("sl")Integer sl){
+        Map<String,String> er = new HashMap<>();
+        if(!chiTietSanPhamService.checkSoLuongSP(idCTSP, Long.valueOf(sl))){
+            er.put("sl","Số lượng trong kho không đủ");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
+        }
         service.updateSoLuong(idCTSP,sl);
         return ResponseEntity.ok(service.laySpTrongGio());
     }

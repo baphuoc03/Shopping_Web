@@ -229,11 +229,16 @@
                                     {{p.ten}}
                                 </a>
 
-                                <span class=" cl3">
-                                    <span class="cl3" ng-if="p.giaBan<p.giaNiemYet">
-									<del>{{p.giaNiemYet | currency: "" : 1}}đ</del>
+                                <span class=" cl3" ng-if="p.mucGiam!=null">
+                                    <span class="cl3" >
+									    <del>{{p.giaBan | currency: "" : 1}}đ</del>
 								    </span>
-                                <b style="font-weight: bold;font-size: 15px;">{{p.giaBan | currency: "" : 1}}đ</b>
+                                    <b ng-if="p.loaiGiam == 'TIEN'" style="font-weight: bold;font-size: 15px;">{{p.giaBan - p.mucGiam  | currency: "" : 1}}đ</b>
+                                    <b ng-if="p.loaiGiam == 'PHAN TRAM'" style="font-weight: bold;font-size: 15px;">{{p.giaBan - ((p.mucGiam/100) * p.giaBan)| currency: "" : 1}}đ</b>
+								</span>
+                                <span class=" cl3" ng-if="p.mucGiam==null">
+
+                                    <b style="font-weight: bold;font-size: 15px;">{{p.giaBan | currency: "" : 1}}đ</b>
 								</span>
                             </div>
 

@@ -4,6 +4,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
+import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
 import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
@@ -30,12 +31,15 @@ import java.util.Map;
 public class DonHangRescontroller {
     @Autowired
     private IDonHangService donHangService;
+    @Autowired
+    private DonHangEntityManager donHangEntityManager;
 
     @GetMapping("get-by-trangthai")
     public Page<DonHangDtoResponse> getChuaXacNhan(@RequestParam("trangThai") Integer trangThai,
                                                    @RequestParam(defaultValue = "0") Integer pageNumber,
-                                                   @RequestParam(defaultValue = "10") Integer limit) {
-        return donHangService.getAllByTrangThai(trangThai, limit, pageNumber);
+                                                   @RequestParam(defaultValue = "10") Integer limit,
+                                                   @RequestParam(required = false)String sdt) {
+        return donHangEntityManager.getDonHangByTrangThai(trangThai, pageNumber , limit, sdt);
     }
 
 

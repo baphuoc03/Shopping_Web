@@ -24,7 +24,6 @@ public class VoucherRequest {
 
     private String loaiMucGiam;
 
-    @NotNull(message = "Vui lòng nhập dữ liệu")
     private Double mucGiam;
 
     @NotNull(message = "Vui lòng nhập dữ liệu")
@@ -32,12 +31,10 @@ public class VoucherRequest {
 
     private Double mucGiamToiDa;
 
-    @NotNull(message = "Vui lòng nhập dữ liệu")
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date ngayBatDau;
 
-    @NotNull(message = "Vui lòng nhập dữ liệu")
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date ngayKetThuc;
@@ -50,7 +47,6 @@ public class VoucherRequest {
 
     private int doiTuongSuDung;
 
-    @NotNull(message = "Vui lòng nhập dữ liệu")
     private int hinhThucThanhToan;
 
     private List<KhachHangModel> khachHang;

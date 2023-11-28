@@ -2,6 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.repository;
 
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
+import fpoly.duantotnghiep.shoppingweb.model.SizeModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -51,4 +52,5 @@ public interface IChiTietSanPhamRepository extends JpaRepository<ChiTietSanPhamM
 """)
     Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
 
+    List<ChiTietSanPhamModel> getAllBySize(SizeModel sizeModel);
 }

@@ -74,7 +74,6 @@
                                         <th>Khách hàng</th>
                                         <th>Đã sử dụng</th>
                                         <th>Trạng Thái</th>
-                                        <th>Hiện thị</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -82,7 +81,8 @@
                                         <td><input type="checkbox" ng-model="voucher.selected"
                                                    ng-change="sumVoucherSelected(voucher)"></td>
                                         <td>
-                                            <p th:text="${vc.ma}"></p>
+                                            <p th:text="${vc.ma}" ><a
+                                                    th:href="@{/admin/voucher/chi-tiet-voucher/+'@{vc.id}'"></a></p>
                                             <p th:text="'Giảm ' + ${vc.mucGiam} + ' ' + ${vc.loaiMucGiam == 'PHAN TRAM'? '%':'vnd'}"></p>
                                         </td>
                                         <td>
@@ -93,27 +93,14 @@
                                         <td th:text="${vc.doiTuongSuDung}"></td>
                                         <td th:text="${vc.soLuongSuDung}"></td>
                                         <td>
-                                            <p style="border: solid 1 px #0dba26; color: #0dba26"
-                                               th:text="${vc.trangThai == 0? 'Đã Kích hoạt': 'Chưa kích hoạt'}"></p>
-                                        </td>
-                                        <td>
-                                            <input
-                                                   type="checkbox"
-                                                   id="${vc.ma}" switch="bool" name="${vc.ma}"
-                                                   th:checked="${vc.trangThai == 0}"/>
-                                            <label for="${vc.ma}" data-on-label="Yes"
-                                                   data-off-label="No"></label>
-                                        </td>
-                                        <td>
-                                            <a href="" class="edit" data-bs-toggle="modal"
-                                               data-bs-target="#editVoucher"
-                                               th:attr="ng-click='findById(\''+${vc.ma}+'\');'">
-                                                <i class="material-icons" title="Edit">&#xE254;</i>
-                                            </a>
-                                            <a href="" class="delete"
-                                               th:attr="ng-click='delete(\''+${vc.ma}+'\');'">
-                                                <i class="material-icons" title="Delete">&#xE872;</i>
-                                            </a>
+                                            <span style="color: green; border: solid 1px green"
+                                                  th:if="${vc.trangThai == 0}">
+                                                Đã kích hoạt
+                                            </span>
+                                            <span style="color: red; border:solid 1px red; height: 10px"
+                                                  th:if="${vc.trangThai == 1}">Chưa kích hoạt</span>
+                                            <span style="color: red; border:solid 1px red; height: 10px"
+                                                  th:if="${vc.trangThai == 2}">Hết hạn</span>
                                         </td>
                                     </tr>
                                     </tbody>

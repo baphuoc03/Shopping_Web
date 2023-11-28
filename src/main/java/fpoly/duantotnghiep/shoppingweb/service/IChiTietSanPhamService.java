@@ -37,4 +37,6 @@ public interface IChiTietSanPhamService {
     List<ChiTietSanPhamDtoResponse> getBySanPhamIdOrNameContais(String keyWord);
 
     Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
+
+    void deleteBySize(float size);
 }

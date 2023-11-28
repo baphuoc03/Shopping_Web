@@ -46,11 +46,11 @@ public class DonHangDTORequest {
     private String ghiChu;
     private BigDecimal tienGiam;
     private BigDecimal phiGiaoHang;
-    @NotNull(message = "Vui lòng chọn hình thức thanh toán")
     private int phuongThucThanhToan;
     private String trangThaiDetail;
-//    @NotBlank(message = "Nhập lý do hủy đơn")
+    //    @NotBlank(message = "Nhập lý do hủy đơn")
     private String lyDoHuy;
+    private String tongTien;
 
     public DonHangModel mapModel() {
         DonHangModel donHangModel = new DonHangModel();

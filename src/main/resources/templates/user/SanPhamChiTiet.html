@@ -224,7 +224,7 @@
                                             Thêm vào giỏ hàng
                                         </button>
                                     </div>
-                                    <i id="eSize"  class="er"></i>
+                                    <i id="eSize"  class="text-danger"></i>
                                 </div>
                             </div>
                         </div>
@@ -343,14 +343,16 @@
 													</span>
 
                                                     <div class="fs-18">
-                                                        <span class="cl11 d-flex">
-                                                            <span ng-repeat="r in nhanXet.rating">
-                                                                <i ng-if="r <= n.rating" class="zmdi zmdi-star"></i>
-                                                                <i ng-if="r > n.rating" class="zmdi zmdi-star-outline"></i>
-                                                            </span>
-													    </span>
+                                                        <div class="d-flex justify-content-end">
+                                                            <span class="cl11 d-flex">
+                                                                <span ng-repeat="r in nhanXet.rating">
+                                                                    <i ng-if="r <= n.rating" class="zmdi zmdi-star"></i>
+                                                                    <i ng-if="r > n.rating" class="zmdi zmdi-star-outline"></i>
+                                                                </span>
+													        </span>
+                                                        </div>
                                                         <span class="cl6" style="font-size: 11px;display: grid">
-                                                            {{n.thoiGian | date:'yyyy-MM-dd HH:mm'}}
+                                                            {{n.thoiGian | date:'yyyy-MM-dd HH:mm'}} | size : {{n.chiTietSanPhamDtoResponse.size}}
                                                         </span>
                                                     </div>
                                                 </div>

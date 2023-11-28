@@ -9,13 +9,16 @@ import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.VoucherRepository;
 import fpoly.duantotnghiep.shoppingweb.service.VoucherService;
 import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,7 +66,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public List<VoucherReponse> voucherEligible() {
-        return repository.findVoucherEligible().stream()
+        return repository.findVoucherHienThi().stream()
                 .map(c -> new VoucherReponse(c)).collect(Collectors.toList());
     }
 
@@ -92,17 +95,32 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    public void updateTrangThai(int trangThai, String id) {
+        this.repository.updateTrangThai(trangThai, id);
+    }
+
+    @Override
+    public VoucherModel findById1(String id) {
+        return repository.findById(id).get();
+    }
+
+    @Override
     public VoucherReponse addVoucher(VoucherRequest voucher) {
         VoucherModel voucherModel = repository.save(voucher.maptoModel());
-        String conten = "Tặng bạn voucher giảm: " + voucher.getMucGiam();
-        if (voucherModel.getKhachHang() != null) {
-            for (var mail : voucherModel.getKhachHang()) {
-                try {
-                    EmailUtil.sendEmail(mail.getEmail(), "Tặng bạn voucher giảm giá", "");
-                } catch (Exception e) {
+        if (voucher.getTrangThai() == 0) {
+            if (voucherModel.getKhachHang() != null) {
+                for (var mail : voucherModel.getKhachHang()) {
+                    Context context = new Context();
+                    context.setVariable("voucher", voucher);
+                    new Thread(() -> {
+                        try {
+                            EmailUtil.sendEmailWithHtml(mail.getEmail(), "HYDRA SNEAKER tặng bạn voucher giảm giá", "email/voucherTang", context);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
 
                 }
-
             }
         }
         return new VoucherReponse(voucherModel);
@@ -124,6 +142,18 @@ public class VoucherServiceImpl implements VoucherService {
         for (String id : ids) {
             repository.deleteById(id);
         }
+    }
+
+    @Override
+    @Scheduled(cron = "0 * * * * *")
+    public void updateTrangThai() {
+        for (var vc : repository.findAll()) {
+            if (vc.getNgayKetThuc().after(new Date())) {
+                repository.updateTrangThai(2, vc.getMa());
+            }
+        }
+        System.out.println("oke oke ");
+
     }
 
     @Override

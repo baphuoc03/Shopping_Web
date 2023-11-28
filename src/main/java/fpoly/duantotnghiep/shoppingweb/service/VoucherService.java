@@ -10,8 +10,10 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface VoucherService {
-public List<VoucherReponse> voucherInKhachHang(String username);
+    public List<VoucherReponse> voucherInKhachHang(String username);
+
     public List<VoucherReponse> findVoucherSort(String sort);
+    public void updateTrangThai();
 
     public List<VoucherReponse> voucherEligible();
 
@@ -22,6 +24,10 @@ public List<VoucherReponse> voucherInKhachHang(String username);
     public Page<VoucherReponse> findByName(String keyword, Pageable pageable);
 
     public VoucherReponse findById(String id);
+
+    public void updateTrangThai(int trangThai, String id);
+
+    public VoucherModel findById1(String id);
 
     public VoucherReponse addVoucher(VoucherRequest voucher);
 

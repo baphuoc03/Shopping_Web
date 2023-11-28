@@ -21,8 +21,9 @@ app.controller("danh-sach-yeu-thich-ctrl", function($scope, $http){
     $scope.delete = function (ma){
         var url = "/danh-sach-yeu-thich/delete" +"/"+ ma;
         $http.delete(url).then(function (r){
-            alert("Dlete thành công!!!")
-            location.reload();
+            alertify.success("Đã xóa sản phẩm ra khỏi danh sách yêu thích")
+            let index = $scope.items.findIndex(i => i.sanPhamm.ma == ma)
+            $scope.items.splice(index,1)
         })
     }
 
@@ -47,14 +48,14 @@ app.controller("danh-sach-yeu-thich-ctrl", function($scope, $http){
             $http.post("/cart/add-to-cart?idCTSP=" + ctsp + "&sl=" + soLuong).then(function (response) {
                 console.log(response.data)
                 if (response.data == null || response.data.length == 0) {
-                    alert("Phân loại của sản phẩm không đủ số lượng!!!")
+                    alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
                 } else {
-                    alert("Success")
-
+                    alertify.success("Thêm thành công vào giỏ hàng")
                     $scope.cartShow()
                 }
             }).catch(e => {
                 document.getElementById("eSize").innerText = e.data.eSize = undefined ? "" : e.data.eSize
+                alertify.error("Thêm sản phẩm vào giỏ hàng thất bại!!!")
                 console.log(e)
             })
         }

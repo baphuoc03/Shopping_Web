@@ -8,10 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +41,10 @@ public class VoucherController {
         model.addAttribute("totalPage", totalPage);
         return "/admin/Voucher";
     }
-
-    @PostMapping("/delete")
-    public String deleteVouchers(@RequestParam(value = "ids", required = false) List<String> ids) {
-        service.deleteVouchers(ids);
-        return "redirect:/admin/voucher";
+    @GetMapping("/chi-tiet-voucher/{id}")
+    public String chiTietVoucher(@PathVariable String id) {
+        return "/admin/formVoucher";
     }
-
     @GetMapping("/them-voucher")
     public String danhSa3() {
         return "/admin/fromVoucher";

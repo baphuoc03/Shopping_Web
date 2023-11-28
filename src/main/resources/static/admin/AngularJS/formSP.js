@@ -76,7 +76,12 @@ app.controller("ctrl", function ($scope, $http) {
             $scope.tenThuocTinh = "";
             checkViewModal = true
             $('#viewAdd').modal('hide');
-        }).catch(e => console.log(e))
+            alertify.success("Thêm thành công")
+        }).catch(e => {
+            alertify.error("Thêm thất bại")
+            console.log(e)
+        })
+
     }
     $scope.addOtpInDongSP = function (data) {
         let otpGroup = document.getElementById($scope.thuongHieu+"");
@@ -130,17 +135,21 @@ app.controller("ctrl", function ($scope, $http) {
     }
     $scope.sortFiles = function () {
         console.log(document.getElementsByClassName("image-cancel"))
+
+        let indexs = []
+
         let files1 = new DataTransfer();
-        document.getElementsByClassName("image-cancel").forEach(i => {
-            console.log(i)
-            filesTransfer.files.forEach(f => {
-                if (f.lastModified == i.id) {
-                    files1.items.add(f);
+        document.getElementsByClassName("image-cancel").forEach(item => {
+            console.log(item)
+            for(let i = 0;i<filesTransfer.files.length ;i++)
+                if (filesTransfer.files[i].lastModified == item.id && indexs.includes(i)==false) {
+                    indexs.push(i)
+                    files1.items.add(filesTransfer.files[i]);
                 }
-            })
         })
         filesTransfer = files1
         document.getElementById("pro-image").files = filesTransfer.files
+        $scope.check()
 
         // filesTransfer = new DataTransfer();
         // document.getElementById("pro-image").files = filesTransfer.files

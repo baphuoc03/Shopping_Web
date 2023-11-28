@@ -2,6 +2,9 @@
 <html lang="en" xmlns:th="http:/www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/admin/index}">
+<head>
+    <title>Hydra | Quản lý đơn hàng</title>
+</head>
 <body data-topbar="dark">
 <div class="main-content" layout:fragment="content">
 
@@ -29,19 +32,20 @@
                             <li class="nav-item" ng-click="chuaXacNhan.getList(chuaXacNhan.page)">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#donhang1" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                    <span class="d-none d-sm-block">Chưa xác nhận</span>
+                                    <span class="d-none d-sm-block">Chưa xác nhận <span class="badge bg-danger ms-1" style="font-size: 11px">{{chuaXacNhan.totalElement}}</span></span>
+
                                 </a>
                             </li>
                             <li class="nav-item" ng-click="daXacNhan.getList(daXacNhan.page)">
                                 <a class="nav-link" data-bs-toggle="tab" href="#donhang2" role="tab">
                                     <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                    <span class="d-none d-sm-block">Đã xác nhận</span>
+                                    <span class="d-none d-sm-block">Đã xác nhận <span class="badge bg-danger ms-1" style="font-size: 11px">{{daXacNhan.totalElement}}</span></span>
                                 </a>
                             </li>
                             <li class="nav-item" ng-click="dangGiao.getList(dangGiao.page)">
                                 <a class="nav-link" data-bs-toggle="tab" href="#donhang3" role="tab">
                                     <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                    <span class="d-none d-sm-block">Đang giao</span>
+                                    <span class="d-none d-sm-block">Đang giao <span class="badge bg-danger ms-1" style="font-size: 11px">{{dangGiao.totalElement}}</span></span>
                                 </a>
                             </li>
                             <li class="nav-item" ng-click="hoanThanh.getList(hoanThanh.page)">
@@ -59,7 +63,7 @@
                             <li class="nav-item" ng-click="chuaThanhToan.getList(chuaThanhToan.page)">
                                 <a class="nav-link" data-bs-toggle="tab" href="#chuaTT" role="tab">
                                     <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                    <span class="d-none d-sm-block">Chưa thanh toán</span>
+                                    <span class="d-none d-sm-block">Chưa thanh toán <span class="badge bg-danger ms-1" style="font-size: 11px">{{chuaThanhToan.totalElement}}</span></span>
                                 </a>
                             </li>
                         </ul>
@@ -75,17 +79,19 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
-                                                            <div>
-                                                                <a href="#" class="btn btn-light"><i
-                                                                        class="bx bx-plus me-1"></i>Thêm mới</a>
-                                                            </div>
-                                                            <div class="dropdown">
-                                                                <a class="btn btn-link text-muted py-1 font-size-16 shadow-none dropdown-toggle"
-                                                                   href="#" role="button" data-bs-toggle="dropdown"
-                                                                   aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </a>
-                                                            </div>
+<!--                                                            <div>-->
+<!--                                                                <a href="#" class="btn btn-light"><i-->
+<!--                                                                        class="bx bx-plus me-1"></i>Thêm mới</a>-->
+<!--                                                            </div>-->
+<!--                                                            <div class="dropdown">-->
+<!--                                                                <a class="btn btn-link text-muted py-1 font-size-16 shadow-none dropdown-toggle"-->
+<!--                                                                   href="#" role="button" data-bs-toggle="dropdown"-->
+<!--                                                                   aria-expanded="false">-->
+<!--                                                                    <i class="bx bx-dots-horizontal-rounded"></i>-->
+<!--                                                                </a>-->
+<!--                                                            </div>-->
+                                                            <input class="form-control col-6" ng-model="chuaXacNhan.sdtSearch" onchange="angular.element(this).scope().chuaXacNhan.getList(0)"
+                                                                   placeholder="Tìm kiếm theo số điện thoại" style="width: 50%">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -183,6 +189,11 @@
                                                                         <span class="sr-only">Previous</span>
                                                                     </span>
                                                                 </li>
+                                                                <li class="page-item" ng-if="chuaXacNhan.page>2">
+                                                                    <span class="page-link">
+                                                                        <span>...</span>
+                                                                    </span>
+                                                                </li>
                                                                 <li class="page-item pageNumber"
                                                                     ng-repeat="p in chuaXacNhan.pages"
                                                                     ng-click="chuaXacNhan.getList(p)">
@@ -191,6 +202,11 @@
                                                                     <span ng-if="p==chuaXacNhan.page"
                                                                           class="page-link active"
                                                                           style="cursor: pointer">{{p + 1}}</span>
+                                                                </li>
+                                                                <li class="page-item" ng-if="chuaXacNhan.page<chuaXacNhan.totalPage -2">
+                                                                    <span class="page-link">
+                                                                        <span>...</span>
+                                                                    </span>
                                                                 </li>
                                                                 <li class="page-item">
                                                                     <span class="page-link" style="cursor: pointer"
@@ -230,17 +246,19 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
-                                                            <div>
-                                                                <!--                                                                <a href="#" class="btn btn-light"><i-->
-                                                                <!--                                                                        class="bx bx-plus me-1"></i>Thêm mới</a>-->
-                                                            </div>
-                                                            <div class="dropdown">
-                                                                <a class="btn btn-link text-muted py-1 font-size-16 shadow-none dropdown-toggle"
-                                                                   href="#" role="button" data-bs-toggle="dropdown"
-                                                                   aria-expanded="false">
-                                                                    <i class="bx bx-dots-horizontal-rounded"></i>
-                                                                </a>
-                                                            </div>
+<!--                                                            <div>-->
+<!--                                                                <a href="#" class="btn btn-light"><i-->
+<!--                                                                        class="bx bx-plus me-1"></i>Thêm mới</a>-->
+<!--                                                            </div>-->
+<!--                                                            <div class="dropdown">-->
+<!--                                                                <a class="btn btn-link text-muted py-1 font-size-16 shadow-none dropdown-toggle"-->
+<!--                                                                   href="#" role="button" data-bs-toggle="dropdown"-->
+<!--                                                                   aria-expanded="false">-->
+<!--                                                                    <i class="bx bx-dots-horizontal-rounded"></i>-->
+<!--                                                                </a>-->
+<!--                                                            </div>-->
+                                                            <input class="form-control col-6" ng-model="chuaThanhToan.sdtSearch" onchange="angular.element(this).scope().chuaThanhToan.getList(0)"
+                                                                   placeholder="Tìm kiếm theo số điện thoại" style="width: 50%">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -340,6 +358,11 @@
                                                                         <span class="sr-only">Previous</span>
                                                                     </span>
                                                                 </li>
+                                                                <li class="page-item" ng-if="chuaThanhToan.page>2">
+                                                                    <span class="page-link">
+                                                                        <span>...</span>
+                                                                    </span>
+                                                                </li>
                                                                 <li class="page-item pageNumber"
                                                                     ng-repeat="p in chuaThanhToan.pages"
                                                                     ng-click="chuaThanhToan.getList(p)">
@@ -349,6 +372,11 @@
                                                                     <span ng-if="p==chuaThanhToan.page"
                                                                           class="page-link active"
                                                                           style="cursor: pointer">{{p + 1}}</span>
+                                                                </li>
+                                                                <li class="page-item" ng-if="chuaThanhToan.page<chuaThanhToan.totalPage -2">
+                                                                    <span class="page-link">
+                                                                        <span>...</span>
+                                                                    </span>
                                                                 </li>
                                                                 <li class="page-item">
                                                                     <span class="page-link" style="cursor: pointer"
@@ -384,6 +412,16 @@
                                     <div class="col-lg-12">
                                         <div class="card">
                                             <div class="card-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-6">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
+                                                            <input class="form-control col-6" ng-model="daXacNhan.sdtSearch" onchange="angular.element(this).scope().daXacNhan.getList(0)"
+                                                                   placeholder="Tìm kiếm theo số điện thoại" style="width: 50%">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="table-responsive mb-4">
                                                     <table class="table align-middle datatable dt-responsive table-check nowrap"
                                                            style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
@@ -475,6 +513,11 @@
                                                                         <span class="sr-only">Previous</span>
                                                                     </span>
                                                                 </li>
+                                                                <li class="page-item" ng-if="daXacNhan.page>2">
+                                                                    <span class="page-link">
+                                                                        <span>...</span>
+                                                                    </span>
+                                                                </li>
                                                                 <li class="page-item pageNumber"
                                                                     ng-repeat="p in daXacNhan.pages"
                                                                     ng-click="daXacNhan.getList(p)" id="{{p}}">
@@ -483,6 +526,11 @@
                                                                     <span ng-if="p==daXacNhan.page"
                                                                           class="page-link active"
                                                                           style="cursor: pointer">{{p + 1}}</span>
+                                                                </li>
+                                                                <li class="page-item" ng-if="daXacNhan.page<daXacNhan.totalPage -2">
+                                                                    <span class="page-link">
+                                                                        <span>...</span>
+                                                                    </span>
                                                                 </li>
                                                                 <li class="page-item">
                                                                     <span class="page-link" style="cursor: pointer"
@@ -519,6 +567,16 @@
                                     <div class="col-lg-12">
                                         <div class="card">
                                             <div class="card-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-6">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
+                                                            <input class="form-control col-6" ng-model="dangGiao.sdtSearch" onchange="angular.element(this).scope().dangGiao.getList(0)"
+                                                                   placeholder="Tìm kiếm theo số điện thoại" style="width: 50%">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="table-responsive mb-4">
                                                     <table class="table align-middle datatable dt-responsive table-check nowrap"
                                                            style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
@@ -609,6 +667,11 @@
                                                                         <span class="sr-only">Previous</span>
                                                                     </span>
                                                                 </li>
+                                                                <li class="page-item" ng-if="dangGiao.page>2">
+                                                                    <span class="page-link">
+                                                                        <span>...</span>
+                                                                    </span>
+                                                                </li>
                                                                 <li class="page-item pageNumber"
                                                                     ng-repeat="p in dangGiao.pages"
                                                                     id="{{p}}">
@@ -618,6 +681,11 @@
                                                                     <span ng-if="p==dangGiao.page"
                                                                           class="page-link active"
                                                                           style="cursor: pointer">{{p + 1}}</span>
+                                                                </li>
+                                                                <li class="page-item" ng-if="dangGiao.page<dangGiao.totalPage - 2">
+                                                                    <span class="page-link">
+                                                                        <span>...</span>
+                                                                    </span>
                                                                 </li>
                                                                 <li class="page-item">
                                                                     <span class="page-link" style="cursor: pointer"
@@ -653,6 +721,16 @@
                                     <div class="col-lg-12">
                                         <div class="card">
                                             <div class="card-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-6">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
+                                                            <input class="form-control col-6" ng-model="hoanThanh.sdtSearch" onchange="angular.element(this).scope().hoanThanh.getList(0)"
+                                                                   placeholder="Tìm kiếm theo số điện thoại" style="width: 50%">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="table-responsive mb-4">
                                                     <table class="table align-middle datatable dt-responsive table-check nowrap"
                                                            style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
@@ -700,7 +778,7 @@
                                                                         <span class="sr-only">First</span>
                                                                     </span>
                                                                 </li>
-                                                                <li class="page-item" ng-if="huy.page>0">
+                                                                <li class="page-item" ng-if="hoanThanh.page>0">
                                                                     <span class="page-link" style="cursor: pointer"
                                                                           aria-label="Previous"
                                                                           ng-click="hoanThanh.getList(hoanThanh.page==0 ? 0 : hoanThanh.page-1)">
@@ -708,14 +786,23 @@
                                                                         <span class="sr-only">Previous</span>
                                                                     </span>
                                                                 </li>
+                                                                <li class="page-item" ng-if="hoanThanh.page>2">
+                                                                    <span class="page-link">
+                                                                        <span>...</span>
+                                                                    </span>
+                                                                </li>
                                                                 <li class="page-item pageNumber"
                                                                     ng-repeat="p in hoanThanh.pages"
                                                                     id="{{p}}">
-                                                                    <span ng-if="p!=huy.page" class="page-link"
-                                                                          ng-click="hoanThanh.getList(p)"
+                                                                    <span ng-if="p!=hoanThanh.page" class="page-link" ng-click="hoanThanh.getList(p)"
                                                                           style="cursor: pointer">{{p + 1}}</span>
-                                                                    <span ng-if="p==huy.page" class="page-link active"
+                                                                    <span ng-if="p==hoanThanh.page" class="page-link active"
                                                                           style="cursor: pointer">{{p + 1}}</span>
+                                                                </li>
+                                                                <li class="page-item" ng-if="hoanThanh.page<hoanThanh.totalPage - 2">
+                                                                    <span class="page-link">
+                                                                        <span>...</span>
+                                                                    </span>
                                                                 </li>
                                                                 <li class="page-item">
                                                                     <span class="page-link" style="cursor: pointer"
@@ -751,6 +838,16 @@
                                     <div class="col-lg-12">
                                         <div class="card">
                                             <div class="card-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-6">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
+                                                            <input class="form-control col-6" ng-model="huy.sdtSearch" onchange="angular.element(this).scope().huy.getList(0)"
+                                                                   placeholder="Tìm kiếm theo số điện thoại" style="width: 50%">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="table-responsive mb-4">
                                                     <table class="table align-middle datatable dt-responsive table-check nowrap"
                                                            style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
@@ -810,6 +907,11 @@
                                                                         <span class="sr-only">Previous</span>
                                                                     </span>
                                                                 </li>
+                                                                <li class="page-item" ng-if="huy.page>2">
+                                                                    <span class="page-link">
+                                                                        <span>...</span>
+                                                                    </span>
+                                                                </li>
                                                                 <li class="page-item pageNumber"
                                                                     ng-repeat="p in huy.pages" ng-click="huy.getList(p)"
                                                                     id="{{p}}">
@@ -817,6 +919,11 @@
                                                                           style="cursor: pointer">{{p + 1}}</span>
                                                                     <span ng-if="p==huy.page" class="page-link active"
                                                                           style="cursor: pointer">{{p + 1}}</span>
+                                                                </li>
+                                                                <li class="page-item" ng-if="huy.page<huy.totalPage -2">
+                                                                    <span class="page-link">
+                                                                        <span>...</span>
+                                                                    </span>
                                                                 </li>
                                                                 <li class="page-item">
                                                                     <span class="page-link" style="cursor: pointer"
@@ -906,7 +1013,10 @@
                             <div class="row">
                                 <div class="mb-3 col-12">
                                     <label>Phương thức thanh toán</label>
-                                    <span class="form-control">{{chuaXacNhan.detail.phuongThucThanhToan}}</span>
+                                    <select class="form-control" ng-model="chuaXacNhan.detail.phuongThucThanhToan">
+                                        <option value="true">Khi nhận hàng</option>
+                                        <option value="false">Thanh toán VNPAY</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row">

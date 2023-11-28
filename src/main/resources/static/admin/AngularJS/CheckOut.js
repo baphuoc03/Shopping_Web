@@ -78,14 +78,21 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     $http.get("/check-out/voucher").then(resp => {
         console.log(resp.data)
         $scope.vouchers = resp.data;
-        $scope.searchVoucher = false;
+    }).catch(error => {
+        console.log(error)
+    })
+    $http.get("/check-out/khach-hang-voucher").then(resp => {
+        console.log(resp.data)
+        $scope.voucherInKhach = resp.data;
     }).catch(error => {
         console.log(error)
     })
 
 
 //    check-out
+
     $scope.create = function () {
+        // let tongTien = document.getElementById("tongTien").value
         let indexCity = $scope.citys.findIndex(c => c.ProvinceID == $scope.thanhPhoCode)
         let indexDistrict = $scope.districts.findIndex(d => d.DistrictID == $scope.quanHuyenCode)
         let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode)
@@ -105,7 +112,8 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             diaChiChiTiet: $scope.diaChiChiTiet,
             ghiChu: $scope.ghiChu,
             phiGiaoHang: $scope.feeShipped,
-            tienGiam: $scope.giaGiam
+            tienGiam: $scope.giaGiam,
+            tongTien: ($scope.sumTotal + $scope.feeShipped) * 100
         }
         var diaChi = {
             thanhPhoCode: $scope.thanhPhoCode,
@@ -119,22 +127,29 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         if ($scope.isSelectSaveDC) {
             $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
             })
-        } else {
-            console.log("Không chọn")
         }
         $http.post("http://localhost:8080/check-out", donHang).then(r => {
-            Swal.fire({
-                title: 'Đặt hàng thành công',
-                text: 'Cảm ơn bạn đã mua hàng tại hydra sneaker!!!',
-                icon: 'success',
-                timer: 1700,
-                showConfirmButton: false
-            }).then(() => {
-                window.location.href = "http://localhost:8080/gio-hang";
-            });
+            if (r.data.vnPayUrl == undefined) {
+                Swal.fire({
+                    title: 'Đặt hàng thành công',
+                    text: 'Cảm ơn bạn đã mua hàng tại hydra sneaker!!!',
+                    icon: 'success',
+                    timer: 1700,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = "http://localhost:8080/gio-hang";
+                });
+            } else {
+                location.href = r.data.vnPayUrl
+            }
+
         }).catch(err => {
             console.log(err)
-            $scope.errThanhPhoCode = err.data.thanhPhoCode == undefined ? "" : err.data.thanhPhoCode
+            $scope.errNguoiNhan = err.data.tenNguoiNhan
+            $scope.errTienGiam = err.data.tienGiam
+            $scope.errSoDienThoai = err.data.soDienThoai
+            $scope.errEmail = err.data.email
+            $scope.errThanhPhoCode = err.data.thanhPhoCode
             $scope.errQuanHuyenCode = err.data.quanHuyenCode == undefined ? "" : err.data.quanHuyenCode
             $scope.errXaPhuongCode = err.data.xaPhuongCode == undefined ? "" : err.data.xaPhuongCode
             $scope.errDiaChiChiTiet = err.data.diaChiChiTiet == undefined ? "" : err.data.diaChiChiTiet
@@ -204,6 +219,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 console.log(response.data)
             })
     }
+
 
     $http.get("/get-khach-hang-thanh-toan").then(function (resp) {
         let khachByThanhToan = resp.data

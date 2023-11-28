@@ -58,7 +58,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         if (heartButton.className == "far fa-heart" || heartButton.className == "far fa-heart ng-scope") {// thêm vào danh sách yêu thích
             $http.post("/danh-sach-yeu-thich/add", data).then(r => {
                 heartButton.className = "fas fa-heart"
-                alert("Đã thêm vào danh sách yêu thích!")
+                alertify.success("Đã thêm vào danh sách yêu thích!")
                 $scope.getMaSanPhamInDSTY()// gọi lại list $scope.maSpInDSYT
 
             }).catch(e => {
@@ -75,7 +75,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
                 let index = $scope.maSpInDSYT.findIndex(m => m == id + "");// xóa thì xóa mã sản phẩm ở trong list $scope.maSpInDSYT ko cần gọi lại api
                 $scope.maSpInDSYT.splice(index, 1)
 
-                alert("Đã xóa danh sách yêu thích!")
+                alertify.success("Đã xóa sản phẩm ra khỏi yêu thích!")
             }).catch(e => {
                 heartButton.className = "fas fa-heart"//lỗi thì ko đổi giữ nguyên icon
 
@@ -128,21 +128,23 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         // }
         let sl = parseInt(document.getElementById("soLuong").value)
         console.log("sốluong: " + sl)
-        if (confirm("Thêm sản phẩm vào giỏ hàng?")) {
+        alertify.confirm("Thêm sản phẩm vào giỏ hàng?", function () {
             $http.post("/cart/add-to-cart?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
                 console.log(response.data)
+
                 if (response.data == null || response.data.length == 0) {
-                    alert("Phân loại của sản phẩm không đủ số lượng!!!")
+                    alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
                 } else {
-                    alert("Success")
+                    alertify.success("Thêm thành công vào giỏ hàng")
 
                     $scope.cartShow()
                 }
             }).catch(e => {
                 document.getElementById("eSize").innerText = e.data.eSize = undefined ? "" : e.data.eSize
+                alertify.error("Thêm sản phẩm vào giỏ hàng thất bại!!!")
                 console.log(e)
             })
-        }
+        },function (){})
     }
 
     $scope.getSoLuong = function (idCTSP) {
@@ -215,8 +217,16 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
 
                 this.setdefaultButtons('all')
             })
+
+
+        },getAvgRate(){
             $http.get("/nhan-xet/avg-by-sanpham?maSP="+maSP.substring(1)).then(r => {
-                this.avg = r.data.toFixed(1)
+                try {
+                    this.avg = r.data.toFixed(1)
+                }
+                catch(err) {
+                    this.avg = r.data
+                }
                 raterJs({
                     rating: Number.parseFloat(this.avg),
                     starSize: 22, step: .1, element: document.querySelector("#rater-step"), rateCallback: function (e, t) {
@@ -227,7 +237,6 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
             $http.get("/nhan-xet/avg-rates-by-sanpham?maSP="+maSP.substring(1)).then(r => {
                 this.rates = r.data
             })
-
         },setPageNumbers() {
             let numbers = [];
             for (let i = 0; i < this.totalPages; i++) {
@@ -265,5 +274,6 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         }
     }
     $scope.nhanXet.init()
+    $scope.nhanXet.getAvgRate()
 })
 

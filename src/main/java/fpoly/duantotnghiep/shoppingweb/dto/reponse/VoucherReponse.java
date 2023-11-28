@@ -43,7 +43,7 @@ public class VoucherReponse {
 
     private Integer trangThai;
 
-    private Integer doiTuongSuDung;
+    private String doiTuongSuDung;
 
     private Integer soLuongSuDung;
 
@@ -62,7 +62,7 @@ public class VoucherReponse {
                         "Tất cả các hình thức thanh toán";
         this.trangThaiHienThi = model.getTrangThaiHienThi();
         this.trangThai = model.getTrangThai();
-        this.doiTuongSuDung = model.getDoiTuongSuDung();
+        this.doiTuongSuDung = model.getDoiTuongSuDung() == 0 ? "Tất cả khách hàng" : "Tùy chọn khách";
         this.soLuongSuDung = model.getSoLuongSuDung();
     }
 }
