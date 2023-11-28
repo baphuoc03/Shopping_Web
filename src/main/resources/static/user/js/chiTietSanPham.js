@@ -234,6 +234,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
                         this.setRating(e), t()
                     }
                 });
+                
             })
             $http.get("/nhan-xet/avg-rates-by-sanpham?maSP="+maSP.substring(1)).then(r => {
                 this.rates = r.data
@@ -276,5 +277,10 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     }
     $scope.nhanXet.init()
     $scope.nhanXet.getAvgRate()
+    $scope.login = function (){
+        var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
+        document.cookie = "url="+window.location.href+"; expires="+expires;
+        location.href = "/dang-nhap";
+    }
 })
 

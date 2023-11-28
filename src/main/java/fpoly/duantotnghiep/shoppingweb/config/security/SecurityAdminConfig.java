@@ -30,16 +30,17 @@ public class SecurityAdminConfig {
                 "/admin/AngularJS/CheckOut.js","/admin/AngularJS/DonHang.js","/admin/AngularJS/DanhSachYeuThichJS.js",
                 "/admin/mau-sac/find-all","/admin/chat-lieu/find-all","/admin/thuong-hieu/find-all","/admin/xuat-xu/find-all","/admin/kieu-dang/find-all"};
         String[] adminUrl = {"/admin/san-pham/add","/admin/san-pham/update/**","/admin/nhan-xet/**","/admin/san-pham/delete/**"
-                            ,"/admin/san-pham/update-TrangThai-HienThi/**"};
+                            ,"/admin/san-pham/update-TrangThai-HienThi/**","/admin/nhan-vien/**","/admin/kieu-dang/**",
+                            "/admin/mau-sac/**","/admin/dong-san-pham/**","/admin/thuong-hieu/**"};
         http    .securityMatcher("/admin/**")
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests(requests -> requests
                                 .requestMatchers(adminPermitAll).permitAll()
 //                        .requestMatchers("/detail").hasAnyAuthority("STAFF","ADMIN")
-//                        .requestMatchers("/add").hasAuthority("ADMIN")
+                                .requestMatchers("/admin/nhan-vien/thong-tin-ca-nhan","/admin/nhan-vien/getUser").hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
                                 .requestMatchers(adminUrl).hasAuthority(Roles.ADMIN.name())
-                                .requestMatchers("/admin/**").hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
+                                .requestMatchers("/admin/**","/admin/nhan-vien/thong-tin-ca-nhan").hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
                                 .anyRequest().permitAll()
                 )
                 .userDetailsService(userAdminService)
@@ -51,6 +52,7 @@ public class SecurityAdminConfig {
                         .passwordParameter("password")
                         .permitAll()
                 )
+                .exceptionHandling(han -> han.accessDeniedPage("/security/unauthoried"))
 //                .httpBasic(Customizer.withDefaults())
                 .logout(l -> l
                         .logoutUrl("/admin/logout")

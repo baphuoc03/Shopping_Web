@@ -49,6 +49,11 @@ public class SecurityController {
     @Autowired
     private HttpServletRequest request;
 
+    @GetMapping("/security/unauthoried")
+    public String unauthoried(){
+        return "admin/authen/403";
+    }
+
     @GetMapping("/admin/logout") //Đăng xuất
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
