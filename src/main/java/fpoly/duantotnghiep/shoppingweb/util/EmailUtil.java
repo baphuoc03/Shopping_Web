@@ -37,7 +37,6 @@ public class EmailUtil {
         helper.setSubject(subject);
         String htmlContent = templateEngineStatic.process(tempalteHtml,context);
         helper.setText(htmlContent,true);
-
         javaMailSenderStatic.send(mimeMessage);
     }
 

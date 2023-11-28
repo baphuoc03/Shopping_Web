@@ -4,10 +4,12 @@ import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -15,36 +17,52 @@ public class VoucherReponse {
 
     private String ma;
 
-    private String ten;
+    private String moTa;
 
-    private String loai;
+    private String loaiMucGiam;
 
     private Double mucGiam;
 
-    private Double giaTriToiThieu;
+    private Double giaTriDonHang;
 
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Double mucGiamToiDa;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date ngayBatDau;
 
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date ngayKetThuc;
 
     private int soLuong;
 
-    private Double mucGiamToiDa;
+    private Integer trangThaiHienThi;
 
+    private String hinhThucThanhToan;
+
+    private Integer trangThai;
+
+    private String doiTuongSuDung;
+
+    private Integer soLuongSuDung;
 
     public VoucherReponse(VoucherModel model) {
         this.ma = model.getMa();
-        this.ten = model.getMota();
-        this.loai = model.getLoaiMucGiam();
+        this.moTa = model.getMota();
+        this.loaiMucGiam = model.getLoaiMucGiam();
         this.mucGiam = model.getMucGiam();
-        this.giaTriToiThieu = model.getGiaTriDonHang();
+        this.giaTriDonHang = model.getGiaTriDonHang();
         this.ngayBatDau = model.getNgayBatDau();
         this.ngayKetThuc = model.getNgayKetThuc();
         this.soLuong = model.getSoLuong();
         this.mucGiamToiDa = model.getMucGiamToiDa();
+        this.hinhThucThanhToan = model.getHinhThucThanhToan() == 0 ? "Thanh toán khi nhận hàng" :
+                model.getHinhThucThanhToan() == 1 ? "Thanh toán online" :
+                        "Tất cả các hình thức thanh toán";
+        this.trangThaiHienThi = model.getTrangThaiHienThi();
+        this.trangThai = model.getTrangThai();
+        this.doiTuongSuDung = model.getDoiTuongSuDung() == 0 ? "Tất cả khách hàng" : "Tùy chọn khách";
+        this.soLuongSuDung = model.getSoLuongSuDung();
     }
 }

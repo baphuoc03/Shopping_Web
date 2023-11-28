@@ -5,6 +5,7 @@ import fpoly.duantotnghiep.shoppingweb.service.IGioHangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -15,13 +16,14 @@ public class HomeController {
 
     @GetMapping("trang-chu")
     public String trangChu() {
-        return "/user/trangChu";
+        return "/user/trangChu1";
     }
 
     @GetMapping("san-pham")
     public String sanPham() {
-        return "/user/sanPhamUser";
+        return "/user/sanPhamNguoiDung";
     }
+
     @GetMapping("san-pham/thuong-hieu/{id}")
     public String sanPhamByThuongHieu() {
         return "/user/filterProduct";
@@ -36,20 +38,17 @@ public class HomeController {
         return "/user/thanhToan";
     }
 
+
     @GetMapping("lich-su-mua-hang1")
     public String licSu() {
         return "/user/hoaDonNguoiDung";
-    }
-
-    @GetMapping("hoa")
-    public String licSu1() {
-        return "/user/hoaDonChiTietUser";
     }
 
     @GetMapping("danh-sach-yeu-thich")
     public String danhSachYeuThich() {
         return "/user/dsyt";
     }
+
 
     @GetMapping("1")
     public String danhSa() {
@@ -60,10 +59,12 @@ public class HomeController {
     public String danhSa1() {
         return "/user/sanPhamNguoiDung";
     }
+
     @GetMapping("3")
     public String danhSa3() {
         return "/admin/fromVoucher";
     }
+
     @GetMapping("lien-he")
     public String viewLienHe() {
         return "/user/lienhe";

@@ -10,8 +10,10 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Data
 public class VoucherRequest {
@@ -22,23 +24,19 @@ public class VoucherRequest {
 
     private String loaiMucGiam;
 
-    @NotNull(message = "Vui lòng nhập dữ liệu")
     private Double mucGiam;
 
     @NotNull(message = "Vui lòng nhập dữ liệu")
     private Double giaTriDonHang;
 
-    @NotNull(message = "Vui lòng nhập dữ liệu")
     private Double mucGiamToiDa;
 
-    @NotNull(message = "Vui lòng nhập dữ liệu")
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date ngayBatDau;
 
-    @NotNull(message = "Vui lòng nhập dữ liệu")
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date ngayKetThuc;
 
     private int soLuong;
@@ -49,7 +47,6 @@ public class VoucherRequest {
 
     private int doiTuongSuDung;
 
-    @NotNull(message = "Vui lòng nhập dữ liệu")
     private int hinhThucThanhToan;
 
     private List<KhachHangModel> khachHang;

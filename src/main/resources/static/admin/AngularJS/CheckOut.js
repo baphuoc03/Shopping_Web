@@ -78,7 +78,12 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     $http.get("/check-out/voucher").then(resp => {
         console.log(resp.data)
         $scope.vouchers = resp.data;
-        $scope.searchVoucher = false;
+    }).catch(error => {
+        console.log(error)
+    })
+    $http.get("/check-out/khach-hang-voucher").then(resp => {
+        console.log(resp.data)
+        $scope.voucherInKhach = resp.data;
     }).catch(error => {
         console.log(error)
     })
@@ -108,7 +113,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             ghiChu: $scope.ghiChu,
             phiGiaoHang: $scope.feeShipped,
             tienGiam: $scope.giaGiam,
-            tongTien : ($scope.sumTotal+$scope.feeShipped) * 100
+            tongTien: ($scope.sumTotal + $scope.feeShipped) * 100
         }
         var diaChi = {
             thanhPhoCode: $scope.thanhPhoCode,
@@ -123,7 +128,6 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
             })
         }
-
             $http.post("http://localhost:8080/check-out", donHang).then(r => {
                 if(r.data.vnPayUrl == undefined){
                     Swal.fire({
@@ -132,23 +136,26 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                     icon: 'success',
                     timer: 1700,
                     showConfirmButton: false
-                  }).then(() => {
-                      window.location.href = "http://localhost:8080/gio-hang";
-                  });
-                }else{
-                    location.href = r.data.vnPayUrl
-                }
+                }).then(() => {
+                    window.location.href = "http://localhost:8080/gio-hang";
+                });
+            } else {
+                location.href = r.data.vnPayUrl
+            }
 
-            }).catch(err => {
+        }).catch(err => {
+            console.log(err)
+            $scope.errNguoiNhan = err.data.tenNguoiNhan
+            $scope.errTienGiam = err.data.tienGiam
+            $scope.errSoDienThoai = err.data.soDienThoai
+            $scope.errEmail = err.data.email
+            $scope.errThanhPhoCode = err.data.thanhPhoCode
+            $scope.errQuanHuyenCode = err.data.quanHuyenCode == undefined ? "" : err.data.quanHuyenCode
+            $scope.errXaPhuongCode = err.data.xaPhuongCode == undefined ? "" : err.data.xaPhuongCode
+            $scope.errDiaChiChiTiet = err.data.diaChiChiTiet == undefined ? "" : err.data.diaChiChiTiet
+            $scope.errThanhToan = err.data.phuongThucThanhToan == undefined ? "" : err.data.phuongThucThanhToan
 
-                console.log(err)
-                $scope.errThanhPhoCode = err.data.thanhPhoCode == undefined ? "" : err.data.thanhPhoCode
-                $scope.errQuanHuyenCode = err.data.quanHuyenCode == undefined ? "" : err.data.quanHuyenCode
-                $scope.errXaPhuongCode = err.data.xaPhuongCode == undefined ? "" : err.data.xaPhuongCode
-                $scope.errDiaChiChiTiet = err.data.diaChiChiTiet == undefined ? "" : err.data.diaChiChiTiet
-                $scope.errThanhToan = err.data.phuongThucThanhToan == undefined ? "" : err.data.phuongThucThanhToan
-
-            })
+        })
     }
 
     $scope.getDataAPI = function (maVC) {

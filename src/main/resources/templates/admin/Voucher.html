@@ -48,10 +48,9 @@
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-6">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#voucher">
+                                        <a type="button" class="btn btn-primary" href="/admin/voucher/them-voucher">
                                             Tạo Voucher
-                                        </button>
+                                        </a>
                                     </div>
                                     <div class="col-6 nav justify-content-end ">
                                         <form th:action="@{/admin/voucher}" class="d-flex">
@@ -70,36 +69,38 @@
                                         <th>
                                         </th>
                                         <th>Voucher</th>
-                                        <th>Loại Giảm</th>
-                                        <th>Mức Giảm</th>
-                                        <th>Bắt Đầu</th>
-                                        <th>Kết Thúc</th>
-                                        <th>Số lương</th>
+                                        <th>Hạn sử dụng</th>
+                                        <th>Hình thức thanh toán</th>
+                                        <th>Khách hàng</th>
+                                        <th>Đã sử dụng</th>
                                         <th>Trạng Thái</th>
-                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr th:each="vc: ${listVoucher}">
                                         <td><input type="checkbox" ng-model="voucher.selected"
                                                    ng-change="sumVoucherSelected(voucher)"></td>
-                                        <td th:text="${vc.ten}"></td>
-                                        <td th:text="${vc.loai}"></td>
-                                        <td th:text="${vc.mucGiam}"></td>
-                                        <td th:text="${vc.ngayBatDau}"></td>
-                                        <td th:text="${vc.ngayKetThuc}"></td>
-                                        <td th:text="${vc.soLuong}"></td>
-                                        <td th:text="${vc.soLuong == 0? 'Hết hạn': 'Áp dụng'}"></td>
                                         <td>
-                                            <a href="" class="edit" data-bs-toggle="modal"
-                                               data-bs-target="#editVoucher"
-                                               th:attr="ng-click='findById(\''+${vc.ma}+'\');'">
-                                                <i class="material-icons" title="Edit">&#xE254;</i>
-                                            </a>
-                                            <a href="" class="delete"
-                                               th:attr="ng-click='delete(\''+${vc.ma}+'\');'">
-                                                <i class="material-icons" title="Delete">&#xE872;</i>
-                                            </a>
+                                            <p th:text="${vc.ma}" ><a
+                                                    th:href="@{/admin/voucher/chi-tiet-voucher/+'@{vc.id}'"></a></p>
+                                            <p th:text="'Giảm ' + ${vc.mucGiam} + ' ' + ${vc.loaiMucGiam == 'PHAN TRAM'? '%':'vnd'}"></p>
+                                        </td>
+                                        <td>
+                                            <p th:text="${vc.ngayBatDau} + ' đến'"></p>
+                                            <p th:text="${vc.ngayKetThuc}"></p>
+                                        </td>
+                                        <td th:text="${vc.hinhThucThanhToan}"></td>
+                                        <td th:text="${vc.doiTuongSuDung}"></td>
+                                        <td th:text="${vc.soLuongSuDung}"></td>
+                                        <td>
+                                            <span style="color: green; border: solid 1px green"
+                                                  th:if="${vc.trangThai == 0}">
+                                                Đã kích hoạt
+                                            </span>
+                                            <span style="color: red; border:solid 1px red; height: 10px"
+                                                  th:if="${vc.trangThai == 1}">Chưa kích hoạt</span>
+                                            <span style="color: red; border:solid 1px red; height: 10px"
+                                                  th:if="${vc.trangThai == 2}">Hết hạn</span>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -163,141 +164,6 @@
                 </div>
             </div>
         </footer>
-        <!-- save voucher -->
-        <div class="modal" id="voucher">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Modal Heading</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <form>
-                        <!-- Modal body -->
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label class="form-label">Tên Voucher</label>
-                                <input type="text" ng-model="ten" class="form-control">
-                                <p class="form-text text-danger">{{erTen}}</p>
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Loại Giảm</label>
-                                <select class="form-select" id="loaiGiam" ng-model="loai">
-                                    <option value="PHAN TRAM">Phần trăm</option>
-                                    <option value="TIEN">Tiền</option>
-                                </select>
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Mức Giảm</label>
-                                <input type="text" ng-model="mucGiam" class="form-control">
-                                <p class="form-text text-danger">{{erMucGiam}}</p>
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3" id="mucGiamToiDa">
-                                <label class="form-label">Mức Giảm Tối Đa</label>
-                                <input type="text" ng-model="mucGiamToiDa" class="form-control">
-                                <p class="form-text text-danger">{{erMucGiamToiDa}}</p>
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Giá Trị Tối Thiểu</label>
-                                <input type="text" ng-model="giaTriToiThieu" class="form-control">
-                                <p class="form-text text-danger">{{erMucGiamToiThieu}}</p>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Ngày Bắt Đầu</label>
-                                <input type="date" ng-model="ngayBatDau" class="form-control">
-                                <p class="form-text text-danger">{{erNgayBatDau}}</p>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Ngày Kết Thúc</label>
-                                <input type="date" ng-model="ngayKetThuc" class="form-control">
-                                <p class="form-text text-danger">{{erNgayKetThuc}}</p>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Số Lượng</label>
-                                <input type="number" ng-model="soLuong" class="form-control">
-                                <p class="form-text text-danger">{{erSoLuong}}</p>
-                            </div>
-                        </div>
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="button" ng-click="create()" class="btn btn-danger">Submit</button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-        <!--        edit-->
-        <div class="modal" id="editVoucher">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Modal Heading</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <form>
-                        <!-- Modal body -->
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label class="form-label">Mã Voucher</label>
-                                <input type="text" ng-model="ma" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Tên Voucher</label>
-                                <input type="text" ng-model="ten" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Loại Giảm</label>
-                                <input type="text" ng-model="loai" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Mức Giảm</label>
-                                <input type="text" ng-model="mucGiam" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Mức Giảm Tối Đa</label>
-                                <input type="text" id="mucGiamToiDa1" ng-model="mucGiamToiDa" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Giá Trị Tối Thiểu</label>
-                                <input type="text" ng-model="giaTriToiThieu" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Ngày Bắt Đầu</label>
-                                <input type="date" ng-model="ngayBatDau" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Ngày Kết Thúc</label>
-                                <input type="date" ng-model="ngayKetThuc" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Số Lượng</label>
-                                <input type="text" ng-model="soLuong" class="form-control">
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                        </div>
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="button" ng-click="update(ma)" class="btn btn-danger">Submit</button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 </body>

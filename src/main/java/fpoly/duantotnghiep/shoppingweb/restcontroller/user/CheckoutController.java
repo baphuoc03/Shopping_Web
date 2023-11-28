@@ -3,7 +3,11 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.user;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.*;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
+import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
 import fpoly.duantotnghiep.shoppingweb.model.*;
+import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
+import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
+import fpoly.duantotnghiep.shoppingweb.repository.VoucherRepository;
 import fpoly.duantotnghiep.shoppingweb.service.*;
 import fpoly.duantotnghiep.shoppingweb.service.impl.*;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
@@ -35,6 +39,10 @@ public class CheckoutController {
     @Autowired
     IDonHangService donHangService;
     @Autowired
+    IKhachHangRepository khRepository;
+    @Autowired
+    VoucherRepository vc;
+    @Autowired
     IChiTietSanPhamService sanPhamServic;
     @Autowired
     VoucherServiceImpl voucherService;
@@ -55,10 +63,13 @@ public class CheckoutController {
         return ResponseEntity.ok(khachHangService.findById(userName));
     }
 
-    @PostMapping("/check-out/disable-voucher")
-    public ResponseEntity<List<VoucherReponse>> disabledVoucher(@RequestBody Map<String, Double> request) {
-        Double giaTri = Double.parseDouble(request.get("tienHang").toString());
-        return ResponseEntity.ok(voucherService.disabledVoucher(giaTri));
+    @GetMapping("/check-out/khach-hang-voucher")
+    public ResponseEntity<?> findVoucherByKhachHang(Authentication authen) {
+        if (authen == null) {
+            return ResponseEntity.ok().build();
+        }
+        List<VoucherModel> voucherInKhach = khRepository.findById(authen.getName()).get().getVoucher();
+        return ResponseEntity.ok(voucherInKhach);
     }
     @GetMapping("thanh-toan/{ma}")
     public Object ThanhToanHoaDon( HttpServletRequest request,  @PathVariable("ma") String ma)throws MessagingException{
@@ -89,7 +100,9 @@ public class CheckoutController {
     public Object addHoaDon(@Valid @RequestBody DonHangDTORequest donHangDTORequest,
                             BindingResult result,
                             Authentication authentication, HttpServletRequest request) throws MessagingException {
-
+        if (donHangDTORequest.getPhuongThucThanhToan() != voucherService.findById1(donHangDTORequest.getVoucher()).getHinhThucThanhToan()) {
+            result.rejectValue("tienGiam", "erTongTien", "Voucher không thể sử dụng cho hình thức thanh toán này");
+        }
         if (result.hasErrors()) {
             return ValidateUtil.getErrors(result);
         }
@@ -127,9 +140,9 @@ public class CheckoutController {
 //            HttpHeaders headers = new HttpHeaders();
 //            headers.add("Location", vnpayUrl);
 //            return new ResponseEntity<String>(headers,HttpStatus.FOUND);
-            Map<String,String> vnPayUrl = new HashMap<>();
-            vnPayUrl.put("vnPayUrl",vnpayUrl);
-            int paymentStatus =vnPayService.orderReturn(request,donHangDTORequest.getDiaChiChiTiet());
+            Map<String, String> vnPayUrl = new HashMap<>();
+            vnPayUrl.put("vnPayUrl", vnpayUrl);
+            int paymentStatus = vnPayService.orderReturn(request, donHangDTORequest.getDiaChiChiTiet());
             System.out.println(paymentStatus);
 //            if (paymentStatus == 1){
 //                donHangService.updateTrangThai1(response.getMa(), 2);
@@ -141,20 +154,21 @@ public class CheckoutController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
     @PostMapping("/using-voucher")
-    public Double giaGiam(@RequestBody Map<String, Object> request) {
+    public ResponseEntity<?> giaGiam(@RequestBody Map<String, Object> request, BindingResult result) {
         VoucherReponse voucherResponse = voucherService.findById(request.get("voucher").toString());
         Double tongThanhToan = Double.parseDouble(request.get("tongThanhToan").toString());
+
         Double giaGiam = null;
         if (voucherResponse != null) {
             giaGiam = voucherResponse.getMucGiam();
-            if (voucherResponse.getLoai().equals("PHAN TRAM")) {
+            if (voucherResponse.getLoaiMucGiam().equals("PHAN TRAM")) {
                 giaGiam = tongThanhToan * (voucherResponse.getMucGiam()) / 100;
                 if (giaGiam > voucherResponse.getMucGiamToiDa()) {
                     giaGiam = voucherResponse.getMucGiamToiDa();
                 }
             }
         }
-        return giaGiam;
+        return ResponseEntity.ok(giaGiam);
     }
 
 
