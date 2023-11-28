@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @RestController
@@ -58,6 +59,29 @@ public class CheckoutController {
     public ResponseEntity<List<VoucherReponse>> disabledVoucher(@RequestBody Map<String, Double> request) {
         Double giaTri = Double.parseDouble(request.get("tienHang").toString());
         return ResponseEntity.ok(voucherService.disabledVoucher(giaTri));
+    }
+    @GetMapping("thanh-toan/{ma}")
+    public Object ThanhToanHoaDon( HttpServletRequest request,  @PathVariable("ma") String ma)throws MessagingException{
+//        DonHangDtoResponse response = donHangService.checkOut(donHangDTORequest);
+         DonHangDtoResponse response =  donHangService.findByMa(ma);
+         String diachi = response.getDiaChiChiTiet();
+        DonHangReponseUser donHangReponseUser = donHangService.findByMaUser(ma);
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String vnpayUrl = vnPayService.createOrder(ma, baseUrl, (response.getTongTien().intValue()*100)+"");
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.add("Location", vnpayUrl);
+//            return new ResponseEntity<String>(headers,HttpStatus.FOUND);
+        Map<String,String> vnPayUrl = new HashMap<>();
+        vnPayUrl.put("vnPayUrl",vnpayUrl);
+        int paymentStatus =vnPayService.orderReturn(request,diachi);
+        System.out.println(paymentStatus);
+        System.out.println(vnpayUrl);
+//            if (paymentStatus == 1){
+//                donHangService.updateTrangThai1(response.getMa(), 2);
+//            } else {
+//                donHangService.updateTrangThai1(response.getMa(), 5);
+//            }
+        return ResponseEntity.ok(vnPayUrl);
     }
 
     @PostMapping("/check-out")
@@ -107,18 +131,15 @@ public class CheckoutController {
             vnPayUrl.put("vnPayUrl",vnpayUrl);
             int paymentStatus =vnPayService.orderReturn(request,donHangDTORequest.getDiaChiChiTiet());
             System.out.println(paymentStatus);
-            if (paymentStatus == 1){
-                donHangService.updateTrangThai1(response.getMa(), 2);
-            } else {
-                donHangService.updateTrangThai1(response.getMa(), 5);
-            }
+//            if (paymentStatus == 1){
+//                donHangService.updateTrangThai1(response.getMa(), 2);
+//            } else {
+//                donHangService.updateTrangThai1(response.getMa(), 5);
+//            }
             return ResponseEntity.ok(vnPayUrl);
         }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
-
-
     @PostMapping("/using-voucher")
     public Double giaGiam(@RequestBody Map<String, Object> request) {
         VoucherReponse voucherResponse = voucherService.findById(request.get("voucher").toString());
@@ -135,6 +156,7 @@ public class CheckoutController {
         }
         return giaGiam;
     }
+
 
 
     private String codeDonHang() {

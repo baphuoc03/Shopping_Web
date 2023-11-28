@@ -5,8 +5,10 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.GioHangDtoReponse;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
+
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ public class VnPayServiceImpl {
     @Autowired
     private IDonHangService donHangService;
     public String createOrder( String orderInfor, String urlReturn,  String tongTien) {
+        System.out.println(tongTien);
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String vnp_TxnRef = VnPayConfig.getRandomNumber(8);
@@ -98,7 +101,7 @@ public class VnPayServiceImpl {
     }
 
 
-    public int orderReturn(HttpServletRequest request, @RequestParam("diaChi")String diaChi){
+    public int orderReturn(HttpServletRequest request, @RequestParam("diaChi")String diaChi) throws MessagingException {
         Map fields = new HashMap();
         for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {
             String fieldName = null;
@@ -128,14 +131,10 @@ public class VnPayServiceImpl {
                 String paymentTime = request.getParameter("vnp_PayDate");
                 String transactionId = request.getParameter("vnp_TransactionNo");
                 String totalPrice = request.getParameter("vnp_Amount");
-                DonHangModel donHangModel = new DonHangModel();
-                donHangModel.setTongTien(BigDecimal.valueOf(Long.valueOf(totalPrice)));
-//                donHangModel.setNgayDatHang(SimpleDateFormat(paymentTime));
-//                donHangReponseUser.setTongTien(Long.valueOf(totalPrice));
-//                donHangReponseUser.setMa(orderInfo);
-//                donHangReponseUser.setDiaChiChiTiet(diaChi);
+//                donHangService.updateTrangThai(orderInfo,2);
                 return 1;
             } else {
+
                 return 0;
             }
         } else {

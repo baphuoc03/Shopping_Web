@@ -348,5 +348,11 @@ public class DonHangService implements IDonHangService {
         donHangModel.setTrangThai(trangThai);
         return new DonHangDtoResponse(donHangResponsitory.saveAndFlush(donHangModel));
     }
+//    @Override
+//    public DonHangDtoResponse updateTrangThai1(String maDonHang,Integer trangThai){
+//        DonHangModel donHangModel = donHangResponsitory.findById(maDonHang).get();
+//        donHangModel.setTrangThai(trangThai);
+//        return new DonHangDtoResponse(donHangResponsitory.saveAndFlush(donHangModel));
+//    }
 }
 

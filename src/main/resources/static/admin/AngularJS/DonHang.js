@@ -1185,5 +1185,9 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         })
 
     }
-
+    $scope.thanhToan = function (ma){
+        $http.get("/thanh-toan/"+ma).then(r => {
+            location.href = r.data.vnPayUrl
+        })
+    }
 })
