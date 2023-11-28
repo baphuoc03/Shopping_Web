@@ -3,6 +3,7 @@ package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
@@ -71,6 +72,7 @@ public class DonHangReponseUser {
         this.trangThaiDetail = model.trangThaiDetail();
         this.phuongThucThanhToan = model.getPhuongThucThanhToan() == true ? "Thanh toán khi nhận hàng" : "Thanh toán online";
         this.lyDoHuy = model.getLyDoHuy();
+
         if (model.getNgayXacNhan() != null) this.ngayXacNhan = model.getNgayXacNhan();
         if (model.getNgayGiaoHang() != null) this.ngayGiaoHang = model.getNgayGiaoHang();
         if (model.getNgayHoanThanh() != null) this.ngayHoanThanh = model.getNgayHoanThanh();

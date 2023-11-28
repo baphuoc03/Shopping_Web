@@ -34,11 +34,11 @@ public class DonHangDtoResponse {
     private String lyDoHuy;
     private String voucherCode;
     private String voucherName;
-    private BigDecimal tongTien;
     private Date ngayXacNhan;
     private Date ngayGiaoHang;
     private Date ngayHoanThanh;
     private Date ngayHuy;
+    private BigDecimal tongTien;
 
 
     public DonHangDtoResponse(DonHangModel model) {

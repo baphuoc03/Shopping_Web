@@ -154,7 +154,8 @@
                                 <i class="bi bi-star-fill"></i>
                             </div>
                             <div class="col-6 m-t-10">
-                                <p>Hàng trong kho: {{product.soLuong}}</p>
+                                <p ng-if="product.soLuong >0">Hàng trong kho: {{product.soLuong}}</p>
+                                <p ng-if="product.soLuong <=0" class="text-danger">Hết hàng</p>
                             </div>
                         </div>
                         <br>
@@ -439,15 +440,7 @@
             </div>
         </div>
 
-        <div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
-			<span class="stext-107 cl6 p-lr-25">
-				SKU: JAK-01
-			</span>
 
-            <span class="stext-107 cl6 p-lr-25">
-				Categories: Jacket, Men
-			</span>
-        </div>
     </section>
 
     <!-- //---------------------------------------------------------------- -->
@@ -483,7 +476,7 @@
     <section class="sec-relate-product bg0 p-t-45 p-b-105">
         <div class="container">
             <div class="p-b-45">
-                <h3 class="ltext-106 cl5 txt-center">
+                <h3 class="cl5 txt-center">
                     SẢN PHẨM TƯƠNG TỰ
                 </h3>
             </div>

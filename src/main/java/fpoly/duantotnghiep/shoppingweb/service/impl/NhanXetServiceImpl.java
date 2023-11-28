@@ -41,9 +41,25 @@ public class NhanXetServiceImpl implements INhanXetService{
     }
 
     @Override
-    public void add(NhanXetDtoRequest nhanXetDtoRequest){
+    public NhanXetDtoResponse add(NhanXetDtoRequest nhanXetDtoRequest){
         nhanXetDtoRequest.setPheDuyet(false);
-        nhanXetRepository.save(nhanXetDtoRequest.mapToModel());
+        NhanXetModel nhanXetModel = nhanXetDtoRequest.mapToModel();
+        nhanXetModel.setChinhSua(false);
+
+        nhanXetModel.setThoiGian(new Date());
+        nhanXetRepository.save(nhanXetModel);
+        return new NhanXetDtoResponse();
+//        return new NhanXetDtoResponse(nhanXetRepository.save(nhanXetModel));
+//        model.setThoiGian(new Date());
+    }
+    @Override
+    public void update(NhanXetDtoRequest nhanXetDtoRequest){
+        nhanXetDtoRequest.setPheDuyet(false);
+        NhanXetModel nhanXetModel = nhanXetDtoRequest.mapToModel();
+        nhanXetModel.setChinhSua(true);
+        nhanXetModel.setThoiGian(new Date());
+        nhanXetRepository.save(nhanXetModel);
+
 //        model.setThoiGian(new Date());
     }
 
@@ -84,6 +100,8 @@ public class NhanXetServiceImpl implements INhanXetService{
     public Boolean existsById(String id){
         return nhanXetRepository.existsById(id);
     }
-
-
+    @Override
+    public NhanXetDtoResponse getByid(String id){
+        return new NhanXetDtoResponse(nhanXetRepository.findById(id).orElse(new NhanXetModel()));
+    }
 }

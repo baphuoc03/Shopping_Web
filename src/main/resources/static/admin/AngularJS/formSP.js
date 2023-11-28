@@ -5,6 +5,7 @@ app.controller("ctrl", function ($scope, $http) {
     var thuocTinhSL = undefined;
     var filesTransfer = new DataTransfer();
     var checkViewModal = false;
+    $scope.er = {}
     document.getElementById("pro-image").files = filesTransfer.files
 
     $("#viewAdd").on('hide.bs.modal', function () {
@@ -106,11 +107,27 @@ app.controller("ctrl", function ($scope, $http) {
     }
 
     $scope.appendFile = function () {
+        $scope.removeER('erImg')
         let files = document.getElementById("pro-image").files
+        console.log(files.length + filesTransfer.files.length)
+        if(files.length + filesTransfer.files.length > 5){
+            document.getElementById("erImg").innerText = "Sản phẩm chỉ tối đa 5 ảnh"
+            return
+        }
+
+        files.forEach(f => {
+            if(f.size > 1 * 1024 * 1024){
+                document.getElementById("erImg").innerText = "Kích thước tối đa của ảnh là 1mb"
+                return
+            }
+        })
+
+        document.getElementById("erImg").innerText = ""
         files.forEach(f => filesTransfer.items.add(f))
         // document.getElementById("pro-image").files = filesTransfer.files
     }
     $scope.removeFile = function (key) {
+        $scope.removeER('erImg')
         let index;
         let files1 = new DataTransfer();
         filesTransfer.files.forEach(f => {

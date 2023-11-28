@@ -59,6 +59,10 @@ app.controller("thongTinNhanVien-ctrl", function ($scope, $http) {
         $(".preview-images-zone").append(labelAddImg);
     }
     $scope.addFile = function () {
+        $scope.removeErrors('erImg')
+        if(document.getElementById("pro-image").files[0].size > 1 * 1024 * 1024 ){
+            return
+        }
         document.getElementById("labelAddImg").remove()
     }
 

@@ -23,7 +23,7 @@ public class DonHangEntityManager {
         StringBuilder jpql = new StringBuilder("SELECT d FROM DonHangModel d WHERE d.trangThai ="+trangThai);
 
         if(sdt != null){
-            jpql.append(" And d.soDienThoai  like '%"+sdt+"%'");
+            jpql.append(" And (d.soDienThoai  like '%"+sdt+"%' OR d.ma like '%"+sdt+"%')");
         }
 
         if(trangThai == 0){

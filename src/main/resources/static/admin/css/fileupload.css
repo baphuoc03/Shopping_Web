@@ -106,6 +106,7 @@
     border: 1px solid #ced4da;
     font-size: 50px;
     cursor: pointer;
+    border-radius: 100px;
 }
 .user > .preview-image{
     font-size: 50px;

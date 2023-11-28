@@ -13,12 +13,14 @@ import java.util.Date;
 public class NhanXetDtoResponse {
     private String id;
     private ChiTietSanPhamDtoResponse chiTietSanPhamDtoResponse;
+    private String idCTDH;
     private KhachHangDtoResponse khachHang;
     private Float rating;
     private String tieuDe;
     private String noiDung;
     private Date thoiGian;
     private Boolean pheDuyet;
+    private Boolean chinhSua;
 
     public NhanXetDtoResponse(NhanXetModel model) {
         this.id = model.getId();
@@ -29,5 +31,7 @@ public class NhanXetDtoResponse {
         this.noiDung = model.getNoiDung();
         this.thoiGian = model.getThoiGian();
         this.pheDuyet = model.getPheDuyet();
+        this.chinhSua = model.getChinhSua();
+        this.idCTDH = model.getChiTietDonHangModel().getId();
     }
 }

@@ -42,6 +42,15 @@ public class NhanVienServiceImpl implements INhanVienService {
     }
 
     @Override
+    public Page<NhanVienDtoResponse> search(String keyWord, Integer page, Integer limit) {
+        Pageable pageable = PageRequest.of(page,limit);
+        Page<NhanVienModel> pageModel = nhanVienRepository.search(keyWord,pageable);
+        return new PageImpl<>(pageModel.getContent().stream().map(n -> new NhanVienDtoResponse(n)).collect(Collectors.toList()),
+                pageable,pageModel.getTotalElements());
+    }
+
+
+    @Override
     public NhanVienDtoResponse findById(String username) {
         return new NhanVienDtoResponse(nhanVienRepository.findById(username).get());
     }

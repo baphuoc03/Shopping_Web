@@ -128,9 +128,9 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
             })
         }
-        $http.post("http://localhost:8080/check-out", donHang).then(r => {
-            if (r.data.vnPayUrl == undefined) {
-                Swal.fire({
+            $http.post("http://localhost:8080/check-out", donHang).then(r => {
+                if(r.data.vnPayUrl == undefined){
+                    Swal.fire({
                     title: 'Đặt hàng thành công',
                     text: 'Cảm ơn bạn đã mua hàng tại hydra sneaker!!!',
                     icon: 'success',

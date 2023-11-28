@@ -261,7 +261,7 @@
                                         </tr>
                                     </table>
                                 </td>
-                                <td class="column column-2"
+                                <td class="column column-2" th:if="${donHang.trangThai != 5}"
                                     style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
                                     width="50%">
                                     <table border="0" cellpadding="10" cellspacing="0"
@@ -278,6 +278,29 @@
                                                                             <span style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;letter-spacing:normal;"><span
                                                                                     style="word-break: break-word; line-height: 32px;">Đi
 																				đến của hàng</span></span>
+                                                        </a></div>
+                                                    <!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-2" th:if="${donHang.trangThai == 5}"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="50%">
+                                    <table border="0" cellpadding="10" cellspacing="0"
+                                           class="button_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad">
+                                                <div align="center" class="alignment">
+                                                    <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:42px;width:172px;v-text-anchor:middle;" arcsize="10%" stroke="false" fillcolor="#1c84ee"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Tahoma, sans-serif; font-size:16px"><![endif]-->
+                                                    <div
+                                                            style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#1c84ee;border-radius:4px;width:auto;border-top:0px solid transparent;font-weight:400;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;">
+                                                        <a th:href="@{|http://localhost:8080/don-hang/email/thanh-toan/${donHang.ma}|}" style="color: white;">
+                                                                            <span style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;letter-spacing:normal;"><span
+                                                                                    style="word-break: break-word; line-height: 32px;">Thanh toán</span></span>
                                                         </a></div>
                                                     <!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
                                                 </div>
@@ -895,7 +918,7 @@
                                             <td class="pad">
                                                 <div
                                                         style="color:#444a5b;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:16px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
-                                                    <p style="margin: 0;" th:text="${donHang.phuongThucThanhToan}"></p>
+                                                    <p style="margin: 0;" th:text="${donHang.phuongThucThanhToan == true ? 'Thanh toán khi nhận hàng' : 'Thanh toán VNPAY'}"></p>
                                                 </div>
                                             </td>
                                         </tr>
