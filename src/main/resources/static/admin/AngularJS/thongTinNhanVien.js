@@ -41,9 +41,10 @@ app.controller("thongTinNhanVien-ctrl", function ($scope, $http) {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         }).then(r => {
-            alert("Cập nhật thành công")
+            alertify.success("Cập nhật thông tin thành công")
             document.getElementById("imgUser").src = "/image/loadImageUser/"+r.data.username
         }).catch(e => {
+            alertify.error("Cập nhật thông tin thất bại")
             document.getElementById("hoVaTenER").innerText = e.data.hoVaTen == undefined ? "" : e.data.hoVaTen;
             document.getElementById("soDienThoaiER").innerText = e.data.soDienThoai == undefined ? "" : e.data.soDienThoai;
             document.getElementById("emailER").innerText = e.data.email  == undefined ? "" : e.data.email ;
@@ -58,6 +59,10 @@ app.controller("thongTinNhanVien-ctrl", function ($scope, $http) {
         $(".preview-images-zone").append(labelAddImg);
     }
     $scope.addFile = function () {
+        $scope.removeErrors('erImg')
+        if(document.getElementById("pro-image").files[0].size > 1 * 1024 * 1024 ){
+            return
+        }
         document.getElementById("labelAddImg").remove()
     }
 

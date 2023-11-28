@@ -85,7 +85,7 @@ public class SanPhamModel {
     @Formula("""
             (SELECT k.Loai FROM khuyenmai_sanpham ks join sanpham s on s.Ma = ks.SanPham
              									join KhuyenMai k on k.Ma = ks.KhuyenMai
-             where k.NgayBatDau <= NOW() And k.NgayKetThuc >=NOW() and s.Ma = ma)
+             where k.NgayBatDau <= NOW() And k.NgayKetThuc >=NOW() and s.Ma = ma) 
             """)
     private String loaiGiam;
 
@@ -98,6 +98,20 @@ public class SanPhamModel {
     public Long getSoLuongSanPham() {
         if (ctsp == null) return 0L;
         return ctsp.stream().filter(c -> c.getTrangThai()==true).map(c -> c.getSoLuong()).reduce(0L, (c1, c2) -> c1 + c2);
+    }
+
+    public BigDecimal getDonGiaSauGiam(){
+        if(this.mucGiam == null) return giaBan;
+
+        else{
+            if(loaiGiam.equalsIgnoreCase("TIEN")){
+                return this.giaBan.subtract(BigDecimal.valueOf(this.mucGiam));
+            }else{
+                BigDecimal tienGiam = giaBan.multiply(BigDecimal.valueOf(mucGiam).divide(BigDecimal.valueOf(100)));
+                System.out.println(tienGiam);
+                return this.giaBan.subtract(tienGiam);
+            }
+        }
     }
 
 //    public Long getSoLuong() {

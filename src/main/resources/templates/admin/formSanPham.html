@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/admin/index}">
-
 <head>
+    <title>Hydra | Form sản phẩm</title>
 
     <!--    <meta charset="utf-8"/>-->
     <!--    <title>Dashboard | Dason - Admin & Dashboard Template</title>-->
@@ -58,21 +58,21 @@
         <link th:href="@{/admin/css/fileupload.css}" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <!-- start page title -->
-        <div class="row">
-            <div class="col-12">
-                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0 font-size-18">Add Product</h4>
+<!--        <div class="row">-->
+<!--            <div class="col-12">-->
+<!--                <div class="page-title-box d-sm-flex align-items-center justify-content-between">-->
+<!--                    <h4 class="mb-sm-0 font-size-18">Add Product</h4>-->
 
-                    <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                            <li class="breadcrumb-item active">Add Product</li>
-                        </ol>
-                    </div>
+<!--                    <div class="page-title-right">-->
+<!--                        <ol class="breadcrumb m-0">-->
+<!--                            <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>-->
+<!--                            <li class="breadcrumb-item active">Add Product</li>-->
+<!--                        </ol>-->
+<!--                    </div>-->
 
-                </div>
-            </div>
-        </div>
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
         <!-- end page title -->
 
         <div class="row">
@@ -85,15 +85,13 @@
                             <h4 class="card-title mb-0">Ảnh sản phẩm</h4>
                         </div>
                         <div class="card-body">
-                            <div class="container">
+                            <div class="container-fluid">
                                 <fieldset class="form-group">
 
                                     <input type="file" accept=".jpg,.gif,.png" id="pro-image" name="pro-image"
                                            style="display: none;"
                                            onchange="angular.element(this).scope().appendFile()"
                                            class="form-control" multiple>
-
-                                    <button ng-click="sortFiles()" type="button">Chekc</button>
                                 </fieldset>
                                 <div class="preview-images-zone">
                                     <div class="addImg " onclick="$('#pro-image').click()">
@@ -108,7 +106,9 @@
                                                                      th:src="@{|/image/loadImage/product/${img}|}">
                                         </div>
                                     </div>
+
                                 </div>
+                                <i class="er" id="erImg">{{er.anh}}</i>
                             </div>
 <!--                            <button ng-click="check()" type="button">check</button>-->
                         </div>
@@ -150,12 +150,12 @@
                                         <input id="manufacturerbrand" th:field="*{giaBan}" class="form-control">
                                         <i th:errors="*{giaBan}" class="er"></i>
                                     </div>
-                                    <div class="mb-3">
-                                        <label>Trạng thái</label>
-                                        <input th:field="*{hienThi}" type="radio" th:value="1"/>Đăng bán
-                                        <input th:field="*{hienThi}" th:checked="*{hienThi == null ? true :false}"
-                                               type="radio" th:value="0"/>Ẩn
-                                    </div>
+<!--                                    <div class="mb-3">-->
+<!--                                        <label>Trạng thái</label>-->
+<!--                                        <input th:field="*{hienThi}" type="radio" th:value="1"/>Đăng bán-->
+<!--                                        <input th:field="*{hienThi}" th:checked="*{hienThi == null ? true :false}"-->
+<!--                                               type="radio" th:value="0"/>Ẩn-->
+<!--                                    </div>-->
                                 </div>
 
                                 <div class="col-sm-6">
@@ -212,12 +212,11 @@
                             </div>
 
                             <div class="d-flex flex-wrap gap-2">
-                                <button type="submit" ng-click="sortFiles()"
-                                        class="btn btn-primary waves-effect waves-light">Save
+                                <button type="submit" ng-click="sortFiles()" th:text="${method == 'put' ? 'Cập nhật' : 'Thêm'}"
+                                        class="btn btn-primary waves-effect waves-light">
                                 </button>
-                                <button type="button"
-                                        class="btn btn-secondary waves-effect waves-light">Cancel
-                                </button>
+                                <input type="reset" value="Làm mới"
+                                        class="btn btn-secondary waves-effect waves-light">
                             </div>
 
                         </div>
@@ -268,6 +267,7 @@
 
     </div>
     <!-- container-fluid -->
+
 </div>
 <!-- End Page-content -->
 

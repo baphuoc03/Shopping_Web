@@ -5,6 +5,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.sanPham = [];
     const limit = 10;
     $scope.er = {}
+    $scope.dateNow = new Date().getTime();
 
 
     $scope.closeModal = function (id) {
@@ -190,19 +191,23 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         page: 0,
         id: [],
         pages: [],
-        init(pageNumber) {
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=2&pageNumber=" + pageNumber).then(r => {
-                this.list = r.data.content;
+        sdtSearch : "",
+        init() {
+            $scope.trangThaiDonHang = 2
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=2").then(r => {
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
+
         },
         getList(pageNumber) {
             $scope.trangThaiDonHang = 2
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=2&pageNumber=" + pageNumber).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=2&pageNumber=" + pageNumber+"&sdt="+this.sdtSearch).then(r => {
                 this.list = r.data.content;
+                this.totalPage = r.data.totalPages;
+                this.setPageNumbers()
             })
         },
         xacNhanDH(ma) {
@@ -214,7 +219,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                             $scope.chuaXacNhan.page--;
                         }
                     }
-                    $scope.chuaXacNhan.init($scope.chuaXacNhan.page)
+                    $scope.chuaXacNhan.getList($scope.chuaXacNhan.page)
+                    $scope.chuaXacNhan.init()
                     document.getElementById('checkAllChuaXacNhan').checked = false
                     $scope.daXacNhan.totalElement++
                     alertify.success("Xác nhận thành công")
@@ -243,7 +249,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                             $scope.chuaXacNhan.page--;
                         }
                     }
-                    $scope.chuaXacNhan.init($scope.chuaXacNhan.page)
+                    $scope.chuaXacNhan.getList($scope.chuaXacNhan.page)
+                    $scope.chuaXacNhan.init()
                     $scope.chuaXacNhan.id = []
                     document.getElementById('checkAllChuaXacNhan').checked = false
                     alertify.success("Xác nhận thành công")
@@ -286,7 +293,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                         this.page--;
                     }
                 }
-                this.init(this.page)
+                this.getList(this.page)
+                this.init()
                 $scope.lyDo = null;
                 $scope.messLyDo = "";
                 this.id = []
@@ -329,6 +337,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 let data = {
                     ma: $scope.chuaXacNhan.detail.ma,
                     nguoiSoHuu: {username: $scope.chuaXacNhan.detail.nguoiSoHuu},
+                    voucher : $scope.chuaXacNhan.detail.voucherCode,
                     tenNguoiNhan: $scope.chuaXacNhan.detail.tenNguoiNhan,
                     soDienThoai: $scope.chuaXacNhan.detail.soDienThoai,
                     email: $scope.chuaXacNhan.detail.email,
@@ -344,7 +353,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     ghiChu: $scope.chuaXacNhan.detail.ghiChu,
                     tienGiam: $scope.chuaXacNhan.detail.tienGiam,
                     phiGiaoHang: $scope.chuaXacNhan.detail.phiGiaoHang,
-                    trangThaiDetail: $scope.chuaXacNhan.detail.trangThai
+                    trangThaiDetail: $scope.chuaXacNhan.detail.trangThai,
+                    phuongThucThanhToan : $scope.chuaXacNhan.detail.phuongThucThanhToan =='true' ? 0 : 1
                 }
                 let chiTietDonHang = [];
                 $scope.chiTietDonHang.forEach(c => {
@@ -371,6 +381,10 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     let index = $scope.chuaXacNhan.list.findIndex(d => d.ma == $scope.chuaXacNhan.detail.ma)
                     $scope.chuaXacNhan.list[index] = $scope.chuaXacNhan.detail
                     alertify.success("Cập nhật thành công")
+                    $scope.chuaThanhToan.init()
+                    $scope.chuaXacNhan.init()
+                    $scope.chuaXacNhan.getList($scope.chuaXacNhan.page)
+                    $scope.chuaThanhToan.getList($scope.chuaThanhToan.page)
                 }).catch(e => {
                     $scope.er = e.data
                     console.log(e)
@@ -383,7 +397,20 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         },
         setPageNumbers() {
             let numbers = [];
-            for (let i = 0; i < this.totalPage; i++) {
+            let i = this.page
+            let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
+            let lengthFirst = this.totalPage >=2 ?  this.page - 2 : 0
+
+            if(lengthLast>this.totalPage){
+                lengthLast = this.totalPage
+                i = lengthLast - 2
+            }
+            if(lengthFirst < 0) lengthFirst = 0
+
+            for (lengthFirst; i > lengthFirst; lengthFirst++) {
+                numbers.push(lengthFirst)
+            }
+            for (i; i < lengthLast; i++) {
                 numbers.push(i)
             }
             this.pages = numbers;
@@ -449,7 +476,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             document.getElementById("xacNhanAll1").disabled = check;
         }
     }
-    $scope.chuaXacNhan.init(0)
+    $scope.chuaXacNhan.init()
+    $scope.chuaXacNhan.getList(0)
 
     $scope.chuaThanhToan = {
         list: [],
@@ -459,9 +487,10 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         page: 0,
         id: [],
         pages: [],
-        init(pageNumber) {
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=5&pageNumber=" + pageNumber).then(r => {
-                this.list = r.data.content;
+        sdtSearch : "",
+        init() {
+            $scope.trangThaiDonHang = 5
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=5").then(r => {
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -470,9 +499,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 5
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=5&pageNumber=" + pageNumber).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=5&pageNumber=" + pageNumber+"&sdt="+this.sdtSearch).then(r => {
                 this.list = r.data.content;
-                this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
@@ -486,7 +514,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                             $scope.chuaThanhToan.page--;
                         }
                     }
-                    $scope.chuaThanhToan.init($scope.chuaThanhToan.page)
+                    $scope.chuaThanhToan.getList($scope.chuaThanhToan.page)
+                    $scope.chuaThanhToan.init()
                     document.getElementById('checkAllChuaTT').checked = false
                     $scope.chuaXacNhan.totalElement++
                     alertify.success("Xác nhận thanh toán thành công")
@@ -514,7 +543,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                             $scope.chuaThanhToan.page--;
                         }
                     }
-                    $scope.chuaThanhToan.init($scope.chuaThanhToan.page)
+                    $scope.chuaThanhToan.getList($scope.chuaThanhToan.page)
+                    $scope.chuaThanhToan.init()
                     $scope.chuaThanhToan.id = []
                     document.getElementById('checkAllChuaTT').checked = false
                     alertify.success("Xác nhận thanh toán thành công")
@@ -557,7 +587,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                         this.page--;
                     }
                 }
-                this.init(this.page)
+                this.getList(this.page)
+                this.init()
                 $scope.lyDo = null;
                 $scope.messLyDo = "";
                 this.id = []
@@ -590,11 +621,26 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             }).catch(e => console.log(e))
         },
         setPageNumbers() {
+
             let numbers = [];
-            for (let i = 0; i < this.totalPage; i++) {
+            let i = this.page
+            let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
+            let lengthFirst = this.totalPage >=2 ?  this.page - 2 : 0
+
+            if(lengthLast>this.totalPage){
+                lengthLast = this.totalPage
+                i = lengthLast - 2
+            }
+            if(lengthFirst < 0) lengthFirst = 0
+
+            for (lengthFirst; i > lengthFirst; lengthFirst++) {
+                numbers.push(lengthFirst)
+            }
+            for (i; i < lengthLast; i++) {
                 numbers.push(i)
             }
             this.pages = numbers;
+
         },
         checkButton() {
             let checkboxs = document.getElementsByName('checkChuaTT')
@@ -608,7 +654,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             document.getElementById("xacNhanAll5").disabled = check;
         }
     }
-    $scope.chuaThanhToan.init(0)
+    $scope.chuaThanhToan.init()
 
     $scope.daXacNhan = {
         list: [],
@@ -618,20 +664,20 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         page: 0,
         pages: [],
         id: [],
+        sdtSearch : "",
         init() {
+            $scope.trangThaiDonHang = 1
             $http.get("/admin/don-hang/get-by-trangthai?trangThai=1").then(r => {
-                this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
         },
         getList(pageNumber) {
-            $scope.trangThaiDonHang = 1
+
             $scope.daXacNhan.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=1&pageNumber=" + pageNumber).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=1&pageNumber=" + pageNumber+"&sdt="+this.sdtSearch).then(r => {
                 this.list = r.data.content;
-                this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
@@ -647,8 +693,22 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             }).catch(e => console.log(e))
         },
         setPageNumbers() {
+
             let numbers = [];
-            for (let i = 0; i < this.totalPage; i++) {
+            let i = this.page
+            let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
+            let lengthFirst = this.totalPage >=2 ?  this.page - 2 : 0
+
+            if(lengthLast>this.totalPage){
+                lengthLast = this.totalPage
+                i = lengthLast - 2
+            }
+            if(lengthFirst < 0) lengthFirst = 0
+
+            for (lengthFirst; i > lengthFirst; lengthFirst++) {
+                numbers.push(lengthFirst)
+            }
+            for (i; i < lengthLast; i++) {
                 numbers.push(i)
             }
             this.pages = numbers;
@@ -662,7 +722,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                             $scope.daXacNhan.page--;
                         }
                     }
-                    $scope.daXacNhan.init($scope.daXacNhan.page)
+                    $scope.daXacNhan.getList($scope.daXacNhan.page)
+                    $scope.daXacNhan.init()
                     // document.getElementById('checkAllChuaXacNhan').checked = false
                     $scope.dangGiao.totalElement++
                     alertify.success("Chuyển giao thành công")
@@ -703,6 +764,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     }
                 }
                 this.getList(this.page)
+                this.init()
                 $scope.lyDo = null;
                 $scope.messLyDo = "";
                 this.id = []
@@ -731,7 +793,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                             $scope.daXacNhan.page--;
                         }
                     }
-                    $scope.daXacNhan.init($scope.daXacNhan.page)
+                    $scope.daXacNhan.getList($scope.daXacNhan.page)
+                    $scope.daXacNhan.init()
                     $scope.daXacNhan.id = []
                     document.getElementById('checkAlldaXacNhan').checked = false
 
@@ -756,7 +819,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             document.getElementById("xacNhanAll2").disabled = check;
         }
     }
-    $scope.daXacNhan.init(0)
+    $scope.daXacNhan.init()
 
     $scope.dangGiao = {
         list: [],
@@ -766,9 +829,10 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         page: 0,
         pages: [],
         id: [],
+        sdtSearch : "",
         init() {
+            $scope.trangThaiDonHang = 3
             $http.get("/admin/don-hang/get-by-trangthai?trangThai=3").then(r => {
-                this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -777,16 +841,29 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 3
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=3&pageNumber=" + pageNumber).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=3&pageNumber=" + pageNumber+"&sdt="+this.sdtSearch).then(r => {
                 this.list = r.data.content;
-                this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
         },
         setPageNumbers() {
+
             let numbers = [];
-            for (let i = 0; i < this.totalPage; i++) {
+            let i = this.page
+            let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
+            let lengthFirst = this.totalPage >=2 ?  this.page - 2 : 0
+
+            if(lengthLast>this.totalPage){
+                lengthLast = this.totalPage
+                i = lengthLast - 2
+            }
+            if(lengthFirst < 0) lengthFirst = 0
+
+            for (lengthFirst; i > lengthFirst; lengthFirst++) {
+                numbers.push(lengthFirst)
+            }
+            for (i; i < lengthLast; i++) {
                 numbers.push(i)
             }
             this.pages = numbers;
@@ -801,6 +878,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                         }
                     }
                     $scope.dangGiao.getList($scope.dangGiao.page)
+                    $scope.dangGiao.init()
                     // document.getElementById('checkAllChuaXacNhan').checked = false
                     alertify.success("Xác nhân đơn hàng hoàn thành thành công")
                 }).catch(e => {
@@ -842,6 +920,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     }
                 }
                 this.getList(this.page)
+                this.init()
                 $scope.lyDo = null;
                 $scope.messLyDo = "";
                 this.id = []
@@ -870,6 +949,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                         }
                     }
                     $scope.dangGiao.getList($scope.dangGiao.page)
+                    $scope.dangGiao.init()
                     $scope.dangGiao.id = []
                     document.getElementById('checkAllDangGiao').checked = false
                     alertify.success("Xác nhận đơn hàng hoàn thành thành công")
@@ -902,8 +982,9 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         totalPage: 0,
         page: 0,
         pages: [],
+        sdtSearch : "",
         init() {
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=4").then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=4&pageNumber=" + this.page+"&sdt="+this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
@@ -913,9 +994,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 0
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=4&pageNumber=" + pageNumber).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=4&pageNumber=" + pageNumber+"&sdt="+this.sdtSearch).then(r => {
                 this.list = r.data.content;
-                this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
@@ -932,10 +1012,24 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         },
         setPageNumbers() {
             let numbers = [];
-            for (let i = 0; i < this.totalPage; i++) {
+            let i = this.page
+            let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
+            let lengthFirst = this.totalPage >=2 ?  this.page - 2 : 0
+
+            if(lengthLast>this.totalPage){
+                lengthLast = this.totalPage
+                i = lengthLast - 2
+            }
+            if(lengthFirst < 0) lengthFirst = 0
+
+            for (lengthFirst; i > lengthFirst; lengthFirst++) {
+                numbers.push(lengthFirst)
+            }
+            for (i; i < lengthLast; i++) {
                 numbers.push(i)
             }
             this.pages = numbers;
+
         }
     }
 
@@ -946,8 +1040,9 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         totalPage: 0,
         page: 0,
         pages: [],
+        sdtSearch : "",
         init() {
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=0").then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=0&pageNumber=" + this.page+"&sdt="+this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
@@ -957,9 +1052,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 0
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=0&pageNumber=" + pageNumber).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=0&pageNumber=" + pageNumber+"&sdt="+this.sdtSearch).then(r => {
                 this.list = r.data.content;
-                this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
@@ -976,7 +1070,20 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         },
         setPageNumbers() {
             let numbers = [];
-            for (let i = 0; i < this.totalPage; i++) {
+            let i = this.page
+            let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
+            let lengthFirst = this.totalPage >=2 ?  this.page - 2 : 0
+
+            if(lengthLast>this.totalPage){
+                lengthLast = this.totalPage
+                i = lengthLast - 2
+            }
+            if(lengthFirst < 0) lengthFirst = 0
+
+            for (lengthFirst; i > lengthFirst; lengthFirst++) {
+                numbers.push(lengthFirst)
+            }
+            for (i; i < lengthLast; i++) {
                 numbers.push(i)
             }
             this.pages = numbers;
@@ -1015,7 +1122,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             // location.reload()
             let index = $scope.donHangChuaXacNhanKh.findIndex(d => d.ma == ma)
             $scope.donHangChuaXacNhanKh.splice(index,1);
-            alert("Hủy thành công");
+            alertify.success("Hủy đơn hàng thành công")
         })
     }
     $scope.setChiTietDH = function (maCTDH){
@@ -1025,11 +1132,58 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.danhGia = {}
     $scope.erDanhGia = {}
     $scope.addDanhGia = function (){
-        $http.post("/nhan-xet",$scope.danhGia).then(r => {
-            $('#danhGia').modal('hide')
-            alert("Thành công")
-            $scope.danhGia = {}
-        }).catch(e => $scope.erDanhGia = e.data)
+        alertify.confirm("Đánh giá sản phẩm?", function () {
+            $http.post("/nhan-xet", $scope.danhGia).then(r => {
+                $('#danhGia').modal('hide')
+                $scope.donHangChuaXacNhanKh.forEach(d => {
+                    d.chiTietDonHang.forEach(c => {
+                        if(c.id == r.data.idCTDH){
+                            c.nhanXet = r.data
+                        }
+                    })
+                })
+                alertify.success("Đánh giá sản phẩm thành công")
+                $scope.donHangUser(4)
+                $scope.danhGia = {}
+            }).catch(e => {
+                alertify.error("Đánh giá sản phẩm thất bại")
+                $scope.erDanhGia = e.data
+            })
+        },function (){
+            alertify.error("Đánh giá sản phẩm thất bại")
+        })
+    }
+    $scope.danhGiaUpdate = {}
+    $scope.erDanhGiaUpdate = {}
+    $scope.viewUpdateDanhGia = function (id){
+        $http.get("/nhan-xet/detail/"+id).then(r => {
+            $scope.danhGiaUpdate = r.data
+            console.log($scope.danhGiaUpdate)
+            document.getElementById("formDanhGiapdateUpdate").className = "ng-valid ng-dirty ng-valid-parse"
+            document.getElementById("star-"+$scope.danhGiaUpdate.rating+"update").className = "star star-3 ng-untouched ng-valid ng-not-empty ng-dirty ng-valid-parse"
+        })
+    }
+    $scope.updateDanhGia = function (){
+        alertify.confirm("Bạn chỉ được một lần cập nhật đánh giá sản phẩm. Bạn có chắc muốn chỉnh sửa?", function () {
+            let data = {
+                id : $scope.danhGiaUpdate.id,
+                chiTietDonHang : $scope.danhGiaUpdate.idCTDH,
+                rating : $scope.danhGiaUpdate.rating,
+                tieuDe : $scope.danhGiaUpdate.tieuDe,
+                noiDung : $scope.danhGiaUpdate.noiDung
+            }
+            $http.put("/nhan-xet",data).then(r => {
+                $('#danhGiaUpdate').modal('hide')
+                alertify.success("Cập nhật đánh giá sản phẩm thành công")
+                $scope.danhGia = {}
+            }).catch(e => {
+                $scope.erDanhGiaUpdate = e.data
+                alertify.error("Cập nhật đánh giá sản phẩm thất bại")
+            })
+        },function (){
+            alertify.error("Cập nhật đánh giá sản phẩm thất bại")
+        })
+
     }
     $scope.thanhToan = function (ma){
         $http.get("/thanh-toan/"+ma).then(r => {

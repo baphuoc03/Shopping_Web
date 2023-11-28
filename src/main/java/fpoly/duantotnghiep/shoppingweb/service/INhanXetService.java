@@ -15,8 +15,10 @@ public interface INhanXetService {
 
     Page<NhanXetDtoResponse> getAllNhanXetBySanPhamAndRate(Integer page, Integer limit, String maSP, Float rate);
 
-    void add(NhanXetDtoRequest nhanXetDtoRequest);
+    NhanXetDtoResponse add(NhanXetDtoRequest nhanXetDtoRequest);
 
+
+    void update(NhanXetDtoRequest nhanXetDtoRequest);
 
     Float getAvgRatingBySanPhamAndPheDuyet(String maSP, Boolean pheDuyet);
 
@@ -25,4 +27,6 @@ public interface INhanXetService {
     Integer pheDuyetNhanXet(Boolean pheDuyet, String id);
 
     Boolean existsById(String id);
+
+    NhanXetDtoResponse getByid(String id);
 }

@@ -386,14 +386,14 @@
 
                 <!-- Logo desktop -->
                 <a href="/trang-chu" class="logo">
-                    <img src="/userStyle/images/icons/logo-02.png" alt="IMG-LOGO">
+                    <img src="/admin/images/hydra.png" alt="IMG-LOGO">
                 </a>
 
                 <!-- Menu desktop -->
                 <div class="menu-desktop">
                     <ul class="main-menu">
-                        <li>
-                            <a href="/san-pham">Sản phẩm</a>
+                        <li style="cursor: pointer" data-bs-toggle="collapse" data-bs-target="#branchsSP">
+                            <a>Sản Phẩm</a>
                         </li>
 
                         <li class="label1" data-label1="Hot">
@@ -407,11 +407,15 @@
                         <li>
                             <a href="blog.html">Tin tức</a>
                         </li>
+
+                        <li>
+                            <a href="/lien-he">Liên hệ</a>
+                        </li>
                     </ul>
                 </div>
 
                 <!-- Icon header -->
-                <div class="wrap-icon-header flex-w flex-r-m">
+                <div class="wrap-icon-header flex-w flex-r-m" >
                     <a href="#"
                        class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
                        data-notify="0">
@@ -423,19 +427,45 @@
                     </div>
 
                     <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 dropdown">
-                        <a class="dropdown-toggle" id="dropdownMenuButton" style="color: white" data-toggle="dropdown"
+                        <a class="dropdown-toggle" id="dropdownMenuButton" style="color: white" data-toggle="dropdown" th:if="${request.remoteUser}"
                            aria-haspopup="true" aria-expanded="false">
                             <i class="bi bi-person-circle" style="color: white"></i>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" th:if="${request.remoteUser}">
                             <a class="dropdown-item" href="#">Tài khoản</a>
                             <a class="dropdown-item" href="/lich-su-mua-hang1">Đơn hàng</a>
                             <a class="dropdown-item" href="/dang-nhap">Đăng xuất</a>
                         </div>
+
+                        <a style="color: white;font-weight: bold;font-size: 15px" href="/dang-nhap"  th:unless="${request.remoteUser}">
+                            Đăng nhập
+                            <i class="fa-sharp fa-solid fa-right-to-bracket fa-flip-horizontal"></i>
+                        </a>
                     </div>
                 </div>
             </nav>
+            <div class="col-12 collapse" id="branchsSP" style="background-color: whitesmoke">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="container row pt-4">
+                        <a class="col-4 mb-4" style="color: #666666;font-size: 20px;cursor: pointer" href="/san-pham">Tất cả sản phẩm</a>
+                        <div th:each="b : ${branches}" class="col-4 mb-4">
+                            <span class="" data-bs-toggle="collapse" th:attr="data-bs-target=${'#c'+b.id}" th:text="${b.ten}" style="font-size: 20px;cursor: pointer"></span>
+                            <div class="collapse " th:id="${'c'+ b.id}" style="padding-left: 20px">
+                                <div >
+                                    <div class="mt-2"><a  style="color: #666666" th:href="|/san-pham/thuong-hieu/${b.id}|">Tất cả [[${b.ten}]]</a></div>
+                                    <div th:each="d :${b.dongSanPhamResponeseList}" class="mt-2">
+                                        <a style="color: #666666" th:href="|/san-pham/thuong-hieu/${d.id}|"
+                                           th:text="${d.ten}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+
     </div>
 
     <!-- Header Mobile -->
@@ -468,7 +498,17 @@
     <div class="menu-mobile">
         <ul class="main-menu-m">
             <li>
-                <a href="/san-pham">Sản phẩm</a>
+
+                <div class="dropdown show">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sản phẩm
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a href="/san-pham">Tất cả sản phẩm</a>
+                        <a class="dropdown-item" th:each="b : ${branches}" href="/san-pham/get-all/${b.id}" th:text="${b.ten}"></a>
+                    </div>
+                </div>
             </li>
 
             <li class="label1" data-label1="Hot">
@@ -583,7 +623,7 @@
             <div class="block1 wrap-pic-w">
                 <img src="/userStyle/images/b1.jpg" style="height: 500px;" alt="IMG-BANNER">
 
-                <a href="/san-pham/get-all/thuong-hieu/c413a9fb-51de-4a92-9946-c77e0f3dcc99"
+                <a href="/san-pham/thuong-hieu/c413a9fb-51de-4a92-9946-c77e0f3dcc99"
                    class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
                     <div class="block1-txt-child1 flex-col-l">
 							<span class="block1-name ltext-102 trans-04 p-b-8">
@@ -609,7 +649,7 @@
             <div class="block1 wrap-pic-w">
                 <img src="/userStyle/images/b2.jpg" style="height: 500px;" alt="IMG-BANNER">
 
-                <a href="/san-pham/get-all/thuong-hieu/874c4e1e-61a7-4144-a8e8-49fe8c61ca46"
+                <a href="/san-pham/thuong-hieu/874c4e1e-61a7-4144-a8e8-49fe8c61ca46"
                    class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
                     <div class="block1-txt-child1 flex-col-l">
 							<span class="block1-name ltext-102 trans-04 p-b-8">
@@ -748,55 +788,101 @@
     <!-- Sản phẩm bán chạy -->
     <div class="row m-t-50 m-r-10 m-l-10"
          style="box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);border: 2px solid transparent; background-color: #fff none repeat scroll 0 0;">
-        <div class="products" style="width: 100%;">
-            <div class="container-fuild">
-                <h1 class="lg-title">Sản phẩm bán chạy nhất</h1>
-                <div class="product-items">
-                    <!-- single product -->
-                    <div class="product" ng-repeat="p in products">
-                        <div class="product-content">
-                            <div class="product-img">
-                                <img src="/image/loadImage/product/{{p.anh[0]}}" alt="product image">
-                            </div>
-                            <div class="product-btns">
-                                <button type="button" class="btn-cart">Mua nhanh
-                                    <span><i class="fas fa-plus"></i></span>
-                                </button>
-                                <button type="button" class="btn-buy"> Thêm vào giỏ hàng
-                                    <span><i class="fas fa-shopping-cart"></i></span>
-                                </button>
-                            </div>
-                        </div>
+        <div class="p-b-50" style="width: 100%;">
+            <section class="sec-product bg0 p-b-50 mt-5">
+                <div class="container">
+                    <div class="p-b-32">
+                        <h3 class="ltext-105 cl5 txt-center respon1">
+                            HYDRA SNEAKER
+                        </h3>
+                    </div>
 
-                        <div class="product-info">
-                            <div class="product-info-top">
-                                <h2 class="sm-title">{{p.thuongHieu}}</h2>
-                                <div class="rating">
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="far fa-star"></i></span>
-                                </div>
-                            </div>
-                            <a href="/chi-tiet-san-pham/{{p.ma}}" class="product-name">{{p.ten}}</a>
-                            <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
+                    <!-- Tab01 -->
+                    <div class="tab01">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item p-b-10">
+                                <a class="nav-link active" data-toggle="tab" role="tab" ng-click="getSanPham(0)"
+                                   style="cursor: pointer">Bán chạy</a>
+                            </li>
+
+                            <li class="nav-item p-b-10">
+                                <a class="nav-link" data-toggle="tab" role="tab" ng-click="getSanPham(1)"
+                                   style="cursor: pointer">Khuyến mại</a>
+                            </li>
+
+                            <li class="nav-item p-b-10">
+                                <a class="nav-link" data-toggle="tab" role="tab" ng-click="getSanPham(2)"
+                                   style="cursor: pointer">Hàng mới</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content p-t-50">
+                            <!-- - -->
+                            <div>
+                                <!-- Slide2 -->
+                                <div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="col-3" style="padding: 20px" ng-repeat="p in products">
+
+                                            <!-- Block2 -->
+                                            <div>
+                                                <div class="block2-pic hov-img0" style="border-radius: 5px">
+                                                    <div ng-if="p.loaiGiam!=null"
+                                                            style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
+                                                        <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam=='TIEN'">-{{p.mucGiam | currency: "" : 1}}đ</p>
+                                                        <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
+                                                    </div>
+                                                    <img src="/image/loadImage/product/{{p.anh[0]}}"
+                                                         style="width: 100%;height: 273px"
+                                                         ng-if="p.anh.length>0">
+                                                    <img src="/image/loadImage/product/default.png"
+                                                         style="width: 100%;height: 273px"
+                                                         ng-if="p.anh.length==0">
+                                                    <a href="/chi-tiet-san-pham/{{p.ma}}"
+                                                       class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                                                        Xem chi tiết
+                                                    </a>
+                                                </div>
+
+                                                <div class="block2-txt flex-w flex-t p-t-14">
+                                                    <div class="block2-txt-child1 flex-col-l ">
+                                                        <a href="/chi-tiet-san-pham/{{p.ma}}" style="font-weight: bold; font-size: 17px; width:200px;
+                                                                                white-space: nowrap;
+                                                                                overflow: hidden;
+                                                                                text-overflow: ellipsis;"
+                                                           class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                                            {{p.ten}}
+                                                        </a>
+                                                        <span class=" cl3">
+                                                <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
                                                 <del>{{p.giaBan | currency: "" : 1}}đ</del>
                                                 </span>
-                            <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet | currency: "" : 1}}đ</b>
-                            </span>
-                        </div>
+                                                <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet | currency: "" : 1}}đ</b>
+                                                </span>
+                                                    </div>
 
-                        <div class="off-info">
-                            <h2 class="sm-title">25% off</h2>
+                                                    <div class="block2-txt-child2 flex-r p-t-3">
+                                                        <i ng-if="maSpInDSYT.includes(p.ma) == false" id="{{p.ma}}"
+                                                           class="far fa-heart" ng-click="addDSYT(p.ma)"></i>
+                                                        <i ng-if="maSpInDSYT.includes(p.ma) == true" id="{{p.ma}}"
+                                                           class="fas fa-heart" ng-click="addDSYT(p.ma)"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                    <!-- end of single product -->
                 </div>
-            </div>
+            </section>
             <div class="flex-c-m flex-w w-full p-t-5">
                 <a href="/san-pham" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-                    Xem tất cả
+                    Xem tất cả sản phẩm
                 </a>
             </div>
         </div>
@@ -804,7 +890,7 @@
     <!-- blog3 -->
     <div class="row m-t-50 m-r-10 m-l-10"
          style="box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);border: 2px solid transparent; background-color: #fff none repeat scroll 0 0;">
-        <div class="products">
+        <div class="p-t-50 p-b-50">
             <div class="container-fuild">
                 <div class="row">
                     <div class="col-8">
@@ -828,47 +914,75 @@
                         </h4>
                     </div>
                 </div>
-                <div class="product-items">
-                    <!-- single product -->
-                    <div class="product" ng-repeat="p in products">
-                        <div class="product-content">
-                            <div class="product-img">
-                                <img src="/image/loadImage/product/{{p.anh[0]}}" alt="product image">
-                            </div>
-                            <div class="product-btns">
-                                <button type="button" class="btn-cart">Mua nhanh
-                                    <span><i class="fas fa-plus"></i></span>
-                                </button>
-                                <button type="button" class="btn-buy"> Thêm vào giỏ hàng
-                                    <span><i class="fas fa-shopping-cart"></i></span>
-                                </button>
-                            </div>
-                        </div>
+                <div class="tab-content p-t-50">
+                    <!-- - -->
+                    <section class="sec-product bg0 p-b-50 mt-5">
+                        <div class="container">
+                            <!-- Tab01 -->
+                            <div class="tab01">
+                                <!-- Tab panes -->
+                                <div class="tab-content p-t-50">
+                                    <!-- - -->
+                                    <div>
+                                        <!-- Slide2 -->
+                                        <div>
+                                            <div class="d-flex justify-content-between">
+                                                <div class="col-3" style="padding: 20px" ng-repeat="p in products">
+                                                    <!-- Block2 -->
+                                                    <div>
+                                                        <div class="block2-pic hov-img0" style="border-radius: 5px">
+                                                            <div ng-if="p.loaiGiam!=null"
+                                                                 style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
+                                                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam=='TIEN'">-{{p.mucGiam | currency: "" : 1}}đ</p>
+                                                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
+                                                            </div>
+                                                            <img src="/image/loadImage/product/{{p.anh[0]}}"
+                                                                 style="width: 100%;height: 273px"
+                                                                 ng-if="p.anh.length>0">
+                                                            <img src="/image/loadImage/product/default.png"
+                                                                 style="width: 100%;height: 273px"
+                                                                 ng-if="p.anh.length==0">
+                                                            <a href="/chi-tiet-san-pham/{{p.ma}}"
+                                                               class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                                                                Xem chi tiết
+                                                            </a>
+                                                        </div>
 
-                        <div class="product-info">
-                            <div class="product-info-top">
-                                <h2 class="sm-title">{{p.thuongHieu}}</h2>
-                                <div class="rating">
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="far fa-star"></i></span>
-                                </div>
-                            </div>
-                            <a href="/chi-tiet-san-pham/{{p.ma}}" class="product-name">{{p.ten}}</a>
-                            <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
+                                                        <div class="block2-txt flex-w flex-t p-t-14">
+                                                            <div class="block2-txt-child1 flex-col-l ">
+                                                                <a href="/chi-tiet-san-pham/{{p.ma}}" style="font-weight: bold; font-size: 17px; width:200px;
+                                                                                white-space: nowrap;
+                                                                                overflow: hidden;
+                                                                                text-overflow: ellipsis;"
+                                                                   class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                                                    {{p.ten}}
+                                                                </a>
+                                                                <span class=" cl3">
+                                                <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
                                                 <del>{{p.giaBan | currency: "" : 1}}đ</del>
                                                 </span>
-                            <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet | currency: "" : 1}}đ</b>
-                            </span>
-                        </div>
+                                                <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet | currency: "" : 1}}đ</b>
+                                                </span>
+                                                            </div>
 
-                        <div class="off-info">
-                            <h2 class="sm-title">25% off</h2>
+                                                            <div class="block2-txt-child2 flex-r p-t-3">
+                                                                <i ng-if="maSpInDSYT.includes(p.ma) == false" id="{{p.ma}}"
+                                                                   class="far fa-heart" ng-click="addDSYT(p.ma)"></i>
+                                                                <i ng-if="maSpInDSYT.includes(p.ma) == true" id="{{p.ma}}"
+                                                                   class="fas fa-heart" ng-click="addDSYT(p.ma)"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <!-- end of single product -->
+                    </section>
+
                 </div>
             </div>
             <div class="flex-c-m flex-w w-full p-t-5">
@@ -882,7 +996,7 @@
     <!-- blog 1 -->
     <div class="row m-t-50 m-r-10 m-l-10"
          style="box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);border: 2px solid transparent; background-color: #fff none repeat scroll 0 0;">
-        <div class="products">
+        <div class="p-t-50 p-b-50">
             <div class="container-fuild">
                 <div class="row">
                     <div class="col-8">
@@ -913,46 +1027,75 @@
                         </h4>
                     </div>
                 </div>
-                <div class="product-items">
-                    <!-- single product -->
-                    <div class="product" ng-repeat="p in products">
-                        <div class="product-content">
-                            <div class="product-img">
-                                <img src="/image/loadImage/product/{{p.anh[0]}}" alt="product image">
-                            </div>
-                            <div class="product-btns">
-                                <button type="button" class="btn-cart">Mua nhanh
-                                    <span><i class="fas fa-plus"></i></span>
-                                </button>
-                                <button type="button" class="btn-buy"> Thêm vào giỏ hàng
-                                    <span><i class="fas fa-shopping-cart"></i></span>
-                                </button>
-                            </div>
-                        </div>
+                <div class="tab-content p-t-50">
+                    <!-- - -->
+                    <section class="sec-product bg0 p-b-50 mt-5">
+                        <div class="container">
+                            <!-- Tab01 -->
+                            <div class="tab01">
+                                <!-- Tab panes -->
+                                <div class="tab-content p-t-50">
+                                    <!-- - -->
+                                    <div>
+                                        <!-- Slide2 -->
+                                        <div>
+                                            <div class="d-flex justify-content-between">
+                                                <div class="col-3" style="padding: 20px" ng-repeat="p in products">
+                                                    <!-- Block2 -->
+                                                    <div>
+                                                        <div class="block2-pic hov-img0" style="border-radius: 5px">
+                                                            <div ng-if="p.loaiGiam!=null"
+                                                                 style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
+                                                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam=='TIEN'">-{{p.mucGiam | currency: "" : 1}}đ</p>
+                                                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
+                                                            </div>
+                                                            <img src="/image/loadImage/product/{{p.anh[0]}}"
+                                                                 style="width: 100%;height: 273px"
+                                                                 ng-if="p.anh.length>0">
+                                                            <img src="/image/loadImage/product/default.png"
+                                                                 style="width: 100%;height: 273px"
+                                                                 ng-if="p.anh.length==0">
+                                                            <a href="/chi-tiet-san-pham/{{p.ma}}" style="font-weight: bold; font-size: 17px; width:200px;
+                                                                                white-space: nowrap;
+                                                                                overflow: hidden;
+                                                                                text-overflow: ellipsis;"
+                                                               class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                                                                Xem chi tiết
+                                                            </a>
+                                                        </div>
 
-                        <div class="product-info">
-                            <div class="product-info-top">
-                                <h2 class="sm-title">{{p.thuongHieu}}</h2>
-                                <div class="rating">
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="far fa-star"></i></span>
-                                </div>
-                            </div>
-                            <a href="/chi-tiet-san-pham/{{p.ma}}" class="product-name">{{p.ten}}</a>
-                            <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
+                                                        <div class="block2-txt flex-w flex-t p-t-14">
+                                                            <div class="block2-txt-child1 flex-col-l ">
+                                                                <a href="/chi-tiet-san-pham/{{p.ma}}"
+                                                                   class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                                                    {{p.ten}}
+                                                                </a>
+                                                                <span class=" cl3">
+                                                <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
                                                 <del>{{p.giaBan | currency: "" : 1}}đ</del>
                                                 </span>
-                            <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet | currency: "" : 1}}đ</b>
-                            </span>
-                        </div>
+                                                <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet | currency: "" : 1}}đ</b>
+                                                </span>
+                                                            </div>
 
-                        <div class="off-info">
-                            <h2 class="sm-title">25% off</h2>
+                                                            <div class="block2-txt-child2 flex-r p-t-3">
+                                                                <i ng-if="maSpInDSYT.includes(p.ma) == false" id="{{p.ma}}"
+                                                                   class="far fa-heart" ng-click="addDSYT(p.ma)"></i>
+                                                                <i ng-if="maSpInDSYT.includes(p.ma) == true" id="{{p.ma}}"
+                                                                   class="fas fa-heart" ng-click="addDSYT(p.ma)"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </section>
+
                 </div>
             </div>
             <div class="flex-c-m flex-w w-full p-t-5">
@@ -965,7 +1108,7 @@
     <!-- blog 2 -->
     <div class="row m-t-50 m-r-10 m-l-10"
          style="box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);border: 2px solid transparent; background-color: #fff none repeat scroll 0 0;">
-        <div class="products">
+        <div class="p-b-50 p-t-50">
             <div class="container-fuild">
                 <div class="row">
                     <div class="col-7">
@@ -995,47 +1138,75 @@
                         <img src="/userStyle/images/a94090a74963e3d2f50c58f245786e70.jpg" alt="">
                     </div>
                 </div>
-                <div class="product-items">
-                    <!-- single product -->
-                    <div class="product" ng-repeat="p in products">
-                        <div class="product-content">
-                            <div class="product-img">
-                                <img src="/image/loadImage/product/{{p.anh[0]}}" alt="product image">
-                            </div>
-                            <div class="product-btns">
-                                <button type="button" class="btn-cart">Mua nhanh
-                                    <span><i class="fas fa-plus"></i></span>
-                                </button>
-                                <button type="button" class="btn-buy"> Thêm vào giỏ hàng
-                                    <span><i class="fas fa-shopping-cart"></i></span>
-                                </button>
-                            </div>
-                        </div>
+                <div class="tab-content p-t-50">
+                    <!-- - -->
+                    <section class="sec-product bg0 p-b-50 mt-5">
+                        <div class="container">
+                            <!-- Tab01 -->
+                            <div class="tab01">
+                                <!-- Tab panes -->
+                                <div class="tab-content p-t-50">
+                                    <!-- - -->
+                                    <div>
+                                        <!-- Slide2 -->
+                                        <div>
+                                            <div class="d-flex justify-content-between">
+                                                <div class="col-3" style="padding: 20px" ng-repeat="p in products">
+                                                    <!-- Block2 -->
+                                                    <div>
+                                                        <div class="block2-pic hov-img0" style="border-radius: 5px">
+                                                            <div ng-if="p.loaiGiam!=null"
+                                                                 style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
+                                                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam=='TIEN'">-{{p.mucGiam | currency: "" : 1}}đ</p>
+                                                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
+                                                            </div>
+                                                            <img src="/image/loadImage/product/{{p.anh[0]}}"
+                                                                 style="width: 100%;height: 273px"
+                                                                 ng-if="p.anh.length>0">
+                                                            <img src="/image/loadImage/product/default.png"
+                                                                 style="width: 100%;height: 273px"
+                                                                 ng-if="p.anh.length==0">
+                                                            <a href="/chi-tiet-san-pham/{{p.ma}}"
+                                                               class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                                                                Xem chi tiết
+                                                            </a>
+                                                        </div>
 
-                        <div class="product-info">
-                            <div class="product-info-top">
-                                <h2 class="sm-title">{{p.thuongHieu}}</h2>
-                                <div class="rating">
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="fas fa-star"></i></span>
-                                    <span><i class="far fa-star"></i></span>
-                                </div>
-                            </div>
-                            <a href="/chi-tiet-san-pham/{{p.ma}}" class="product-name">{{p.ten}}</a>
-                            <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
+                                                        <div class="block2-txt flex-w flex-t p-t-14">
+                                                            <div class="block2-txt-child1 flex-col-l ">
+                                                                <a href="/chi-tiet-san-pham/{{p.ma}}" style="font-weight: bold; font-size: 17px; width:200px;
+                                                                                white-space: nowrap;
+                                                                                overflow: hidden;
+                                                                                text-overflow: ellipsis;"
+                                                                   class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                                                    {{p.ten}}
+                                                                </a>
+                                                                <span class=" cl3">
+                                                <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
                                                 <del>{{p.giaBan | currency: "" : 1}}đ</del>
                                                 </span>
-                            <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet | currency: "" : 1}}đ</b>
-                            </span>
-                        </div>
+                                                <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet | currency: "" : 1}}đ</b>
+                                                </span>
+                                                            </div>
 
-                        <div class="off-info">
-                            <h2 class="sm-title">25% off</h2>
+                                                            <div class="block2-txt-child2 flex-r p-t-3">
+                                                                <i ng-if="maSpInDSYT.includes(p.ma) == false" id="{{p.ma}}"
+                                                                   class="far fa-heart" ng-click="addDSYT(p.ma)"></i>
+                                                                <i ng-if="maSpInDSYT.includes(p.ma) == true" id="{{p.ma}}"
+                                                                   class="fas fa-heart" ng-click="addDSYT(p.ma)"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <!-- end of single product -->
+                    </section>
+
                 </div>
             </div>
             <div class="flex-c-m flex-w w-full p-t-5">
@@ -1317,4 +1488,7 @@
 <!--===============================================================================================-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </body>
+
+<!-- pace js -->
+<script src="/admin/assets/libs/pace-js/pace.min.js"></script>
 </html>

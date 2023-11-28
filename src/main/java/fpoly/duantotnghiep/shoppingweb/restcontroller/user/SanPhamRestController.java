@@ -27,13 +27,6 @@ public class SanPhamRestController {
 
         return ResponseEntity.ok(sanPhamService.paginationInUser(pageNumber, limit));
     }
-    @GetMapping("thuong-hieu/{idThuongHieu}")
-    public ResponseEntity<Page<SanPhamDtoResponse>> getByThuongHieu(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
-                                                           @RequestParam(value = "limit", defaultValue = "8") Integer limit,
-                                                            @PathVariable("idThuongHieu")String thuongHieu) {
-
-        return ResponseEntity.ok(sanPhamService.paginationInUserByThuongHieu(pageNumber, limit,thuongHieu));
-    }
 
     @GetMapping("san-pham-tuong-tu/{ma}")
     public ResponseEntity<List<SanPhamDtoResponse>> getSpTuongTu(@PathVariable("ma")String ma){

@@ -99,7 +99,9 @@ public class SanPhamServiceImpl implements ISanPhamService {
     @Override
     public List<SanPhamDtoResponse> saveAll(List<SanPhamDtoRequest> sanPham) {
 
-        List<SanPhamModel> entities = sanPham.stream().map(s -> s.mapToModel()).collect(Collectors.toList());
+        List<SanPhamModel> entities = sanPham.stream().map(s -> s.mapToModel())
+                                .peek(s -> s.setHienThi(false))
+                                .collect(Collectors.toList());
 
         entities = sanPhamRepository.saveAll(entities);
 
@@ -120,6 +122,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
     public SanPhamDtoResponse save(SanPhamDtoRequest entity) {
         SanPhamModel model = entity.mapToModel();
         model.setGiaNiemYet(entity.getGiaBan());
+        model.setHienThi(false);
         List<AnhModel> imgs = model.getImages();
         model.setTrangThai(true);
         model = sanPhamRepository.save(model);
@@ -142,6 +145,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
         SanPhamModel sanPhamOld = sanPhamRepository.findById(model.getMa()).get();
         BigDecimal giamGia = sanPhamOld.getGiaBan().subtract(sanPhamOld.getGiaNiemYet());
         model.setGiaNiemYet(model.getGiaBan().subtract(giamGia));
+        model.setHienThi(sanPhamOld.getHienThi());
 
         model.setNgayTao(sanPhamOld.getNgayTao());
 

@@ -18,9 +18,14 @@ public class DonHangEntityManager {
     @Autowired
     private EntityManager entityManager;
 
-    public Page<DonHangDtoResponse> getDonHangByTrangThai(Integer trangThai,Integer page, Integer limit){
+    public Page<DonHangDtoResponse> getDonHangByTrangThai(Integer trangThai,Integer page, Integer limit, String sdt){
         Pageable pageable = PageRequest.of(page,limit);
         StringBuilder jpql = new StringBuilder("SELECT d FROM DonHangModel d WHERE d.trangThai ="+trangThai);
+
+        if(sdt != null){
+            jpql.append(" And (d.soDienThoai  like '%"+sdt+"%' OR d.ma like '%"+sdt+"%')");
+        }
+
         if(trangThai == 0){
             jpql.append(" ORDER BY d.ngayHuy DESC ");
         }else if(trangThai == 1){

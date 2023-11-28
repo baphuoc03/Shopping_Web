@@ -25,10 +25,8 @@ public class NhanXetDtoRequest {
     private String chiTietDonHang;
     @NotNull(message = "Có thể cho chúng tôi mức độ hài lòng của bạn")
     private Float rating;
-    @NotBlank(message = "Không để trống tiêu đề")
     @Size(max = 50, message = "Tiêu đề tối đa 50 ký tự")
     private String tieuDe;
-    @NotNull(message = "Không để trống nội dung")
     @Size(max = 200,message = "Nội dung tối đa 200 ký tự")
     private String noiDung;
     private Date thoiGian;
