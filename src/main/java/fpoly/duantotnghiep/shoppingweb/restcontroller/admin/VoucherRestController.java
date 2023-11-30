@@ -159,10 +159,13 @@ public class VoucherRestController {
         }
         if (voucherRequest.getNgayKetThuc() == null) {
             result.rejectValue("ngayKetThuc", "", "Vui lòng nhập dữ liệu");
+        } else {
+            if (voucherRequest.getNgayKetThuc().before(new Date())) {
+                result.rejectValue("ngayKetThuc", "", "Vui lòng nhập ngày kết thúc trước ngày hiện tại");
+            }
         }
-        if (voucherRequest.getNgayKetThuc().before(new Date())) {
-            result.rejectValue("ngayKetThuc", "", "Vui lòng nhập ngày kết thúc trước ngày hiện tại");
-        }
+
+
         if (voucherRequest.getNgayBatDau() != null && voucherRequest.getNgayKetThuc() != null)
             if (voucherRequest.getNgayBatDau().after(voucherRequest.getNgayKetThuc())) {
                 result.rejectValue("ngayBatDau", "", "Ngày bắt đầu và kết thúc không hợp lệ");

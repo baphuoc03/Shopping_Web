@@ -18,8 +18,8 @@ public interface VoucherRepository extends JpaRepository<VoucherModel, String> {
     @Query("SELECT vc FROM VoucherModel vc WHERE vc.trangThai = 0 AND vc.doiTuongSuDung = 0 AND vc.ngayBatDau <= current_timestamp ")
     List<VoucherModel> findVoucherHienThi();
 
-    @Query("SELECT vc  FROM VoucherModel vc where vc.trangThaiXoa = 0")
-    Page<VoucherModel> findAllVoucher(Pageable pageable);
+    @Query("SELECT vc  FROM VoucherModel vc where vc.trangThaiXoa = 0 and vc.trangThai = ?1")
+    Page<VoucherModel> findAllVoucher(Pageable pageable, int trangThai);
 
     @Transactional
     @Modifying

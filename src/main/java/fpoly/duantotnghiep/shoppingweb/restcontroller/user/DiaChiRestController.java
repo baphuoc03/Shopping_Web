@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-public class DiaChiRestController {
+public class
+DiaChiRestController {
     @Autowired
     IDiaChiService diaChiService;
     @Autowired

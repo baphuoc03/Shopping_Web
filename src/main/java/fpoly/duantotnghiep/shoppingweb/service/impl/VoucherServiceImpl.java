@@ -68,9 +68,9 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public Page<VoucherReponse> findAll(int pageNumber, int pageSize) {
+    public Page<VoucherReponse> findAll(int pageNumber, int pageSize, int trangThai) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<VoucherModel> pageModel = repository.findAllVoucher(pageable);
+        Page<VoucherModel> pageModel = repository.findAllVoucher(pageable, trangThai);
         return pageModel.map(x -> new VoucherReponse(x));
     }
 
