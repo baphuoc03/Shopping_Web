@@ -33,6 +33,11 @@ public class DonHangController {
     public Object ThanhToanHoaDon(HttpServletRequest request, @PathVariable("ma") String ma)throws MessagingException {
 //        DonHangDtoResponse response = donHangService.checkOut(donHangDTORequest);
         DonHangDtoResponse response =  donHangService.findByMa(ma);
+
+        if(response.getTrangThai() !=5){
+            return "email/daThanhToan";
+        }
+
         String diachi = response.getDiaChiChiTiet();
         DonHangReponseUser donHangReponseUser = donHangService.findByMaUser(ma);
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
