@@ -150,11 +150,10 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             $scope.errSoDienThoai = err.data.soDienThoai
             $scope.errEmail = err.data.email
             $scope.errThanhPhoCode = err.data.thanhPhoCode
-            $scope.errQuanHuyenCode = err.data.quanHuyenCode == undefined ? "" : err.data.quanHuyenCode
-            $scope.errXaPhuongCode = err.data.xaPhuongCode == undefined ? "" : err.data.xaPhuongCode
-            $scope.errDiaChiChiTiet = err.data.diaChiChiTiet == undefined ? "" : err.data.diaChiChiTiet
-            $scope.errThanhToan = err.data.phuongThucThanhToan == undefined ? "" : err.data.phuongThucThanhToan
-
+            $scope.errQuanHuyenCode = err.data.quanHuyenCode
+            $scope.errXaPhuongCode = err.data.xaPhuongCode
+            $scope.errDiaChiChiTiet = err.data.diaChiChiTiet
+            alertify.error(err.data.tienGiam)
         })
     }
 

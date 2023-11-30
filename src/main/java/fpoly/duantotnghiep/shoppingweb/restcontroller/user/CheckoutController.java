@@ -76,8 +76,11 @@ public class CheckoutController {
     public Object addHoaDon(@Valid @RequestBody DonHangDTORequest donHangDTORequest,
                             BindingResult result,
                             Authentication authentication, HttpServletRequest request) throws MessagingException {
-        if (donHangDTORequest.getPhuongThucThanhToan() != voucherService.findById1(donHangDTORequest.getVoucher()).getHinhThucThanhToan()) {
-            result.rejectValue("tienGiam", "erTongTien", "Voucher không thể sử dụng cho hình thức thanh toán này");
+
+        if (donHangDTORequest.getVoucher() != null && !donHangDTORequest.getVoucher().isBlank()) {
+            if (donHangDTORequest.getPhuongThucThanhToan() != voucherService.findById1(donHangDTORequest.getVoucher()).getHinhThucThanhToan()) {
+                result.rejectValue("tienGiam", "erTongTien", "Voucher không thể sử dụng cho hình thức thanh toán này");
+            }
         }
         if (result.hasErrors()) {
             return ValidateUtil.getErrors(result);
@@ -104,8 +107,15 @@ public class CheckoutController {
         });
 //        update cart and soluong voucher
         if (donHangDTORequest.getVoucher() != null && !donHangDTORequest.getVoucher().isBlank()) {
-            int soLuong = voucherService.findById(donHangDTORequest.getVoucher()).getSoLuong() - 1;
-            voucherService.upddateSoLuong(soLuong, donHangDTORequest.getVoucher());
+            VoucherModel voucherUpdateSL = voucherService.findById1(donHangDTORequest.getVoucher());
+            if (voucherUpdateSL.getDoiTuongSuDung() == 0) {
+                int soLuong = voucherService.findById(donHangDTORequest.getVoucher()).getSoLuong() - 1;
+                Integer soLuongKiemTra = voucherService.upddateSoLuong(soLuong, donHangDTORequest.getVoucher());
+                System.out.println("soLuong:" + soLuongKiemTra);
+                if (soLuongKiemTra == 0) {
+                    voucherService.updateTrangThai(1, donHangDTORequest.getVoucher());
+                }
+            }
         }
         gioHangService.removeAllProdcutInCart();
         //Thanh Toán Online
@@ -119,7 +129,7 @@ public class CheckoutController {
             Map<String, String> vnPayUrl = new HashMap<>();
             vnPayUrl.put("vnPayUrl", vnpayUrl);
             int paymentStatus = vnPayService.orderReturn(request, donHangDTORequest.getDiaChiChiTiet());
-            System.out.println(paymentStatus);
+//            System.out.println(paymentStatus);
             if (paymentStatus == 1) {
                 donHangService.updateTrangThai1(response.getMa(), 2);
             } else {
@@ -135,7 +145,6 @@ public class CheckoutController {
     public ResponseEntity<?> giaGiam(@RequestBody Map<String, Object> request, BindingResult result) {
         VoucherReponse voucherResponse = voucherService.findById(request.get("voucher").toString());
         Double tongThanhToan = Double.parseDouble(request.get("tongThanhToan").toString());
-
         Double giaGiam = null;
         if (voucherResponse != null) {
             giaGiam = voucherResponse.getMucGiam();

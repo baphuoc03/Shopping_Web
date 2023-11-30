@@ -81,7 +81,6 @@ public class SanPhamModel {
              where k.NgayBatDau <= NOW() And k.NgayKetThuc >=NOW() and s.Ma = ma)
             """)
     private Float mucGiam;
-
     @Formula("""
             (SELECT k.Loai FROM khuyenmai_sanpham ks join sanpham s on s.Ma = ks.SanPham
              									join KhuyenMai k on k.Ma = ks.KhuyenMai
