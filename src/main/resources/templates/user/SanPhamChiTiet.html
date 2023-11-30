@@ -141,9 +141,17 @@
 
                 <div class="col-md-6 col-lg-5 p-b-30">
                     <div class="p-r-50 p-t-5 p-lr-0-lg">
-                        <h4 class="mtext-105 cl2 js-name-detail p-b-14">
-                            {{product.ten}}
-                        </h4>
+                        <div class="d-flex align-content-center">
+                            <h4 class="mtext-105 cl2 js-name-detail p-b-14 me-2">
+                                {{product.ten}}
+                            </h4>
+                            <span class="stext-105 cl3" ng-if="product.giaBan > product.giaNiemYet && p.loaiGiam == 'TIEN'">
+									- {{product.mucGiam | currency: "" : 1}}đ
+                            </span>
+                            <span class="stext-105 cl3" ng-if="product.giaBan > product.giaNiemYet && p.loaiGiam != 'TIEN'">
+									- {{product.mucGiam}}%
+                            </span>
+                        </div>
                         <div class="row">
                             <div class="col-6 d-flex justify-content-around align-items-center"
                                  style="border-right: 1px solid #000;">
@@ -154,13 +162,14 @@
                                 <i class="bi bi-star-fill"></i>
                             </div>
                             <div class="col-6 m-t-10">
-                                <p>Hàng trong kho: {{product.soLuong}}</p>
+                                <p ng-if="product.soLuong >0">Hàng trong kho: {{product.soLuong}}</p>
+                                <p ng-if="product.soLuong <=0" class="text-danger">Hết hàng</p>
                             </div>
                         </div>
                         <br>
 
                         <span class="mtext-106 cl2">
-                                    <span class="stext-105 cl3" ng-if="product.giaBan < product.giaNiemYet">
+                                    <span class="stext-105 cl3" ng-if="product.giaBan > product.giaNiemYet">
 									<del>{{product.giaNiemYet | currency: "" : 1}}đ</del>
 								    </span>
                                 <b style="color: red">{{product.giaBan | currency: "" : 1}}đ</b>
@@ -205,7 +214,7 @@
                             <!--add to cart -->
                             <div class="row p-b-10">
                                 <div class="size-600 flex-w flex-m respon6-next">
-                                    <div class="col-6" style="border-radius: 30px;">
+                                    <div class="col-5" style="border-radius: 30px;">
                                         <div class="wrap-num-product flex-w m-r-20 m-tb-10">
                                             <div style="" class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
                                                 <i class="fs-16 zmdi zmdi-minus"></i>
@@ -217,27 +226,43 @@
                                                 <i class="fs-16 zmdi zmdi-plus"></i>
                                             </div>
                                         </div>
+                                        <i id="eSize"  class="text-danger"></i>
+
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-5">
                                         <button ng-click="addToCart()"
                                                 class="flex-c-m stext-80 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
                                             Thêm vào giỏ hàng
                                         </button>
                                     </div>
-                                    <i id="eSize"  class="text-danger"></i>
+                                    <div class="col-2" style="font-size: 30px">
+                                        <i ng-if="maSpInDSYT.includes(product.ma) == false" id="{{product.ma}}"
+                                           class="far fa-heart" ng-click="addDSYT(product.ma)"></i>
+                                        <i ng-if="maSpInDSYT.includes(product.ma) == true" id="{{product.ma}}"
+                                           class="fas fa-heart" ng-click="addDSYT(product.ma)"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="flex-w flex-m p-l-100 p-t-40 respon7" >
-                            <div class="block2-txt-child2 flex-r p-t-3">
-                                <i ng-if="maSpInDSYT.includes(product.ma) == false" id="{{product.ma}}"
-                                   class="far fa-heart" ng-click="addDSYT(product.ma)"></i>
-                                <i ng-if="maSpInDSYT.includes(product.ma) == true" id="{{product.ma}}"
-                                   class="fas fa-heart" ng-click="addDSYT(product.ma)"></i>
-                            </div>
-
-
+                    </div>
+                </div>
+            </div>
+            <!--    /////////Modal đăng nhập-->
+            <div class="modal fade" id="dangNhap" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Thông Báo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Đăng nhập để sử dụng tính năng!
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#dangNhap').modal('hide')">Trở về</button>
+                            <button ng-click="login()" class="btn btn-primary text-white">Đăng nhập</button>
                         </div>
                     </div>
                 </div>
@@ -439,15 +464,7 @@
             </div>
         </div>
 
-        <div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
-			<span class="stext-107 cl6 p-lr-25">
-				SKU: JAK-01
-			</span>
 
-            <span class="stext-107 cl6 p-lr-25">
-				Categories: Jacket, Men
-			</span>
-        </div>
     </section>
 
     <!-- //---------------------------------------------------------------- -->
@@ -483,7 +500,7 @@
     <section class="sec-relate-product bg0 p-t-45 p-b-105">
         <div class="container">
             <div class="p-b-45">
-                <h3 class="ltext-106 cl5 txt-center">
+                <h3 class="cl5 txt-center">
                     SẢN PHẨM TƯƠNG TỰ
                 </h3>
             </div>

@@ -11,18 +11,23 @@ app.controller("cart-ctrl", function ($scope, $http) {
 
     $scope.updateSl = function (id, soLuong) {
         if (soLuong <= 0) {
-            alert("Số lượng phải là số nguyên > 0!!!")
+            alertify.error("Số lượng phải là số nguyên > 0!!!")
             return
         }
         if (!parseInt(soLuong)) {
-            alert("Số lượng phải là số nguyên > 0!!")
+            alertify.error("Số lượng phải là số nguyên > 0!!")
             return
         }
         $http.put("/cart/update-sl/" + id + "/" + soLuong).then(function (r){
             console.log(r.data)
             $scope.cart = r.data;
         }).catch(e=>{
-            document.getElementById("sl").innerText = e.data.sl = e.data.sl
+            $scope.cart.forEach(c =>{
+                if(c.id == id){
+                    document.getElementById(c.id).value =  c.soLuong
+                }
+            })
+            alertify.error(e.data.sl)
             console.log(e)
         })
     }

@@ -36,6 +36,15 @@ public class KhachHangServiceImpl implements IKhachHangService {
     }
 
     @Override
+    public Page<KhachHangDtoResponse> search(String keyWord, Integer page, Integer limit){
+        Pageable pageable = PageRequest.of(page, limit);
+        Page<KhachHangModel> pageModel = khachHangRepository.search(keyWord,pageable);
+
+        return new PageImpl<>(pageModel.getContent().stream().map(k -> new KhachHangDtoResponse(k)).collect(Collectors.toList()),
+                pageable, pageModel.getTotalElements());
+    }
+
+    @Override
     public List<KhachHangDtoResponse> getAllFromVoucher() {
         return khachHangRepository.findAll().stream().map(x -> new KhachHangDtoResponse(x)).collect(Collectors.toList());
     }

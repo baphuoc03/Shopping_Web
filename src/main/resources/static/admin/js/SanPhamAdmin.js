@@ -115,6 +115,37 @@ app.controller('ctrl', function ($scope, $http) {
 
     $scope.filter = function (filterData){
         console.log(filterData)
+        console.log(isNaN(filterData.giaBan))
+        if(filterData.giaBan != undefined){
+            if(isNaN(filterData.giaBan)){
+                alertify.error("Giá min phải là số!!")
+                return
+            }else{
+                if(filterData.giaBan < 10000){
+                    alertify.error("Giá min phải > 10.000đ!!")
+                    return
+                }
+            }
+        }
+        if(filterData.giaMax != undefined){
+            if(isNaN(filterData.giaMax)){
+                alertify.error("Giá max phải là số!!")
+                return
+            }else{
+                if(filterData.giaMax > 100000000){
+                    alertify.error("Giá max phải < 100.000.000đ !!")
+                    return
+                }else{
+                    if(filterData.giaBan != undefined){
+                        if(!isNaN(filterData.giaBan) && filterData.giaBan > filterData.giaMax){
+                            alertify.error("Giá max phải > giá min!!")
+                            return
+                        }
+                    }
+                }
+            }
+        }
+
         $scope.pageNumber = 0
         $scope.filterDto = filterData
         $scope.pageNumbers = []

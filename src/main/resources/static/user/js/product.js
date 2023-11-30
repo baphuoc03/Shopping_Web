@@ -146,7 +146,7 @@ app.controller("index-ctrl", function ($scope, $http) {
         console.log($scope.filterDto = filterData)
 
         $scope.pageNumbers = []
-        $http.post("/admin/san-pham/filter", $scope.filterDto).then(r => {
+        $http.post("/san-pham/filter", $scope.filterDto).then(r => {
             $scope.title = "Có " + r.data.totalElements + " sản phẩm liên quan"
             $scope.products = r.data.content;
             $scope.totalPage = r.data.totalPages;
@@ -163,7 +163,7 @@ app.controller("index-ctrl", function ($scope, $http) {
 
         $scope.filterDto.ten = keyWord
         $scope.pageNumbers = []
-        $http.post("/admin/san-pham/filter", $scope.filterDto).then(r => {
+        $http.post("/san-pham/filter", $scope.filterDto).then(r => {
             $scope.title = "Có " + r.data.totalElements + " sản phẩm liên quan"
             $scope.products = r.data.content;
             $scope.totalPage = r.data.totalPages;
@@ -175,7 +175,7 @@ app.controller("index-ctrl", function ($scope, $http) {
         $scope.pageNumber = 0
         $scope.pageNumbers = []
 
-        $http.get("/admin/san-pham/get-all").then(r => {
+        $http.get("/san-pham/get-all").then(r => {
             $scope.title = "Tất cả sản phẩm"
             $scope.products = r.data.content;
             $scope.getPageNumbers(r.data.totalPages)

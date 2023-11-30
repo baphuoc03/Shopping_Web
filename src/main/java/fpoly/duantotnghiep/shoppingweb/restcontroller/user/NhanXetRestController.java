@@ -46,6 +46,18 @@ public class NhanXetRestController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping()
+    public ResponseEntity<?> update(@Valid @RequestBody NhanXetDtoRequest nhanXetDtoRequest,
+                                 BindingResult result,
+                                 Authentication authentication){
+
+        if(result.hasErrors()){
+            return ValidateUtil.getErrors(result);
+        }
+        nhanXetService.update(nhanXetDtoRequest);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("avg-by-sanpham")
     public ResponseEntity<?> getAvgBySanPham(@RequestParam String maSP){
         return ResponseEntity.ok(nhanXetService.getAvgRatingBySanPhamAndPheDuyet(maSP,true));
@@ -54,6 +66,11 @@ public class NhanXetRestController {
     @GetMapping("avg-rates-by-sanpham")
     public ResponseEntity<?> getAvgRatesByMaSP(@RequestParam String maSP){
         return ResponseEntity.ok(nhanXetEntityManager.getAvgRatesByMaSPAndPheDuyet(maSP,true));
+    }
+
+    @GetMapping("detail/{id}")
+    public ResponseEntity<?> detail(@PathVariable("id")String id){
+        return ResponseEntity.ok(nhanXetService.getByid(id));
     }
 
 }

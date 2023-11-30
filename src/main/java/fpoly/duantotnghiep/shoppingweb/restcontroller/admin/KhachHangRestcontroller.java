@@ -31,8 +31,12 @@ public class KhachHangRestcontroller {
     }
 
     @GetMapping("get-all-khach-hang")
-    public ResponseEntity<Page<KhachHangDtoResponse>> getAllKhachHang(@RequestParam(defaultValue = "0") Integer page,
-                                                                      @RequestParam(defaultValue = "8") Integer limit) {
+    public ResponseEntity<Page<KhachHangDtoResponse>> getAllKhachHang(@RequestParam(defaultValue = "0")Integer page,
+                                                                      @RequestParam(defaultValue = "8")Integer limit,
+                                                                      @RequestParam(required = false) String keyWord){
+        if(keyWord!=null){
+            return ResponseEntity.ok(taiKhoanService.search(keyWord,page, limit));
+        }
         return ResponseEntity.ok(taiKhoanService.getAll(page, limit));
     }
 

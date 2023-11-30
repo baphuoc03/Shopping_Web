@@ -337,6 +337,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 let data = {
                     ma: $scope.chuaXacNhan.detail.ma,
                     nguoiSoHuu: {username: $scope.chuaXacNhan.detail.nguoiSoHuu},
+                    voucher : $scope.chuaXacNhan.detail.voucherCode,
                     tenNguoiNhan: $scope.chuaXacNhan.detail.tenNguoiNhan,
                     soDienThoai: $scope.chuaXacNhan.detail.soDienThoai,
                     email: $scope.chuaXacNhan.detail.email,
@@ -1121,7 +1122,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             // location.reload()
             let index = $scope.donHangChuaXacNhanKh.findIndex(d => d.ma == ma)
             $scope.donHangChuaXacNhanKh.splice(index,1);
-            alert("Hủy thành công");
+            alertify.success("Hủy đơn hàng thành công")
         })
     }
     $scope.setChiTietDH = function (maCTDH){
@@ -1131,11 +1132,62 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.danhGia = {}
     $scope.erDanhGia = {}
     $scope.addDanhGia = function (){
-        $http.post("/nhan-xet",$scope.danhGia).then(r => {
-            $('#danhGia').modal('hide')
-            alert("Thành công")
-            $scope.danhGia = {}
-        }).catch(e => $scope.erDanhGia = e.data)
+        alertify.confirm("Đánh giá sản phẩm?", function () {
+            $http.post("/nhan-xet", $scope.danhGia).then(r => {
+                $('#danhGia').modal('hide')
+                $scope.donHangChuaXacNhanKh.forEach(d => {
+                    d.chiTietDonHang.forEach(c => {
+                        if(c.id == r.data.idCTDH){
+                            c.nhanXet = r.data
+                        }
+                    })
+                })
+                alertify.success("Đánh giá sản phẩm thành công")
+                $scope.donHangUser(4)
+                $scope.danhGia = {}
+            }).catch(e => {
+                alertify.error("Đánh giá sản phẩm thất bại")
+                $scope.erDanhGia = e.data
+            })
+        },function (){
+            alertify.error("Đánh giá sản phẩm thất bại")
+        })
     }
+    $scope.danhGiaUpdate = {}
+    $scope.erDanhGiaUpdate = {}
+    $scope.viewUpdateDanhGia = function (id){
+        $http.get("/nhan-xet/detail/"+id).then(r => {
+            $scope.danhGiaUpdate = r.data
+            console.log($scope.danhGiaUpdate)
+            document.getElementById("formDanhGiapdateUpdate").className = "ng-valid ng-dirty ng-valid-parse"
+            document.getElementById("star-"+$scope.danhGiaUpdate.rating+"update").className = "star star-3 ng-untouched ng-valid ng-not-empty ng-dirty ng-valid-parse"
+        })
+    }
+    $scope.updateDanhGia = function (){
+        alertify.confirm("Bạn chỉ được một lần cập nhật đánh giá sản phẩm. Bạn có chắc muốn chỉnh sửa?", function () {
+            let data = {
+                id : $scope.danhGiaUpdate.id,
+                chiTietDonHang : $scope.danhGiaUpdate.idCTDH,
+                rating : $scope.danhGiaUpdate.rating,
+                tieuDe : $scope.danhGiaUpdate.tieuDe,
+                noiDung : $scope.danhGiaUpdate.noiDung
+            }
+            $http.put("/nhan-xet",data).then(r => {
+                $('#danhGiaUpdate').modal('hide')
+                alertify.success("Cập nhật đánh giá sản phẩm thành công")
+                $scope.danhGia = {}
+            }).catch(e => {
+                $scope.erDanhGiaUpdate = e.data
+                alertify.error("Cập nhật đánh giá sản phẩm thất bại")
+            })
+        },function (){
+            alertify.error("Cập nhật đánh giá sản phẩm thất bại")
+        })
 
+    }
+    $scope.thanhToan = function (ma){
+        $http.get("/thanh-toan/"+ma).then(r => {
+            location.href = r.data.vnPayUrl
+        })
+    }
 })

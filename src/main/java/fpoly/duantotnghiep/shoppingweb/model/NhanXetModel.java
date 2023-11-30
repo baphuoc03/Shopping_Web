@@ -41,4 +41,7 @@ public class NhanXetModel {
     @Column(name = "pheduyet")
     private Boolean pheDuyet;
 
+    @Column(name = "dachinhsua")
+    private Boolean chinhSua;
+
 }

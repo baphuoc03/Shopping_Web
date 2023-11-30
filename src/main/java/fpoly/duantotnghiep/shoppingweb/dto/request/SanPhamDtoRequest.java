@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class SanPhamDtoRequest {
     @NotBlank(message = "Không để trống mã")
     @Size(max = 20, message = "Mã không quá 20 ký tự")
-    @Pattern(regexp = "[A-Z0-9]*", message = "Mã sản phẩm không chỉ chứa số và chữ cái. Không bao gồm ký tự có dấu")
+    @Pattern(regexp = "[A-Z0-9]*", message = "Mã sản phẩm không chỉ chứa số và chữ cái in hoa. Không bao gồm ký tự có dấu")
     private String ma;
     @NotBlank(message = "Không để trống tên")
     @Size(max = 50, message = "Tên không quá 50 ký tự")
@@ -36,8 +36,9 @@ public class SanPhamDtoRequest {
     private String xuatXu;
     private String kieuDang;
     private String chatLieu;
-    @NotNull(message = "Không để trống giá")
+    @NotNull(message = "Không để trống giá bán")
     @Min(value = 10000, message = "Giá bán phải lớn hơn 10.000đ ")
+    @Max(value = 100000000, message = "Giá bán phải bé hơn 100.000.000đ ")
     private BigDecimal giaBan;
     private String moTa;
     private Date ngayTao;
@@ -60,7 +61,7 @@ public class SanPhamDtoRequest {
         moTa = model.getMoTa();
         ngayTao = model.getNgayTao();
         ngayCapNhat = model.getNgayCapNhat();
-        hienThi = model.getHienThi();
+        if(hienThi!=null) hienThi = model.getHienThi();
         anh = model.getImages().stream().map(i -> i.getTen()).collect(Collectors.toList());
         System.out.println(anh.size());
     }
@@ -129,5 +130,8 @@ public class SanPhamDtoRequest {
            if(file.get(0).getOriginalFilename().length()>0) this.anh = ImgUtil.addImages(file,"product");
         }
 
+    }
+    public void setterAng(List<String> file){
+        this.anh = file;
     }
 }

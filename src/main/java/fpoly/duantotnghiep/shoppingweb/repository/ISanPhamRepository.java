@@ -46,7 +46,7 @@ public interface ISanPhamRepository extends JpaRepository<SanPhamModel, String> 
     Page<SanPhamModel> getBanChay(Pageable pageable);
 
     @Query("""
-    SELECT s FROM SanPhamModel s WHERE s.giaBan > s.giaNiemYet and s.hienThi = true and s.trangThai = true
+    SELECT s FROM SanPhamModel s WHERE s.mucGiam IS NOT null and s.hienThi = true and s.trangThai = true
     ORDER BY s.giaNiemYet desc 
 """)
     Page<SanPhamModel> getKhuyenMai(Pageable pageable);

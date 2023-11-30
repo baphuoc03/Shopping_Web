@@ -33,7 +33,11 @@ public class NhanVienRestcontroller {
 
     @GetMapping("get-all")
     public ResponseEntity<Page<NhanVienDtoResponse>> getAllKhachHang(@RequestParam(defaultValue = "0")Integer page,
-                                                                     @RequestParam(defaultValue = "8")Integer limit){
+                                                                     @RequestParam(defaultValue = "8")Integer limit,
+                                                                     @RequestParam(required = false)String keyWord){
+        if(keyWord!=null){
+            return ResponseEntity.ok(nhanVienService.search(keyWord,page,limit));
+        }
         return ResponseEntity.ok(nhanVienService.getAll(page,limit));
     }
 
@@ -57,7 +61,7 @@ public class NhanVienRestcontroller {
         if(result.hasErrors()) return ValidateUtil.getErrors(result);
         return ResponseEntity.ok(nhanVienService.add(nhanVien));
     }
-    @PutMapping(value = "")
+    @PutMapping(value = "thong-tin-ca-nhan")
     public ResponseEntity<?> updateUer(@Valid @RequestPart("nhanVien") NhanVienDtoRequest nhanVien,
                                  BindingResult result,
                                     @RequestPart(value = "img",required = false) MultipartFile img) throws IOException {

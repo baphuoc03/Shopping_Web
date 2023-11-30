@@ -121,6 +121,10 @@ public class DonHangService implements IDonHangService {
             title = "Đơn hàng đã giao thành công";
             model.setNgayHoanThanh(new Date());
             messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn được giao thành công. Cảm ơn bạn đã mua hàng.";
+        }else if (trangThai == 5) {
+            subject = "Đơn hàng chưa đuọc thanh toán!";
+            title = "Đơn hàng của bạn chưa được thanh toán";
+            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn chưa được thanh toán.Vui lòng thanh toán đơn hàng của bạn.";
         }
 
 
@@ -344,5 +348,11 @@ public class DonHangService implements IDonHangService {
         donHangModel.setTrangThai(trangThai);
         return new DonHangDtoResponse(donHangResponsitory.saveAndFlush(donHangModel));
     }
+//    @Override
+//    public DonHangDtoResponse updateTrangThai1(String maDonHang,Integer trangThai){
+//        DonHangModel donHangModel = donHangResponsitory.findById(maDonHang).get();
+//        donHangModel.setTrangThai(trangThai);
+//        return new DonHangDtoResponse(donHangResponsitory.saveAndFlush(donHangModel));
+//    }
 }
 

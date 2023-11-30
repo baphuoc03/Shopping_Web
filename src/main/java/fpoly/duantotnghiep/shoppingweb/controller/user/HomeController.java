@@ -21,7 +21,7 @@ public class HomeController {
 
     @GetMapping("san-pham")
     public String sanPham() {
-        return "/user/sanPhamNguoiDung";
+        return "/user/sanPhamUser";
     }
 
     @GetMapping("san-pham/thuong-hieu/{id}")
