@@ -1,12 +1,16 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.NhanVienDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.SizeDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KhachHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.DiaChiModel;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
 import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
+import fpoly.duantotnghiep.shoppingweb.util.ImgUtil;
 import fpoly.duantotnghiep.shoppingweb.util.RandomUtil;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,12 +35,12 @@ public class KhachHangServiceImpl implements IKhachHangService {
 
     @Override
     public Page<KhachHangDtoResponse> getAll(Integer page, Integer limit) {
-        Pageable pageable = PageRequest.of(page, limit);
+        Pageable pageable = PageRequest.of(page,limit);
         Page<KhachHangModel> pageModel = khachHangRepository.findAll(pageable);
-
-        return new PageImpl<>(pageModel.getContent().stream().map(k -> new KhachHangDtoResponse(k)).collect(Collectors.toList()),
-                pageable, pageModel.getTotalElements());
+        return new PageImpl<>(pageModel.getContent().stream().map(n -> new KhachHangDtoResponse(n)).collect(Collectors.toList()),
+                pageable,pageModel.getTotalElements());
     }
+
 
     @Override
     public KhachHangDtoResponse findById(String username) {
@@ -62,8 +69,29 @@ public class KhachHangServiceImpl implements IKhachHangService {
 
     @Override
     public KhachHangDtoResponse update(KhachHangDTORequest khachHang, MultipartFile img) throws IOException {
-        return null;
+        KhachHangModel khachHangDefault = khachHangRepository.findById(khachHang.getUsername()).get();
+        khachHang.setPassword(khachHangDefault.getPassword());
+
+        if(img==null) {
+            if(khachHangDefault.getAnhDaiDien()!=null) ImgUtil.deleteImg(khachHangDefault.getAnhDaiDien(),"user");
+            khachHang.setAnhDaiDien(null);
+        }else{
+            if(!img.getOriginalFilename().equalsIgnoreCase(khachHang.getAnhDaiDien())){//add ảnh
+                byte[] bytes = img.getBytes();
+                String fileName = img.getOriginalFilename();
+                String name = khachHang.getUsername() + fileName.substring(fileName.lastIndexOf("."));
+                Path path = Paths.get("src/main/resources/images/user/" + name);
+                Files.write(path, bytes);
+                khachHang.setAnhDaiDien(name);
+            }else{
+                khachHang.setAnhDaiDien(img.getOriginalFilename());
+            }
+        }
+
+        KhachHangModel khachHangModel = khachHangRepository.save(khachHang.mapToModel());
+        return new KhachHangDtoResponse(khachHangModel);
     }
+
     @Override
     public void deleteByUsername(String username) {
         khachHangRepository.deleteById(username);

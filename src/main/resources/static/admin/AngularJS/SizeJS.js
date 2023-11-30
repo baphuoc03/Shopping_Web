@@ -25,7 +25,6 @@ app.controller("size-ctrl" ,function ($scope, $http){
             })
         }
 
-
     $scope.getSize = function (ma){
         var url ="/admin/size/chi-tiet" + "/" + ma;
         console.log(url)

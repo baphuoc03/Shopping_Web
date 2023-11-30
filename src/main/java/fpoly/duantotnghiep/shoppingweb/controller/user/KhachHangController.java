@@ -9,7 +9,7 @@ public class KhachHangController {
     public String viewThongTinUser(){
         return "/user/ThongTinKhachHang";
     }
-    @GetMapping("fomr")
+    @GetMapping("form")
     public String viewLogin(){
         return "/user/ThongTinKhachHang.html";
     }

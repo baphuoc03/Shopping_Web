@@ -194,13 +194,13 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 .then(function (response) {
                     let diaChi = response.data;
                     $scope.tenNguoiNhan = diaChi.nguoiNhan;
-                    $scope.soDienThoai = diaChi.soDienThoai;
+                    $scope.soDienThoai = diaChi.soDienThoai; 
                     $scope.email = diaChi.email;
                     $scope.diaChiChiTiet = diaChi.diaChiChiTiet;
                     $scope.thanhPhoCode = diaChi.thanhPhoCode;
                     // $scope.citys[indexCity].ProvinceName,
                     $scope.quanHuyenCode = diaChi.quanHuyenCode;
-
+    
                     // $scope.districts[indexDistrict].DistrictName,
                     $scope.xaPhuongCode = diaChi.xaPhuongCode;
                     // $scope.wards[indexWard].WardName,
