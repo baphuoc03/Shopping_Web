@@ -13,6 +13,7 @@ public interface VoucherService {
     public List<VoucherReponse> voucherInKhachHang(String username);
 
     public List<VoucherReponse> findVoucherSort(String sort);
+
     public void updateTrangThai();
 
     public List<VoucherReponse> voucherEligible();
@@ -37,7 +38,7 @@ public interface VoucherService {
 
     public void deleteVouchers(List<String> ids);
 
-    public void upddateSoLuong(int soLuong, String ma);
+    public Integer upddateSoLuong(int soLuong, String ma);
 
     List<KhachHangModel> findByUserNameIn(List<String> maKhachHang);
 

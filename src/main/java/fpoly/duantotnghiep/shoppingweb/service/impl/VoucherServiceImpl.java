@@ -3,7 +3,6 @@ package fpoly.duantotnghiep.shoppingweb.service.impl;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
-import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.VoucherRepository;
@@ -14,13 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,7 +70,7 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public Page<VoucherReponse> findAll(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<VoucherModel> pageModel = repository.findAll(pageable);
+        Page<VoucherModel> pageModel = repository.findAllVoucher(pageable);
         return pageModel.map(x -> new VoucherReponse(x));
     }
 
@@ -96,7 +93,39 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public void updateTrangThai(int trangThai, String id) {
-        this.repository.updateTrangThai(trangThai, id);
+        VoucherModel vc = repository.findById(id).get();
+        vc.setTrangThai(trangThai);
+        repository.save(vc);
+        if (vc.getDoiTuongSuDung() == 1 && vc.getKhachHang() != null) {
+            if (vc.getTrangThai() == 1) {
+                for (var mail : vc.getKhachHang()) {
+                    Context context = new Context();
+                    context.setVariable("voucher", vc);
+                    new Thread(() -> {
+                        try {
+                            EmailUtil.sendEmailWithHtml(mail.getEmail(), "TẠM DỪNG KÍCH HOẠT VOUCHER", "email/voucherHuy", context);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+
+                }
+            }
+            if (vc.getTrangThai() == 0) {
+                for (var mail : vc.getKhachHang()) {
+                    Context context = new Context();
+                    context.setVariable("voucher", vc);
+                    new Thread(() -> {
+                        try {
+                            EmailUtil.sendEmailWithHtml(mail.getEmail(), "HYDRA SNEAKER tặng bạn voucher giảm giá", "email/voucherTang", context);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+
+                }
+            }
+        }
     }
 
     @Override
@@ -106,6 +135,10 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public VoucherReponse addVoucher(VoucherRequest voucher) {
+        if (voucher.getNgayBatDau().after(new Date())) {
+            voucher.setTrangThai(1);
+        }
+        voucher.setTrangXoa(0);
         VoucherModel voucherModel = repository.save(voucher.maptoModel());
         if (voucher.getTrangThai() == 0) {
             if (voucherModel.getKhachHang() != null) {
@@ -119,7 +152,6 @@ public class VoucherServiceImpl implements VoucherService {
                             e.printStackTrace();
                         }
                     }).start();
-
                 }
             }
         }
@@ -128,7 +160,27 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public void deleteVoucher(String id) {
-        repository.deleteById(id);
+        VoucherModel vc = repository.findById(id).get();
+        vc.setTrangThaiXoa(1);
+        vc.setTrangThai(1);
+        if (vc.getTrangThai() == 0) {
+            if (vc.getKhachHang() != null) {
+                for (var mail : vc.getKhachHang()) {
+                    Context context = new Context();
+                    context.setVariable("voucher", vc);
+                    new Thread(() -> {
+                        try {
+                            EmailUtil.sendEmailWithHtml(mail.getEmail(), "TẠM DỪNG KÍCH HOẠT VOUCHER", "email/voucherHuy", context);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+
+                }
+            }
+        }
+        vc.setTrangThaiXoa(1);
+        repository.save(vc);
     }
 
     @Override
@@ -145,20 +197,16 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    @Scheduled(cron = "0 * * * * *")
     public void updateTrangThai() {
-        for (var vc : repository.findAll()) {
-            if (vc.getNgayKetThuc().after(new Date())) {
-                repository.updateTrangThai(2, vc.getMa());
-            }
-        }
-        System.out.println("oke oke ");
 
     }
 
     @Override
-    public void upddateSoLuong(int soLuong, String ma) {
-        this.repository.updateSoLuong(soLuong, ma);
+    public Integer upddateSoLuong(int soLuong, String ma) {
+        VoucherModel vcUpdateSl = repository.findById(ma).get();
+        vcUpdateSl.setSoLuong(soLuong);
+        vcUpdateSl = repository.save(vcUpdateSl);
+        return vcUpdateSl.getSoLuong();
     }
 
     @Override

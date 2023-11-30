@@ -26,8 +26,18 @@
                                     <ul class="navbar-nav me-auto">
                                     </ul>
                                     <form class="d-flex">
-                                        <button ng-click="create()" class="btn btn-primary" type="button">Lưu voucher
+                                        <button ng-click="create()"
+                                                class="btn btn-primary" type="button">Lưu voucher
                                         </button>
+                                        <button ng-click="updateTrangThai(1)"
+                                                ng-if="voucherAdd.trangThai == 0"
+                                                class="btn btn-primary" type="button"> Dừng kích hoạt
+                                        </button>
+                                        <button ng-click="updateTrangThai(0)"
+                                                style="margin-right: 10px" ng-if="voucherAdd.trangThai == 1"
+                                                class="btn btn-primary" type="button">Kích hoạt
+                                        </button>
+
                                     </form>
                                 </div>
                             </div>
@@ -245,7 +255,6 @@
                         <div class="card-header">
                             <h4 class="card-title">Danh sách khách hàng</h4>
                             <p class="form-text text-danger">{{erKhachHang}}</p>
-
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -282,7 +291,7 @@
 
                                     <tbody>
                                     <tr ng-repeat="kh in findAllKhachHang">
-                                        <td><input type="checkbox" ng-model="kh.selected"
+                                        <td><input type="checkbox"  ng-model="kh.selected"
                                                    ng-change="selectKhach(kh.username)"></td>
                                         <td>
                                             <!--                                        <img style="height: 70px; width: 70px;"-->

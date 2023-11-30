@@ -42,8 +42,8 @@ public class VoucherController {
         return "/admin/Voucher";
     }
     @GetMapping("/chi-tiet-voucher/{id}")
-    public String chiTietVoucher(@PathVariable String id) {
-        return "/admin/formVoucher";
+    public String chiTietVoucher() {
+        return "/admin/fromVoucher";
     }
     @GetMapping("/them-voucher")
     public String danhSa3() {

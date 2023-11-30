@@ -71,20 +71,21 @@ public class CheckoutController {
         List<VoucherModel> voucherInKhach = khRepository.findById(authen.getName()).get().getVoucher();
         return ResponseEntity.ok(voucherInKhach);
     }
+
     @GetMapping("thanh-toan/{ma}")
-    public Object ThanhToanHoaDon( HttpServletRequest request,  @PathVariable("ma") String ma)throws MessagingException{
+    public Object ThanhToanHoaDon(HttpServletRequest request, @PathVariable("ma") String ma) throws MessagingException {
 //        DonHangDtoResponse response = donHangService.checkOut(donHangDTORequest);
-         DonHangDtoResponse response =  donHangService.findByMa(ma);
-         String diachi = response.getDiaChiChiTiet();
+        DonHangDtoResponse response = donHangService.findByMa(ma);
+        String diachi = response.getDiaChiChiTiet();
         DonHangReponseUser donHangReponseUser = donHangService.findByMaUser(ma);
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-        String vnpayUrl = vnPayService.createOrder(ma, baseUrl, (response.getTongTien().intValue()*100)+"");
+        String vnpayUrl = vnPayService.createOrder(ma, baseUrl, (response.getTongTien().intValue() * 100) + "");
 //            HttpHeaders headers = new HttpHeaders();
 //            headers.add("Location", vnpayUrl);
 //            return new ResponseEntity<String>(headers,HttpStatus.FOUND);
-        Map<String,String> vnPayUrl = new HashMap<>();
-        vnPayUrl.put("vnPayUrl",vnpayUrl);
-        int paymentStatus =vnPayService.orderReturn(request,diachi);
+        Map<String, String> vnPayUrl = new HashMap<>();
+        vnPayUrl.put("vnPayUrl", vnpayUrl);
+        int paymentStatus = vnPayService.orderReturn(request, diachi);
         System.out.println(paymentStatus);
         System.out.println(vnpayUrl);
 //            if (paymentStatus == 1){
@@ -100,8 +101,11 @@ public class CheckoutController {
     public Object addHoaDon(@Valid @RequestBody DonHangDTORequest donHangDTORequest,
                             BindingResult result,
                             Authentication authentication, HttpServletRequest request) throws MessagingException {
-        if (donHangDTORequest.getPhuongThucThanhToan() != voucherService.findById1(donHangDTORequest.getVoucher()).getHinhThucThanhToan()) {
-            result.rejectValue("tienGiam", "erTongTien", "Voucher không thể sử dụng cho hình thức thanh toán này");
+
+        if (donHangDTORequest.getVoucher() != null && !donHangDTORequest.getVoucher().isBlank()) {
+            if (donHangDTORequest.getPhuongThucThanhToan() != voucherService.findById1(donHangDTORequest.getVoucher()).getHinhThucThanhToan()) {
+                result.rejectValue("tienGiam", "erTongTien", "Voucher không thể sử dụng cho hình thức thanh toán này");
+            }
         }
         if (result.hasErrors()) {
             return ValidateUtil.getErrors(result);
@@ -128,8 +132,15 @@ public class CheckoutController {
         });
 //        update cart and soluong voucher
         if (donHangDTORequest.getVoucher() != null && !donHangDTORequest.getVoucher().isBlank()) {
-            int soLuong = voucherService.findById(donHangDTORequest.getVoucher()).getSoLuong() - 1;
-            voucherService.upddateSoLuong(soLuong, donHangDTORequest.getVoucher());
+            VoucherModel voucherUpdateSL = voucherService.findById1(donHangDTORequest.getVoucher());
+            if (voucherUpdateSL.getDoiTuongSuDung() == 0) {
+                int soLuong = voucherService.findById(donHangDTORequest.getVoucher()).getSoLuong() - 1;
+                Integer soLuongKiemTra = voucherService.upddateSoLuong(soLuong, donHangDTORequest.getVoucher());
+                System.out.println("soLuong:" + soLuongKiemTra);
+                if (soLuongKiemTra == 0) {
+                    voucherService.updateTrangThai(1, donHangDTORequest.getVoucher());
+                }
+            }
         }
         gioHangService.removeAllProdcutInCart();
         //Thanh Toán Online
@@ -143,7 +154,7 @@ public class CheckoutController {
             Map<String, String> vnPayUrl = new HashMap<>();
             vnPayUrl.put("vnPayUrl", vnpayUrl);
             int paymentStatus = vnPayService.orderReturn(request, donHangDTORequest.getDiaChiChiTiet());
-            System.out.println(paymentStatus);
+
 //            if (paymentStatus == 1){
 //                donHangService.updateTrangThai1(response.getMa(), 2);
 //            } else {
@@ -153,11 +164,11 @@ public class CheckoutController {
         }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
     @PostMapping("/using-voucher")
     public ResponseEntity<?> giaGiam(@RequestBody Map<String, Object> request, BindingResult result) {
         VoucherReponse voucherResponse = voucherService.findById(request.get("voucher").toString());
         Double tongThanhToan = Double.parseDouble(request.get("tongThanhToan").toString());
-
         Double giaGiam = null;
         if (voucherResponse != null) {
             giaGiam = voucherResponse.getMucGiam();
@@ -170,7 +181,6 @@ public class CheckoutController {
         }
         return ResponseEntity.ok(giaGiam);
     }
-
 
 
     private String codeDonHang() {

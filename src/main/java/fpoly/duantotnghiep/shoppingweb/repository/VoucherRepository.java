@@ -15,16 +15,11 @@ import java.util.List;
 public interface VoucherRepository extends JpaRepository<VoucherModel, String> {
     Page<VoucherModel> findByMotaLike(String ten, Pageable pageable);
 
-//    @Query("SELECT kh  FROM KhachHangModel kh where kh.username = ?1")
-//    List<VoucherModel> voucherInKhachHang(String khachHang);
-
-    @Query("SELECT vc FROM VoucherModel vc WHERE vc.trangThai = 0 AND vc.doiTuongSuDung = 0 AND (CASE WHEN vc.doiTuongSuDung = 0 THEN vc.soLuong > 0 ELSE true END)")
+    @Query("SELECT vc FROM VoucherModel vc WHERE vc.trangThai = 0 AND vc.doiTuongSuDung = 0 AND vc.ngayBatDau <= current_timestamp ")
     List<VoucherModel> findVoucherHienThi();
 
-
-    @Query("SELECT vc  FROM VoucherModel vc where current_date not between vc.ngayBatDau  and vc.ngayKetThuc")
-    List<VoucherModel> findVoucherUpdateTrangThai();
-
+    @Query("SELECT vc  FROM VoucherModel vc where vc.trangThaiXoa = 0")
+    Page<VoucherModel> findAllVoucher(Pageable pageable);
 
     @Transactional
     @Modifying
@@ -32,14 +27,6 @@ public interface VoucherRepository extends JpaRepository<VoucherModel, String> {
             UPDATE VoucherModel v SET v.soLuong = ?1 WHERE v.ma = ?2
             """)
     int updateSoLuong(int soLuong, String id);
-
-    @Transactional
-    @Modifying
-    @Query("""
-            UPDATE VoucherModel v SET v.trangThai = ?1 WHERE v.ma = ?2
-            """)
-    int updateTrangThai(int trangThai, String id);
-
 
     List<VoucherModel> findAllByOrderByMucGiamAsc();
 
