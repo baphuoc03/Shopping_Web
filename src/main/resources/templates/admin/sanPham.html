@@ -114,19 +114,19 @@
                                                     </div>
                                                 </div>
                                             </li>
-                                            <div class="dropdown-divider"></div>
-                                            <li>
-                                                <b>Sắp xếp</b>
-                                                <div class="mb-3">
-                                                    <select class="form-control" ng-model="filterData.sort">
-                                                        <option></option>
-                                                        <option value="1">Giá bán giảm dần</option>
-                                                        <option value="2">Giá bán tăng dần</option>
-                                                        <option value="3">Tên a -> z</option>
-                                                        <option value="4">Tên z <- a</option>
-                                                    </select>
-                                                </div>
-                                            </li>
+<!--                                            <div class="dropdown-divider"></div>-->
+<!--                                            <li>-->
+<!--                                                <b>Sắp xếp</b>-->
+<!--                                                <div class="mb-3">-->
+<!--                                                    <select class="form-control" ng-model="filterData.sort">-->
+<!--                                                        <option></option>-->
+<!--                                                        <option value="1">Giá bán giảm dần</option>-->
+<!--                                                        <option value="2">Giá bán tăng dần</option>-->
+<!--                                                        <option value="3">Tên a -> z</option>-->
+<!--                                                        <option value="4">Tên z <- a</option>-->
+<!--                                                    </select>-->
+<!--                                                </div>-->
+<!--                                            </li>-->
                                             <div class="dropdown-divider"></div>
                                             <li>
                                                 <button class="btn btn-danger" type="button" style="float: left" ng-click="clearFilter()">Bỏ lọc</button>
@@ -169,9 +169,9 @@
 <!--                                    <td ng-click="getChiTietSP(p.ma)">{{p.giaNiemYet}}</td>-->
                                     <td ng-click="getChiTietSP(p.ma)">{{p.soLuong}}</td>
                                     <td>
-                                        <input type="checkbox" id="switch{{p.ma}}" switch="none" ng-if="p.hienThi == 1"
+                                        <input type="checkbox" id="switch{{p.ma}}" switch="none" ng-if="p.hienThi == 1" th:disabled="${!hasAdmin}"
                                                checked ng-click="updateTrangThaiHienThi('switch' + p.ma,p.ma)"/>
-                                        <input type="checkbox" id="switch{{p.ma}}" switch="none" ng-if="p.hienThi == 0"
+                                        <input type="checkbox" id="switch{{p.ma}}" switch="none" ng-if="p.hienThi == 0" th:disabled="${!hasAdmin}"
                                                ng-click="updateTrangThaiHienThi('switch' + p.ma,p.ma)"/>
                                         <label for="switch{{p.ma}}" data-on-label="Bật" data-off-label="Tắt"></label>
                                     </td>
@@ -181,12 +181,14 @@
                                                 ...
                                             </span>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item"
+                                                <li><a class="dropdown-item" th:if="${!hasAdmin}"
+                                                       href="/admin/san-pham/xem-chi-tiet/{{p.ma}}">Xem chi tiết</a></li>
+                                                <li><a class="dropdown-item" th:if="${hasAdmin}"
                                                        href="/admin/san-pham/update/{{p.ma}}">Sửa</a></li>
                                                 <li><span class="dropdown-item" style="cursor: pointer"
-                                                          ng-click="delete(p.ma)">Xóa</span></li>
+                                                          ng-click="delete(p.ma)" th:if="${hasAdmin}">Xóa</span></li>
                                                 <li><a class="dropdown-item"
-                                                       href="/admin/nhan-xet/{{p.ma}}">Nhận xét</a></li>
+                                                       href="/admin/nhan-xet/{{p.ma}}" th:if="${hasAdmin}">Nhận xét</a></li>
                                             </ul>
                                         </div>
                                     </td>

@@ -214,13 +214,13 @@
                             <span data-key="t-ecommerce">Thuộc tính/phân loại</span>
                         </a>
                         <ul class="sub-menu" aria-expanded="false">
-                            <li><a th:href="@{/admin/mau-sac}">Màu Sắc</a></li>
-                            <li><a th:href="@{/admin/dong-san-pham}" data-key="t-product-detail">Dòng Sản
+                            <li th:if="${hasAdmin}"><a th:href="@{/admin/mau-sac}">Màu Sắc</a></li>
+                            <li th:if="${hasAdmin}"><a th:href="@{/admin/dong-san-pham}" data-key="t-product-detail">Dòng Sản
                                 Phẩm</a></li>
-                            <li><a th:href="@{/admin/kieu-dang}" data-key="t-orders">Kiểu Dáng</a></li>
+                            <li th:if="${hasAdmin}"><a th:href="@{/admin/kieu-dang}" data-key="t-orders">Kiểu Dáng</a></li>
                             <li><a th:href="@{/admin/chat-lieu}" data-key="t-customers">Chất Liệu</a></li>
                             <li><a th:href="@{/admin/size}" data-key="t-cart">Size</a></li>
-                            <li><a th:href="@{/admin/thuong-hieu}" data-key="t-cart">Thương Hiệu</a></li>
+                            <li th:if="${hasAdmin}"><a th:href="@{/admin/thuong-hieu}" data-key="t-cart">Thương Hiệu</a></li>
                         </ul>
                     </li>
 
@@ -233,7 +233,7 @@
                     <!-- Người dùng -->
                     <li class="menu-title" data-key="t-pages">Tài Khoản</li>
 
-                    <li >
+                    <li th:if="${hasAdmin}">
                         <a th:href="@{/admin/nhan-vien}">
                             <i data-feather="layout"></i>
                             <span data-key="t-horizontal">Nhân Viên</span>
@@ -246,15 +246,15 @@
                         </a>
                     </li>
                     <!-- Ưu đãi -->
-                    <li class="menu-title" data-key="t-pages">Ưu Đãi</li>
+                    <li th:if="${hasAdmin}" class="menu-title" data-key="t-pages">Ưu Đãi</li>
 
-                    <li >
+                    <li th:if="${hasAdmin}">
                         <a th:href="@{/admin/khuyen-mai}">
                             <i data-feather="layout"></i>
                             <span data-key="t-horizontal">Khuyến Mại</span>
                         </a>
                     </li>
-                    <li >
+                    <li th:if="${hasAdmin}">
                         <a th:href="@{/admin/voucher}">
                             <i data-feather="layout"></i>
                             <span data-key="t-horizontal">Voucher</span>

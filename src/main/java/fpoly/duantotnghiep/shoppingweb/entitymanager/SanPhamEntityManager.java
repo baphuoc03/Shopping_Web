@@ -109,7 +109,7 @@ public class SanPhamEntityManager {
     }
 
     public Page<SanPhamDtoResponse> filterMultiplePropertiesInUser(SanPhamDtoFilter sanPham, Integer pageNumber, Integer limit){
-        StringBuilder jpql = new StringBuilder("select s FROM SanPhamModel s WHERE s.trangThai = true ");
+        StringBuilder jpql = new StringBuilder("select s FROM SanPhamModel s WHERE s.trangThai = true and s.hienThi = true");
 
         if(sanPham.getTen() != null){
             jpql.append(" And (s.ten like '%"+sanPham.getTen()+"%')");

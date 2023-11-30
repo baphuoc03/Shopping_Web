@@ -89,7 +89,7 @@ public class SanPhamController {
         return "redirect:/admin/san-pham";
     }
 
-    @GetMapping("update/{ma}")
+    @GetMapping({"update/{ma}","xem-chi-tiet/{ma}"})
     public String viewUpdate(Model model,
                              @PathVariable("ma") String ma) {
 //        request.setAttribute("sanPham", new SanPhamDtoRequest());

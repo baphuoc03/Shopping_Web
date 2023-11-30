@@ -6,6 +6,8 @@ import fpoly.duantotnghiep.shoppingweb.service.seucrity.UserAdminService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -15,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @Order(1)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityAdminConfig {
     private final UserAdminService userAdminService;
 
@@ -31,14 +34,16 @@ public class SecurityAdminConfig {
                 "/admin/mau-sac/find-all","/admin/chat-lieu/find-all","/admin/thuong-hieu/find-all","/admin/xuat-xu/find-all","/admin/kieu-dang/find-all"};
         String[] adminUrl = {"/admin/san-pham/add","/admin/san-pham/update/**","/admin/nhan-xet/**","/admin/san-pham/delete/**"
                             ,"/admin/san-pham/update-TrangThai-HienThi/**","/admin/nhan-vien/**","/admin/kieu-dang/**",
-                            "/admin/mau-sac/**","/admin/dong-san-pham/**","/admin/thuong-hieu/**"};
+                            "/admin/mau-sac/**","/admin/dong-san-pham/**","/admin/thuong-hieu/**","/admin/thong-ke/**"};
         http    .securityMatcher("/admin/**")
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests(requests -> requests
                                 .requestMatchers(adminPermitAll).permitAll()
 //                        .requestMatchers("/detail").hasAnyAuthority("STAFF","ADMIN")
-                                .requestMatchers("/admin/nhan-vien/thong-tin-ca-nhan","/admin/nhan-vien/getUser").hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
+                                .requestMatchers("/admin/nhan-vien/thong-tin-ca-nhan","/admin/nhan-vien/getUser","/admin/nhan-vien/is-admin")
+                                .hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
+
                                 .requestMatchers(adminUrl).hasAuthority(Roles.ADMIN.name())
                                 .requestMatchers("/admin/**","/admin/nhan-vien/thong-tin-ca-nhan").hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
                                 .anyRequest().permitAll()
