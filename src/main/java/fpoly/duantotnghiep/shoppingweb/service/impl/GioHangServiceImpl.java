@@ -1,28 +1,17 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.GioHangDtoReponse;
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.KieuDangDTOResponse;
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.ThuongHieuDtoResponse;
-import fpoly.duantotnghiep.shoppingweb.dto.request.GioHangDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.Cart;
-import fpoly.duantotnghiep.shoppingweb.model.KieuDangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IChiTietSanPhamRepository;
-import fpoly.duantotnghiep.shoppingweb.repository.IDonHangRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.IGioHangRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IGioHangService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,8 +23,6 @@ public class GioHangServiceImpl implements IGioHangService {
     private IKhachHangRepository khachHangRepository;
     @Autowired
     private IChiTietSanPhamRepository chiTietSanPhamRepository;
-    @Autowired
-    private IDonHangRepository donHangRepository;
 
     private final Cart cart = new Cart();
 
@@ -78,6 +65,14 @@ public class GioHangServiceImpl implements IGioHangService {
     public List<GioHangDtoReponse> laySpTrongGio(){
         return cart.getProductInCart().entrySet().stream().map(m -> new GioHangDtoReponse(repository.findById(m.getKey()).get(),m.getValue()))
                 .collect(Collectors.toList());
+    }
+    @Override
+    public Boolean checkSanPhamTrongGio(String idCTSP){
+        return cart.getProductInCart().containsKey(idCTSP);
+    }
+    @Override
+    public Integer getSoLuong(String idCTSP){
+        return cart.getProductInCart().get(idCTSP);
     }
 
 }

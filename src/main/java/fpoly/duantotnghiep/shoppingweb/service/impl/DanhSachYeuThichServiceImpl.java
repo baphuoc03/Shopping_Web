@@ -19,9 +19,9 @@ public class DanhSachYeuThichServiceImpl implements IDanhSachYeuThichService {
     @Autowired
     IDanhSachYeuThichRepository repo;
 
-    public List<DanhSachYeuThichResponse> findAll() {
-        return repo.findAll().stream()
-                .map(d -> new DanhSachYeuThichResponse(d))
+    public List<DanhSachYeuThichResponse> findAll(String u) {
+        return repo.SearchDSYTByKhach(u).stream()
+                .map(d -> new DanhSachYeuThichResponse())
                 .collect(Collectors.toList());
     }
 
@@ -34,6 +34,7 @@ public class DanhSachYeuThichServiceImpl implements IDanhSachYeuThichService {
         DanhSachYeuThichModel model = repo.findById(s).get();
         return new DanhSachYeuThichResponse(model);
     }
+
 
     public boolean existsById(String s) {
         return repo.existsById(s);

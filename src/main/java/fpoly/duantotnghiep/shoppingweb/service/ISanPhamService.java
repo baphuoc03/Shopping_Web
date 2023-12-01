@@ -19,6 +19,8 @@ public interface ISanPhamService {
 
     Page<SanPhamDtoResponse> paginationInUser(Integer page, Integer limit);
 
+    Page<SanPhamDtoResponse> paginationInUserByThuongHieu(Integer page, Integer limit, String idThuongHieu);
+
     SanPhamDtoResponse findByMa(String ma);
 
     SanPhamDtoRequest findDtoRequetsByMa(String ma);
@@ -42,7 +44,7 @@ public interface ISanPhamService {
     Integer updateTrangThaiHIenThi(Boolean trangThai, String ma);
 
 
-    Page<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter, Integer pageNumber, Integer limt);
+    Page<SanPhamDtoResponse>  filter(SanPhamDtoFilter sanPhamDtoFilter, Integer pageNumber, Integer limt);
 
     Page<SanPhamDtoResponse> filterInUser(SanPhamDtoFilter sanPhamDtoFilter, Integer pageNumber, Integer limt);
 

@@ -4,17 +4,22 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
+import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
 import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
+import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 
@@ -26,29 +31,18 @@ import java.util.Map;
 public class DonHangRescontroller {
     @Autowired
     private IDonHangService donHangService;
+    @Autowired
+    private DonHangEntityManager donHangEntityManager;
 
     @GetMapping("get-by-trangthai")
     public Page<DonHangDtoResponse> getChuaXacNhan(@RequestParam("trangThai") Integer trangThai,
                                                    @RequestParam(defaultValue = "0") Integer pageNumber,
-                                                   @RequestParam(defaultValue = "10") Integer limit) {
-        return donHangService.getAllByTrangThai(trangThai, limit, pageNumber);
+                                                   @RequestParam(defaultValue = "10") Integer limit,
+                                                   @RequestParam(required = false)String sdt) {
+        return donHangEntityManager.getDonHangByTrangThai(trangThai, pageNumber , limit, sdt);
     }
 
-    @GetMapping("get-by-trangThai-khachHang")
-    public ResponseEntity<List<DonHangReponseUser>> getByKhachHangAndTrangThai(@RequestParam("trangThai") Integer trangThai,
-                                                                               Authentication authentication) {
-        if (authentication != null) {
-            String khachHang = authentication.getName();
-            return ResponseEntity.ok(donHangService.getAllByKhachHangAndTrangThai(khachHang, trangThai));
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
 
-    @PutMapping("huy-don-hang-user")
-    public ResponseEntity<?> huyDonHangUser(@RequestBody String lyDoHuy, @RequestParam String ma) throws MessagingException {
-        donHangService.huyDonHangUser(ma, lyDoHuy);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
 
     @GetMapping("/{ma}")
     public ResponseEntity<DonHangDtoResponse> getByMa(@PathVariable("ma") String ma) {
@@ -87,8 +81,16 @@ public class DonHangRescontroller {
 
     @PutMapping("")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})
-    public ResponseEntity<?> updateDonHang(@RequestPart("donHang") DonHangDTORequest request,
+    public ResponseEntity<?> updateDonHang(@Valid @RequestPart("donHang") DonHangDTORequest request,
+                                           BindingResult result,
                                            @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products) {
+        if(products.size()<=0){
+            result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn hàng"));
+        }
+
+        if(result.hasErrors()){
+            return ValidateUtil.getErrors(result);
+        }
         if (!donHangService.existsByMa(request.getMa())) {
             return ResponseEntity.notFound().build();
         }

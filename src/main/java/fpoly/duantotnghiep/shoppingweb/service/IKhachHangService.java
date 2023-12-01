@@ -16,9 +16,17 @@ public interface IKhachHangService {
 
     Page<KhachHangDtoResponse> getAll(Integer page, Integer limit);
 
+    Page<KhachHangDtoResponse> search(String keyWord, Integer page, Integer limit);
+
+    List<KhachHangDtoResponse> getAllFromVoucher();
+
+
     KhachHangDtoResponse findById(String username);
+
     List<DiaChiModel> diaChiByTaiKhoan(String taiKhoan);
+
     Boolean exsistsByUsername(String username);
+
     KhachHangDtoResponse add(KhachHangDTORequest khachHang) throws MessagingException;
 
     KhachHangDtoResponse update(KhachHangDTORequest khachHang);
@@ -26,5 +34,7 @@ public interface IKhachHangService {
     KhachHangDtoResponse update(KhachHangDTORequest khachHang, MultipartFile img) throws IOException;
 
     void deleteByUsername(String username);
+
+    List<KhachHangModel> findByUserNameIn(List<String> maKhachHang);
 //    List<DiaChiModel> diaChiByTaiKhoan(String taiKhoan);
 }

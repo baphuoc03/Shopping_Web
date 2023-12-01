@@ -4,6 +4,8 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.model.DiaChiModel;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.KhuyenMaiModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +16,13 @@ public interface IKhachHangRepository extends JpaRepository<KhachHangModel, Stri
     @Query("SELECT  kh.danhSachDiaChi FROM KhachHangModel kh where kh.username = :taiKhoan")
     List<DiaChiModel> findAllDiaChiByTaiKhoan(@Param("taiKhoan") String taiKhoan);
 
+
+    List<KhachHangModel> findByUsernameIn(List<String> ma);
+
+    @Query("""
+    SELECT k FROM KhachHangModel k WHERE k.hoVaTen LIKE %?1% OR k.soDienThoai LIKE %?1%
+""")
+    Page<KhachHangModel> search(String keyWord, Pageable pageable);
 
 
 }

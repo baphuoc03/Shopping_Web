@@ -43,6 +43,20 @@ public class KhachHangServiceImpl implements IKhachHangService {
 
 
     @Override
+    public Page<KhachHangDtoResponse> search(String keyWord, Integer page, Integer limit){
+        Pageable pageable = PageRequest.of(page, limit);
+        Page<KhachHangModel> pageModel = khachHangRepository.search(keyWord,pageable);
+
+        return new PageImpl<>(pageModel.getContent().stream().map(k -> new KhachHangDtoResponse(k)).collect(Collectors.toList()),
+                pageable, pageModel.getTotalElements());
+    }
+
+    @Override
+    public List<KhachHangDtoResponse> getAllFromVoucher() {
+        return khachHangRepository.findAll().stream().map(x -> new KhachHangDtoResponse(x)).collect(Collectors.toList());
+    }
+
+    @Override
     public KhachHangDtoResponse findById(String username) {
         return new KhachHangDtoResponse(khachHangRepository.findById(username).get());
     }
@@ -54,8 +68,8 @@ public class KhachHangServiceImpl implements IKhachHangService {
 
     @Override
     public KhachHangDtoResponse add(KhachHangDTORequest khachHang) throws MessagingException {
-            KhachHangModel khachHangModel = khachHangRepository.save(khachHang.mapToModel());
-            return new KhachHangDtoResponse(khachHangModel);
+        KhachHangModel khachHangModel = khachHangRepository.save(khachHang.mapToModel());
+        return new KhachHangDtoResponse(khachHangModel);
     }
 
     @Override
@@ -95,6 +109,11 @@ public class KhachHangServiceImpl implements IKhachHangService {
     @Override
     public void deleteByUsername(String username) {
         khachHangRepository.deleteById(username);
+    }
+
+    @Override
+    public List<KhachHangModel> findByUserNameIn(List<String> maKhachHang) {
+        return khachHangRepository.findByUsernameIn(maKhachHang);
     }
 
     @Override

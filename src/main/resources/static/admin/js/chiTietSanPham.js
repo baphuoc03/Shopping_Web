@@ -51,27 +51,32 @@ app.controller('chiTietSP-ctrl', function ($scope, $http) {
                 $scope.removeSizeInForm(sizesInForm);
                 $scope.items = $scope.items.concat(r.data);
                 $scope.form.soLuong = ""
-                alert("Thêm thành công "+sizesInForm.length+" chi tiết sản phẩm")
+                alertify.success("Thêm thành công "+sizesInForm.length+" chi tiết sản phẩm")
             }).catch(e => {
                 document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
-                document.getElementById("eSoLuong").innerText =  e.data.soLuong
+                document.getElementById("eSoLuong").innerText =  e.data.soLuong == undefined ? "" : e.data.soLuong
                 console.log(e)
+                alertify.error("Thêm thất bại")
             })
     }
 
     //Xóa
     $scope.delete = function (item){
         console.log(item)
-        if(confirm("Xóa chi tiết sản phẩm size "+item.size)){
+        alertify.confirm("Xóa chi tiết sản phẩm size "+item.size, function () {
             $http.delete("/admin/san-pham/"+idSP+"/delete/"+item.id).then(r => {
                 let index = $scope.items.findIndex(i => i.id == item.id);
                 $scope.items.splice(index,1);
-                alert("Xóa thành công chi tiết sản phẩm size "+item.size);
+                $scope.getSizes();
+                alertify.success("Xóa thành công chi tiết sản phẩm size "+item.size);
             }).catch(e => {
-                alert("Xóa thất bại!!!");
+                alertify.error("Xóa thất bại")
                 console.log(e);
             })
-        }
+
+        }, function () {
+            alertify.error("Xóa thất bại")
+        })
     }
 
     //Cập nhật
@@ -80,18 +85,21 @@ app.controller('chiTietSP-ctrl', function ($scope, $http) {
         console.log($scope.itemUpdate)
     }
     $scope.update = function (){
-        if(confirm("Cập nhật chi tiết sản phẩm size "+$scope.itemUpdate.size+" ?")){
-            // $scope.itemUpdate.sanPham = idSP
-            $http.put("/admin/san-pham/"+idSP+"/update",$scope.itemUpdate).then(r =>{
-                let index = $scope.items.findIndex(i => i.id == $scope.itemUpdate.id)
-                $scope.items[index] = r.data
-                console.log("cl", $("#cancelModal").click())
-                alert("Cập nhật thành công chi tiết sản phẩm size "+$scope.itemUpdate.size);
-            }).catch(e => {
-                document.getElementById("eSoLuongUpdate").innerText = e.data.soLuong
-                console.log(e)
+            alertify.confirm("Cập nhật chi tiết sản phẩm size "+$scope.itemUpdate.size+" ?", function () {
+                // $scope.itemUpdate.sanPham = idSP
+                $http.put("/admin/san-pham/"+idSP+"/update",$scope.itemUpdate).then(r =>{
+                    let index = $scope.items.findIndex(i => i.id == $scope.itemUpdate.id)
+                    $scope.items[index] = r.data
+                    console.log("cl", $("#cancelModal").click())
+                    alertify.success("Cập nhật thành công số lượng size "+$scope.itemUpdate.size)
+                }).catch(e => {
+                    document.getElementById("eSoLuongUpdate").innerText = e.data.soLuong
+                    console.log(e)
+                    alertify.error("Cập nhật thất bại")
+                })
+            }, function () {
+                alertify.error("Cập nhật thất bại")
             })
-        }
     }
     $scope.updateSlInTable = function (soLuong,id){
         console.log(id)
@@ -99,10 +107,12 @@ app.controller('chiTietSP-ctrl', function ($scope, $http) {
         $scope.itemUpdate.soLuong = parseInt(soLuong);
         console.log($scope.itemUpdate)
         $http.put("/admin/san-pham/"+idSP+"/update",$scope.itemUpdate).then(r =>{
-            console.log(r.data)
+            alertify.success("Cập nhật số lượng thành công")
         }).catch(e => {
-            alert(e.data.soLuong)
-            console.log(e)
+            $http.get("/admin/san-pham/"+idSP+"/getSoLuong/"+id).then(r => {
+                document.getElementById(id+"").value = r.data.soLuong
+            })
+            alertify.error(e.data.soLuong)
         })
     }
 

@@ -7,10 +7,11 @@ app.controller('ctrl', function ($scope, $http) {
     $scope.totalPage = 0;
     $scope.pageNumbers = [];
     $scope.pageNumber = 0;
+    $scope.keyWord = ""
 
     $scope.getAll = function (page){
         $scope.pageNumber = page
-        $http.get("/admin/nhan-vien/get-all?page="+page).then(r =>{
+        $http.get("/admin/nhan-vien/get-all?page="+page+"&keyWord="+$scope.keyWord).then(r =>{
             $scope.nhanVien = r.data.content;
             $scope.totalPage = r.data.totalPages;
             $scope.getPageNumbers(r.data.totalPages)
@@ -36,8 +37,9 @@ app.controller('ctrl', function ($scope, $http) {
         $http.put("/admin/nhan-vien/update",$scope.nhanVienDetail).then(r => {
             let index = $scope.nhanVien.findIndex(n => n.username == $scope.nhanVienDetail.username);
             $scope.nhanVien[index] = $scope.nhanVienDetail
-            alert("Cập nhật thành công");
+            alertify.success("Cập nhật nhân viên thành công")
         }).catch(e => {
+            alertify.error("Cập nhật nhân viên thất bại")
             document.getElementById("hoVaTenPutER").innerText = e.data.hoVaTen == undefined ? "" : e.data.hoVaTen;
             document.getElementById("soDienThoaiPutER").innerText = e.data.soDienThoai == undefined ? "" : e.data.soDienThoai;
             document.getElementById("vaiTroPutER").innerText = e.data.vaiTro == undefined ? "" : e.data.vaiTro;
@@ -50,7 +52,9 @@ app.controller('ctrl', function ($scope, $http) {
             $scope.nhanVienAdd = {gioiTinh : null};
             $('#viewAdd').modal('hide');
             $("#cancelModal").click()
+            alertify.success("Thêm nhân viên thành công")
         }).catch(e => {
+            alertify.error("Thêm nhân viên thất bại")
             document.getElementById("usernameAddER").innerText = e.data.username == undefined ? "" : e.data.username;
             document.getElementById("hoVaTenAddER").innerText = e.data.hoVaTen == undefined ? "" : e.data.hoVaTen;
             document.getElementById("soDienThoaiAddER").innerText = e.data.soDienThoai == undefined ? "" : e.data.soDienThoai;
@@ -63,7 +67,7 @@ app.controller('ctrl', function ($scope, $http) {
         document.getElementById(id).innerText = ""
     }
     $scope.deleteByUsername = function (username){
-        if(confirm("Xóa nhân viên "+username)){
+        alertify.confirm("Xóa nhân viên?" , function () {
             $http.delete("/admin/nhan-vien/"+username).then(r =>{
 
                 if($scope.nhanVien.length==1){
@@ -71,10 +75,12 @@ app.controller('ctrl', function ($scope, $http) {
                 }
                 $scope.getAll($scope.pageNumber);
 
-                alert("Xóa thành công");
+                alertify.success("Xóa nhân viên thành công")
             }).catch(e => {
-                alert("Xóa thất bại!")
+                alertify.error("Xóa nhân viên thất bại")
             })
-        }
+        }, function () {
+            alertify.error("Xóa nhân viên thất bại")
+        })
     }
 })

@@ -68,6 +68,21 @@ public class SanPhamServiceImpl implements ISanPhamService {
         return pageDto;
     }
 
+    @Override
+    public Page<SanPhamDtoResponse> paginationInUserByThuongHieu(Integer page, Integer limit,String idThuongHieu) {
+        Pageable pageable = PageRequest.of(page, limit);
+        List<SanPhamDtoResponse> pageContent = sanPhamRepository.findAll().stream()
+                .filter(s -> s.getTrangThai() == true)
+                .filter(s -> s.getHienThi() == true)
+                .filter(s -> s.getDongSanPham() != null)
+                .filter(s -> s.getDongSanPham().getThuongHieu().getId().equals(idThuongHieu))
+                .map(s -> new SanPhamDtoResponse(s))
+                .collect(Collectors.toList());
+        Page<SanPhamDtoResponse> pageDto = new PageImpl<>(pageContent.stream().skip(pageable.getOffset()).limit(limit).collect(Collectors.toList())
+                , pageable, pageContent.size());
+        return pageDto;
+    }
+
 
     @Override
     public SanPhamDtoResponse findByMa(String ma) {
@@ -84,7 +99,9 @@ public class SanPhamServiceImpl implements ISanPhamService {
     @Override
     public List<SanPhamDtoResponse> saveAll(List<SanPhamDtoRequest> sanPham) {
 
-        List<SanPhamModel> entities = sanPham.stream().map(s -> s.mapToModel()).collect(Collectors.toList());
+        List<SanPhamModel> entities = sanPham.stream().map(s -> s.mapToModel())
+                                .peek(s -> s.setHienThi(false))
+                                .collect(Collectors.toList());
 
         entities = sanPhamRepository.saveAll(entities);
 
@@ -105,6 +122,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
     public SanPhamDtoResponse save(SanPhamDtoRequest entity) {
         SanPhamModel model = entity.mapToModel();
         model.setGiaNiemYet(entity.getGiaBan());
+        model.setHienThi(false);
         List<AnhModel> imgs = model.getImages();
         model.setTrangThai(true);
         model = sanPhamRepository.save(model);
@@ -127,6 +145,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
         SanPhamModel sanPhamOld = sanPhamRepository.findById(model.getMa()).get();
         BigDecimal giamGia = sanPhamOld.getGiaBan().subtract(sanPhamOld.getGiaNiemYet());
         model.setGiaNiemYet(model.getGiaBan().subtract(giamGia));
+        model.setHienThi(sanPhamOld.getHienThi());
 
         model.setNgayTao(sanPhamOld.getNgayTao());
 

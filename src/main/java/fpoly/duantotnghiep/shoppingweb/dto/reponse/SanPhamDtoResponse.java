@@ -35,6 +35,9 @@ public class SanPhamDtoResponse {
     private List<String> anh;
     private Long soLuong;
 
+    private Float mucGiam;
+    private String loaiGiam;
+
     public SanPhamDtoResponse(SanPhamModel model){
         ma = model.getMa();
         ten = model.getTen();
@@ -44,7 +47,7 @@ public class SanPhamDtoResponse {
         xuatXu = model.getXuatXu() == null ? "" : model.getXuatXu().getTen();
         kieuDang = model.getKieuDang()== null ? "" : model.getKieuDang().getTen();
         chatLieu = model.getChatLieu()== null ? "" : model.getChatLieu().getTen();
-        giaNiemYet = model.getGiaNiemYet();
+        giaNiemYet = model.getDonGiaSauGiam();
         giaBan = model.getGiaBan();
         moTa = model.getMoTa();
         ngayTao = model.getNgayTao();
@@ -57,5 +60,9 @@ public class SanPhamDtoResponse {
                 .collect(Collectors.toList());
 
         soLuong = model.getSoLuongSanPham();
+
+        if(model.getMucGiam() != null) mucGiam = model.getMucGiam();
+        if(model.getLoaiGiam() != null)loaiGiam = model.getLoaiGiam();
     }
+
 }

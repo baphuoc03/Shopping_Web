@@ -1,3 +1,5 @@
+
+
 var app = angular.module('product-admin', []);
 app.controller('ctrl', function ($scope, $http) {
 
@@ -9,6 +11,8 @@ app.controller('ctrl', function ($scope, $http) {
     $scope.pageNumbers = [];
     $scope.pageNumber = 0;
     var isfilter = false;
+
+
 
     $http.get("/admin/san-pham/get-all").then(r => {
         $scope.items = r.data.content;
@@ -51,9 +55,9 @@ app.controller('ctrl', function ($scope, $http) {
     $scope.delete = function (ma){
 
 
-        if(confirm("Xóa sản phẩm? ")){
+        alertify.confirm("Xóa sản phẩm?", function () {
             $http.delete("/admin/san-pham/delete/"+ma).then(r => {
-
+                alertify.success("Xóa thành công")
                 if ($scope.pageNumber == $scope.totalPage - 1) {
                     if ($scope.items.length == 1 && $scope.pageNumber > 0) {
                         $scope.pageNumber -=1;
@@ -63,12 +67,13 @@ app.controller('ctrl', function ($scope, $http) {
 
                 $scope.getPageNumbers($scope.totalPage)
                 $scope.getAll($scope.pageNumber)
-                alert("Xóa thành công")
             }).catch(e => {
-                alert("Lỗi!!!")
+                alertify.error("Xóa thất bại")
                 console.log(e)
             });
-        }
+        }, function () {
+            alertify.error("Xóa thất bại")
+        })
     }
 
     $scope.getChiTietSP = function (ma){
@@ -78,8 +83,9 @@ app.controller('ctrl', function ($scope, $http) {
     $scope.updateTrangThaiHienThi = function (switchId,maSP){
         let trangThai = document.getElementById(switchId).checked
         $http.put("/admin/san-pham/update-TrangThai-HienThi/"+maSP,trangThai).then(r => {
+            alertify.success("Cập nhật thành công")
         }).catch(e => {
-            alert("Lỗi!!!")
+            alertify.error("Cập nhật thất bại")
             document.getElementById(switchId).checked = trangThai == true ? false : true
         });
     }
@@ -109,6 +115,37 @@ app.controller('ctrl', function ($scope, $http) {
 
     $scope.filter = function (filterData){
         console.log(filterData)
+        console.log(isNaN(filterData.giaBan))
+        if(filterData.giaBan != undefined){
+            if(isNaN(filterData.giaBan)){
+                alertify.error("Giá min phải là số!!")
+                return
+            }else{
+                if(filterData.giaBan < 10000){
+                    alertify.error("Giá min phải > 10.000đ!!")
+                    return
+                }
+            }
+        }
+        if(filterData.giaMax != undefined){
+            if(isNaN(filterData.giaMax)){
+                alertify.error("Giá max phải là số!!")
+                return
+            }else{
+                if(filterData.giaMax > 100000000){
+                    alertify.error("Giá max phải < 100.000.000đ !!")
+                    return
+                }else{
+                    if(filterData.giaBan != undefined){
+                        if(!isNaN(filterData.giaBan) && filterData.giaBan > filterData.giaMax){
+                            alertify.error("Giá max phải > giá min!!")
+                            return
+                        }
+                    }
+                }
+            }
+        }
+
         $scope.pageNumber = 0
         $scope.filterDto = filterData
         $scope.pageNumbers = []
@@ -229,6 +266,28 @@ app.controller('ctrl', function ($scope, $http) {
         document.getElementById("sortAcount").className = "bx bx-sort";
     }
 
+
+    $scope.toastSuccess = function (text) {
+
+        $.toast({
+            heading: 'Thành công',
+            text: text,
+            position: 'top-right',
+            icon: 'success',
+            stack: false
+        })
+    }
+    // $scope.toastSuccess("Thành công")
+    $scope.toastError = function (text) {
+
+        $.toast({
+            heading: 'Thành công',
+            text: text,
+            position: 'top-right',
+            icon: 'error',
+            stack: false
+        })
+    }
 
 });
 

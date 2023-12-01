@@ -13,13 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface VoucherRepository extends JpaRepository<VoucherModel, String> {
-    Page<VoucherModel> findByTenLike(String ten, Pageable pageable);
+    Page<VoucherModel> findByMotaLike(String ten, Pageable pageable);
 
-    @Query("SELECT vc  FROM VoucherModel vc where vc.giaTriToiThieu >= :sumTotalBill")
-    List<VoucherModel> disabledVoucher(@Param("sumTotalBill") Double sumTotalBill);
+    @Query("SELECT vc FROM VoucherModel vc WHERE vc.trangThai = 0 AND vc.doiTuongSuDung = 0 AND vc.ngayBatDau <= current_timestamp ")
+    List<VoucherModel> findVoucherHienThi();
 
-    @Query("SELECT vc  FROM VoucherModel vc where current_date between vc.ngayBatDau  and vc.ngayKetThuc and vc.soLuong > 0")
-    List<VoucherModel> findVoucherEligible();
+    @Query("SELECT vc  FROM VoucherModel vc where vc.trangThaiXoa = 0")
+    Page<VoucherModel> findAllVoucher(Pageable pageable);
 
     @Transactional
     @Modifying
@@ -28,23 +28,17 @@ public interface VoucherRepository extends JpaRepository<VoucherModel, String> {
             """)
     int updateSoLuong(int soLuong, String id);
 
-    List<VoucherModel> findAllByOrderByTenDesc();
-
-    List<VoucherModel> findAllByOrderByTenAsc();
-
     List<VoucherModel> findAllByOrderByMucGiamAsc();
 
     List<VoucherModel> findAllByOrderByMucGiamDesc();
 
     List<VoucherModel> findAllByOrderByNgayBatDauAsc();
+
     List<VoucherModel> findAllByOrderByNgayBatDauDesc();
 
     List<VoucherModel> findAllByOrderBySoLuongDesc();
 
     List<VoucherModel> findAllByOrderBySoLuongAsc();
 
-    List<VoucherModel> findAllByOrderByGiaTriToiThieuDesc();
-
-    List<VoucherModel> findAllByOrderByGiaTriToiThieuAsc();
 
 }

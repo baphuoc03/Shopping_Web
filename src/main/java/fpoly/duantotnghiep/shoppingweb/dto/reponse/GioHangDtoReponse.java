@@ -2,6 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.GioHangModel;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,7 @@ public class GioHangDtoReponse {
         tenSanPham = model.getSanPham() == null ? "" : model.getSanPham().getTen();
         maSanPham = model.getSanPham() == null ? "" : model.getSanPham().getMa();
         donGia = model.getSanPham().getGiaBan();
-        donGiaSauGiam = model.getSanPham().getGiaNiemYet();
+        donGiaSauGiam = model.getSanPham().getDonGiaSauGiam();
         size = model.getSize().getMa();
         anh = model.getSanPham().getImages().size() == 0 ? "default.png" : model.getSanPham().getImages().get(0).getTen();
 //        soLuong = model.getSoLuong();

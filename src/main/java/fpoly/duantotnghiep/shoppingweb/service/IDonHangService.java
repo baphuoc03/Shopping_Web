@@ -23,6 +23,8 @@ public interface IDonHangService {
 
     DonHangDtoResponse findByMa(String ma);
 
+    DonHangReponseUser findByMaUser(String ma);
+
     Boolean existsByMa(String ma);
 
     void updateTrangThai(String maDonHang, Integer trangThai) throws MessagingException;
@@ -38,12 +40,14 @@ public interface IDonHangService {
     DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products);
 
     @Query("""
-    SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c 
-    WHERE c.donHang.ngayDatHang in (?1,?2)
-""")
+                SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c 
+                WHERE c.donHang.ngayDatHang in (?1,?2)
+            """)
     Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
 
     Long getQuantityOrdersWithDate(Date firstDate, Date lastDate);
 
     BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate);
+
+    DonHangDtoResponse updateTrangThai1(String maDonHang, Integer trangThai);
 }
