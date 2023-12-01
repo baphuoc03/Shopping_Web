@@ -39,7 +39,7 @@ public class DiaChiDTORequest {
         diaChiModel.setThanhPhoCode(thanhPhoCode);
         diaChiModel.setQuanHuyenCode(quanHuyenCode);
         diaChiModel.setXaPhuongCode(xaPhuongCode);
-        diaChiModel.setThanhPhoName(thanhPhoName);
+        diaChiModel.setThanhphoName(thanhPhoName);
         diaChiModel.setQuanHuyenName(quanHuyenName);
         diaChiModel.setXaPhuongName(xaPhuongName);
         diaChiModel.setDiaChiChiTiet(diaChiChiTiet);
