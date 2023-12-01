@@ -84,9 +84,13 @@ public class DiaChiRestController {
         return ResponseEntity.ok(diaChiService.add(diaChi));
     }
     @PutMapping("update/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody DiaChiDTORequest diaChi, @PathVariable Long id) {
+    public ResponseEntity<?> update(@Valid @RequestBody DiaChiDTORequest diaChi,
+                                    BindingResult result, @PathVariable Long id) {
         diaChi.setId(id);
-        return ResponseEntity.ok(diaChiService.add(diaChi));
+        if (result.hasErrors()){
+            return ValidateUtil.getErrors(result);
+        }
+        return ResponseEntity.ok(diaChiService.update(diaChi));
     }
     @GetMapping("/chi-tiet/{id}")
     public ResponseEntity<DiaChiDTOResponse> chiTiet(@PathVariable("id") Long id){

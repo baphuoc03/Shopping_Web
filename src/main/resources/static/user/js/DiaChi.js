@@ -70,6 +70,9 @@ app.controller('diaChiCtrl', function ($scope, $http) {
             console.log(error)
             $scope.errDiaChiChiTiet = error.data.diaChiChiTiet
             $scope.eThanhPho = error.data.thanhPhoCode
+            $scope.eQuanHuyen = error.data.quanHuyenCode
+            $scope.eXaPhuong = error.data.xaPhuongCode
+
         })
     }
     // $scope.update = function () {
@@ -142,7 +145,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         ;
 
     }).catch(e => console.log(e))
-    // document.getElementById("gioiTinh").value = $scope.user.gioiTinh+""
+     document.getElementById("gioiTinh").value = $scope.user.gioiTinh+""
     $scope.detail = function (id) {
         $http.get("/khach-hang/detail/" + id).then(r => {
             r.data.gioiTinh = JSON.stringify(r.data.gioiTinh)
@@ -162,17 +165,23 @@ app.controller('diaChiCtrl', function ($scope, $http) {
     $scope.updateDiaChi = function (id) {
         var url = "/update" + "/" + id;
         var updateDiaChi = {
-            thanhPhoName: $scope.thanhPhoName,
             thanhPhoCode: $scope.thanhPhoCode,
-            quanHuyenName: $scope.quanHuyenName,
+            thanhPhoName: $scope.citys[indexCity].ProvinceName,
             quanHuyenCode: $scope.quanHuyenCode,
-            xaPhuongName: $scope.xaPhuongName,
+            quanHuyenName: $scope.districts[indexDistrict].DistrictName,
             xaPhuongCode: $scope.xaPhuongCode,
-            diaChiChiTiet: $scope.diaChiChiTiet,
+            xaPhuongName: $scope.wards[indexWard].WardName,
+            diaChiChiTiet: $scope.diaChiChiTiet
         }
         $http.put(url, updateDiaChi).then(function (r) {
             location.reload();
             alert("Update Thành công")
+        }).catch(error => {
+            console.log(error)
+            $scope.errDiaChiChiTiet = error.data.diaChiChiTiet
+            $scope.eThanhPho = error.data.thanhPhoCode
+            $scope.eQuanHuyen = error.data.quanHuyenCode
+            $scope.eXaPhuong = error.data.xaPhuongCode
         })
     }
     // $scope.getDiaChi = function (id){
