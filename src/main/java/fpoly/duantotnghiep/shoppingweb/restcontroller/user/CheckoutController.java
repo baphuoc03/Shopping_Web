@@ -124,6 +124,12 @@ public class CheckoutController {
         donHangDTORequest.setNgayDatHang(new Date());
         donHangDTORequest.setMa(codeDonHang());
         DonHangDtoResponse response = donHangService.checkOut(donHangDTORequest);
+
+        if (authentication != null && donHangDTORequest.getVoucher() != null) {
+            if (voucherService.findById1(donHangDTORequest.getVoucher()).getDoiTuongSuDung() == 1) {
+                voucherService.deleteVoucherKhachHang(authentication.getName(), donHangDTORequest.getVoucher());
+            }
+        }
 //        save chi tiết đơn hàng
         gioHangService.laySpTrongGio().stream().forEach(c -> {
             ChiTietDonHangDTORequest donHangCT = new ChiTietDonHangDTORequest(response.getMa(), c.getId(), c.getSoLuong(), c.getDonGia(), c.getDonGiaSauGiam());

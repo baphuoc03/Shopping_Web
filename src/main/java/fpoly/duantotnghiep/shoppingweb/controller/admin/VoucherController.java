@@ -60,7 +60,7 @@ public class VoucherController {
 
     @GetMapping("/chi-tiet-voucher/{id}")
     public String chiTietVoucher() {
-        return "/admin/fromVoucher";
+        return "/admin/fromVoucherU";
     }
 
     @GetMapping("/them-voucher")

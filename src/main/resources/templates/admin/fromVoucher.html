@@ -29,15 +29,6 @@
                                         <button ng-click="create()"
                                                 class="btn btn-primary" type="button">Lưu voucher
                                         </button>
-                                        <button ng-click="updateTrangThai(1)"
-                                                ng-if="voucherAdd.trangThai == 0"
-                                                class="btn btn-primary" type="button"> Dừng kích hoạt
-                                        </button>
-                                        <button ng-click="updateTrangThai(0)"
-                                                style="margin-right: 10px" ng-if="voucherAdd.trangThai == 1"
-                                                class="btn btn-primary" type="button">Kích hoạt
-                                        </button>
-
                                     </form>
                                 </div>
                             </div>
@@ -106,9 +97,9 @@
                                                 <select class="form-select" ng-model="voucherAdd.loaiMucGiam"
                                                         id="loai"
                                                         onchange="toggleDiv()">
-                                                    <option selected value="TIEN"
-                                                            ng-selected="$scope.voucherAdd.loaiMucGiam === 'TIEN'">đ
-                                                    </option>
+                                                    <option0 value="TIEN">
+                                                        đ
+                                                    </option0>
                                                     <option value="PHAN TRAM">%</option>
                                                 </select>
                                             </div>
@@ -160,7 +151,7 @@
                                            type="radio" name="flexRadioDefault"
                                            id="flexRadioDefault1"
                                            ng-model="voucherAdd.hinhThucThanhToan" value="0"
-                                           ng-checked="voucherAdd.hinhThucThanhToan == 0">
+                                           ng-checked="true">
                                     <label class="form-check-label" for="flexRadioDefault1">
                                         Thanh toán khi nhận hàng
                                     </label>
@@ -291,7 +282,7 @@
 
                                     <tbody>
                                     <tr ng-repeat="kh in findAllKhachHang">
-                                        <td><input type="checkbox"  ng-model="kh.selected"
+                                        <td><input type="checkbox" ng-model="kh.selected"
                                                    ng-change="selectKhach(kh.username)"></td>
                                         <td>
                                             <!--                                        <img style="height: 70px; width: 70px;"-->

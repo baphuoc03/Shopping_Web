@@ -26,9 +26,6 @@
                                     <ul class="navbar-nav me-auto">
                                     </ul>
                                     <form class="d-flex">
-                                        <button ng-click="create()"
-                                                class="btn btn-primary" type="button">Lưu voucher
-                                        </button>
                                         <button ng-click="updateTrangThai(1)"
                                                 ng-if="voucherAdd.trangThai == 0"
                                                 class="btn btn-primary" type="button"> Dừng kích hoạt
@@ -58,13 +55,15 @@
                                             <label for="metatitle">Thời gian bắt đầu</label>
                                             <input ng-model="voucherAdd.ngayBatDau" name="productname"
                                                    type="datetime-local"
-                                                   class="form-control">
+                                                   class="form-control"
+                                                   ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'">
                                             <p class="form-text text-danger">{{erNgayBatDau}}</p>
                                         </div>
                                         <div class="mb-3">
                                             <label for="metakeywords">Thời gian kết thúc</label>
                                             <input ng-model="voucherAdd.ngayKetThuc" id="metakeywords"
                                                    name="manufacturername"
+                                                   ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"
                                                    type="datetime-local" class="form-control">
                                             <p class="form-text text-danger">{{erNgayKetThuc}}</p>
                                         </div>
@@ -75,7 +74,8 @@
                                             <label for="metadescription">Mô tả</label>
                                             <textarea ng-model="voucherAdd.moTa" class="form-control"
                                                       id="metadescription"
-                                                      rows="5"></textarea>
+                                                      rows="5"
+                                                      ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"></textarea>
                                             <p class="form-text text-danger">{{erMoTa}}</p>
                                         </div>
                                     </div>
@@ -94,7 +94,9 @@
                                     <div class="col-sm-5">
                                         <div class="mb-3">
                                             <label for="metatitle">Mức giảm</label>
-                                            <input name="productname" type="number"
+                                            <input name="productname"
+                                                   ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"
+                                                   type="number"
                                                    class="form-control" ng-model="voucherAdd.mucGiam">
                                             <p class="form-text text-danger">{{erMucGiam}}</p>
                                         </div>
@@ -105,19 +107,25 @@
                                             <div class="mb-3">
                                                 <select class="form-select" ng-model="voucherAdd.loaiMucGiam"
                                                         id="loai"
-                                                        onchange="toggleDiv()">
+                                                        ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'">
                                                     <option selected value="TIEN"
                                                             ng-selected="$scope.voucherAdd.loaiMucGiam === 'TIEN'">đ
                                                     </option>
-                                                    <option value="PHAN TRAM">%</option>
+                                                    <option value="PHAN TRAM"
+                                                            ng-selected="$scope.voucherAdd.loaiMucGiam === 'PHAN TRAM'">
+                                                        %
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-5">
-                                        <div class="mb-3" id="mucGiamToiDa" style="display: none;">
+                                    <div class=" col-sm-5">
+                                        <div class="mb-3" id="mucGiamToiDa"
+                                             ng-show="voucherAdd.loaiMucGiam === 'PHAN TRAM'">
                                             <label for="metadescription">Mức giảm tối đa</label>
-                                            <input name="productname" ng-model="voucherAdd.mucGiamToiDa" type="number"
+                                            <input name="productname" ng-model="voucherAdd.mucGiamToiDa"
+                                                   type="number"
+                                                   ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"
                                                    class="form-control">
                                             <p class="form-text text-danger">{{erMucGiamToiDa}}</p>
 
@@ -139,6 +147,7 @@
                                         <div class="mb-3">
                                             <label for="metatitle">Giá trị đơn hàng</label>
                                             <input name="productname" type="number"
+                                                   ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"
                                                    class="form-control" ng-model="voucherAdd.giaTriDonHang">
                                             <p class="form-text text-danger">{{erGiaTriDonHang}}</p>
                                         </div>
@@ -159,8 +168,9 @@
                                     <input class="form-check-input"
                                            type="radio" name="flexRadioDefault"
                                            id="flexRadioDefault1"
-                                           ng-model="voucherAdd.hinhThucThanhToan" value="0"
-                                           ng-checked="voucherAdd.hinhThucThanhToan == 0">
+                                           value="0"
+                                           ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"
+                                           ng-checked="voucherAdd.hinhThucThanhToan === 'Thanh toán khi nhận hàng'">
                                     <label class="form-check-label" for="flexRadioDefault1">
                                         Thanh toán khi nhận hàng
                                     </label>
@@ -168,7 +178,9 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="flexRadioDefault"
                                            id="flexRadioDefault2"
-                                           ng-model="voucherAdd.hinhThucThanhToan" value="1">
+                                           ng-checked="voucherAdd.hinhThucThanhToan === 'Thanh toán online'"
+                                           ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"
+                                           value="1">
                                     <label class="form-check-label" for="flexRadioDefault2">
                                         Thanh toán onnile
                                     </label>
@@ -176,7 +188,9 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="flexRadioDefault"
                                            id="flexRadioDefault"
-                                           ng-model="voucherAdd.hinhThucThanhToan" value="2">
+                                           ng-checked="voucherAdd.hinhThucThanhToan === 'Tất cả các hình thức thanh toán'"
+                                           ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"
+                                           value="2">
                                     <label class="form-check-label" for="flexRadioDefault2">
                                         Tất cả các hình thức thanh toán
                                     </label>
@@ -186,27 +200,12 @@
                         </div>
                     </div>
 
-                    <!-- trạng thái -->
+                    <!-- Xóa -->
                     <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Trạng thái voucher</h4>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <div class="row">
-                                    <div class="col-sm-5">
-                                        <div class="mb-3">
-                                            <h5 class="font-size-14 mb-3">Kích hoạt</h5>
-                                            <input ng-model="voucherAdd.trangThai" type="checkbox" value="0" id="switch"
-                                                   switch="bool"
-                                                   ng-true-value="0"
-                                                   ng-false-value="1" checked/>
-                                            <label for="switch" data-on-label="Yes" data-off-label="No"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                        <button type="button" ng-disabled="voucherAdd.trangThai == 0" ng-click="xoaVoucher(ma)"
+                                class="btn btn-danger">Xóa
+                            voucher
+                        </button>
                     </div>
                 </div>
                 <!-- khách hàng -->
@@ -221,18 +220,20 @@
                                 <p class="form-text text-danger">{{erdoiTuongSuDung}}</p>
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" value="0"
+                                           disabled
                                            type="radio" name="formRadios" id="tatCaKhachHang"
-                                           ng-model="voucherAdd.doiTuongSuDung"
+                                           ng-checked="voucherAdd.doiTuongSuDung === 'Tất cả khách hàng'"
                                            onchange="toggleDiv2()">
                                     <label class="form-check-label">
                                         Tất cả khách hàng
                                     </label>
                                 </div>
                                 <div class="col-sm-5">
-                                    <div class="mb-3" id="soLuong" style="display: none">
+                                    <div class="mb-3" id="soLuong"
+                                         ng-show="voucherAdd.doiTuongSuDung === 'Tất cả khách hàng'">
                                         <label for="metatitle">Số lượng</label>
                                         <input id="metatitle" ng-model="voucherAdd.soLuong" name="productname"
-                                               type="text"
+                                               type="text" ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"
                                                class="form-control">
                                         <p class="form-text text-danger">{{erSoLuong}}</p>
 
@@ -240,8 +241,9 @@
                                 </div>
 
                                 <div class="form-check mb-3">
-                                    <input class="form-check-input" value="1" ng-model="voucherAdd.doiTuongSuDung"
-                                           type="radio" name="formRadios1" id="tuyChonKhach" onchange="toggleDiv2()">
+                                    <input class="form-check-input" value="1" disabled
+                                           ng-checked="voucherAdd.doiTuongSuDung === 'Tùy chọn khách'"
+                                           type="radio" name="formRadios1" id="tuyChonKhach">
                                     <label class="form-check-label">
                                         Tùy chọn khách hàng
                                     </label>
@@ -251,7 +253,7 @@
                         </div>
                     </div>
                     <!-- danh sách khách hàng -->
-                    <div class="card" id="khach" style="display: none">
+                    <div class="card" id="khach" ng-show="voucherAdd.doiTuongSuDung === 'Tùy chọn khách'">
                         <div class="card-header">
                             <h4 class="card-title">Danh sách khách hàng</h4>
                             <p class="form-text text-danger">{{erKhachHang}}</p>
@@ -262,7 +264,8 @@
                                     <div class="mb-3">
                                         <label>Nhóm khách</label>
                                         <div class="mb-3">
-                                            <select class="form-control select2">
+                                            <select class="form-control select2"
+                                                    ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'">
                                                 <option value="TIEN">Mua nhiều nhất</option>
                                                 <option value="PHAN TRAM">Mua Lần đầu</option>
                                                 <option value="PHAN TRAM">Đã ghé thăm</option>
@@ -291,8 +294,9 @@
 
                                     <tbody>
                                     <tr ng-repeat="kh in findAllKhachHang">
-                                        <td><input type="checkbox"  ng-model="kh.selected"
-                                                   ng-change="selectKhach(kh.username)"></td>
+                                        <td><input type="checkbox" ng-model="kh.selected"
+                                                   ng-change="selectKhach(kh.username)"
+                                                   ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"></td>
                                         <td>
                                             <!--                                        <img style="height: 70px; width: 70px;"-->
                                             <!--                                             src="assets/images/logo-sm.svg" alt="" srcset="">-->

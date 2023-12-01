@@ -40,5 +40,4 @@ public interface VoucherRepository extends JpaRepository<VoucherModel, String> {
 
     List<VoucherModel> findAllByOrderBySoLuongAsc();
 
-
 }
