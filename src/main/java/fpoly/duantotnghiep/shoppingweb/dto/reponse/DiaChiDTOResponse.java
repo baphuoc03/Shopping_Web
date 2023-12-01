@@ -13,6 +13,7 @@ import org.hibernate.internal.build.AllowSysOut;
 public class DiaChiDTOResponse {
 
     private Long id;
+    private String taiKhoan;
     private Integer thanhPhoCode;
     private Integer quanHuyenCode;
     private String xaPhuongCode;
@@ -24,7 +25,8 @@ public class DiaChiDTOResponse {
 
     public DiaChiDTOResponse(DiaChiModel model) {
         this.id = model.getId();
-        this.thanhPhoCode = model.getThanhPhoCode();
+        this.taiKhoan = model.getTaiKhoan().getUsername();
+        this.thanhPhoCode= model.getThanhPhoCode();
         this.xaPhuongCode = model.getXaPhuongCode();
         this.thanhPhoName = model.getThanhPhoName();
         this.quanHuyenName = model.getQuanHuyenName();
