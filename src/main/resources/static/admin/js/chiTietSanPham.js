@@ -107,11 +107,12 @@ app.controller('chiTietSP-ctrl', function ($scope, $http) {
         $scope.itemUpdate.soLuong = parseInt(soLuong);
         console.log($scope.itemUpdate)
         $http.put("/admin/san-pham/"+idSP+"/update",$scope.itemUpdate).then(r =>{
-            console.log(r.data)
             alertify.success("Cập nhật số lượng thành công")
         }).catch(e => {
-            console.log(e)
-            alertify.error("Cập nhật thất bại")
+            $http.get("/admin/san-pham/"+idSP+"/getSoLuong/"+id).then(r => {
+                document.getElementById(id+"").value = r.data.soLuong
+            })
+            alertify.error(e.data.soLuong)
         })
     }
 

@@ -116,5 +116,11 @@ public class ChiTietSanPhamRestController {
         return ResponseEntity.ok(chiTietSanPhamService.fillAllChiTietSP());
     }
 
-
+    @GetMapping("getSoLuong/{id}")
+    public ResponseEntity<?> getSoLuong(@PathVariable("id")String id){
+        Map<String,Long> result = new HashMap<>();
+        Long soLuong = chiTietSanPhamService.finById(id).getSoLuong();
+        result.put("soLuong",soLuong);
+        return ResponseEntity.ok(result);
+    }
 }
