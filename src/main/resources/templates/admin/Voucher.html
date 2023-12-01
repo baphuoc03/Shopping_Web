@@ -125,114 +125,114 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-9">
-                                                <form th:action="@{/admin/voucher}" class="d-flex">
-                                                    <input class="form-control me-2" name="name" type="text"
-                                                           placeholder="Search">
-                                                    <button class="btn btn-primary" type="submit">Search
-                                                    </button>
-                                                </form>
+                                                <div class="col-9">
+                                                    <form th:action="@{/admin/voucher}" class="d-flex">
+                                                        <input class="form-control me-2" name="name" type="text"
+                                                               placeholder="Search">
+                                                        <button class="btn btn-primary" type="submit">Search
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!--Danh sách-->
-                                    <table class="table table-striped" id="dataTable"
-                                           width="100%" cellspacing="0">
-                                        <thead>
-                                        <tr>
-                                            <th>
-                                            </th>
-                                            <th>Voucher</th>
-                                            <th>Hạn sử dụng</th>
-                                            <th>Hình thức thanh toán</th>
-                                            <th>Khách hàng</th>
-                                            <th>Đã sử dụng</th>
-                                            <th>Trạng Thái</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr th:each="vc: ${listVoucher}">
-                                            <td><input type="checkbox"
-                                                       ng-model="voucher.selected"
-                                                       ng-change="sumVoucherSelected(voucher)">
-                                            </td>
-                                            <td>
-                                                <p th:text="${vc.ma}"></p>
-                                                <p th:text="'Giảm ' + ${vc.mucGiam} + ' ' + ${vc.loaiMucGiam == 'PHAN TRAM'? '%':'vnd'}"></p>
-                                            </td>
-                                            <td>
-                                                <p th:text="${vc.ngayBatDau} + ' đến'"></p>
-                                                <p th:text="${vc.ngayKetThuc}"></p>
-                                            </td>
-                                            <td th:text="${vc.hinhThucThanhToan}"></td>
-                                            <td th:text="${vc.doiTuongSuDung}"></td>
-                                            <td th:text="${vc.soLuongSuDung}"></td>
-                                            <td>
+                                        <!--Danh sách-->
+                                        <table class="table table-striped" id="dataTable"
+                                               width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th>
+                                                </th>
+                                                <th>Voucher</th>
+                                                <th>Hạn sử dụng</th>
+                                                <th>Hình thức thanh toán</th>
+                                                <th>Khách hàng</th>
+                                                <th>Đã sử dụng</th>
+                                                <th>Trạng Thái</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="vc: ${listVoucher0}">
+                                                <td><input type="checkbox"
+                                                           ng-model="voucher.selected"
+                                                           ng-change="sumVoucherSelected(voucher)">
+                                                </td>
+                                                <td>
+                                                    <p th:text="${vc.ma}"></p>
+                                                    <p th:text="'Giảm ' + ${vc.mucGiam} + ' ' + ${vc.loaiMucGiam == 'PHAN TRAM'? '%':'vnd'}"></p>
+                                                </td>
+                                                <td>
+                                                    <p th:text="${vc.ngayBatDau} + ' đến'"></p>
+                                                    <p th:text="${vc.ngayKetThuc}"></p>
+                                                </td>
+                                                <td th:text="${vc.hinhThucThanhToan}"></td>
+                                                <td th:text="${vc.doiTuongSuDung}"></td>
+                                                <td th:text="${vc.soLuongSuDung}"></td>
+                                                <td>
                                                                         <span style="color: green; border: solid 1px green"
                                                                               th:if="${vc.trangThai == 0}">
                                                                             Đã kích hoạt
                                                                         </span>
-                                                <span style="color: red; border:solid 1px red; height: 10px"
-                                                      th:if="${vc.trangThai == 1}">Chưa kích hoạt</span>
-                                                <span style="color: red; border:solid 1px red; height: 10px"
-                                                      th:if="${vc.trangThai == 2}">Hết hạn</span>
-                                            </td>
-                                            <td>
-                                                <a th:href="@{/admin/voucher/chi-tiet-voucher/{id}(id=${vc.ma})}"
-                                                   ng-click="findByID()"
-                                                   class="edit">
-                                                    <i class="material-icons" title="Edit">&#xE254;</i>
-                                                </a>
-                                                <a href="#"
-                                                   th:attr="ng-click='xoaVoucher(\''+${vc.ma}+'\');'"
-                                                   class="delete">
-                                                    <i class="material-icons" title="Delete">&#xE872;</i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <div class="row">
-                                        <div class="col-6">
+                                                    <span style="color: red; border:solid 1px red; height: 10px"
+                                                          th:if="${vc.trangThai == 1}">Chưa kích hoạt</span>
+                                                    <span style="color: red; border:solid 1px red; height: 10px"
+                                                          th:if="${vc.trangThai == 2}">Hết hạn</span>
+                                                </td>
+                                                <td>
+                                                    <a th:href="@{/admin/voucher/chi-tiet-voucher/{id}(id=${vc.ma})}"
+                                                       ng-click="findByID()"
+                                                       class="edit">
+                                                        <i class="material-icons" title="Edit">&#xE254;</i>
+                                                    </a>
+                                                    <a href="#"
+                                                       th:attr="ng-click='xoaVoucher(\''+${vc.ma}+'\');'"
+                                                       class="delete">
+                                                        <i class="material-icons" title="Delete">&#xE872;</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="row">
+                                            <div class="col-6">
 
-                                        </div>
-                                        <div class="col-6">
-                                            <nav aria-label="Page navigation example">
-                                                <ul class="pagination justify-content-end">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#"
-                                                           aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-                                                    <li th:each="pageNumber: ${#numbers.sequence(1, totalPage)}"
-                                                        class="page-item">
-                                                        <a class="page-link"
-                                                           th:text="${pageNumber}"
-                                                           th:if="${name != null and name != ''}"
-                                                           th:href="@{'/admin/voucher?name=' + ${name} +'&pageNumber='+${pageNumber}}"></a>
-                                                        <a class="page-link"
-                                                           th:text="${pageNumber}"
-                                                           th:unless="${name != null and name != ''}"
-                                                           th:href="@{'/admin/voucher?pageNumber='+${pageNumber}}"></a>
-                                                    </li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#"
-                                                           aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
+                                            </div>
+                                            <div class="col-6">
+                                                <nav aria-label="Page navigation example">
+                                                    <ul class="pagination justify-content-end">
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="#"
+                                                               aria-label="Previous">
+                                                                <span aria-hidden="true">&laquo;</span>
+                                                                <span class="sr-only">Previous</span>
+                                                            </a>
+                                                        </li>
+                                                        <li th:each="pageNumber: ${#numbers.sequence(1, totalPage0)}"
+                                                            class="page-item">
+                                                            <a class="page-link"
+                                                               th:text="${pageNumber}"
+                                                               th:if="${name != null and name != ''}"
+                                                               th:href="@{'/admin/voucher?name=' + ${name} +'&pageNumber='+${pageNumber}}"></a>
+                                                            <a class="page-link"
+                                                               th:text="${pageNumber}"
+                                                               th:unless="${name != null and name != ''}"
+                                                               th:href="@{'/admin/voucher?pageNumber='+${pageNumber}}"></a>
+                                                        </li>
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="#"
+                                                               aria-label="Next">
+                                                                <span aria-hidden="true">&raquo;</span>
+                                                                <span class="sr-only">Next</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
                                         </div>
                                     </div>
                                     <!--  Tạm dừng-->
                                     <div class="tab-pane" id="profile1" role="tabpanel">
                                         <div class="card-body">
-                                            <table class="table table-striped" id="dataTable"
+                                            <table class="table table-striped"
                                                    width="100%" cellspacing="0">
                                                 <thead>
                                                 <tr>
@@ -247,7 +247,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr th:each="vc: ${listVoucher}">
+                                                <tr th:each="vc: ${listVoucher1}">
                                                     <td><input type="checkbox"
                                                                ng-model="voucher.selected"
                                                                ng-change="sumVoucherSelected(voucher)">
@@ -301,7 +301,7 @@
                                                                     <span class="sr-only">Previous</span>
                                                                 </a>
                                                             </li>
-                                                            <li th:each="pageNumber: ${#numbers.sequence(1, totalPage)}"
+                                                            <li th:each="pageNumber: ${#numbers.sequence(1, totalPage1)}"
                                                                 class="page-item">
                                                                 <a class="page-link"
                                                                    th:text="${pageNumber}"

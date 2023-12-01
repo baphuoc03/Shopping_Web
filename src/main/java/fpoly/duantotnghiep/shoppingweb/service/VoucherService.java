@@ -18,7 +18,7 @@ public interface VoucherService {
 
     public List<VoucherReponse> voucherEligible();
 
-    public Page<VoucherReponse> findAll(int pageNumber, int pageSize);
+    public Page<VoucherReponse> findAll(int pageNumber, int pageSize, int TrangThai);
 
     public List<VoucherReponse> findAll();
 

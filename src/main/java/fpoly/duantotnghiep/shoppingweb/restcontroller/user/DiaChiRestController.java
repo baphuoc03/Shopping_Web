@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class DiaChiRestController {
+public class
+DiaChiRestController {
     @Autowired
     IDiaChiService diaChiService;
     @Autowired

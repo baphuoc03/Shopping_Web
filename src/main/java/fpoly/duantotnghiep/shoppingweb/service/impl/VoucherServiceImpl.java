@@ -35,6 +35,14 @@ public class VoucherServiceImpl implements VoucherService {
 
     }
 
+    public void deleteVoucherKhachHang(String username, String voucher){
+        VoucherModel voucherModel = repository.findById(voucher).get();
+        List<KhachHangModel> lstKH = voucherModel.getKhachHang().stream().filter(k -> !k.getUsername().equals(username)).collect(Collectors.toList());
+        voucherModel.setKhachHang(lstKH);
+        repository.save(voucherModel);
+
+    }
+
     @Override
     public List<VoucherReponse> findVoucherSort(String sort) {
 //        if ("tenDes".equals(sort)) {
@@ -68,9 +76,9 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public Page<VoucherReponse> findAll(int pageNumber, int pageSize) {
+    public Page<VoucherReponse> findAll(int pageNumber, int pageSize, int trangThai) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<VoucherModel> pageModel = repository.findAllVoucher(pageable);
+        Page<VoucherModel> pageModel = repository.findAllVoucher(pageable, trangThai);
         return pageModel.map(x -> new VoucherReponse(x));
     }
 
@@ -161,24 +169,6 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public void deleteVoucher(String id) {
         VoucherModel vc = repository.findById(id).get();
-        vc.setTrangThaiXoa(1);
-        vc.setTrangThai(1);
-        if (vc.getTrangThai() == 0) {
-            if (vc.getKhachHang() != null) {
-                for (var mail : vc.getKhachHang()) {
-                    Context context = new Context();
-                    context.setVariable("voucher", vc);
-                    new Thread(() -> {
-                        try {
-                            EmailUtil.sendEmailWithHtml(mail.getEmail(), "TẠM DỪNG KÍCH HOẠT VOUCHER", "email/voucherHuy", context);
-                        } catch (MessagingException e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
-
-                }
-            }
-        }
         vc.setTrangThaiXoa(1);
         repository.save(vc);
     }

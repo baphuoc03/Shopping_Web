@@ -112,30 +112,42 @@
                                 <h4 class="card-title mb-0">Sản Phẩm Áp Dụng</h4>
                             </div>
                             <div class="card-body">
-                                <table id="datatable"
-                                       class="table table-striped table-hover dt-responsive  nowrap w-100">
-                                    <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Tên</th>
-                                        <th>Giá Niêm</th>
-                                        <th>Giá Bán</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="sp : ${sanPham}">
+                                <div style="max-height: 400px; overflow-y: auto">
+                                    <table id="datatable"
+                                           class="table table-striped table-hover dt-responsive  nowrap w-100">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Tên</th>
+                                            <th>Số lượng</th>
+                                            <th>Giá Bán</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="sp : ${sanPham}">
 
-                                        <td>
-                                            <input name="ids" th:value="${sp.ma}" type="checkbox"
-                                                   th:checked="${#lists.contains(sanPhamOn, sp.ma)}"
-                                                   th:disabled="${#lists.contains(sanPhamKhuyenMai, sp.ma)}">
-                                        </td>
-                                        <td th:text="${sp.ten}"></td>
-                                        <td th:text="${sp.giaNiemYet}"></td>
-                                        <td th:text="${sp.giaBan}"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                            <td>
+                                                <input name="ids" th:value="${sp.ma}" type="checkbox"
+                                                       th:checked="${#lists.contains(sanPhamOn, sp.ma)}"
+                                                       th:disabled="${#lists.contains(sanPhamKhuyenMai, sp.ma)}">
+                                            </td>
+                                            <td>
+                                                <img ng-if="p.anh[0] != null"
+                                                     src="/image/loadImage/product/{{sp.anh[0]}}"
+                                                     class="imgProduct"
+                                                     style="border-radius: 15px; width: 100px; height: 100px">
+                                                <img th-if="sp.anh[0] == null" src="/image/loadImage/product/envato.png"
+                                                     class="imgProduct"
+                                                     style="border-radius: 15px;width: 100px; height: 100px">
+                                            </td>
+                                            <td th:text="${sp.ten}"></td>
+                                            <td th:text="${sp.soLuong}"></td>
+                                            <td th:text="${sp.giaBan}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
 
                         </div> <!-- end card-->

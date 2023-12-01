@@ -11,13 +11,12 @@ app.controller("voucher-ctrl", function ($scope, $http) {
         $scope.voucherAdd = {
             danhSachKhach: []
         }
-        $scope.voucherAdd.hinhThucThanhToan = 0
-        $scope.voucherAdd.loaiMucGiam = "TIEN"
-
 
         //    chi tiet
         $http.get("http://localhost:8080/admin/voucher" + id).then(function (res) {
+
             const voucher = res.data;
+            $scope.ma = voucher.ma
             $scope.voucherAdd.moTa = voucher.moTa;
             $scope.voucherAdd.loaiMucGiam = voucher.loaiMucGiam;
             $scope.voucherAdd.mucGiam = voucher.mucGiam;
@@ -30,6 +29,7 @@ app.controller("voucher-ctrl", function ($scope, $http) {
             $scope.voucherAdd.doiTuongSuDung = voucher.doiTuongSuDung;
             $scope.voucherAdd.danhSachKhach = voucher.danhSachKhachHang;
             $scope.voucherAdd.trangThai = voucher.trangThai
+
         });
         $scope.findAllKhachHang = []
         $http.get("http://localhost:8080/admin/khach-hang/khach-hang-voucher").then(function (res) {
@@ -50,8 +50,11 @@ app.controller("voucher-ctrl", function ($scope, $http) {
         //Xóa mềm voucher
         $scope.xoaVoucher = function (id) {
             $http.put("http://localhost:8080/admin/voucher/xoa-voucher/" + id).then(function (res) {
+                alertify.success("Xóa thành công");
 
-                console.log("okeoke")
+                setTimeout(function () {
+                    window.location.href = "http://localhost:8080/admin/voucher";
+                }, 2000);
             })
         }
 
@@ -80,7 +83,11 @@ app.controller("voucher-ctrl", function ($scope, $http) {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             }).then(function (response) {
+                alertify.success("Thêm thành công");
 
+                setTimeout(function () {
+                    window.location.href = "http://localhost:8080/admin/voucher";
+                }, 2000);
             }).catch(error => {
                 $scope.erMoTa = error.data.moTa
                 $scope.erMucGiam = error.data.mucGiam
