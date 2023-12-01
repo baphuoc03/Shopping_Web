@@ -29,7 +29,7 @@ public class SanPhamDtoRequest {
     @Pattern(regexp = "[A-Z0-9]*", message = "Mã sản phẩm không chỉ chứa số và chữ cái in hoa. Không bao gồm ký tự có dấu")
     private String ma;
     @NotBlank(message = "Không để trống tên")
-    @Size(max = 50, message = "Tên không quá 50 ký tự")
+    @Size(max = 100, message = "Tên không quá 100 ký tự")
     private String ten;
     private String mauSac;
     private String dongSanPham;

@@ -86,7 +86,6 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         }
 
     }
-
     // $scope.getMaSanPhamInDSTY()
 
     $scope.addDSYT1 = function (id) {
