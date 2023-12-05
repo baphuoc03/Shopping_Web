@@ -348,6 +348,64 @@ public class DonHangService implements IDonHangService {
         donHangModel.setTrangThai(trangThai);
         return new DonHangDtoResponse(donHangResponsitory.saveAndFlush(donHangModel));
     }
+    @Override
+    public void themDonHangAdmin(DonHangDTORequest donHangDTORequest, List<ChiTietDonHangDTORequest> chiTietDonHang){
+
+        DonHangModel model = donHangDTORequest.mapModel();
+        if(model.getPhuongThucThanhToan()){
+            model.setTrangThai(2);
+        }else{
+            model.setTrangThai(5);
+        }
+         model = donHangResponsitory.saveAndFlush(model);
+        DonHangModel finalModel = model;
+        List<ChiTietDonHangModel> lstCTDHModel = chiTietDonHang.stream().map(c ->{
+            ChiTietDonHangModel chiTietDonHangModel = c.mapModel();
+            chiTietDonHangModel.setDonHang(finalModel);
+            return chiTietDonHangModel;
+        }).collect(Collectors.toList());
+        chiTietDonHangRepository.saveAllAndFlush(lstCTDHModel);
+
+        String subject = "";
+        String messeger = "";
+        String title = "";
+        if (model.getTrangThai() == 2) {
+            subject = "Tạo đơn hàng thành công!";
+            title = "Tạo đơn hàng thành công";
+            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được tạo. Cảm ơn bạn đã mua hàng";
+        } else if (model.getTrangThai() == 5) {
+            subject = "Thanh toán đơn hàng!";
+            title = "Đơn hàng của bạn chưa được thanh toán";
+            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn chưa được thanh toán.Vui lòng thanh toán đơn hàng của bạn.";
+        }
+
+
+        DonHangDtoResponse donHangDtoResponse = new DonHangDtoResponse(donHangResponsitory.findById(model.getMa()).get());
+        List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangRepository.findAllByDonHang(model).stream().map(m -> {
+            m.setChiTietSanPham(chiTietSanPhamRepository.findById(m.getChiTietSanPham().getId()).get());
+            ChiTietDonHangDtoResponse chiTietDonHangDtoResponse = new ChiTietDonHangDtoResponse(m);
+            return chiTietDonHangDtoResponse;
+        }).collect(Collectors.toList());
+
+        BigDecimal tongTien = BigDecimal.valueOf(0);
+        for (ChiTietDonHangDtoResponse d : lstSanPham) {
+            tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
+        }
+        Context context = new Context();
+        context.setVariable("donHang", donHangDtoResponse);
+        context.setVariable("products", lstSanPham);
+        context.setVariable("totalPrice", tongTien);
+        context.setVariable("mess", messeger);
+        context.setVariable("title", title);
+        String finalSubject = subject;
+        new Thread(() -> {
+            try {
+                sendEmailDonHang(finalModel.getEmail(), finalSubject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 //    @Override
 //    public DonHangDtoResponse updateTrangThai1(String maDonHang,Integer trangThai){
 //        DonHangModel donHangModel = donHangResponsitory.findById(maDonHang).get();

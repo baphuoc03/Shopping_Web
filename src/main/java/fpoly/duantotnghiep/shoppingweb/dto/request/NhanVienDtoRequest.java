@@ -3,10 +3,7 @@ package fpoly.duantotnghiep.shoppingweb.dto.request;
 import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import fpoly.duantotnghiep.shoppingweb.model.VaiTroModel;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +25,7 @@ public class NhanVienDtoRequest {
     private String password;
 
     @NotBlank(message = "Không để trống họ và tên")
+    @Max(value = 100,message = "Họ và tên tối đa 100 ký tự")
     private String hoVaTen;
 
     private Boolean gioiTinh;

@@ -75,7 +75,7 @@ public class DonHangDTORequest {
         donHangModel.setNgayDatHang(ngayDatHang);
         donHangModel.setTrangThai(2);
         donHangModel.setGhiChu(ghiChu);
-        donHangModel.setTienGiam(tienGiam);
+        donHangModel.setTienGiam(tienGiam == null ? BigDecimal.valueOf(0) : tienGiam);
         donHangModel.setPhiGiaoHang(phiGiaoHang);
         donHangModel.setPhuongThucThanhToan(phuongThucThanhToan == 1 ? false : true);
         return donHangModel;
