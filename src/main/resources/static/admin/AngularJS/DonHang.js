@@ -107,6 +107,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     }
     /////////////////////Check Box
     $scope.setCheckAll = function (id, name) {
+        console.log($scope.trangThaiDonHang)
         let setCheckbox = document.getElementById(id)
 
         let checkBox = document.getElementsByName(name)
@@ -766,7 +767,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             })
         },
         getList(pageNumber) {
-
+            $scope.trangThaiDonHang = 1
             $scope.daXacNhan.page = pageNumber;
             $http.get("/admin/don-hang/get-by-trangthai?trangThai=1&pageNumber=" + pageNumber+"&sdt="+this.sdtSearch).then(r => {
                 this.list = r.data.content;
@@ -1181,6 +1182,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             this.pages = numbers;
         }
     }
+    $scope.trangThaiDonHang = 2
+
     //don hang usser
     $scope.donHangChuaXacNhanKh = []
     $scope.donHangUser = function (trangThai) {

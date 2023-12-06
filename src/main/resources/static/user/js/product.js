@@ -139,14 +139,22 @@ app.controller("index-ctrl", function ($scope, $http) {
     $scope.getPropertiesInFilter();
     $scope.filter = function (filterData) {
 
+        for (const [key, value] of Object.entries(filterData)) {
+            if(value.length==0) delete filterData[key]
+        }
+        console.log(filterData)
 
         $scope.pageNumber = 0
         $scope.filterDto = filterData
 
-        console.log($scope.filterDto = filterData)
-
         $scope.pageNumbers = []
         $http.post("/san-pham/filter", $scope.filterDto).then(r => {
+            if(Object.keys( $scope.filterDto ).length>0){
+                document.getElementById('lengthFilter').innerText = Object.keys( $scope.filterDto ).length
+            }else{
+                document.getElementById('lengthFilter').innerText = ""
+            }
+
             $scope.title = "Có " + r.data.totalElements + " sản phẩm liên quan"
             $scope.products = r.data.content;
             $scope.totalPage = r.data.totalPages;
@@ -155,6 +163,7 @@ app.controller("index-ctrl", function ($scope, $http) {
         }).catch(e => console.log(e))
     }
     $scope.search = function (keyWord) {
+
         $scope.pageNumber = 0
 
         $scope.filterData = {}
@@ -165,6 +174,7 @@ app.controller("index-ctrl", function ($scope, $http) {
         $scope.pageNumbers = []
         $http.post("/san-pham/filter", $scope.filterDto).then(r => {
             $scope.title = "Có " + r.data.totalElements + " sản phẩm liên quan"
+            document.getElementById('lengthFilter').innerText = ""
             $scope.products = r.data.content;
             $scope.totalPage = r.data.totalPages;
             $scope.getPageNumbers(r.data.totalPages)
@@ -174,8 +184,8 @@ app.controller("index-ctrl", function ($scope, $http) {
     $scope.clearFilter = function () {
         $scope.pageNumber = 0
         $scope.pageNumbers = []
-
         $http.get("/san-pham/get-all").then(r => {
+            document.getElementById('lengthFilter').innerText = ""
             $scope.title = "Tất cả sản phẩm"
             $scope.products = r.data.content;
             $scope.getPageNumbers(r.data.totalPages)
