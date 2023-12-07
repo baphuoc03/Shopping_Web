@@ -46,6 +46,7 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" th:href="@{/userStyle/css/util.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/userStyle/css/main.css}">
+    <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>
     <!--===============================================================================================-->
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -112,7 +113,7 @@
                             <i class="bi bi-person-circle" style="color: white"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Tài khoản</a>
+                            <a class="dropdown-item" href="/thong-tin-ca-nhan">Tài khoản</a>
                             <a class="dropdown-item" href="/lich-su-mua-hang1">Đơn hàng</a>
                             <a class="dropdown-item" href="/dang-nhap">Đăng xuất</a>
                         </div>
@@ -856,8 +857,8 @@
 <script src="/admin/assets/libs/alertifyjs/build/alertify.min.js"></script>
 
 <!--===============================================================================================-->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+<!--<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>-->
 <script th:src="@{/userStyle/js/main.js}"></script>
 <!--===============================================================================================-->
 <script th:src="@{/user/js/product.js}"></script>
@@ -873,6 +874,8 @@
 <script th:src="@{/admin/AngularJS/DanhSachYeuThichJS.js}"></script>
 <script th:src="@{/user/js/ChiTietDonHang.js}"></script>
 <script th:src="@{/user/js/productFilter.js}"></script>
+<script th:src="@{/user/js/resetPass.js}"></script>
+
 <!--===============================================================================================-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </body>
