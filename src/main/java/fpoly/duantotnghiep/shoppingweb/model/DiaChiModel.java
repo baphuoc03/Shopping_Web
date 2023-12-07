@@ -47,6 +47,9 @@ public class DiaChiModel {
     @Column(name = "diachichitiet")
     private String diaChiChiTiet;
 
+    @Column(name = "macdinh")
+    private Boolean macDinh;
+
     @ManyToOne
     @JoinColumn(name = "khachhang")
     @JsonBackReference

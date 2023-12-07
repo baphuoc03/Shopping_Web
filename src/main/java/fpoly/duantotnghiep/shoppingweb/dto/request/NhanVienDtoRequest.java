@@ -25,7 +25,7 @@ public class NhanVienDtoRequest {
     private String password;
 
     @NotBlank(message = "Không để trống họ và tên")
-    @Max(value = 100,message = "Họ và tên tối đa 100 ký tự")
+    @Size(max = 100,message = "Họ và tên tối đa 100 ký tự")
     private String hoVaTen;
 
     private Boolean gioiTinh;

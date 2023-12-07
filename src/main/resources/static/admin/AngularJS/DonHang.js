@@ -81,12 +81,30 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 $scope.donHangAdd.tenNguoiNhan = r.data.hoVaTen
                 $scope.donHangAdd.email = r.data.email
                 $scope.donHangAdd.soDienThoai = r.data.soDienThoai
+                $scope.getDiaChiKhachHang(value)
             })
 
             $scope.donHangAdd.nguoiSoHuu={
                 username : value
             }
         }
+    }
+    $scope.getDiaChiKhachHang = function (username){
+        $http.get("/dia-chi/get-mac-dinh/"+username).then(r => {
+            if(r.data.thanhPhoCode == undefined) return
+            $scope.donHangAdd.thanhPhoCode = r.data.thanhPhoCode + ""
+
+            //Lấy quận huyện
+            $scope.giaoHangNhanh.getDistricts(r.data.thanhPhoCode)//hàm lấy quận huyện truyền vào thành phố
+            $scope.donHangAdd.quanHuyenCode = r.data.quanHuyenCode + "" // set selected quận huyện
+
+            $scope.giaoHangNhanh.getWards(r.data.quanHuyenCode)//hàm lấy xã truyền vào quận huyện
+            $scope.donHangAdd.xaPhuongCode = r.data.xaPhuongCode + "" //set selected xã
+
+            $scope.donHangAdd.diaChiChiTiet = r.data.diaChiChiTiet
+
+            $scope.giaoHangNhanh.getFeeShippedAdd()
+        })
     }
 
     ///////Hàm dùng chung

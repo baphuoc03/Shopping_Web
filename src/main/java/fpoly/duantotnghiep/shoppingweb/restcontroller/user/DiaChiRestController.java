@@ -106,4 +106,20 @@ DiaChiRestController {
         diaChiService.deleteById(id);
         return ResponseEntity.ok().build();
     }
+    @GetMapping("/dia-chi/set-mac-dinh/{id}")
+    public ResponseEntity<?> setMacDinh(@PathVariable("id")Long id,
+                                        Authentication authentication){
+        if(!diaChiService.exsistsById(id)){
+            return ResponseEntity.notFound().build();
+        }
+        if(authentication==null){
+            return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
+        }
+        diaChiService.setMacDinh(authentication.getName(),id);
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping("/dia-chi/get-mac-dinh/{username}")
+    public ResponseEntity<?> getMacDinh(@PathVariable("username")String khachHang){
+        return ResponseEntity.ok(diaChiService.getDiaChiMacDinh(khachHang,true));
+    }
 }

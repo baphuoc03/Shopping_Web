@@ -196,7 +196,9 @@
                     <thead>
                     <tr>
                         <th>Địa Chỉ</th>
-
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
 
@@ -209,7 +211,10 @@
                                 {{dc.thanhphoName}}
                             </p>
                         </td>
-
+                        <td>
+                            <button type="button" class="btn" ng-if="dc.macDinh == true" disabled>Mặc định</button>
+                            <button type="button" class="btn btn-light" ng-if="dc.macDinh != true" ng-click="setMacDinh(dc.id)">Đặt làm mặc định</button>
+                        </td>
                         <td>
                             <button data-bs-toggle="modal"
                                     data-bs-target="#diaChiUpdate"

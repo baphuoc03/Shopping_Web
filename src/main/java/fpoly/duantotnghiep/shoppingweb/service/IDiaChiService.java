@@ -21,4 +21,8 @@ public interface IDiaChiService {
     DiaChiDTOResponse add(DiaChiDTORequest diaChi);
     DiaChiDTOResponse update(DiaChiDTORequest diaChi);
     void deleteById(Long id);
+
+    void setMacDinh(String nguoiSoHuu, Long idDiaChi);
+
+    DiaChiDTOResponse getDiaChiMacDinh(String nguoiSoHuu, Boolean macDinh);
 }

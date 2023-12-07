@@ -221,4 +221,22 @@ app.controller('diaChiCtrl', function ($scope, $http) {
             })
         }
     }
+
+    $scope.setMacDinh = function (id){
+        alertify.confirm("Đặt địa chỉ làm mặc đinh?", function () {
+            $http.get("/dia-chi/set-mac-dinh/" + id).then(r => {
+                $http.get("/dia-chi-khach-hang")
+                .then(function (response) {
+                    $scope.diaChiByTaiKhoan = response.data;
+                })
+                .catch(function (error) {
+                });
+                alertify.success("Đặt địa chỉ làm mặc định thành công");
+            }).catch(e => {
+                alertify.error("Đặt địa chỉ làm mặc định thất bại!")
+            })
+        }, function () {
+        })
+
+    }
 });
