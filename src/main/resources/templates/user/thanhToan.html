@@ -148,11 +148,9 @@
 
                 <h3 style="margin-bottom: 30px; margin-top: 30px;">Phương thức thanh toán</h3>
                 <div class="rounded-4 p-3 border" style="margin-bottom: 10px; margin-top: 30px; border-radius: 25px">
-
-                    <p class="form-text text-danger">{{errThanhToan}}</p>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="paymentMethod" id="khiNhanHang"
-                               value="0" ng-model="phuongThucThanhToan">
+                               value="0" ng-model="phuongThucThanhToan" ng-checked="true">
                         <label class="form-check-label" for="khiNhanHang">
                             Thanh toán khi nhận hàng
                         </label>
@@ -201,8 +199,6 @@
                             <h6 style="color: aliceblue;"><b>Voucher</b></h6>
                         </div>
                         <div class="col-4 " style="margin-top: 15px;">
-                            <p class="form-text text-danger">{{errTienGiam}}</p>
-
                             <!--                            <p class="blinking-text" style="color: aliceblue;">3 voucher có thể áp dụng</p>-->
                         </div>
                         <div class="col-4 flex-r" style="margin-top: 15px;color: aliceblue;">
@@ -293,7 +289,6 @@
     <div class="modal" id="myModal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <div class="col-12">
@@ -334,23 +329,29 @@
                                     </div>
                                     <div class="tengah py-3 d-flex w-100 justify-content-start">
                                         <div>
-                                            <span class="badge badge-success">Valid</span>
+                                            <span class="badge badge-success" ng-if="v.giaTriDonHang > sumTotal">Đơn hàng không đủ điều kiện</span>
                                             <h3 class="lead">{{v.ma}}</h3>
-                                            <p class="text-muted mb-0">
-                                                Giảm giá {{v.mucGiam | currency: "" : 1}}
+                                            <p class="text-muted mb-0" ng-if="v.loaiMucGiam == 'TIEN'">
+                                                Giảm giá {{v.mucGiam | currency: "" : 1}}đ
                                                 Cho đơn hàng trên
-                                                {{v.giaTriToiThieu | currency: "" : 1}}đ
+                                                {{v.giaTriDonHang | currency: "" : 1}}đ
+                                            </p>
+                                            <p class="text-muted mb-0" ng-if="v.loaiMucGiam == 'PHAN TRAM'">
+                                                Giảm giá {{v.mucGiam | currency: "" : 1}}%
+                                                Cho đơn hàng trên
+                                                {{v.giaTriDonHang | currency: "" : 1}}đ tối thiểu
+                                                {{v.mucGiamToiDa | currency: "" : 1}}đ
                                             </p>
                                             <input ng-model="voucher" name="voucher" value="{{v.ma}}"
                                                    class="form-check-input" type="hidden">
                                             <p class="text-muted mb-0">
-                                                HSD: {{v.ngayKetThuc}}
+                                                HSD: {{ v.ngayKetThuc | date:'yyyy-MM-dd HH:mm:ss' }}
                                             </p>
                                         </div>
                                     </div>
                                     <div class="kanan">
                                         <div class="info m-3 d-flex align-items-center">
-                                            <div class="w-100">
+                                            <div class="w-100 m-t-50">
                                                 <div class="block">
                                                                     <span class="time font-weight-light">
                                                                         <span style="font-size: 10pt">Còn
@@ -358,7 +359,14 @@
                                                                     </span>
                                                 </div>
                                                 <a target="_blank" ng-click="getDataAPI(v.ma)"
+                                                   ng-if="v.giaTriDonHang <= sumTotal"
                                                    class="btn btn-sm btn-outline-danger btn-block"
+                                                   data-bs-dismiss="modal">
+                                                    Sử dụng
+                                                </a>
+                                                <a target="_blank" ng-click="getDataAPI(v.ma)"
+                                                   ng-if="v.giaTriDonHang > sumTotal"
+                                                   class="btn btn-sm btn-outline-danger btn-block disabled"
                                                    data-bs-dismiss="modal">
                                                     Sử dụng
                                                 </a>
@@ -383,12 +391,18 @@
                                     </div>
                                     <div class="tengah py-3 d-flex w-100 justify-content-start">
                                         <div>
-                                            <span class="badge badge-success">Valid</span>
+                                            <span class="badge badge-success" ng-if="v.giaTriToiThieu > sumTotal">Đơn hàng không đủ điều kiện</span>
                                             <h3 class="lead">{{v.ma}}</h3>
-                                            <p class="text-muted mb-0">
-                                                Giảm giá {{v.mucGiam | currency: "" : 1}}
+                                            <p class="text-muted mb-0" ng-if="vc.loaiMucGiam == 'TIEN'">
+                                                Giảm giá {{v.mucGiam | currency: "" : 1}}đ
                                                 Cho đơn hàng trên
                                                 {{v.giaTriDonHang | currency: "" : 1}}đ
+                                            </p>
+                                            <p class="text-muted mb-0" ng-if="vc.loaiMucGiam == 'PHAN TRAM'">
+                                                Giảm giá {{v.mucGiam | currency: "" : 1}}%
+                                                Cho đơn hàng trên
+                                                {{v.giaTriDonHang | currency: "" : 1}}đ tối thiểu
+                                                {{v.mucGiamToiDa | currency: "" : 1}}đ
                                             </p>
                                             <input ng-model="voucher" name="voucher" value="{{v.ma}}"
                                                    class="form-check-input" type="hidden">
@@ -401,7 +415,14 @@
                                         <div class="info m-3 d-flex align-items-center">
                                             <div class="w-100 m-t-50">
                                                 <a target="_blank" ng-click="getDataAPI(v.ma)"
+                                                   ng-if="v.giaTriDonHang <= sumTotal"
                                                    class="btn btn-sm btn-outline-danger btn-block"
+                                                   data-bs-dismiss="modal">
+                                                    Sử dụng
+                                                </a>
+                                                <a target="_blank" ng-click="getDataAPI(v.ma)"
+                                                   ng-if="v.giaTriDonHang > sumTotal"
+                                                   class="btn btn-sm btn-outline-danger btn-block disabled"
                                                    data-bs-dismiss="modal">
                                                     Sử dụng
                                                 </a>

@@ -23,28 +23,46 @@ public class VoucherController {
     public String hienThi(Model model,
                           @RequestParam(name = "name", required = false) String name,
                           @RequestParam(defaultValue = "1", name = "pageNumber", required = false) Integer pageNumber) {
-        List<VoucherReponse> listVC;
-        int totalPage = 0;
-        long totalItems = 0;
+        List<VoucherReponse> listVC0;
+        int totalPage0 = 0;
+//        long totalItems0 = 0;
         if (name == null || name.isEmpty()) {
-            Page<VoucherReponse> page = service.findAll(pageNumber - 1, 5);
-            listVC = page.getContent();
-            totalPage = page.getTotalPages();
+            Page<VoucherReponse> page0 = service.findAll(pageNumber - 1, 5, 0);
+            listVC0 = page0.getContent();
+            totalPage0 = page0.getTotalPages();
         } else {
-            Pageable pageable = PageRequest.of(pageNumber - 1, 8);
-            Page<VoucherReponse> page = service.findByName("%" + name + "%", pageable);
-            listVC = page.getContent();
-            totalPage = page.getTotalPages();
+            Pageable pageable0 = PageRequest.of(pageNumber - 1, 8);
+            Page<VoucherReponse> page0 = service.findByName("%" + name + "%", pageable0);
+            listVC0 = page0.getContent();
+            totalPage0 = page0.getTotalPages();
             model.addAttribute("name", name);
         }
-        model.addAttribute("listVoucher", listVC);
-        model.addAttribute("totalPage", totalPage);
+//        trangj thasi 1
+        List<VoucherReponse> listVC1;
+        int totalPage1 = 0;
+        if (name == null || name.isEmpty()) {
+            Page<VoucherReponse> page1 = service.findAll(pageNumber - 1, 5, 1);
+            listVC1 = page1.getContent();
+            totalPage1 = page1.getTotalPages();
+        } else {
+            Pageable pageable1 = PageRequest.of(pageNumber - 1, 8);
+            Page<VoucherReponse> page1 = service.findByName("%" + name + "%", pageable1);
+            listVC1 = page1.getContent();
+            totalPage1 = page1.getTotalPages();
+            model.addAttribute("name", name);
+        }
+        model.addAttribute("listVoucher1", listVC1);
+        model.addAttribute("totalPage1", totalPage1);
+        model.addAttribute("listVoucher0", listVC0);
+        model.addAttribute("totalPage0", totalPage0);
         return "/admin/Voucher";
     }
+
     @GetMapping("/chi-tiet-voucher/{id}")
-    public String chiTietVoucher(@PathVariable String id) {
-        return "/admin/formVoucher";
+    public String chiTietVoucher() {
+        return "/admin/fromVoucherU";
     }
+
     @GetMapping("/them-voucher")
     public String danhSa3() {
         return "/admin/fromVoucher";

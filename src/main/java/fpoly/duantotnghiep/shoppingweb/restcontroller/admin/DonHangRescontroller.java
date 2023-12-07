@@ -25,6 +25,7 @@ import org.thymeleaf.context.Context;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @RestController("don-hang-restCtrl-admin")
 @RequestMapping("${admin.domain}/don-hang")
@@ -95,6 +96,50 @@ public class DonHangRescontroller {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(donHangService.updateDonHang(request, products));
+    }
+    @PostMapping("")
+    @Transactional(rollbackFor = {Exception.class, Throwable.class})
+    public ResponseEntity<?> themDonHang(@Valid @RequestPart("donHang") DonHangDTORequest request,
+                                           BindingResult result,
+                                           @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products) {
+        if(products.size()<=0){
+            result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn hàng"));
+        }
+
+        if(result.hasErrors()){
+            return ValidateUtil.getErrors(result);
+        }
+        String maDH = "";
+        while (true){
+            if(donHangService.existsByMa(codeDonHang())){
+                continue;
+            }else {
+                maDH = codeDonHang();
+                break;
+            }
+        }
+        request.setMa(maDH);
+        donHangService.themDonHangAdmin(request,products);
+        return ResponseEntity.ok().build();
+    }
+    private String codeDonHang() {
+        final String ALLOWED_CHARACTERS = "asdfghjklqwertyuiopzxcvbnmABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        final int CODE_LENGTH = 8;
+
+        StringBuilder code = new StringBuilder();
+
+        Random random = new Random();
+        int maxIndex = ALLOWED_CHARACTERS.length();
+
+        // Sinh ngẫu nhiên các ký tự cho mã
+        for (int i = 0; i < CODE_LENGTH; i++) {
+            int randomIndex = random.nextInt(maxIndex);
+            char randomChar = ALLOWED_CHARACTERS.charAt(randomIndex);
+            code.append(randomChar);
+        }
+
+        return code.toString();
     }
 
 

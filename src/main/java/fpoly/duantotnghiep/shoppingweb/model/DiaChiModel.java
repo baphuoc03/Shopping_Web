@@ -27,7 +27,7 @@ public class DiaChiModel {
     private String email;
 
     @Column(name = "thanhphoname")
-    private String thanhPhoName;
+    private String thanhphoName;
 
     @Column(name = "thanhphocode")
     private Integer thanhPhoCode;
@@ -47,8 +47,11 @@ public class DiaChiModel {
     @Column(name = "diachichitiet")
     private String diaChiChiTiet;
 
+    @Column(name = "macdinh")
+    private Boolean macDinh;
+
     @ManyToOne
-    @JoinColumn(name = "Khachhang")
+    @JoinColumn(name = "khachhang")
     @JsonBackReference
     private KhachHangModel taiKhoan;
 

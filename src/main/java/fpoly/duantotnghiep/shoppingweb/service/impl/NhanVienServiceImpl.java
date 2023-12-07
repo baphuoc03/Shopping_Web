@@ -63,7 +63,13 @@ public class NhanVienServiceImpl implements INhanVienService {
     @Override
     public NhanVienDtoResponse add(NhanVienDtoRequest nhanVien) throws MessagingException {
         nhanVien.setPassword(RandomUtil.randomPassword());
-        EmailUtil.sendEmail(nhanVien.getEmail(),"Thông Tin Tài Khoản","Thông tin tài khoản: \nUsername: "+nhanVien.getUsername()+"\nPassword: "+nhanVien.getPassword());
+        new Thread(() -> {
+            try {
+                EmailUtil.sendEmail(nhanVien.getEmail(), "Thông Tin Tài Khoản", "Thông tin tài khoản: \nUsername: " + nhanVien.getUsername() + "\nPassword: " + nhanVien.getPassword());
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }).start();
         NhanVienModel nhanVienModel = nhanVienRepository.save(nhanVien.mapToModel());
         return new NhanVienDtoResponse(nhanVienModel);
     }

@@ -61,7 +61,7 @@ public class NhanVienRestcontroller {
         if(result.hasErrors()) return ValidateUtil.getErrors(result);
         return ResponseEntity.ok(nhanVienService.add(nhanVien));
     }
-    @PutMapping(value = "")
+    @PutMapping(value = "thong-tin-ca-nhan")
     public ResponseEntity<?> updateUer(@Valid @RequestPart("nhanVien") NhanVienDtoRequest nhanVien,
                                  BindingResult result,
                                     @RequestPart(value = "img",required = false) MultipartFile img) throws IOException {

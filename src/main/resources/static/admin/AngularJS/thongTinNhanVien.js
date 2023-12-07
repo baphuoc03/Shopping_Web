@@ -37,7 +37,7 @@ app.controller("thongTinNhanVien-ctrl", function ($scope, $http) {
         }))
         formData.append("img",anhDaiDien)
 
-        $http.put("/admin/nhan-vien", formData,{
+        $http.put("/admin/nhan-vien/thong-tin-ca-nhan", formData,{
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         }).then(r => {

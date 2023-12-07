@@ -52,12 +52,11 @@ public class VoucherModel {
     @Column(name = "ngayketthuc")
     private Date ngayKetThuc;
 
-
     @Column(name = "soluong")
     private int soLuong;
 
-    @Column(name = "trangthaihienthi")
-    private Integer trangThaiHienThi;
+    @Column(name = "trangthaixoa")
+    private Integer trangThaiXoa;
 
     @Column(name = "hinhthucthanhtoan")
     private Integer hinhThucThanhToan;

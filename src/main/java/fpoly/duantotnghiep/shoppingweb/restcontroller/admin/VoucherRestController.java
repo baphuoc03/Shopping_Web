@@ -26,14 +26,6 @@ public class VoucherRestController {
     @Autowired
     VoucherServiceImpl service;
 
-    @GetMapping("/a")
-    public List<VoucherReponse> findAll(
-            @RequestParam(name = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
-        Page<VoucherReponse> page = service.findAll(pageNumber - 1, 1);
-        List<VoucherReponse> listVC = page.getContent();
-        return listVC;
-    }
-
     @PostMapping("")
     public ResponseEntity<?> save(@Valid @RequestPart("voucher") VoucherRequest voucherRequest, BindingResult result,
                                   @RequestPart(value = "idKhach", required = false) List<String> idKhachHang
@@ -43,9 +35,7 @@ public class VoucherRestController {
             List<KhachHangModel> khachHang = service.findByUserNameIn(idKhachHang);
             voucherRequest.setKhachHang(khachHang);
         }
-        if (voucherRequest.getNgayBatDau() != null && voucherRequest.getNgayBatDau().after(new Date())) {
-            voucherRequest.setTrangThai(1);
-        }
+
         voucherRequest.setMa(codeVoucher());
         validateNhap(result, voucherRequest);
         if (result.hasErrors()) {
@@ -56,13 +46,18 @@ public class VoucherRestController {
         );
     }
 
+    @PutMapping("/cap-nhat-trang-thai/{id}")
+    public ResponseEntity<?> capNhatTrangThai(@PathVariable String id, @RequestBody Integer trangThai) {
+        service.updateTrangThai(trangThai, id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") String id) {
-        System.out.println(id);
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @DeleteMapping("/{id}")
+    @PutMapping("/xoa-voucher/{id}")
     public ResponseEntity<ResponseObject> delete(@PathVariable("id") String id) {
         boolean exitst = service.exitst(id);
         if (exitst) {
@@ -164,10 +159,13 @@ public class VoucherRestController {
         }
         if (voucherRequest.getNgayKetThuc() == null) {
             result.rejectValue("ngayKetThuc", "", "Vui lòng nhập dữ liệu");
+        } else {
+            if (voucherRequest.getNgayKetThuc().before(new Date())) {
+                result.rejectValue("ngayKetThuc", "", "Vui lòng nhập ngày kết thúc trước ngày hiện tại");
+            }
         }
-        if (voucherRequest.getNgayKetThuc().before(new Date())) {
-            result.rejectValue("ngayKetThuc", "", "Vui lòng nhập ngày kết thúc trước ngày hiện tại");
-        }
+
+
         if (voucherRequest.getNgayBatDau() != null && voucherRequest.getNgayKetThuc() != null)
             if (voucherRequest.getNgayBatDau().after(voucherRequest.getNgayKetThuc())) {
                 result.rejectValue("ngayBatDau", "", "Ngày bắt đầu và kết thúc không hợp lệ");

@@ -31,7 +31,7 @@ public class ThuongHieuService implements IThuongHieuService {
 
     @Override
     public ThuongHieuDtoResponse findById(String s) {
-        ThuongHieuModel model = iThuongHieuRepository.findById(s).get();
+        ThuongHieuModel model = iThuongHieuRepository.findById(s).orElse(new ThuongHieuModel());
         return new ThuongHieuDtoResponse(model);
     }
 

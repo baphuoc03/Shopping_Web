@@ -50,4 +50,6 @@ public interface IDonHangService {
     BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate);
 
     DonHangDtoResponse updateTrangThai1(String maDonHang, Integer trangThai);
+
+    void themDonHangAdmin(DonHangDTORequest donHangDTORequest, List<ChiTietDonHangDTORequest> chiTietDonHang);
 }

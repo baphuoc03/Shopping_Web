@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("${admin.domain}/san-pham/{maSP}")
 public class ChiTietSanPhamRestController {
 
@@ -40,6 +42,7 @@ public class ChiTietSanPhamRestController {
     private IChiTietSanPhamService chiTietSanPhamService;
 
     @GetMapping("get-all")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     public ResponseEntity<List<ChiTietSanPhamDtoResponse>> getAll(@PathVariable("maSP")String maSP){
 
         return ResponseEntity.ok(chiTietSanPhamService.getAllBySanPhamMa(maSP));
@@ -85,6 +88,7 @@ public class ChiTietSanPhamRestController {
     }
 
     @GetMapping("kiem-tra-so-luong/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     public ResponseEntity<?> kiemTraSoLuong(@PathVariable("id") String id,
                                             @RequestParam("soLuong")Long soLuong,
                                             @RequestParam(value = "idCTDH",required = false)String idCTDH){
@@ -105,6 +109,7 @@ public class ChiTietSanPhamRestController {
     }
 
     @GetMapping("get-all-ctsp")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     public ResponseEntity<?> getAllCTS(@RequestParam(required = false) String keyWord){
         System.out.println(keyWord);
         if(keyWord != null){
@@ -113,5 +118,11 @@ public class ChiTietSanPhamRestController {
         return ResponseEntity.ok(chiTietSanPhamService.fillAllChiTietSP());
     }
 
-
+    @GetMapping("getSoLuong/{id}")
+    public ResponseEntity<?> getSoLuong(@PathVariable("id")String id){
+        Map<String,Long> result = new HashMap<>();
+        Long soLuong = chiTietSanPhamService.finById(id).getSoLuong();
+        result.put("soLuong",soLuong);
+        return ResponseEntity.ok(result);
+    }
 }

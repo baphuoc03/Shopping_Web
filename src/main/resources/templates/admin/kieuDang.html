@@ -90,9 +90,7 @@
                                                ng-click=findById(p.id)>
                                                 <i class="material-icons" title="Edit">&#xE254;</i>
                                             </a>
-                                            <a href="" class="edit"
-                                               ng-click=delete(p.id)
-                                            >
+                                            <a href="" class="edit" ng-click="delete(p.id)">
                                                 <i class="material-icons" title="Delete">&#xE872;</i>
                                             </a>
                                         </td>
@@ -173,7 +171,7 @@
                                 <label class="form-label">Tên Kiểu Dáng</label>
                                 <input type="text" class="form-control" ng-model="ten">
                                 <div ng-show="data.error" class="form-text text-danger ">{{ data.error }}</div>
-<!--                                <p class="form-text text-danger" id="erTen"></p>-->
+                                <!--                                <p class="form-text text-danger" id="erTen"></p>-->
 
                             </div>
                         </div>
@@ -220,7 +218,8 @@
 
 </div>
 <!-- Modal UPdate Quantity -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -234,7 +233,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="setUpdateSL()">Save changes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="setUpdateSL()">Save
+                    changes
+                </button>
             </div>
         </div>
     </div>
