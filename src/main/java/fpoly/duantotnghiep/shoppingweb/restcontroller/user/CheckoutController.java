@@ -100,9 +100,9 @@ public class CheckoutController {
     public Object addHoaDon(@Valid @RequestBody DonHangDTORequest donHangDTORequest,
                             BindingResult result,
                             Authentication authentication, HttpServletRequest request) throws MessagingException {
-        if (donHangDTORequest.getPhuongThucThanhToan() != voucherService.findById1(donHangDTORequest.getVoucher()).getHinhThucThanhToan()) {
-            result.rejectValue("tienGiam", "erTongTien", "Voucher không thể sử dụng cho hình thức thanh toán này");
-        }
+//        if (donHangDTORequest.getPhuongThucThanhToan() != voucherService.findById1(donHangDTORequest.getVoucher()).getHinhThucThanhToan()) {
+//            result.rejectValue("tienGiam", "erTongTien", "Voucher không thể sử dụng cho hình thức thanh toán này");
+//        }
         if (result.hasErrors()) {
             return ValidateUtil.getErrors(result);
         }

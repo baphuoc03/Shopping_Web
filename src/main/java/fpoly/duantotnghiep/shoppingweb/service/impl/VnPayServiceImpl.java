@@ -32,7 +32,7 @@ public class VnPayServiceImpl {
         System.out.println(tongTien);
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
-        String vnp_TxnRef = VnPayConfig.getRandomNumber(8);
+        String vnp_TxnRef = orderInfor;
         String vnp_IpAddr = "127.0.0.1";
         String vnp_TmnCode = VnPayConfig.vnp_TmnCode;
         String orderType = "order-type";

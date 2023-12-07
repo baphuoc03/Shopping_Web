@@ -19,4 +19,5 @@ public interface IGioHangService {
     Boolean checkSanPhamTrongGio(String idCTSP);
 
     Integer getSoLuong(String idCTSP);
+    public void removeAllProdcutInCart();
 }
