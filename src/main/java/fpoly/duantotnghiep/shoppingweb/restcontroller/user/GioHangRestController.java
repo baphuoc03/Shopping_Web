@@ -68,6 +68,11 @@ public class GioHangRestController {
         service.removeProductInCart(idCTSP);
         return service.laySpTrongGio();
     }
+    @DeleteMapping("/removeAll")
+    public  ResponseEntity<List<GioHangDtoReponse>> removeProductInCart(){
+        service.removeAllProdcutInCart();
+        return ResponseEntity.ok(service.laySpTrongGio());
+    }
 
 
 }
