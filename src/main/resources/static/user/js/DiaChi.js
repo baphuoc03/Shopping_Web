@@ -163,6 +163,9 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         .catch(function (error) {
         });
     $scope.updateDiaChi = function (id) {
+        let indexCity = $scope.citys.findIndex(c => c.ProvinceID == $scope.thanhPhoCode)
+        let indexDistrict = $scope.districts.findIndex(d => d.DistrictID == $scope.quanHuyenCode)
+        let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode)
         var url = "/update" + "/" + id;
         var updateDiaChi = {
             thanhPhoCode: $scope.thanhPhoCode,
