@@ -5,10 +5,7 @@ import fpoly.duantotnghiep.shoppingweb.model.DongSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
 import jakarta.persistence.Entity;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -20,6 +17,7 @@ public class DonHangDTORequest {
     private KhachHangModel nguoiSoHuu;
     private String voucher;
     @NotBlank(message = "Vui lòng nhập dữ liệu")
+    @Size(max = 100, message = "Diạ chỉ chi tiết tối 100 ký tự")
     private String tenNguoiNhan;
     @NotBlank(message = "Vui lòng nhập dữ liệu")
     @Pattern(regexp = "0\\d{9}", message = "Số điện thoại không đúng định dạng")
@@ -40,9 +38,11 @@ public class DonHangDTORequest {
     @NotBlank(message = "Vui lòng nhập dữ liệu")
     private String xaPhuongCode;
     @NotBlank(message = "Vui lòng nhập dữ liệu")
+    @Size(max = 255, message = "Diạ chỉ chi tiết tối 255 ký tự")
     private String diaChiChiTiet;
     private Date ngayDatHang;
     private Integer trangThai;
+    @Size(max = 255, message = "Diạ chỉ chi tiết tối 255 ký tự")
     private String ghiChu;
     private BigDecimal tienGiam;
     private BigDecimal phiGiaoHang;
