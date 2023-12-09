@@ -1,23 +1,21 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.ResponseEntity.ResponseObject;
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
-import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
-import fpoly.duantotnghiep.shoppingweb.service.impl.KhachHangServiceImpl;
+import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VoucherServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("${admin.domain}/voucher")
@@ -47,7 +45,14 @@ public class VoucherRestController {
     }
 
     @PutMapping("/cap-nhat-trang-thai/{id}")
-    public ResponseEntity<?> capNhatTrangThai(@PathVariable String id, @RequestBody Integer trangThai) {
+    public ResponseEntity<?> capNhatTrangThai(@RequestBody Integer trangThai,
+                                              @PathVariable String id) {
+//        VoucherModel vc = service.findById1(id);
+//        if (vc.getNgayBatDau().after(new Date())) {
+//            result.rejectValue("trangThai", "", "Không thể kích hoạt voucher khi đơn hàng chưa đến hạn");
+//        } else if(vc.getNgayKetThuc().after(new Date())){
+//            result.rejectValue("trangThai", "", "Không thể kích hoạt voucher khi đơn hàng chưa đến hạn");
+//        }
         service.updateTrangThai(trangThai, id);
         return ResponseEntity.ok().build();
     }
@@ -75,13 +80,21 @@ public class VoucherRestController {
     public ResponseEntity<ResponseObject> update(@Valid @RequestBody VoucherRequest voucherRequest,
                                                  BindingResult result,
                                                  @PathVariable("id") String id) {
+
         boolean exitst = service.exitst(id);
         validateNhap(result, voucherRequest);
         if (exitst) {
-            voucherRequest.setMa(id);
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("Oke", "Sửa thành công", service.addVoucher(voucherRequest))
-            );
+            VoucherModel vc = service.findById1(id);
+            if (vc.getDoiTuongSuDung() == 0) {
+                voucherRequest.setMa(id);
+                return ResponseEntity.status(HttpStatus.OK).body(
+                        new ResponseObject("Oke", "Sửa thành công", service.addVoucher(voucherRequest))
+                );
+            } else {
+                return ResponseEntity.status(HttpStatus.FOUND).body(
+                        new ResponseObject("Found", "Không the update", "")
+                );
+            }
         }
         return ResponseEntity.status(HttpStatus.FOUND).body(
                 new ResponseObject("Found", "Không tìm thấy", "")

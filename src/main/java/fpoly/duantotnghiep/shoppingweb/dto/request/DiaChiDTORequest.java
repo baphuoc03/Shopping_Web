@@ -30,7 +30,7 @@ public class DiaChiDTORequest {
     @NotBlank(message = "Không để trống địa chỉ chi tiết")
     private String diaChiChiTiet;
 
-    public DiaChiModel mapToModel(){
+    public DiaChiModel mapToModel() {
         DiaChiModel diaChiModel = new DiaChiModel();
         KhachHangModel model = new KhachHangModel();
         diaChiModel.setId(id);

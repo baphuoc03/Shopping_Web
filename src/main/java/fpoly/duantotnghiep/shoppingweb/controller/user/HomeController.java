@@ -29,12 +29,17 @@ public class HomeController {
         return "/user/filterProduct";
     }
 
+//    @GetMapping("gio-hang")
+//    public String gioHang() {
+//        return "/user/GioHang";
+//    }
+
     @GetMapping("thanh-toan")
     public String thanhToan() {
-//        List<GioHangDtoReponse> giohang = gioHangService.laySpTrongGio();
-//        if (giohang.size() == 0) {
-//            return "/user/gioHang";
-//        }
+        List<GioHangDtoReponse> giohang = gioHangService.laySpTrongGio();
+        if (giohang.size() == 0) {
+            return "/user/gioHang";
+        }
         return "/user/thanhToan";
     }
 

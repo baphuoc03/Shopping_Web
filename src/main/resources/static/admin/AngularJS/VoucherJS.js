@@ -2,7 +2,7 @@ var app = angular.module("voucher", [])
 app.controller("voucher-ctrl", function ($scope, $http) {
         const url = "http://localhost:8080/admin/voucher"
         var getUrlWithId = function (id) {
-            return url + "/" + id;
+            return url + id;
         }
         const pathName = location.pathname;
         const id = pathName.substring(pathName.lastIndexOf("/"))
@@ -14,7 +14,6 @@ app.controller("voucher-ctrl", function ($scope, $http) {
 
         //    chi tiet
         $http.get("http://localhost:8080/admin/voucher" + id).then(function (res) {
-
             const voucher = res.data;
             $scope.ma = voucher.ma
             $scope.voucherAdd.moTa = voucher.moTa;
@@ -29,24 +28,32 @@ app.controller("voucher-ctrl", function ($scope, $http) {
             $scope.voucherAdd.doiTuongSuDung = voucher.doiTuongSuDung;
             $scope.voucherAdd.danhSachKhach = voucher.danhSachKhachHang;
             $scope.voucherAdd.trangThai = voucher.trangThai
-
+            $scope.ngayHienTai = new Date();
         });
         $scope.findAllKhachHang = []
-        $http.get("http://localhost:8080/admin/khach-hang/khach-hang-voucher").then(function (res) {
-            $scope.findAllKhachHang = res.data
-            $scope.findAllKhachHang.forEach(k => $scope.voucherAdd.danhSachKhach.forEach(k1 => {
-                if (k.username == k1.username) {
-                    k.selected = true
-                }
-            }))
-        }).catch(err => console.log(err))
-        console.log($scope.findAllKhachHang)
+        $scope.khachHangVoucher = function (dieuKien) {
+            $http.get("http://localhost:8080/admin/khach-hang/khach-hang-voucher?dieuKien=" + dieuKien).then(function (res) {
+                $scope.findAllKhachHang = res.data
+                $scope.findAllKhachHang.forEach(k => $scope.voucherAdd.danhSachKhach.forEach(k1 => {
+                    if (k.username == k1.username) {
+                        k.selected = true
+                    }
+                }))
+            }).catch(err => console.log(err))
+        }
+        $scope.khachHangVoucher(3)
+        $scope.locKhach = "";
+        $scope.handleOptionChange = function (optionValue) {
+            $scope.khachHangVoucher(optionValue)
+        };
+
         //update trangj thasi
         $scope.updateTrangThai = function (trangThai) {
             $http.put("http://localhost:8080/admin/voucher/cap-nhat-trang-thai" + id, trangThai).then(function (res) {
                 location.reload();
             })
         }
+
         //Xóa mềm voucher
         $scope.xoaVoucher = function (id) {
             $http.put("http://localhost:8080/admin/voucher/xoa-voucher/" + id).then(function (res) {
@@ -67,6 +74,7 @@ app.controller("voucher-ctrl", function ($scope, $http) {
                 $scope.danhSachKhach.push(id);
             }
         }
+
 
 //add
         $scope.create = function () {
@@ -101,17 +109,18 @@ app.controller("voucher-ctrl", function ($scope, $http) {
             })
         }
 //update
-        $scope.update = function (id) {
+        $scope.update = function () {
             var urlWithId = getUrlWithId(id)
             var voucher = {
-                ten: $scope.ten,
-                loai: $scope.loai,
-                mucGiam: $scope.mucGiam,
-                mucGiamToiDa: $scope.mucGiamToiDa,
-                giaTriToiThieu: $scope.giaTriToiThieu,
-                ngayBatDau: $scope.ngayBatDau,
-                ngayKetThuc: $scope.ngayKetThuc,
-                soLuong: $scope.soLuong
+                ngayKetThuc: $scope.voucherAdd.ngayKetThuc,
+                ngayBatDau: $scope.voucherAdd.ngayBatDau,
+                moTa: $scope.voucherAdd.moTa,
+                loaiMucGiam: $scope.voucherAdd.loaiMucGiam,
+                mucGiam: $scope.voucherAdd.mucGiam,
+                giaTriDonHang: $scope.voucherAdd.giaTriDonHang,
+                soLuong: $scope.voucherAdd.soLuong,
+                hinhThucThanhToan: $scope.ngayKetThuc,
+                mucGiamToiDa: $scope.voucherAdd.mucGiamToiDa
             }
             $http.put(urlWithId, voucher).then(function (resp) {
                 location.reload();

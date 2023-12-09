@@ -39,13 +39,13 @@ public class SecurityAdminConfig {
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests(requests -> requests
-                                .requestMatchers(adminPermitAll).permitAll()
-//                        .requestMatchers("/detail").hasAnyAuthority("STAFF","ADMIN")
-                                .requestMatchers("/admin/nhan-vien/thong-tin-ca-nhan","/admin/nhan-vien/getUser","/admin/nhan-vien/is-admin")
-                                .hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
-
-                                .requestMatchers(adminUrl).hasAuthority(Roles.ADMIN.name())
-                                .requestMatchers("/admin/**","/admin/nhan-vien/thong-tin-ca-nhan").hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
+//                                .requestMatchers(adminPermitAll).permitAll()
+////                        .requestMatchers("/detail").hasAnyAuthority("STAFF","ADMIN")
+//                                .requestMatchers("/admin/nhan-vien/thong-tin-ca-nhan","/admin/nhan-vien/getUser","/admin/nhan-vien/is-admin")
+//                                .hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
+//
+//                                .requestMatchers(adminUrl).hasAuthority(Roles.ADMIN.name())
+//                                .requestMatchers("/admin/**","/admin/nhan-vien/thong-tin-ca-nhan").hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
                                 .anyRequest().permitAll()
                 )
                 .userDetailsService(userAdminService)

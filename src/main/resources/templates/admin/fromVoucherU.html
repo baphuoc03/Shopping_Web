@@ -26,15 +26,20 @@
                                     <ul class="navbar-nav me-auto">
                                     </ul>
                                     <form class="d-flex">
+                                        <button
+                                                ng-if="voucherAdd.doiTuongSuDung == 'Tất cả khách hàng'"
+                                                class="btn btn-primary" ng-click="update()" type="button"> Cập
+                                            nhật
+                                        </button>
                                         <button ng-click="updateTrangThai(1)"
                                                 ng-if="voucherAdd.trangThai == 0"
-                                                class="btn btn-primary" type="button"> Dừng kích hoạt
+                                                class="btn btn-danger" type="button"> Dừng kích hoạt
                                         </button>
                                         <button ng-click="updateTrangThai(0)"
                                                 style="margin-right: 10px" ng-if="voucherAdd.trangThai == 1"
+                                                ng-disabled="voucherAdd.ngayKetThuc < ngayHienTai || voucherAdd.ngayBatDau > ngayHienTai"
                                                 class="btn btn-primary" type="button">Kích hoạt
                                         </button>
-
                                     </form>
                                 </div>
                             </div>
@@ -56,8 +61,7 @@
                                             <input ng-model="voucherAdd.ngayBatDau" name="productname"
                                                    type="datetime-local"
                                                    class="form-control"
-                                                   ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'">
-                                            <p class="form-text text-danger">{{erNgayBatDau}}</p>
+                                                   ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách' || voucherAdd.doiTuongSuDung =='Tất cả khách hàng'">
                                         </div>
                                         <div class="mb-3">
                                             <label for="metakeywords">Thời gian kết thúc</label>
@@ -65,7 +69,6 @@
                                                    name="manufacturername"
                                                    ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"
                                                    type="datetime-local" class="form-control">
-                                            <p class="form-text text-danger">{{erNgayKetThuc}}</p>
                                         </div>
                                     </div>
 
@@ -76,7 +79,6 @@
                                                       id="metadescription"
                                                       rows="5"
                                                       ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"></textarea>
-                                            <p class="form-text text-danger">{{erMoTa}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +100,6 @@
                                                    ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"
                                                    type="number"
                                                    class="form-control" ng-model="voucherAdd.mucGiam">
-                                            <p class="form-text text-danger">{{erMucGiam}}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
@@ -127,8 +128,6 @@
                                                    type="number"
                                                    ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"
                                                    class="form-control">
-                                            <p class="form-text text-danger">{{erMucGiamToiDa}}</p>
-
                                         </div>
                                     </div>
                                 </div>
@@ -149,7 +148,6 @@
                                             <input name="productname" type="number"
                                                    ng-disabled="voucherAdd.doiTuongSuDung =='Tùy chọn khách'"
                                                    class="form-control" ng-model="voucherAdd.giaTriDonHang">
-                                            <p class="form-text text-danger">{{erGiaTriDonHang}}</p>
                                         </div>
                                     </div>
 

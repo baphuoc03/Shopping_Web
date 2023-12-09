@@ -6,15 +6,13 @@ import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
 
 public interface VoucherService {
-    public List<VoucherReponse> voucherInKhachHang(String username);
 
     public List<VoucherReponse> findVoucherSort(String sort);
-
-    public void updateTrangThai();
 
     public List<VoucherReponse> voucherEligible();
 
@@ -37,6 +35,10 @@ public interface VoucherService {
     public boolean exitst(String id);
 
     public void deleteVouchers(List<String> ids);
+
+    void mailThongBao();
+
+    void updateKichHoat();
 
     public Integer upddateSoLuong(int soLuong, String ma);
 

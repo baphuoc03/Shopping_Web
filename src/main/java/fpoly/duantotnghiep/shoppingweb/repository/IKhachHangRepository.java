@@ -21,10 +21,19 @@ public interface IKhachHangRepository extends JpaRepository<KhachHangModel, Stri
     List<KhachHangModel> findByUsernameIn(List<String> ma);
 
     @Query("""
-    SELECT k FROM KhachHangModel k WHERE k.hoVaTen LIKE %?1% OR k.soDienThoai LIKE %?1%
-""")
+                SELECT k FROM KhachHangModel k WHERE k.hoVaTen LIKE %?1% OR k.soDienThoai LIKE %?1%
+            """)
     Page<KhachHangModel> search(String keyWord, Pageable pageable);
 
+    @Query("SELECT dh.nguoiSoHuu FROM DonHangModel dh WHERE dh.trangThai = 4 GROUP BY dh.nguoiSoHuu having COUNT(dh) > 3")
+    List<KhachHangModel> findKhachMuaNhieu();
+
+    @Query("SELECT dh.nguoiSoHuu FROM DonHangModel dh WHERE dh.trangThai = 4 GROUP BY dh.nguoiSoHuu having COUNT(dh) = 1")
+    List<KhachHangModel> findKhachMuaLanDau();
+
+    @Query("SELECT dh.nguoiSoHuu FROM DonHangModel dh WHERE dh.trangThai = 4 GROUP BY dh.nguoiSoHuu having COUNT(dh) = 0")
+    List<KhachHangModel> findKhachMoiMua();
+           
     @Query("""
     SELECT k FROM KhachHangModel k WHERE k.username = ?1
 """)

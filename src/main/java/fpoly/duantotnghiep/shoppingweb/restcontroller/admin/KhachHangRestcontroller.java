@@ -27,16 +27,16 @@ public class KhachHangRestcontroller {
     private IKhachHangService taiKhoanService;
 
     @GetMapping("/khach-hang-voucher")
-    public List<KhachHangDtoResponse> findAllKhach() {
-        return taiKhoanService.getAllFromVoucher();
+    public List<KhachHangDtoResponse> findAllKhach(@RequestParam(name = "dieuKien", defaultValue = "3", required = false) int dieuKien) {
+        return taiKhoanService.khachHangVoucher(dieuKien);
     }
 
     @GetMapping("get-all-khach-hang")
-    public ResponseEntity<Page<KhachHangDtoResponse>> getAllKhachHang(@RequestParam(defaultValue = "0")Integer page,
-                                                                      @RequestParam(defaultValue = "8")Integer limit,
-                                                                      @RequestParam(required = false) String keyWord){
-        if(keyWord!=null){
-            return ResponseEntity.ok(taiKhoanService.search(keyWord,page, limit));
+    public ResponseEntity<Page<KhachHangDtoResponse>> getAllKhachHang(@RequestParam(defaultValue = "0") Integer page,
+                                                                      @RequestParam(defaultValue = "8") Integer limit,
+                                                                      @RequestParam(required = false) String keyWord) {
+        if (keyWord != null) {
+            return ResponseEntity.ok(taiKhoanService.search(keyWord, page, limit));
         }
         return ResponseEntity.ok(taiKhoanService.getAll(page, limit));
     }

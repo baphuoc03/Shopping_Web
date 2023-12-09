@@ -7,6 +7,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
 import fpoly.duantotnghiep.shoppingweb.model.*;
 import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
+import fpoly.duantotnghiep.shoppingweb.repository.KhuyenMaiRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.VoucherRepository;
 import fpoly.duantotnghiep.shoppingweb.service.*;
 import fpoly.duantotnghiep.shoppingweb.service.impl.*;
@@ -69,7 +70,13 @@ public class CheckoutController {
             return ResponseEntity.ok().build();
         }
         List<VoucherModel> voucherInKhach = khRepository.findById(authen.getName()).get().getVoucher();
-        return ResponseEntity.ok(voucherInKhach);
+        List<VoucherModel> voucherHT = new ArrayList<>();
+        voucherInKhach.forEach(x -> {
+            if (x.getTrangThaiXoa() == 0 || x.getNgayKetThuc().before(new Date())) {
+                voucherHT.add(x);
+            }
+        });
+        return ResponseEntity.ok(voucherHT);
     }
 
     @GetMapping("thanh-toan/{ma}")
