@@ -1,9 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +17,8 @@ public class KhachHangDTORequest {
     private String username;
     @NotBlank(message = "Không để trống password")
     private String password;
-    @NotBlank(message = "Không để trống password")
-    
+    @NotBlank(message = "Không để trống họ và tên")
+    @Size(max = 100,message = "Họ và tên tối đa 100 ký tự")
     private String hoVaTen;
 
     private Boolean gioiTinh;

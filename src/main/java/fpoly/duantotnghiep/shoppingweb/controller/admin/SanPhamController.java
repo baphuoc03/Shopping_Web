@@ -89,10 +89,14 @@ public class SanPhamController {
         return "redirect:/admin/san-pham";
     }
 
-    @GetMapping("update/{ma}")
+    @GetMapping({"update/{ma}","xem-chi-tiet/{ma}"})
     public String viewUpdate(Model model,
                              @PathVariable("ma") String ma) {
 //        request.setAttribute("sanPham", new SanPhamDtoRequest());
+        if(!sanPhamService.existsById(ma)){
+            return "admin/authen/notFound";
+        }
+
         model.addAttribute("sanPham", sanPhamService.findDtoRequetsByMa(ma));
         request.setAttribute("method", "put");
         request.setAttribute("action", "update/" + ma);

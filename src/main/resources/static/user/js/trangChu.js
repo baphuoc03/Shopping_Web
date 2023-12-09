@@ -63,6 +63,29 @@ app.controller("ctrl", function ($scope, $http) {
         }
 
     }
+    ///////////get Sản phẩm theo thương hiệu
+    $http.post("/san-pham/filter?limit=4", $scope.filterDto = {////nike
+        dongSanPham : "c413a9fb-51de-4a92-9946-c77e0f3dcc99"
+    }).then(r => {
+        $scope.productNikes = r.data.content;
+        // $scope.filterData = {}
+    }).catch(e => console.log(e))
+
+    $http.post("/san-pham/filter?limit=4", $scope.filterDto = {////adidas
+        dongSanPham : "5c832b42-c43c-4517-bd39-23f14631f8b5"
+    }).then(r => {
+        $scope.productAdidas = r.data.content;
+        // $scope.filterData = {}
+    }).catch(e => console.log(e))
+
+    $http.post("/san-pham/filter?limit=4", $scope.filterDto = {////vans
+        dongSanPham : "874c4e1e-61a7-4144-a8e8-49fe8c61ca46"
+    }).then(r => {
+        $scope.productVans = r.data.content;
+        // $scope.filterData = {}
+    }).catch(e => console.log(e))
+
+    ///////////////////////////
 
 //    show giỏ hàng
     $scope.cart = []

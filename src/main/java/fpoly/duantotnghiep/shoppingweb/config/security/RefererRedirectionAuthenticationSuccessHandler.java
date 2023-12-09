@@ -29,15 +29,16 @@ public class RefererRedirectionAuthenticationSuccessHandler extends SimpleUrlAut
         if(targetUrl == null){
             targetUrl = "/trang-chu";
         }
+        System.out.println(request.getHeader("referer"));
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
     private String getUrlBefore(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
+        if(cookies == null) return null;
         String url = null;
         for (var c : cookies) {
             if (c.getName().equals("url")) {
-                System.out.println(c.getMaxAge());
                 url = c.getValue();
             }
         }

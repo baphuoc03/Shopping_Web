@@ -39,11 +39,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-6 nav  ">
-                                    <form action="" class="d-flex">
-                                        <input class="form-control me-2" name="name" type="text"
-                                               placeholder="Search">
-                                        <button class="btn btn-primary" type="submit">Search</button>
-                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -63,9 +59,9 @@
                                     <tr ng-repeat="i in items">
                                         <td>{{$index + 1}}</td>
                                         <td>{{i.size}}</td>
-                                        <td><input value="{{i.soLuong}}" min="0" type="number" class="inputInTable" id="{{i.id}}"
+                                        <td><input value="{{i.soLuong}}" min="0" type="number" class="inputInTable" id="{{i.id}}" th:disabled="${!hasAdmin}"
                                             onchange="angular.element(this).scope().updateSlInTable(this.value,this.id)"></td>
-                                        <td >
+                                        <td th:if="${hasAdmin}">
                                             <div class="dropdown">
                                             <span data-bs-toggle="dropdown" aria-expanded="false"  style="cursor: pointer">
                                                 ...
@@ -81,32 +77,6 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div class="row">
-                                    <div class="col-6">
-
-                                    </div>
-                                    <div class="col-6">
-                                        <nav aria-label="Page navigation example">
-                                            <ul class="pagination justify-content-end">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" aria-label="Previous">
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                        <span class="sr-only">Previous</span>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                        <span class="sr-only">Next</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
                             </div>
                             <!--                            ////////------From-------////////////////////////////////////-->
                             <div class="col-6">
@@ -115,7 +85,7 @@
                                         <div class="d-flex justify-content-center">
                                             <div class="mb-3 col-10 " ng-click="removeER('eSize')">
                                                 <label >Size</label>
-                                                <select class="form-select" ng-model="form.sizes" id="sizeSL" data-placeholder="Chọn size" multiple
+                                                <select class="form-select" ng-model="form.sizes" id="sizeSL" data-placeholder="Chọn size" multiple th:disabled="${!hasAdmin}"
                                                 onchange="angular.element(this).scope().selectAllSize()">
                                                     <option >Chọn tất cả</option>
                                                     <option ng-repeat="s in sizes" value="{{s.ma}}" style="border-bottom: 1px" >{{s.ma}}</option>
@@ -126,16 +96,15 @@
                                         <div class="d-flex justify-content-center">
                                             <div class="col-10 mb-3">
                                                 <label >Số lượng</label>
-                                                <input ng-model="form.soLuong" type="number" min="0" required class="form-control" ng-focus="removeER('eSoLuong')">
+                                                <input ng-model="form.soLuong" type="number" min="0" th:disabled="${!hasAdmin}"
+                                                       required class="form-control" ng-focus="removeER('eSoLuong')">
                                                 <i id="eSoLuong"  class="er"></i>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center">
                                     <div class="d-flex flex-wrap gap-2 col-10">
-                                        <button type="button" ng-click="add()" class="btn btn-primary waves-effect waves-light">Thêm </button>
-                                        <button type="button"
-                                                class="btn btn-secondary waves-effect waves-light">Cancel</button>
+                                        <button type="button" ng-click="add()" th:disabled="${!hasAdmin}" class="btn btn-primary waves-effect waves-light">Thêm </button>
                                     </div>
                                     </div>
                                 </form>

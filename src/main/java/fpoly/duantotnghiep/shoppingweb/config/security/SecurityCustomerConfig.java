@@ -25,7 +25,7 @@ public class SecurityCustomerConfig {
 
     @Bean("Filter-user")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        String[] authen = {"/lich-su-mua-hang1","/danh-sach-yeu-thich/**"};
+        String[] authen = {"/lich-su-mua-hang1","/danh-sach-yeu-thich/**","/doi-mat-khau/**","/thong-tin-ca-nhan/**"};
         http
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())

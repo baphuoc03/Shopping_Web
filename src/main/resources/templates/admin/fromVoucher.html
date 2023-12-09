@@ -26,7 +26,8 @@
                                     <ul class="navbar-nav me-auto">
                                     </ul>
                                     <form class="d-flex">
-                                        <button ng-click="create()" class="btn btn-primary" type="button">Lưu voucher
+                                        <button ng-click="create()"
+                                                class="btn btn-primary" type="button">Lưu voucher
                                         </button>
                                     </form>
                                 </div>
@@ -96,9 +97,9 @@
                                                 <select class="form-select" ng-model="voucherAdd.loaiMucGiam"
                                                         id="loai"
                                                         onchange="toggleDiv()">
-                                                    <option selected value="TIEN"
-                                                            ng-selected="$scope.voucherAdd.loaiMucGiam === 'TIEN'">đ
-                                                    </option>
+                                                    <option0 value="TIEN">
+                                                        đ
+                                                    </option0>
                                                     <option value="PHAN TRAM">%</option>
                                                 </select>
                                             </div>
@@ -150,7 +151,7 @@
                                            type="radio" name="flexRadioDefault"
                                            id="flexRadioDefault1"
                                            ng-model="voucherAdd.hinhThucThanhToan" value="0"
-                                           ng-checked="voucherAdd.hinhThucThanhToan == 0">
+                                           ng-checked="true">
                                     <label class="form-check-label" for="flexRadioDefault1">
                                         Thanh toán khi nhận hàng
                                     </label>
@@ -245,7 +246,6 @@
                         <div class="card-header">
                             <h4 class="card-title">Danh sách khách hàng</h4>
                             <p class="form-text text-danger">{{erKhachHang}}</p>
-
                         </div>
                         <div class="card-body">
                             <div class="row">

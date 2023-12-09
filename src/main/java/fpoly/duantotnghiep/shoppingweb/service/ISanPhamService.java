@@ -44,7 +44,7 @@ public interface ISanPhamService {
     Integer updateTrangThaiHIenThi(Boolean trangThai, String ma);
 
 
-    Page<SanPhamDtoResponse> filter(SanPhamDtoFilter sanPhamDtoFilter, Integer pageNumber, Integer limt);
+    Page<SanPhamDtoResponse>  filter(SanPhamDtoFilter sanPhamDtoFilter, Integer pageNumber, Integer limt);
 
     Page<SanPhamDtoResponse> filterInUser(SanPhamDtoFilter sanPhamDtoFilter, Integer pageNumber, Integer limt);
 

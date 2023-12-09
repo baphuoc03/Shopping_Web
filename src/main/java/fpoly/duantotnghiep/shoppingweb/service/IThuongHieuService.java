@@ -14,4 +14,6 @@ public interface IThuongHieuService {
     public boolean existsById(String s);
     public void deleteById(String s);
     public void deleteByIds(List<String> s);
+
+    List<ThuongHieuDtoResponse> getThuongHieuBanChay();
 }

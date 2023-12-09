@@ -115,7 +115,7 @@
 
                                 <div class="item-slick3" data-thumb="/image/loadImage/product/{{product.anh[1]}}">
                                     <div class="wrap-pic-w pos-relative">
-                                        <img src="/image/loadImage/product/{{product.anh[1]}}" alt="IMG-PRODUCT">
+                                        <img src="/image/loadImage/product/{{product.anh[1]}}" alt="IMG-PRODUCT" style="width: 550px">
 
                                         <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
                                            href="images/product-detail-02.jpg">
@@ -124,7 +124,7 @@
                                     </div>
                                 </div>
 
-                                <div class="item-slick3" data-thumb="/image/loadImage/product/{{product.anh[2]}}">
+                                <div class="item-slick3" data-thumb="/image/loadImage/product/{{product.anh[2]}}" style="width: 550px">
                                     <div class="wrap-pic-w pos-relative">
                                         <img src="/image/loadImage/product/{{product.anh[2]}}" alt="IMG-PRODUCT">
 
@@ -141,9 +141,17 @@
 
                 <div class="col-md-6 col-lg-5 p-b-30">
                     <div class="p-r-50 p-t-5 p-lr-0-lg">
-                        <h4 class="mtext-105 cl2 js-name-detail p-b-14">
-                            {{product.ten}}
-                        </h4>
+                        <div class="d-flex align-content-center">
+                            <h4 class="mtext-105 cl2 js-name-detail p-b-14 me-2">
+                                {{product.ten}}
+                            </h4>
+                            <span class="stext-105 cl3" ng-if="product.giaBan > product.giaNiemYet && p.loaiGiam == 'TIEN'">
+									- {{product.mucGiam | currency: "" : 1}}đ
+                            </span>
+                            <span class="stext-105 cl3" ng-if="product.giaBan > product.giaNiemYet && p.loaiGiam != 'TIEN'">
+									- {{product.mucGiam}}%
+                            </span>
+                        </div>
                         <div class="row">
                             <div class="col-6 d-flex justify-content-around align-items-center"
                                  style="border-right: 1px solid #000;">
@@ -161,10 +169,10 @@
                         <br>
 
                         <span class="mtext-106 cl2">
-                                    <span class="stext-105 cl3" ng-if="product.giaBan < product.giaNiemYet">
-									<del>{{product.giaNiemYet | currency: "" : 1}}đ</del>
+                                    <span class="stext-105 cl3" ng-if="product.giaBan > product.giaNiemYet">
+									<del>{{product.giaBan | currency: "" : 1}}đ</del>
 								    </span>
-                                <b style="color: red">{{product.giaBan | currency: "" : 1}}đ</b>
+                                <b style="color: red">{{product.giaNiemYet | currency: "" : 1}}đ</b>
 						</span>
 
                         <p class="m-t-10">
@@ -206,7 +214,7 @@
                             <!--add to cart -->
                             <div class="row p-b-10">
                                 <div class="size-600 flex-w flex-m respon6-next">
-                                    <div class="col-6" style="border-radius: 30px;">
+                                    <div class="col-5" style="border-radius: 30px;">
                                         <div class="wrap-num-product flex-w m-r-20 m-tb-10">
                                             <div style="" class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
                                                 <i class="fs-16 zmdi zmdi-minus"></i>
@@ -218,27 +226,43 @@
                                                 <i class="fs-16 zmdi zmdi-plus"></i>
                                             </div>
                                         </div>
+                                        <i id="eSize"  class="text-danger"></i>
+
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-5">
                                         <button ng-click="addToCart()"
                                                 class="flex-c-m stext-80 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
                                             Thêm vào giỏ hàng
                                         </button>
                                     </div>
-                                    <i id="eSize"  class="text-danger"></i>
+                                    <div class="col-2" style="font-size: 30px">
+                                        <i ng-if="maSpInDSYT.includes(product.ma) == false" id="{{product.ma}}"
+                                           class="far fa-heart" ng-click="addDSYT(product.ma)"></i>
+                                        <i ng-if="maSpInDSYT.includes(product.ma) == true" id="{{product.ma}}"
+                                           class="fas fa-heart" ng-click="addDSYT(product.ma)"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="flex-w flex-m p-l-100 p-t-40 respon7" >
-                            <div class="block2-txt-child2 flex-r p-t-3">
-                                <i ng-if="maSpInDSYT.includes(product.ma) == false" id="{{product.ma}}"
-                                   class="far fa-heart" ng-click="addDSYT(product.ma)"></i>
-                                <i ng-if="maSpInDSYT.includes(product.ma) == true" id="{{product.ma}}"
-                                   class="fas fa-heart" ng-click="addDSYT(product.ma)"></i>
-                            </div>
-
-
+                    </div>
+                </div>
+            </div>
+            <!--    /////////Modal đăng nhập-->
+            <div class="modal fade" id="dangNhap" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Thông Báo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Đăng nhập để sử dụng tính năng!
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#dangNhap').modal('hide')">Trở về</button>
+                            <button ng-click="login()" class="btn btn-primary text-white">Đăng nhập</button>
                         </div>
                     </div>
                 </div>
@@ -482,15 +506,21 @@
             </div>
 
             <!-- Slide2 -->
-            <div class="wrap-slick2">
-                <div class="slick2">
-                    <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
+            <div class="">
+                <div class="d-flex justify-content-center">
+<!--                    ////-->
+                    <div class="p-l-15 p-r-15 p-t-15 p-b-15" ng-repeat="p in productsTuongTu" style="width: 250px">
                         <!-- Block2 -->
                         <div class="block2">
                             <div class="block2-pic hov-img0">
-                                <img src="images/product-01.jpg" alt="IMG-PRODUCT">
+                                <img src="/image/loadImage/product/{{p.anh[0]}}"
+                                     style="width: 100%;height: 200px"
+                                     ng-if="p.anh.length>0">
+                                <img src="/image/loadImage/product/default.png"
+                                     style="width: 100%;height: 200px"
+                                     ng-if="p.anh.length==0">
 
-                                <a href="#"
+                                <a href="/chi-tiet-san-pham/{{p.ma}}"
                                    class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                                     Xem chi tiết
                                 </a>
@@ -498,275 +528,31 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="/chi-tiet-san-pham/{{p.ma}}" style="font-weight: bold; font-size: 15px; width:200px;
+                                                                                white-space: nowrap;
+                                                                                overflow: hidden;
+                                                                                text-overflow: ellipsis;"
                                        class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                        Esprit Ruffle Shirt
+                                        {{p.ten}}
                                     </a>
 
-                                    <span class="stext-105 cl3">
-										$16.64
+                                    <span class="stext-105 cl3" ng-if="p.mucGiam!=null">
+										<span >
+									        <del>{{p.giaBan | currency: "" : 1}}đ</del>
+								        </span>
+                                        <b ng-if="p.loaiGiam == 'TIEN'" style="font-weight: bold;font-size: 15px;">{{p.giaBan - p.mucGiam  | currency: "" : 1}}đ</b>
+                                        <b ng-if="p.loaiGiam == 'PHAN TRAM'" style="font-weight: bold;font-size: 15px;">{{p.giaBan - ((p.mucGiam/100) * p.giaBan)| currency: "" : 1}}đ</b>
 									</span>
+                                    <span class="stext-105 cl3" ng-if="p.mucGiam==null">
+                                        <p>{{p.giaBan | currency: "" : 1}}đ</p>
+                                    </span>
                                 </div>
 
                                 <div class="block2-txt-child2 flex-r p-t-3">
-                                    <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                        <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
-                                             alt="ICON">
-                                        <img class="icon-heart2 dis-block trans-04 ab-t-l"
-                                             src="images/icons/icon-heart-02.png" alt="ICON">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-pic hov-img0">
-                                <img src="images/product-02.jpg" alt="IMG-PRODUCT">
-
-                                <a href="#"
-                                   class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                    Quick View
-                                </a>
-                            </div>
-
-                            <div class="block2-txt flex-w flex-t p-t-14">
-                                <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
-                                       class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                        Herschel supply
-                                    </a>
-
-                                    <span class="stext-105 cl3">
-										$35.31
-									</span>
-                                </div>
-
-                                <div class="block2-txt-child2 flex-r p-t-3">
-                                    <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                        <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
-                                             alt="ICON">
-                                        <img class="icon-heart2 dis-block trans-04 ab-t-l"
-                                             src="images/icons/icon-heart-02.png" alt="ICON">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-pic hov-img0">
-                                <img src="images/product-03.jpg" alt="IMG-PRODUCT">
-
-                                <a href="#"
-                                   class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                    Quick View
-                                </a>
-                            </div>
-
-                            <div class="block2-txt flex-w flex-t p-t-14">
-                                <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
-                                       class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                        Only Check Trouser
-                                    </a>
-
-                                    <span class="stext-105 cl3">
-										$25.50
-									</span>
-                                </div>
-
-                                <div class="block2-txt-child2 flex-r p-t-3">
-                                    <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                        <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
-                                             alt="ICON">
-                                        <img class="icon-heart2 dis-block trans-04 ab-t-l"
-                                             src="images/icons/icon-heart-02.png" alt="ICON">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-pic hov-img0">
-                                <img src="images/product-04.jpg" alt="IMG-PRODUCT">
-
-                                <a href="#"
-                                   class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                    Quick View
-                                </a>
-                            </div>
-
-                            <div class="block2-txt flex-w flex-t p-t-14">
-                                <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
-                                       class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                        Classic Trench Coat
-                                    </a>
-
-                                    <span class="stext-105 cl3">
-										$75.00
-									</span>
-                                </div>
-
-                                <div class="block2-txt-child2 flex-r p-t-3">
-                                    <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                        <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
-                                             alt="ICON">
-                                        <img class="icon-heart2 dis-block trans-04 ab-t-l"
-                                             src="images/icons/icon-heart-02.png" alt="ICON">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-pic hov-img0">
-                                <img src="images/product-05.jpg" alt="IMG-PRODUCT">
-
-                                <a href="#"
-                                   class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                    Quick View
-                                </a>
-                            </div>
-
-                            <div class="block2-txt flex-w flex-t p-t-14">
-                                <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
-                                       class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                        Front Pocket Jumper
-                                    </a>
-
-                                    <span class="stext-105 cl3">
-										$34.75
-									</span>
-                                </div>
-
-                                <div class="block2-txt-child2 flex-r p-t-3">
-                                    <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                        <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
-                                             alt="ICON">
-                                        <img class="icon-heart2 dis-block trans-04 ab-t-l"
-                                             src="images/icons/icon-heart-02.png" alt="ICON">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-pic hov-img0">
-                                <img src="images/product-06.jpg" alt="IMG-PRODUCT">
-
-                                <a href="#"
-                                   class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                    Quick View
-                                </a>
-                            </div>
-
-                            <div class="block2-txt flex-w flex-t p-t-14">
-                                <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
-                                       class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                        Vintage Inspired Classic
-                                    </a>
-
-                                    <span class="stext-105 cl3">
-										$93.20
-									</span>
-                                </div>
-
-                                <div class="block2-txt-child2 flex-r p-t-3">
-                                    <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                        <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
-                                             alt="ICON">
-                                        <img class="icon-heart2 dis-block trans-04 ab-t-l"
-                                             src="images/icons/icon-heart-02.png" alt="ICON">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-pic hov-img0">
-                                <img src="images/product-07.jpg" alt="IMG-PRODUCT">
-
-                                <a href="#"
-                                   class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                    Xem chi tiết
-                                </a>
-                            </div>
-
-                            <div class="block2-txt flex-w flex-t p-t-14">
-                                <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
-                                       class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                        Shirt in Stretch Cotton
-                                    </a>
-
-                                    <span class="stext-105 cl3">
-										$52.66
-									</span>
-                                </div>
-
-                                <div class="block2-txt-child2 flex-r p-t-3">
-                                    <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                        <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
-                                             alt="ICON">
-                                        <img class="icon-heart2 dis-block trans-04 ab-t-l"
-                                             src="images/icons/icon-heart-02.png" alt="ICON">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-                        <!-- Block2 -->
-                        <div class="block2">
-                            <div class="block2-pic hov-img0">
-                                <img src="images/product-08.jpg" alt="IMG-PRODUCT">
-
-                                <a href="#"
-                                   class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                    Xem chi tiết
-                                </a>
-                            </div>
-
-                            <div class="block2-txt flex-w flex-t p-t-14">
-                                <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
-                                       class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                        Pieces Metallic Printed
-                                    </a>
-
-                                    <span class="stext-105 cl3">
-										$18.96
-									</span>
-                                </div>
-
-                                <div class="block2-txt-child2 flex-r p-t-3">
-                                    <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                        <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
-                                             alt="ICON">
-                                        <img class="icon-heart2 dis-block trans-04 ab-t-l"
-                                             src="images/icons/icon-heart-02.png" alt="ICON">
-                                    </a>
+                                    <i ng-if="maSpInDSYT.includes(p.ma) == false" id="{{p.ma}}"
+                                       class="far fa-heart" ng-click="addDSYT(p.ma)"></i>
+                                    <i ng-if="maSpInDSYT.includes(p.ma) == true" id="{{p.ma}}"
+                                       class="fas fa-heart" ng-click="addDSYT(p.ma)"></i>
                                 </div>
                             </div>
                         </div>

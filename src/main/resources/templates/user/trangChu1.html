@@ -416,7 +416,7 @@
 
                 <!-- Icon header -->
                 <div class="wrap-icon-header flex-w flex-r-m" >
-                    <a href="#"
+                    <a href="/danh-sach-yeu-thich"
                        class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
                        data-notify="0">
                         <i class="zmdi zmdi-favorite-outline" style="color: white"></i>
@@ -427,14 +427,17 @@
                     </div>
 
                     <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 dropdown">
-                        <a class="dropdown-toggle" id="dropdownMenuButton" style="color: white" data-toggle="dropdown" th:if="${request.remoteUser}"
+                        <a class="dropdown-toggle d-flex align-items-center" id="dropdownMenuButton" style="color: white" data-toggle="dropdown" th:if="${request.remoteUser}"
                            aria-haspopup="true" aria-expanded="false">
-                            <i class="bi bi-person-circle" style="color: white"></i>
+                            <img class="rounded-circle header-profile-user" id="imgUser"
+                                 style="width: 40px;height: 40px"
+                                 th:src="@{|/image/loadImageKhachHang/${#authentication.name}|}"
+                                 alt="Header Avatar">
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" th:if="${request.remoteUser}">
-                            <a class="dropdown-item" href="#">Tài khoản</a>
+                            <a class="dropdown-item" href="/thong-tin-ca-nhan">Tài khoản</a>
                             <a class="dropdown-item" href="/lich-su-mua-hang1">Đơn hàng</a>
-                            <a class="dropdown-item" href="/dang-nhap">Đăng xuất</a>
+                            <a class="dropdown-item" href="/logout">Đăng xuất</a>
                         </div>
 
                         <a style="color: white;font-weight: bold;font-size: 15px" href="/dang-nhap"  th:unless="${request.remoteUser}">
@@ -464,6 +467,7 @@
                                 </div>
                             </div>
                         </div>
+                        <a class="col-4 mb-4" style="color: #666666;font-size: 20px;cursor: pointer" href="/san-pham/thuong-hieu/khac">Khác</a>
                     </div>
                 </div>
             </div>
@@ -899,7 +903,7 @@
                                         <!-- Slide2 -->
                                         <div>
                                             <div class="d-flex justify-content-between">
-                                                <div class="col-3" style="padding: 20px" ng-repeat="p in products">
+                                                <div class="col-3" style="padding: 20px" ng-repeat="p in productAdidas">
                                                     <!-- Block2 -->
                                                     <div>
                                                         <div class="block2-pic hov-img0" style="border-radius: 5px">
@@ -1012,7 +1016,7 @@
                                         <!-- Slide2 -->
                                         <div>
                                             <div class="d-flex justify-content-between">
-                                                <div class="col-3" style="padding: 20px" ng-repeat="p in products">
+                                                <div class="col-3" style="padding: 20px" ng-repeat="p in productVans">
                                                     <!-- Block2 -->
                                                     <div>
                                                         <div class="block2-pic hov-img0" style="border-radius: 5px">
@@ -1123,7 +1127,7 @@
                                         <!-- Slide2 -->
                                         <div>
                                             <div class="d-flex justify-content-between">
-                                                <div class="col-3" style="padding: 20px" ng-repeat="p in products">
+                                                <div class="col-3" style="padding: 20px" ng-repeat="p in productNikes">
                                                     <!-- Block2 -->
                                                     <div>
                                                         <div class="block2-pic hov-img0" style="border-radius: 5px">
@@ -1189,6 +1193,27 @@
         </div>
 
     </div>
+    <!--    /////////Modal đăng nhập-->
+    <div class="modal fade" id="dangNhap" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Thông Báo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Đăng nhập để sử dụng tính năng!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#dangNhap').modal('hide')">Trở về</button>
+                    <button ng-click="login()" class="btn btn-primary text-white">Đăng nhập</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- Footer -->

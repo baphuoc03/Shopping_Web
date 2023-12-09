@@ -207,6 +207,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
         listSP = dongSanPhamRepository.findById(sanPhamModel.getDongSanPham().getId()).get().getDanhSachSanPham()
                 .stream()
 //                .filter(s -> !s.getMa().equals(ma))
+                .limit(4)
                 .map(s -> new SanPhamDtoResponse(s)).collect(Collectors.toList());
         return listSP;
     }

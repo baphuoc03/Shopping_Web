@@ -69,4 +69,9 @@ public class KhachHangModel {
         this.username = username;
     }
 
+    @PreRemove
+    public void preRemove(){
+        danhSachDonHang.forEach(d -> d.setNguoiSoHuu(null));
+    }
+
 }

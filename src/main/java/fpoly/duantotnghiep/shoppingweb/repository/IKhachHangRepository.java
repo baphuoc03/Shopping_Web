@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IKhachHangRepository extends JpaRepository<KhachHangModel, String> {
     @Query("SELECT  kh.danhSachDiaChi FROM KhachHangModel kh where kh.username = :taiKhoan")
@@ -23,6 +24,11 @@ public interface IKhachHangRepository extends JpaRepository<KhachHangModel, Stri
     SELECT k FROM KhachHangModel k WHERE k.hoVaTen LIKE %?1% OR k.soDienThoai LIKE %?1%
 """)
     Page<KhachHangModel> search(String keyWord, Pageable pageable);
+
+    @Query("""
+    SELECT k FROM KhachHangModel k WHERE k.username = ?1
+""")
+    Optional<KhachHangModel> getByUsername(String username);
 
 
 }

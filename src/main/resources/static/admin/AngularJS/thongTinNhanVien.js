@@ -29,25 +29,28 @@ app.controller("thongTinNhanVien-ctrl", function ($scope, $http) {
     }).catch(e => console.log(e))
 
     $scope.update = function () {
-        let anhDaiDien = document.getElementById("pro-image").files.length == 0 ? null : document.getElementById("pro-image").files[0];
-        let formData = new FormData();
-        if($scope.user.gioiTinh == undefined) $scope.user.gioiTinh = null;
-        formData.append("nhanVien",new Blob([JSON.stringify($scope.user)], {
-            type: 'application/json'
-        }))
-        formData.append("img",anhDaiDien)
+        alertify.confirm("Đổi mật khẩu?", function () {
+            let anhDaiDien = document.getElementById("pro-image").files.length == 0 ? null : document.getElementById("pro-image").files[0];
+            let formData = new FormData();
+            if($scope.user.gioiTinh == undefined) $scope.user.gioiTinh = null;
+            formData.append("nhanVien",new Blob([JSON.stringify($scope.user)], {
+                type: 'application/json'
+            }))
+            formData.append("img",anhDaiDien)
 
-        $http.put("/admin/nhan-vien", formData,{
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        }).then(r => {
-            alertify.success("Cập nhật thông tin thành công")
-            document.getElementById("imgUser").src = "/image/loadImageUser/"+r.data.username
-        }).catch(e => {
-            alertify.error("Cập nhật thông tin thất bại")
-            document.getElementById("hoVaTenER").innerText = e.data.hoVaTen == undefined ? "" : e.data.hoVaTen;
-            document.getElementById("soDienThoaiER").innerText = e.data.soDienThoai == undefined ? "" : e.data.soDienThoai;
-            document.getElementById("emailER").innerText = e.data.email  == undefined ? "" : e.data.email ;
+            $http.put("/admin/nhan-vien/thong-tin-ca-nhan", formData,{
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).then(r => {
+                alertify.success("Cập nhật thông tin thành công")
+                document.getElementById("imgUser").src = "/image/loadImageUser/"+r.data.username
+            }).catch(e => {
+                alertify.error("Cập nhật thông tin thất bại")
+                document.getElementById("hoVaTenER").innerText = e.data.hoVaTen == undefined ? "" : e.data.hoVaTen;
+                document.getElementById("soDienThoaiER").innerText = e.data.soDienThoai == undefined ? "" : e.data.soDienThoai;
+                document.getElementById("emailER").innerText = e.data.email  == undefined ? "" : e.data.email ;
+            })
+        }, function () {
         })
     }
     $scope.removeErrors = function (id){

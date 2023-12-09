@@ -54,7 +54,7 @@ app.controller('chiTietSP-ctrl', function ($scope, $http) {
                 alertify.success("Thêm thành công "+sizesInForm.length+" chi tiết sản phẩm")
             }).catch(e => {
                 document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
-                document.getElementById("eSoLuong").innerText =  e.data.soLuong
+                document.getElementById("eSoLuong").innerText =  e.data.soLuong == undefined ? "" : e.data.soLuong
                 console.log(e)
                 alertify.error("Thêm thất bại")
             })
@@ -67,6 +67,7 @@ app.controller('chiTietSP-ctrl', function ($scope, $http) {
             $http.delete("/admin/san-pham/"+idSP+"/delete/"+item.id).then(r => {
                 let index = $scope.items.findIndex(i => i.id == item.id);
                 $scope.items.splice(index,1);
+                $scope.getSizes();
                 alertify.success("Xóa thành công chi tiết sản phẩm size "+item.size);
             }).catch(e => {
                 alertify.error("Xóa thất bại")
@@ -106,12 +107,12 @@ app.controller('chiTietSP-ctrl', function ($scope, $http) {
         $scope.itemUpdate.soLuong = parseInt(soLuong);
         console.log($scope.itemUpdate)
         $http.put("/admin/san-pham/"+idSP+"/update",$scope.itemUpdate).then(r =>{
-            console.log(r.data)
             alertify.success("Cập nhật số lượng thành công")
         }).catch(e => {
-            alert(e.data.soLuong)
-            console.log(e)
-            alertify.error("Cập nhật thất bại")
+            $http.get("/admin/san-pham/"+idSP+"/getSoLuong/"+id).then(r => {
+                document.getElementById(id+"").value = r.data.soLuong
+            })
+            alertify.error(e.data.soLuong)
         })
     }
 

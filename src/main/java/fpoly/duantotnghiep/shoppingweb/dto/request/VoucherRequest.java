@@ -43,7 +43,7 @@ public class VoucherRequest {
 
     private int trangThai;
 
-    private int trangThaiHienThi;
+    private int trangXoa;
 
     private int doiTuongSuDung;
 
@@ -65,7 +65,7 @@ public class VoucherRequest {
         model.setMucGiamToiDa(mucGiamToiDa);
         model.setHinhThucThanhToan(hinhThucThanhToan);
         model.setTrangThai(trangThai);
-        model.setTrangThaiHienThi(trangThaiHienThi);
+        model.setTrangThaiXoa(getTrangXoa());
         model.setKhachHang(khachHang);
         model.setDoiTuongSuDung(doiTuongSuDung);
         return model;

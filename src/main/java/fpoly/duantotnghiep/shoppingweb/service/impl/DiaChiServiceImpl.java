@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.model.DiaChiModel;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDiaChiRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IDiaChiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import java.util.stream.Collectors;
 
@@ -60,7 +62,7 @@ public class DiaChiServiceImpl implements IDiaChiService {
     }
 
     @Override
-    public DiaChiDTOResponse add(DiaChiDTORequest diaChi) throws MessagingException {
+    public DiaChiDTOResponse add(DiaChiDTORequest diaChi) {
        DiaChiModel diaChiModel = diaChiRepository.save(diaChi.mapToModel());
         return new DiaChiDTOResponse(diaChiModel);
     }
@@ -75,6 +77,29 @@ public class DiaChiServiceImpl implements IDiaChiService {
     public void deleteById(Long id) {
         diaChiRepository.deleteById(id);
 
+    }
+    @Override
+    public void setMacDinh(String nguoiSoHuu, Long idDiaChi){
+        KhachHangModel khachHangModel = new KhachHangModel();
+        khachHangModel.setUsername(nguoiSoHuu);
+        List<DiaChiModel> lstModel = diaChiRepository.getAllByTaiKhoan(khachHangModel).stream().peek(d -> {
+                                                                                if(d.getId() == idDiaChi){
+                                                                                    d.setMacDinh(true);
+                                                                                }else{
+                                                                                    d.setMacDinh(false);
+                                                                                }
+                                                                            }).collect(Collectors.toList());
+        diaChiRepository.saveAll(lstModel);
+    }
+    @Override
+    public DiaChiDTOResponse getDiaChiMacDinh(String nguoiSoHuu, Boolean macDinh){
+        KhachHangModel khachHangModel = new KhachHangModel();
+        khachHangModel.setUsername(nguoiSoHuu);
+        DiaChiModel model = diaChiRepository.findByTaiKhoanAndMacDinh(khachHangModel,macDinh);
+        if(model == null){
+            return null;
+        }
+        return new DiaChiDTOResponse(model);
     }
 
 }

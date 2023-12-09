@@ -28,7 +28,7 @@ public class ChiTietDonHangService implements IChiTietDonHangService {
 
     @Override
     public ChiTietDonHangDtoResponse findById(String id) {
-        return new ChiTietDonHangDtoResponse(chiTietDonHangRepository.findById(id).get());
+        return new ChiTietDonHangDtoResponse(chiTietDonHangRepository.findById(id).orElse(new ChiTietDonHangModel()));
     }
     @Override
     public void save(ChiTietDonHangDTORequest chiTietDonHang) {

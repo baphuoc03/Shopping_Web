@@ -25,7 +25,10 @@ public class DonHangController {
     private VnPayServiceImpl vnPayService;
 
     @GetMapping("chi-tiet-don-hang/{maDH}")
-    public String viewChiTietDonHang(){
+    public String viewChiTietDonHang(@PathVariable("maDH")String maDH){
+        if(!donHangService.existsByMa(maDH)){
+            return "admin/authen/notFound";
+        }
         return "user/ChiTietDonHang";
     }
 
@@ -33,6 +36,11 @@ public class DonHangController {
     public Object ThanhToanHoaDon(HttpServletRequest request, @PathVariable("ma") String ma)throws MessagingException {
 //        DonHangDtoResponse response = donHangService.checkOut(donHangDTORequest);
         DonHangDtoResponse response =  donHangService.findByMa(ma);
+
+        if(response.getTrangThai() !=5){
+            return "email/daThanhToan";
+        }
+
         String diachi = response.getDiaChiChiTiet();
         DonHangReponseUser donHangReponseUser = donHangService.findByMaUser(ma);
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
