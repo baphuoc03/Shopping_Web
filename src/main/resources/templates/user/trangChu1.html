@@ -427,9 +427,12 @@
                     </div>
 
                     <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 dropdown">
-                        <a class="dropdown-toggle" id="dropdownMenuButton" style="color: white" data-toggle="dropdown" th:if="${request.remoteUser}"
+                        <a class="dropdown-toggle d-flex align-items-center" id="dropdownMenuButton" style="color: white" data-toggle="dropdown" th:if="${request.remoteUser}"
                            aria-haspopup="true" aria-expanded="false">
-                            <i class="bi bi-person-circle" style="color: white"></i>
+                            <img class="rounded-circle header-profile-user" id="imgUser"
+                                 style="width: 40px;height: 40px"
+                                 th:src="@{|/image/loadImageKhachHang/${#authentication.name}|}"
+                                 alt="Header Avatar">
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" th:if="${request.remoteUser}">
                             <a class="dropdown-item" href="/thong-tin-ca-nhan">Tài khoản</a>
