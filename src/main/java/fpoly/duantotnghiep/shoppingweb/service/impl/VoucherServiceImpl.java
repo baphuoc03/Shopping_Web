@@ -188,7 +188,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    @Scheduled(cron = "0  * * * *")
+    @Scheduled(cron = "0 * * * * *")
     public void mailThongBao() {
         for (var vc : repository.findAll()) {
             if (vc.getDoiTuongSuDung() == 1) {
@@ -240,7 +240,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 * * * * *")
     public void updateKichHoat() {
         if (repository.findAll().size() > 0) {
             for (var vc : repository.findAll()) {

@@ -56,34 +56,34 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
     @Override
     @Scheduled(cron = "0 0 0 * * *")
     public void updateGiamGiaWithNgayBD() {
-        for (var i : repository.findAllSanPhamWithKmWhereNgayBatDau()) {
-            for (var j : i.getSanPham()) {
-                BigDecimal giaUpdate = null;
-                if (i.getLoai().equals("TIEN")) {
-                    giaUpdate = j.getGiaNiemYet().subtract(i.getMucGiam());
-                } else if (i.getLoai().equals("PHAN TRAM")) {
-                    giaUpdate = j.getGiaNiemYet().subtract(j.getGiaNiemYet().multiply(i.getMucGiam().divide(new BigDecimal("100"))));
-                }
-                SanPhamModel sanPham = sanPhamRepository.findById(j.getMa()).get();
-                sanPham.setMa(j.getMa());
-                sanPham.setGiaBan(giaUpdate);
-                sanPhamRepository.save(sanPham);
-            }
-        }
-        System.out.println("Thành công");
+//        for (var i : repository.findAllSanPhamWithKmWhereNgayBatDau()) {
+//            for (var j : i.getSanPham()) {
+//                BigDecimal giaUpdate = null;
+//                if (i.getLoai().equals("TIEN")) {
+//                    giaUpdate = j.getGiaNiemYet().subtract(i.getMucGiam());
+//                } else if (i.getLoai().equals("PHAN TRAM")) {
+//                    giaUpdate = j.getGiaNiemYet().subtract(j.getGiaNiemYet().multiply(i.getMucGiam().divide(new BigDecimal("100"))));
+//                }
+//                SanPhamModel sanPham = sanPhamRepository.findById(j.getMa()).get();
+//                sanPham.setMa(j.getMa());
+//                sanPham.setGiaBan(giaUpdate);
+//                sanPhamRepository.save(sanPham);
+//            }
+//        }
+//        System.out.println("Thành công");
     }
 
     @Override
     @Scheduled(cron = "0 0 0 * * *")
     public void updateGiamGiaWithNgayKT() {
-        for (var i : repository.findAllSanPhamWithKmWhereNgayKetThuc()) {
-            for (var j : i.getSanPham()) {
-                SanPhamModel sanPham = sanPhamRepository.findById(j.getMa()).get();
-                sanPham.setMa(j.getMa());
-                sanPham.setGiaBan(sanPham.getGiaNiemYet());
-                sanPhamRepository.save(sanPham);
-            }
-        }
-        System.out.println("Thành công1");
+//        for (var i : repository.findAllSanPhamWithKmWhereNgayKetThuc()) {
+//            for (var j : i.getSanPham()) {
+//                SanPhamModel sanPham = sanPhamRepository.findById(j.getMa()).get();
+//                sanPham.setMa(j.getMa());
+//                sanPham.setGiaBan(sanPham.getGiaNiemYet());
+//                sanPhamRepository.save(sanPham);
+//            }
+//        }
+//        System.out.println("Thành công1");
     }
 }

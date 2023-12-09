@@ -15,10 +15,10 @@ import java.util.Date;
 @NotNull
 public class SizeDTORequest {
     @NotNull(message = "Không để trống mã")
-    @Max(value = 50, message = "Mã không quá 50 ký tự")
+    @Max(value = 50, message = "Mã không quá 50 ")
     private Float ma;
     @NotNull(message = "Không để trống chiều dài")
-    @Max(value = 50, message = "Chiều dài không quá 50 ký tự")
+    @Max(value = 50, message = "Chiều dài không quá 50 ")
     private Float chieuDai;
     private Date ngayTao;
     private Date ngayCapNhat;
