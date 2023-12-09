@@ -416,7 +416,7 @@
 
                 <!-- Icon header -->
                 <div class="wrap-icon-header flex-w flex-r-m" >
-                    <a href="#"
+                    <a href="/danh-sach-yeu-thich"
                        class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
                        data-notify="0">
                         <i class="zmdi zmdi-favorite-outline" style="color: white"></i>
@@ -434,7 +434,7 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" th:if="${request.remoteUser}">
                             <a class="dropdown-item" href="/thong-tin-ca-nhan">Tài khoản</a>
                             <a class="dropdown-item" href="/lich-su-mua-hang1">Đơn hàng</a>
-                            <a class="dropdown-item" href="/dang-nhap">Đăng xuất</a>
+                            <a class="dropdown-item" href="/logout">Đăng xuất</a>
                         </div>
 
                         <a style="color: white;font-weight: bold;font-size: 15px" href="/dang-nhap"  th:unless="${request.remoteUser}">
@@ -900,7 +900,7 @@
                                         <!-- Slide2 -->
                                         <div>
                                             <div class="d-flex justify-content-between">
-                                                <div class="col-3" style="padding: 20px" ng-repeat="p in products">
+                                                <div class="col-3" style="padding: 20px" ng-repeat="p in productAdidas">
                                                     <!-- Block2 -->
                                                     <div>
                                                         <div class="block2-pic hov-img0" style="border-radius: 5px">
@@ -1013,7 +1013,7 @@
                                         <!-- Slide2 -->
                                         <div>
                                             <div class="d-flex justify-content-between">
-                                                <div class="col-3" style="padding: 20px" ng-repeat="p in products">
+                                                <div class="col-3" style="padding: 20px" ng-repeat="p in productVans">
                                                     <!-- Block2 -->
                                                     <div>
                                                         <div class="block2-pic hov-img0" style="border-radius: 5px">
@@ -1124,7 +1124,7 @@
                                         <!-- Slide2 -->
                                         <div>
                                             <div class="d-flex justify-content-between">
-                                                <div class="col-3" style="padding: 20px" ng-repeat="p in products">
+                                                <div class="col-3" style="padding: 20px" ng-repeat="p in productNikes">
                                                     <!-- Block2 -->
                                                     <div>
                                                         <div class="block2-pic hov-img0" style="border-radius: 5px">

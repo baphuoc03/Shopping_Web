@@ -19,6 +19,12 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     const pathName = location.pathname;
     const maSP = pathName.substring(pathName.lastIndexOf("/"))
 
+    $scope.login = function (){
+        var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
+        document.cookie = "url="+window.location.href+"; expires="+expires;
+        location.href = "/dang-nhap";
+    }
+
     $http.get("/san-pham" + maSP).then(r => {
         $scope.product = r.data
         if (r.data.anh.length > 0) {
@@ -276,10 +282,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     }
     $scope.nhanXet.init()
     $scope.nhanXet.getAvgRate()
-    $scope.login = function (){
-        var expires = (new Date(Date.now()+ 60*1000)).toUTCString();
-        document.cookie = "url="+window.location.href+"; expires="+expires;
-        location.href = "/dang-nhap";
-    }
+
+
 })
 

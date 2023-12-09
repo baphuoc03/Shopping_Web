@@ -14,7 +14,7 @@ public class KhachHangDtoResponse {
     private String username;
     private String password;
     private String hoVaTen;
-    private String gioiTinh;
+    private Boolean gioiTinh;
     private LocalDate ngaySinh;
     private String soDienThoai;
     private String email;
@@ -24,9 +24,7 @@ public class KhachHangDtoResponse {
         this.username = model.getUsername();
         this.password = model.getPassword();
         this.hoVaTen = model.getHoVaTen();
-        if(gioiTinh != null && gioiTinh.isBlank()){
-            this.gioiTinh = model.getGioiTinh() == true ? "Nam" : "Nữ";
-        }
+        this.gioiTinh = model.getGioiTinh();
         this.ngaySinh = model.getNgaySinh();
         this.soDienThoai = model.getSoDienThoai();
         this.email = model.getEmail();

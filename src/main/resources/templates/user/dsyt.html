@@ -77,7 +77,7 @@
                 <div class="col-8">
                     <div class="row">
                         <div class="col-8">
-                            <h5>{{i.sanPhamm.ten}}</h5>
+                            <a href="/chi-tiet-san-pham/{{i.sanPhamm.ma}}" style="color: black"><h5>{{i.sanPhamm.ten}}</h5></a>
                         </div>
                         <div class="col-2">
                             <img src="images/icons/icon-close2.png" alt="">
@@ -99,7 +99,12 @@
                     </div>
                     <div class="row m-t-20">
                         <div class="col-6">
-                            <h5>Giá : {{i.sanPhamm.giaBan}}</h5>
+                            <span class="mtext-106 cl2">
+                                    <span class="stext-105 cl3" ng-if="i.sanPhamm.giaBan > i.sanPhamm.giaNiemYet">
+									<del>{{i.sanPhamm.giaBan | currency: "" : 1}}đ</del>
+								    </span>
+                                <b style="color: red">{{i.sanPhamm.giaNiemYet | currency: "" : 1}}đ</b>
+						</span>
                         </div>
                         <div class="col-6 d-flex justify-content-end">
                             <button type="button" class="btn btn-secondary" ng-click="addToCart(i.sanPhamm.ma,'soLuongInPut'+i.sanPhamm.ma)">Thêm vào giỏ hàng</button>

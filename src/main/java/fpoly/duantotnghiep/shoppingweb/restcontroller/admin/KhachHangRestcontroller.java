@@ -1,14 +1,18 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.KhachHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
+import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,9 +25,6 @@ public class KhachHangRestcontroller {
 
     @Autowired
     private IKhachHangService taiKhoanService;
-
-
-
 
     @GetMapping("/khach-hang-voucher")
     public List<KhachHangDtoResponse> findAllKhach() {
@@ -46,6 +47,28 @@ public class KhachHangRestcontroller {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(taiKhoanService.findById(id));
+    }
+
+    @PostMapping("")
+    public ResponseEntity<?> add(@Valid @RequestBody KhachHangDTORequest khachHang,
+                                 BindingResult result) throws MessagingException {
+        if (khachHang.getUsername()!=null && !khachHang.getUsername().isBlank()){
+            if (taiKhoanService.exsistsByUsername(khachHang.getUsername())){
+                result.addError(new FieldError("soDienThoai", "soDienThoai", "Số điện thoại đã tồn tại"));
+            }
+        }
+        if (result.hasErrors())
+            return ValidateUtil.getErrors(result);
+        return ResponseEntity.ok(taiKhoanService.add(khachHang));
+    }
+    @DeleteMapping("{username}")
+    public ResponseEntity<?> delete(@PathVariable("username")String username){
+        System.out.println(username);
+        if(!taiKhoanService.exsistsByUsername(username)){
+            return ResponseEntity.notFound().build();
+        }
+        taiKhoanService.deleteByUsername(username);
+        return ResponseEntity.ok().build();
     }
 
 }

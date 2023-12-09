@@ -318,11 +318,11 @@
                                                                 {{d.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}
                                                             </td>
                                                             <td style="width: 200px" id="action{{d.ma}}">
-                                                                <button class="btn btn-danger me-1"
+                                                                <button class="btn btn-danger col-12 mb-1"
                                                                         data-toggle="modal" data-target="#lyDo"
                                                                         ng-click="chuaThanhToan.setIdDonHang(d.ma)">Hủy
                                                                 </button>
-                                                                <button class="btn btn-primary"
+                                                                <button class="btn btn-primary col-12 "
                                                                         ng-click="chuaThanhToan.xacNhanDH(d.ma)">Xác
                                                                     nhận thanh toán
                                                                 </button>
@@ -1456,6 +1456,9 @@
                                     <textarea class="form-control" rows="2"
                                               ng-model="donHangAdd.ghiChu"></textarea>
                                 </div>
+                            </div>
+                            <div class="row d-flex justify-content-center">
+                                <button class="btn btn-primary col-10" style="display: block" ng-click="addKhachHang()" id="btnAddKh">Lưu khách hàng</button>
                             </div>
 
 

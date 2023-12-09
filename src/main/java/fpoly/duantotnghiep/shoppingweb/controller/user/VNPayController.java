@@ -34,7 +34,7 @@ public class VNPayController {
             url = "redirect:/lich-su-mua-hang1";
         }
         if(paymentStatus == 1){
-                           donHangService.updateTrangThai(oderInfo,2);
+                           donHangService.updateTrangThai(oderInfo,1);
             return url;
         }else{
             donHangService.updateTrangThai(oderInfo, 5);

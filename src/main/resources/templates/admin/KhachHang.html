@@ -63,7 +63,7 @@
                             <div class="mt-3 pt-1">
                                 <p class="text-muted mb-0"><i
                                         class="mdi mdi-gender-male-female font-size-16 align-middle pe-2 text-primary"></i>
-                                    {{n.gioiTinh}}</p>
+                                    {{n.gioiTinh == false ? 'Nữ' : n.gioiTinh == true ? 'Nam' : 'Không xác định'}}</p>
                                 <p class="text-muted mb-0"><i
                                         class="mdi mdi-calendar-today font-size-16 align-middle pe-2 text-primary"></i>
                                     {{n.ngaySinh | date:'yyyy-MM-dd'}}</p>
@@ -80,6 +80,10 @@
                             <button type="button" class="btn btn-outline-light text-truncate" data-toggle="modal"
                                     data-target="#viewUpdate11" ng-click="detail(n.username)">
                                 <i class="uil uil-user me-1"></i>Thông tin
+                            </button>
+                            <button type="button" class="btn bg-danger btn-outline-light text-truncate text-light"
+                                    ng-click="delete(n.username)">
+                                Xóa
                             </button>
                         </div>
                     </div>
@@ -156,7 +160,7 @@
                         </div>
                         <div class=" mb-3">
                             <label class="control-label">Giới tính</label>
-                            <span class="form-control">{{khachHangDetail.gioiTinh}}</span>
+                            <span class="form-control">{{n.gioiTinh == false ? 'Nữ' : n.gioiTinh == true ? 'Nam' : 'Không xác định'}}</span>
                         </div>
                         <div class="mb-3">
                             <label >Ngày sinh</label>

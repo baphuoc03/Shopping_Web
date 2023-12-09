@@ -93,6 +93,10 @@ public class SanPhamController {
     public String viewUpdate(Model model,
                              @PathVariable("ma") String ma) {
 //        request.setAttribute("sanPham", new SanPhamDtoRequest());
+        if(!sanPhamService.existsById(ma)){
+            return "admin/authen/notFound";
+        }
+
         model.addAttribute("sanPham", sanPhamService.findDtoRequetsByMa(ma));
         request.setAttribute("method", "put");
         request.setAttribute("action", "update/" + ma);

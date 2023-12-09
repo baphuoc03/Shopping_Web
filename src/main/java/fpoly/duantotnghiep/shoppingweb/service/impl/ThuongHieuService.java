@@ -47,8 +47,15 @@ public class ThuongHieuService implements IThuongHieuService {
 
     @Override
     public void deleteByIds(List<String> s) {
-    for (String id : s){
-        iThuongHieuRepository.deleteById(id);
+        for (String id : s){
+            iThuongHieuRepository.deleteById(id);
+        }
     }
+
+    @Override
+    public List<ThuongHieuDtoResponse> getThuongHieuBanChay(){
+        return iThuongHieuRepository.getAllOrderByBanChay().stream().limit(4)
+                .map(id -> new ThuongHieuDtoResponse(iThuongHieuRepository.findById(id).get()))
+                .collect(Collectors.toList());
     }
 }

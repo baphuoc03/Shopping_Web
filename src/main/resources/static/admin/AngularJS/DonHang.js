@@ -10,6 +10,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.er = {}
     $scope.dateNow = new Date().getTime();
     $scope.khachHang = []
+    $scope.erAdd = {}
 
 
     $scope.closeModal = function (id) {
@@ -86,7 +87,14 @@ app.controller("donhang-ctrl", function ($scope, $http) {
 
             $scope.donHangAdd.nguoiSoHuu={
                 username : value
+
             }
+            document.getElementById("btnAddKh").style.display = "none";
+        }else{
+            $scope.donHangAdd = {
+                phuongThucThanhToan : "0"
+            }
+            document.getElementById("btnAddKh").style.display = "block";
         }
     }
     $scope.getDiaChiKhachHang = function (username){
@@ -105,6 +113,32 @@ app.controller("donhang-ctrl", function ($scope, $http) {
 
             $scope.giaoHangNhanh.getFeeShippedAdd()
         })
+    }
+    $scope.addKhachHang = function (){
+        var data = {
+            username: $scope.donHangAdd.soDienThoai,
+            password: $scope.donHangAdd.soDienThoai,
+            hoVaTen: $scope.donHangAdd.tenNguoiNhan,
+            soDienThoai: $scope.donHangAdd.soDienThoai,
+            email: $scope.donHangAdd.email
+        }
+        $http.post("/admin/khach-hang",data).then(r => {
+            var khachHangSL = document.getElementById("khachHangSL")
+            var option = document.createElement("option");
+            option.text = data.hoVaTen + ' - ' + data.soDienThoai;
+            option.value = data.username
+            khachHangSL.add(option, khachHangSL[khachHangSL.length - 1]);
+            khachHangSL.value = option.value;
+            document.getElementById("btnAddKh").style.display = "none";
+            alertify.success("Lưu khách hàng thành công")
+        }).catch(e => {
+            alertify.error("Lưu khách hàng thất bại")
+            if(e.data.soDienThoai != undefined) $scope.erAdd.soDienThoai = e.data.soDienThoai
+            $scope.erAdd.tenNguoiNhan = e.data.hoVaTen
+            $scope.erAdd.email = e.data.email
+        })
+
+        console.log(data)
     }
 
     ///////Hàm dùng chung
@@ -619,7 +653,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         xacNhanDH(ma) {
             alertify.confirm("Xác nhận thanh toán đơn hàng?", function () {
 
-                $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=2").then(r => {
+                $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=1").then(r => {
                     if ($scope.chuaThanhToan.page == $scope.chuaThanhToan.totalPage - 1) {
                         if ($scope.chuaThanhToan.list.length == 1 && $scope.chuaThanhToan.page > 0) {
                             $scope.chuaThanhToan.page--;
@@ -628,7 +662,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     $scope.chuaThanhToan.getList($scope.chuaThanhToan.page)
                     $scope.chuaThanhToan.init()
                     document.getElementById('checkAllChuaTT').checked = false
-                    $scope.chuaXacNhan.totalElement++
+                    $scope.daXacNhan.totalElement++
                     alertify.success("Xác nhận thanh toán thành công")
                 }).catch(e => {
                     console.log(e)
@@ -644,11 +678,11 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 checkBox.forEach(c => {
                     if (c.checked == true) {
                         $scope.chuaThanhToan.id.push(c.value)
-                        $scope.chuaXacNhan.totalElement++
+                        $scope.daXacNhan.totalElement++
                     }
                 })
 
-                $http.put("/admin/don-hang/update-trang-thai?trangThai=2", $scope.chuaThanhToan.id).then(r => {
+                $http.put("/admin/don-hang/update-trang-thai?trangThai=1", $scope.chuaThanhToan.id).then(r => {
                     if ($scope.chuaThanhToan.page == $scope.chuaThanhToan.totalPage - 1) {
                         if ($scope.chuaThanhToan.list.length == 1 && $scope.chuaThanhToan.page > 0) {
                             $scope.chuaThanhToan.page--;

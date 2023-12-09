@@ -4,9 +4,9 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         gioiTinh: null
     };
     $scope.gioiTinh = [
-        {value: null, text: "Không xác định"},
-        {value: true, text: "Nam"},
-        {value: false, text: "Nữ"}
+        {value: "null", text: "Không xác định"},
+        {value: "true", text: "Nam"},
+        {value: "false", text: "Nữ"}
     ]
     const token = "954c787d-2876-11ee-96dc-de6f804954c9";
     const headers = {headers: {token: token}}
@@ -45,7 +45,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
             let data = {province_id: parseInt(id)}
             $http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" + id, headers).then(res => {
                 $scope.districts = res.data.data;
-                $scope.districtChange($scope.districts[0].DistrictID)
+                // $scope.districtChange($scope.districts[0].DistrictID)
             }).catch(err => console.log(err))
         }
     }
@@ -100,7 +100,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
     $scope.update = function () {
         let anhDaiDien = document.getElementById("pro-image").files.length == 0 ? null : document.getElementById("pro-image").files[0];
         let formData = new FormData();
-        if ($scope.user.gioiTinh == undefined) $scope.user.gioiTinh = null;
+        if ($scope.user.gioiTinh == "null") $scope.user.gioiTinh = null;
         formData.append("ThongTinKhachHang", new Blob([JSON.stringify($scope.user)], {
             type: 'application/json'
         }))
@@ -131,9 +131,10 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         document.getElementById("labelAddImg").remove()
     }
     $http.get("/khach-hang/getUser").then(r => {
-        r.data.gioiTinh = JSON.stringify(r.data.gioiTinh)
+        r.data.gioiTinh = r.data.gioiTinh+""
         $scope.user = r.data
         $scope.user.ngaySinh = new Date(r.data.ngaySinh)
+        console.log($scope.user)
         if ($scope.user.anhDaiDien == null) $(".preview-images-zone").append(labelAddImg);
         else {
             let imgUser = new DataTransfer();

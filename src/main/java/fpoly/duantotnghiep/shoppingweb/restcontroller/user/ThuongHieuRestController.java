@@ -33,4 +33,9 @@ public class ThuongHieuRestController {
         }
 
     }
+
+    @GetMapping("ban-chay")
+    public ResponseEntity<?> getBanChay(){
+        return ResponseEntity.ok(service.getThuongHieuBanChay());
+    }
 }
