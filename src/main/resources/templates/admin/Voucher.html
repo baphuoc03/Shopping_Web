@@ -174,19 +174,12 @@
                                                                         </span>
                                                     <span style="color: red; border:solid 1px red; height: 10px"
                                                           th:if="${vc.trangThai == 1}">Chưa kích hoạt</span>
-                                                    <span style="color: red; border:solid 1px red; height: 10px"
-                                                          th:if="${vc.trangThai == 2}">Hết hạn</span>
                                                 </td>
                                                 <td>
                                                     <a th:href="@{/admin/voucher/chi-tiet-voucher/{id}(id=${vc.ma})}"
                                                        ng-click="findByID()"
                                                        class="edit">
                                                         <i class="material-icons" title="Edit">&#xE254;</i>
-                                                    </a>
-                                                    <a href="#"
-                                                       th:attr="ng-click='xoaVoucher(\''+${vc.ma}+'\');'"
-                                                       class="delete">
-                                                        <i class="material-icons" title="Delete">&#xE872;</i>
                                                     </a>
                                                 </td>
                                             </tr>

@@ -35,6 +35,8 @@ public interface IKhachHangService {
 
     void deleteByUsername(String username);
 
+    List<KhachHangDtoResponse> khachHangVoucher(int dieuKien);
+
     List<KhachHangModel> findByUserNameIn(List<String> maKhachHang);
 //    List<DiaChiModel> diaChiByTaiKhoan(String taiKhoan);
 }

@@ -35,17 +35,17 @@ public class KhachHangServiceImpl implements IKhachHangService {
 
     @Override
     public Page<KhachHangDtoResponse> getAll(Integer page, Integer limit) {
-        Pageable pageable = PageRequest.of(page,limit);
+        Pageable pageable = PageRequest.of(page, limit);
         Page<KhachHangModel> pageModel = khachHangRepository.findAll(pageable);
         return new PageImpl<>(pageModel.getContent().stream().map(n -> new KhachHangDtoResponse(n)).collect(Collectors.toList()),
-                pageable,pageModel.getTotalElements());
+                pageable, pageModel.getTotalElements());
     }
 
 
     @Override
-    public Page<KhachHangDtoResponse> search(String keyWord, Integer page, Integer limit){
+    public Page<KhachHangDtoResponse> search(String keyWord, Integer page, Integer limit) {
         Pageable pageable = PageRequest.of(page, limit);
-        Page<KhachHangModel> pageModel = khachHangRepository.search(keyWord,pageable);
+        Page<KhachHangModel> pageModel = khachHangRepository.search(keyWord, pageable);
 
         return new PageImpl<>(pageModel.getContent().stream().map(k -> new KhachHangDtoResponse(k)).collect(Collectors.toList()),
                 pageable, pageModel.getTotalElements());
@@ -86,18 +86,18 @@ public class KhachHangServiceImpl implements IKhachHangService {
         KhachHangModel khachHangDefault = khachHangRepository.findById(khachHang.getUsername()).get();
         khachHang.setPassword(khachHangDefault.getPassword());
 
-        if(img==null) {
-            if(khachHangDefault.getAnhDaiDien()!=null) ImgUtil.deleteImg(khachHangDefault.getAnhDaiDien(),"user");
+        if (img == null) {
+            if (khachHangDefault.getAnhDaiDien() != null) ImgUtil.deleteImg(khachHangDefault.getAnhDaiDien(), "user");
             khachHang.setAnhDaiDien(null);
-        }else{
-            if(!img.getOriginalFilename().equalsIgnoreCase(khachHang.getAnhDaiDien())){//add ảnh
+        } else {
+            if (!img.getOriginalFilename().equalsIgnoreCase(khachHang.getAnhDaiDien())) {//add ảnh
                 byte[] bytes = img.getBytes();
                 String fileName = img.getOriginalFilename();
                 String name = khachHang.getUsername() + fileName.substring(fileName.lastIndexOf("."));
                 Path path = Paths.get("src/main/resources/images/user/" + name);
                 Files.write(path, bytes);
                 khachHang.setAnhDaiDien(name);
-            }else{
+            } else {
                 khachHang.setAnhDaiDien(img.getOriginalFilename());
             }
         }
@@ -109,6 +109,19 @@ public class KhachHangServiceImpl implements IKhachHangService {
     @Override
     public void deleteByUsername(String username) {
         khachHangRepository.deleteById(username);
+    }
+
+    @Override
+    public List<KhachHangDtoResponse> khachHangVoucher(int dieuKien) {
+        if (dieuKien == 0) {
+            return khachHangRepository.findKhachMuaNhieu().stream().map(x -> new KhachHangDtoResponse(x)).collect(Collectors.toList());
+        } else if (dieuKien == 1) {
+            return khachHangRepository.findKhachMuaLanDau().stream().map(x -> new KhachHangDtoResponse(x)).collect(Collectors.toList());
+        } else if (dieuKien == 2) {
+            return khachHangRepository.findKhachMoiMua().stream().map(x -> new KhachHangDtoResponse(x)).collect(Collectors.toList());
+        } else {
+            return khachHangRepository.findAll().stream().map(x -> new KhachHangDtoResponse(x)).collect(Collectors.toList());
+        }
     }
 
     @Override

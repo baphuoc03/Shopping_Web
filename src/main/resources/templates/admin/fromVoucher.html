@@ -97,9 +97,7 @@
                                                 <select class="form-select" ng-model="voucherAdd.loaiMucGiam"
                                                         id="loai"
                                                         onchange="toggleDiv()">
-                                                    <option0 value="TIEN">
-                                                        đ
-                                                    </option0>
+                                                    <option value="TIEN">đ</option>
                                                     <option value="PHAN TRAM">%</option>
                                                 </select>
                                             </div>
@@ -111,7 +109,6 @@
                                             <input name="productname" ng-model="voucherAdd.mucGiamToiDa" type="number"
                                                    class="form-control">
                                             <p class="form-text text-danger">{{erMucGiamToiDa}}</p>
-
                                         </div>
                                     </div>
                                 </div>
@@ -253,10 +250,12 @@
                                     <div class="mb-3">
                                         <label>Nhóm khách</label>
                                         <div class="mb-3">
-                                            <select class="form-control select2">
-                                                <option value="TIEN">Mua nhiều nhất</option>
-                                                <option value="PHAN TRAM">Mua Lần đầu</option>
-                                                <option value="PHAN TRAM">Đã ghé thăm</option>
+                                            <select class="form-control select2" ng-model="locKhach"
+                                                    ng-change="handleOptionChange(locKhach)" style="width: 150px">
+                                                <option value="3">Tất cả</option>
+                                                <option value="0">Mua nhiều nhất</option>
+                                                <option value="1">Mua Lần đầu</option>
+                                                <option value="2">Đã ghé thăm</option>
                                             </select>
                                         </div>
                                     </div>

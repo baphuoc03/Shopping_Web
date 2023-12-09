@@ -13,9 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 
+import java.security.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,15 +35,8 @@ public class VoucherServiceImpl implements VoucherService {
     @Autowired
     private IKhachHangRepository khachHangRepository;
 
-    @Override
-    public List<VoucherReponse> voucherInKhachHang(String username) {
-//       List<VoucherReponse> m = repository.voucherInKhachHang(username).stream()
-//                .map(c -> new VoucherReponse(c)).collect(Collectors.toList());
-        return null;
 
-    }
-
-    public void deleteVoucherKhachHang(String username, String voucher){
+    public void deleteVoucherKhachHang(String username, String voucher) {
         VoucherModel voucherModel = repository.findById(voucher).get();
         List<KhachHangModel> lstKH = voucherModel.getKhachHang().stream().filter(k -> !k.getUsername().equals(username)).collect(Collectors.toList());
         voucherModel.setKhachHang(lstKH);
@@ -187,9 +188,107 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public void updateTrangThai() {
+    @Scheduled(cron = "0  * * * *")
+    public void mailThongBao() {
+        for (var vc : repository.findAll()) {
+            if (vc.getDoiTuongSuDung() == 1) {
+                String ngayBatDauStr = repository.findById(vc.getMa()).get().getNgayBatDau().toString();  // Thay thế bằng ngày thực tế của bạn
 
+                // Định dạng cho chuỗi ngày
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                // Chuyển đổi chuỗi ngày thành đối tượng Date
+                Date ngayBatDau = null;
+                Date ngayHienTai = new Date();
+                try {
+                    ngayBatDau = dateFormat.parse(ngayBatDauStr);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(ngayBatDau);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                ngayBatDau = calendar.getTime();
+
+                calendar.setTime(ngayHienTai);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                ngayHienTai = calendar.getTime();
+                // Tính khoảng cách giữa hai ngày
+                long khoangCach = (ngayHienTai.getTime() - ngayBatDau.getTime()) / (24 * 60 * 60 * 1000);
+                System.out.println(khoangCach);
+                // Kiểm tra xem khoảng cách có bằng 1 ngày không
+                if (khoangCach == -1) {
+                    if (vc.getKhachHang() != null) {
+                        for (var mail : vc.getKhachHang()) {
+                            Context context = new Context();
+                            context.setVariable("voucher", vc);
+                            new Thread(() -> {
+                                try {
+                                    EmailUtil.sendEmailWithHtml(mail.getEmail(), "HYDRA SNEAKER tặng bạn voucher giảm giá", "email/voucherTang", context);
+                                } catch (MessagingException e) {
+                                    e.printStackTrace();
+                                }
+                            }).start();
+                        }
+                    }
+                }
+            }
+        }
     }
+
+    @Override
+    @Scheduled(cron = "0 0 * * * *")
+    public void updateKichHoat() {
+        if (repository.findAll().size() > 0) {
+            for (var vc : repository.findAll()) {
+                String ngayBatDauDate = vc.getNgayBatDau().toString();
+                String ngayBatDauKT = vc.getNgayKetThuc().toString();
+                // Định dạng của chuỗi
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                try {
+                    // Chuyển đổi chuỗi thành đối tượng Date
+                    Date dateToCompareBD = sdf.parse(ngayBatDauDate);
+                    Date dateToCompareKT = sdf.parse(ngayBatDauKT);
+                    // Ngày hiện tại
+                    Date currentDate = new Date();
+
+                    // Cắt bớt giây để so sánh
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(dateToCompareBD);
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    dateToCompareBD = calendar.getTime();
+
+                    calendar.setTime(dateToCompareKT);
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    dateToCompareKT = calendar.getTime();
+
+                    calendar.setTime(currentDate);
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    currentDate = calendar.getTime();
+
+                    if (dateToCompareBD.equals(currentDate)) {
+                        VoucherModel voucherUp = repository.findById(vc.getMa()).get();
+                        voucherUp.setTrangThai(0);
+                        repository.save(voucherUp);
+                    }
+                    if (dateToCompareKT.equals(currentDate)) {
+                        VoucherModel voucherUp = repository.findById(vc.getMa()).get();
+                        voucherUp.setTrangThai(1);
+                        repository.save(voucherUp);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     @Override
     public Integer upddateSoLuong(int soLuong, String ma) {
@@ -203,4 +302,5 @@ public class VoucherServiceImpl implements VoucherService {
     public List<KhachHangModel> findByUserNameIn(List<String> maKhachHang) {
         return khachHangRepository.findByUsernameIn(maKhachHang);
     }
+
 }

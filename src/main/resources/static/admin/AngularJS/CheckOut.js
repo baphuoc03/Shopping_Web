@@ -128,9 +128,9 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
             })
         }
-            $http.post("http://localhost:8080/check-out", donHang).then(r => {
-                if(r.data.vnPayUrl == undefined){
-                    Swal.fire({
+        $http.post("http://localhost:8080/check-out", donHang).then(r => {
+            if (r.data.vnPayUrl == undefined) {
+                Swal.fire({
                     title: 'Đặt hàng thành công',
                     text: 'Cảm ơn bạn đã mua hàng tại hydra sneaker!!!',
                     icon: 'success',
@@ -232,4 +232,9 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         document.cookie = "url=" + window.location.href + "; expires=" + expires;
         location.href = "/dang-nhap";
     }
+
+//    so sánh ngày bắt đầu với ngày hiên tại
+    $scope.isStartDateGreaterThanCurrentDate = function (startDate) {
+        return new Date(startDate) > new Date();
+    };
 });
