@@ -21,6 +21,7 @@ public class DiaChiDTOResponse {
     private String quanHuyenName;
     private String xaPhuongName;
     private String diaChiChiTiet;
+    private Boolean macDinh;
 //    private KhachHangDtoResponse taiKhoan;
 
     public DiaChiDTOResponse(DiaChiModel model) {
@@ -33,6 +34,7 @@ public class DiaChiDTOResponse {
         this.quanHuyenCode = model.getQuanHuyenCode();
         this.xaPhuongName = model.getXaPhuongName();
         this.diaChiChiTiet = model.getDiaChiChiTiet();
+        this.macDinh = model.getMacDinh();
 //        this.taiKhoan = new KhachHangDtoResponse(model.getTaiKhoan());
     }
 

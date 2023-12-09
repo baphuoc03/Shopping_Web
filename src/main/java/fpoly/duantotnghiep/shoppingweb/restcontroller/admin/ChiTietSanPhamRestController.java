@@ -88,6 +88,7 @@ public class ChiTietSanPhamRestController {
     }
 
     @GetMapping("kiem-tra-so-luong/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     public ResponseEntity<?> kiemTraSoLuong(@PathVariable("id") String id,
                                             @RequestParam("soLuong")Long soLuong,
                                             @RequestParam(value = "idCTDH",required = false)String idCTDH){
@@ -108,6 +109,7 @@ public class ChiTietSanPhamRestController {
     }
 
     @GetMapping("get-all-ctsp")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     public ResponseEntity<?> getAllCTS(@RequestParam(required = false) String keyWord){
         System.out.println(keyWord);
         if(keyWord != null){

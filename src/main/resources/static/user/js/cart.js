@@ -42,6 +42,15 @@ app.controller("cart-ctrl", function ($scope, $http) {
             })
         }
     }
+    $scope.removeAllProductIncart = function () {
+        if (confirm("Bạn có muốn xóa tất cả sản phẩm trong giỏ")) {
+            $http.delete("/cart/removeAll").then(function (response) {
+                // alert("Success")
+                $scope.cart = response.data;
+                console.log(response.data())
+            })
+        }
+    }
     $scope.getTotal = function () {
         var totalPrice = 0;
         for (let i = 0; i < $scope.cart.length; i++) {

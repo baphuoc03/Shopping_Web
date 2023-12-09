@@ -4,9 +4,9 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         gioiTinh: null
     };
     $scope.gioiTinh = [
-        {value: null, text: "Không xác định"},
-        {value: true, text: "Nam"},
-        {value: false, text: "Nữ"}
+        {value: "null", text: "Không xác định"},
+        {value: "true", text: "Nam"},
+        {value: "false", text: "Nữ"}
     ]
     const token = "954c787d-2876-11ee-96dc-de6f804954c9";
     const headers = {headers: {token: token}}
@@ -45,7 +45,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
             let data = {province_id: parseInt(id)}
             $http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" + id, headers).then(res => {
                 $scope.districts = res.data.data;
-                $scope.districtChange($scope.districts[0].DistrictID)
+                // $scope.districtChange($scope.districts[0].DistrictID)
             }).catch(err => console.log(err))
         }
     }
@@ -100,7 +100,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
     $scope.update = function () {
         let anhDaiDien = document.getElementById("pro-image").files.length == 0 ? null : document.getElementById("pro-image").files[0];
         let formData = new FormData();
-        if ($scope.user.gioiTinh == undefined) $scope.user.gioiTinh = null;
+        if ($scope.user.gioiTinh == "null") $scope.user.gioiTinh = null;
         formData.append("ThongTinKhachHang", new Blob([JSON.stringify($scope.user)], {
             type: 'application/json'
         }))
@@ -131,9 +131,10 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         document.getElementById("labelAddImg").remove()
     }
     $http.get("/khach-hang/getUser").then(r => {
-        r.data.gioiTinh = JSON.stringify(r.data.gioiTinh)
+        r.data.gioiTinh = r.data.gioiTinh+""
         $scope.user = r.data
         $scope.user.ngaySinh = new Date(r.data.ngaySinh)
+        console.log($scope.user)
         if ($scope.user.anhDaiDien == null) $(".preview-images-zone").append(labelAddImg);
         else {
             let imgUser = new DataTransfer();
@@ -162,8 +163,12 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         })
         .catch(function (error) {
         });
-    $scope.updateDiaChi = function (id) {
-        var url = "/update" + "/" + id;
+    $scope.idDiaChi = "";
+    $scope.updateDiaChi = function () {
+        let indexCity = $scope.citys.findIndex(c => c.ProvinceID == $scope.thanhPhoCode)
+        let indexDistrict = $scope.districts.findIndex(d => d.DistrictID == $scope.quanHuyenCode)
+        let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode)
+        var url = "/update" + "/" + $scope.idDiaChi;
         var updateDiaChi = {
             thanhPhoCode: $scope.thanhPhoCode,
             thanhPhoName: $scope.citys[indexCity].ProvinceName,
@@ -174,6 +179,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
             diaChiChiTiet: $scope.diaChiChiTiet
         }
         $http.put(url, updateDiaChi).then(function (r) {
+            $scope.idDiaChi = ""
             location.reload();
             alert("Update Thành công")
         }).catch(error => {
@@ -200,6 +206,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         var data = {
             id: id
         }
+        $scope.idDiaChi = id;
         $http.post("/dia-chi-by-id",data).then(function (response) {
             let diaChi = response.data;
             $scope.diaChiChiTiet = diaChi.diaChiChiTiet;
@@ -220,5 +227,23 @@ app.controller('diaChiCtrl', function ($scope, $http) {
                 alert("Xóa thất bại!")
             })
         }
+    }
+
+    $scope.setMacDinh = function (id){
+        alertify.confirm("Đặt địa chỉ làm mặc đinh?", function () {
+            $http.get("/dia-chi/set-mac-dinh/" + id).then(r => {
+                $http.get("/dia-chi-khach-hang")
+                .then(function (response) {
+                    $scope.diaChiByTaiKhoan = response.data;
+                })
+                .catch(function (error) {
+                });
+                alertify.success("Đặt địa chỉ làm mặc định thành công");
+            }).catch(e => {
+                alertify.error("Đặt địa chỉ làm mặc định thất bại!")
+            })
+        }, function () {
+        })
+
     }
 });

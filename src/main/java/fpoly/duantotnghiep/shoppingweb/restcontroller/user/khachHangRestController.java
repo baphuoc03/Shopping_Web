@@ -43,8 +43,15 @@ public class khachHangRestController {
     @Autowired
     private IKhachHangService khachHangService;
     @Autowired
-    private VoucherService kh;
 
+    private VoucherService vc;
+//
+//    @GetMapping("/get-all")
+//    public ResponseEntity<Page<KhachHangDtoResponse>> getAllKhachHang(@RequestParam(defaultValue = "0")Integer page,
+//                                                                      @RequestParam(defaultValue = "8")Integer limit){
+//        return ResponseEntity.ok(khachHangService.getAll(page,limit));
+//
+//    }
 
     @PostMapping("")
     public ResponseEntity<?> add(@Valid @RequestBody KhachHangDTORequest khachHang,
@@ -72,14 +79,11 @@ public class khachHangRestController {
         String username = authentication.getName();
         return ResponseEntity.ok(khachHangService.findById(username));
     }
-
-
-//    @GetMapping("te")
-//    public ResponseEntity<?> getUserKhachHang() {
-//
-//        return ResponseEntity.ok(kh.findById("YBWERVAB")); // Ví dụ: trả về một ResponseEntity thành công
-//    }
-
+  
+    @GetMapping("bd")
+    public ResponseEntity<?> getUserKhachHang11(){
+        return ResponseEntity.ok(vc.findById("EYOQIG6S"));
+    }
 
     @PutMapping("update")
     public ResponseEntity<?> updateKhachHang(@Valid @RequestBody KhachHangDTORequest khachHang,

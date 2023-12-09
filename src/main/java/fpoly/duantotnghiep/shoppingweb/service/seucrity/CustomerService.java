@@ -22,8 +22,11 @@ public class CustomerService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        KhachHangModel khachHangModel = khachHangRepository.findById(username).orElse(null);
+        KhachHangModel khachHangModel = khachHangRepository.getByUsername(username).orElse(null);
         if(khachHangModel==null){
+            throw new UsernameNotFoundException("Username không tồn tại");
+        }
+        if(!khachHangModel.getUsername().equals(username)){
             throw new UsernameNotFoundException("Username không tồn tại");
         }
         return new Customer(khachHangModel);

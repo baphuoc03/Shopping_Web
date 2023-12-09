@@ -31,7 +31,7 @@ public class ThuongHieuService implements IThuongHieuService {
 
     @Override
     public ThuongHieuDtoResponse findById(String s) {
-        ThuongHieuModel model = iThuongHieuRepository.findById(s).get();
+        ThuongHieuModel model = iThuongHieuRepository.findById(s).orElse(new ThuongHieuModel());
         return new ThuongHieuDtoResponse(model);
     }
 
@@ -47,8 +47,15 @@ public class ThuongHieuService implements IThuongHieuService {
 
     @Override
     public void deleteByIds(List<String> s) {
-    for (String id : s){
-        iThuongHieuRepository.deleteById(id);
+        for (String id : s){
+            iThuongHieuRepository.deleteById(id);
+        }
     }
+
+    @Override
+    public List<ThuongHieuDtoResponse> getThuongHieuBanChay(){
+        return iThuongHieuRepository.getAllOrderByBanChay().stream().limit(4)
+                .map(id -> new ThuongHieuDtoResponse(iThuongHieuRepository.findById(id).get()))
+                .collect(Collectors.toList());
     }
 }

@@ -25,7 +25,10 @@ public class DonHangController {
     private VnPayServiceImpl vnPayService;
 
     @GetMapping("chi-tiet-don-hang/{maDH}")
-    public String viewChiTietDonHang(){
+    public String viewChiTietDonHang(@PathVariable("maDH")String maDH){
+        if(!donHangService.existsByMa(maDH)){
+            return "admin/authen/notFound";
+        }
         return "user/ChiTietDonHang";
     }
 

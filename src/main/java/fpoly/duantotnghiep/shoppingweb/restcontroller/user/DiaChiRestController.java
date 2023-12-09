@@ -86,11 +86,12 @@ DiaChiRestController {
     }
     @PutMapping("update/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody DiaChiDTORequest diaChi,
-                                    BindingResult result, @PathVariable Long id) {
+                                    BindingResult result, @PathVariable Long id,Authentication authentication) {
         diaChi.setId(id);
         if (result.hasErrors()){
             return ValidateUtil.getErrors(result);
         }
+        diaChi.setTaiKhoan(authentication.getName());
         return ResponseEntity.ok(diaChiService.update(diaChi));
     }
     @GetMapping("/chi-tiet/{id}")
@@ -105,5 +106,21 @@ DiaChiRestController {
         }
         diaChiService.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+    @GetMapping("/dia-chi/set-mac-dinh/{id}")
+    public ResponseEntity<?> setMacDinh(@PathVariable("id")Long id,
+                                        Authentication authentication){
+        if(!diaChiService.exsistsById(id)){
+            return ResponseEntity.notFound().build();
+        }
+        if(authentication==null){
+            return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
+        }
+        diaChiService.setMacDinh(authentication.getName(),id);
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping("/dia-chi/get-mac-dinh/{username}")
+    public ResponseEntity<?> getMacDinh(@PathVariable("username")String khachHang){
+        return ResponseEntity.ok(diaChiService.getDiaChiMacDinh(khachHang,true));
     }
 }

@@ -19,16 +19,17 @@ app.controller("filter-ctrl", function ($scope, $http) {
         $scope.thuongHieu = r.data
     })
 
-    $http.post("/admin/san-pham/filter", $scope.filterDto).then(r => {
+    $http.post("/san-pham/filter", $scope.filterDto).then(r => {
         $scope.products = r.data.content;
         $scope.getPageNumbers(r.data.totalPages)
+        console.log($scope.products)
     }).catch(e => console.log(e))
 
 
 
     $scope.getAll = function (pageNumber) {
         $scope.pageNumber = pageNumber;
-        $http.post("/admin/san-pham/filter", $scope.filterDto).then(r => {
+        $http.post("/san-pham/filter", $scope.filterDto).then(r => {
                 $scope.products = r.data.content;
                 // $scope.filterData = {}
             }).catch(e => console.log(e))

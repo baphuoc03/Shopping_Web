@@ -81,7 +81,7 @@
             <div class="flex-w flex-sb-m p-b-52">
                 <div class="flex-w flex-l-m m-t-50 filter-tope-group m-tb-10">
                     <h3 class="cl5" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold;">
-                        Thương hiệu: {{thuongHieu.ten}} {{thuongHieu.thuongHieu == undefined ? '' : ' - '+thuongHieu.thuongHieu}}
+                        Thương hiệu: {{thuongHieu.ten == undefined ? 'Khác' : thuongHieu.ten}} {{thuongHieu.thuongHieu == undefined ? '' : ' - '+thuongHieu.thuongHieu}}
                     </h3>
                 </div>
 
@@ -105,6 +105,7 @@
             </div>
             <!--Form sản phẩm-->
             <div class="flex-c-m flex-w w-full  d-flex justify-content-start">
+                <h3 class="text-center" ng-if="products.length == 0">Không có sản phẩm liên quan</h3>
                 <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women" style="padding: 20px"
                      ng-repeat="p in products">
                     <!-- Block2 -->

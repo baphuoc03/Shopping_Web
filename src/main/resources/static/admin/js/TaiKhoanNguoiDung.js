@@ -31,4 +31,20 @@ app.controller('ctrl', function ($scope, $http) {
             console.log($scope.khachHangDetail)
         }).catch(e => console.log(e))
     }
+
+    $scope.delete = function (id){
+        alertify.confirm("Bạn có chắc chắn muốn xóa khách hàng này?" , function () {
+            $http.delete("/admin/khach-hang/"+id).then(r => {
+                alertify.success("Xóa khách hàng thành công")
+                if($scope.khachHang.length==1){
+                    if($scope.pageNumber>0) $scope.pageNumber--;
+                }
+                $scope.getAll($scope.pageNumber);
+            }).catch(e =>{
+                console.log(e);
+                alertify.error("Xóa khách hàng thất bại")
+            })
+        }, function () {
+        })
+    }
 })

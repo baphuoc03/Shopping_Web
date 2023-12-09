@@ -49,6 +49,7 @@
                                             <span data-bs-toggle="dropdown" aria-expanded="false"
                                                   class="btn btn-primary">
                                                 <i data-feather="filter"></i>
+                                                <span class="badge bg-primary ms-1 ml-2" style="font-size: 11px;font-weight: bold" id="lengthFilter"></span>
                                             </span>
                                         <ul class="dropdown-menu" style="width: 500px;padding: 20px">
                                             <li>
@@ -73,7 +74,7 @@
                                                         <div class="mb-3">
                                                             <label>Xuất xứ</label>
                                                             <select class="form-control" ng-model="filterData.xuatXu">
-                                                                <option>Tất cả</option>
+                                                                <option value="" selected>Tất cả</option>
                                                                 <option ng-repeat="x in xuatXu" value="{{x.id}}">{{x.ten}}</option>
                                                             </select>
                                                         </div>
@@ -82,14 +83,14 @@
                                                         <div class="mb-3">
                                                             <label>Màu sắc</label>
                                                             <select class="form-control" ng-model="filterData.mauSac">
-                                                                <option>Tất cả</option>
+                                                                <option value="" selected>Tất cả</option>
                                                                 <option ng-repeat="m in mauSac" value="{{m.ma}}">{{m.ten}}</option>
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label>Dòng sản phẩm</label>
                                                             <select class="form-control" ng-model="filterData.dongSanPham">
-                                                                <option selected>Tất cả</option>
+                                                                <option value="" selected>Tất cả</option>
                                                                 <optgroup ng-repeat="t in thuongHieu" label="{{t.ten}}">
                                                                     <option value="{{t.id}}">tất cả {{t.ten}}</option>
                                                                     <option ng-repeat="d in t.dongSanPhamResponeseList" value="{{d.id}}">{{d.ten}}</option>
@@ -99,7 +100,7 @@
                                                         <div class="mb-3">
                                                             <label>Kiểu dáng</label>
                                                             <select class="form-control" ng-model="filterData.kieuDang">
-                                                                <option>Tất cả</option>
+                                                                <option value="" selected>Tất cả</option>
                                                                 <option ng-repeat="k in kieuDang" value="{{k.id}}">{{k.ten}}</option>
                                                                 <option value="khac">Khác</option>
                                                             </select>
@@ -107,7 +108,7 @@
                                                         <div class="mb-3">
                                                             <label>Chất liệu</label>
                                                             <select class="form-control" ng-model="filterData.chatLieu">
-                                                                <option>Tất cả</option>
+                                                                <option value="" selected>Tất cả</option>
                                                                 <option ng-repeat="c in chatLieu" value="{{c.id}}">{{c.ten}}</option>
                                                             </select>
                                                         </div>
@@ -154,6 +155,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <tr ng-if="items.length == 0">
+                                    <td colspan="8">
+                                        <h3 class="text-center col-12 mt-5" >Không có sản phẩm liên quan</h3>
+                                    </td>
+                                </tr>
                                 <tr ng-repeat="p in items" style="cursor: pointer">
                                     <td ng-click="getChiTietSP(p.ma)">{{$index + 1}}</td>
                                     <td ng-click="getChiTietSP(p.ma)">

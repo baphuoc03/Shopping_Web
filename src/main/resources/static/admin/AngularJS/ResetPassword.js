@@ -13,13 +13,17 @@ app.controller("resetPassword-ctrl", function($scope, $http){
         }
     }
     $scope.resetPassword = function (){
-        $http.put("/admin/doi-mat-khau",$scope.data).then(r =>{
-            alertify.success("Đổi mật khẩu thành công")
-        }).catch(e => {
-            alertify.error("Đổi mật khẩu thất bại")
-            document.getElementById("passCuER").innerText = e.data.oldPass == undefined ? "" : e.data.oldPass;
-            document.getElementById("passNewER").innerText = e.data.newPass == undefined ? "" : e.data.newPass;
-            document.getElementById("verifyPassNewER").innerText = e.data.verifyNewPass == undefined ? "" : e.data.verifyNewPass;
+        alertify.confirm("Đổi mật khẩu?", function () {
+            $http.put("/admin/doi-mat-khau",$scope.data).then(r =>{
+                alertify.success("Đổi mật khẩu thành công")
+                $scope.data = {};
+            }).catch(e => {
+                alertify.error("Đổi mật khẩu thất bại")
+                document.getElementById("passCuER").innerText = e.data.oldPass == undefined ? "" : e.data.oldPass;
+                document.getElementById("passNewER").innerText = e.data.newPass == undefined ? "" : e.data.newPass;
+                document.getElementById("verifyPassNewER").innerText = e.data.verifyNewPass == undefined ? "" : e.data.verifyNewPass;
+            })
+        }, function () {
         })
     }
     $scope.removeErrors = function (id){

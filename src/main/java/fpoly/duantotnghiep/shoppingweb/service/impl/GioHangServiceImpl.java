@@ -30,7 +30,6 @@ public class GioHangServiceImpl implements IGioHangService {
     // update
     public void addOrUpdateToCart(String idCTSP,Integer sl){
         Map<String,Integer> sanPhamTrongGio  = cart.getProductInCart();
-
         boolean chk = false;
         //Nếu sản phẩm đã có trong giỏ thì + dồn số lượng
         if(sanPhamTrongGio.containsKey(idCTSP)){//Kiểm tra sản phẩm có trong giỏ hàng chưa
@@ -52,6 +51,7 @@ public class GioHangServiceImpl implements IGioHangService {
         Map<String,Integer> productInCart = cart.getProductInCart();
         productInCart.remove(idCTSP);
     }
+    @Override
     public void removeAllProdcutInCart(){
         Map<String,Integer> productInCart = cart.getProductInCart();
         productInCart.clear();

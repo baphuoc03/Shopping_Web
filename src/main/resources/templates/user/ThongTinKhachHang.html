@@ -132,7 +132,7 @@
             <div class="modal fade" id="addDiaChi" tabindex="-1" role="dialog"
                  aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Thêm Địa Chỉ</h5>
@@ -183,7 +183,7 @@
                                 <p class="form-text text-danger" id="eXaPhuong"></p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" ng-click="create()">Submit
+                                <button type="button" class="btn btn-danger" ng-click="create()">Thêm
                                 </button>
                             </div>
                         </div>
@@ -196,7 +196,9 @@
                     <thead>
                     <tr>
                         <th>Địa Chỉ</th>
-
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
 
@@ -209,11 +211,14 @@
                                 {{dc.thanhphoName}}
                             </p>
                         </td>
-
+                        <td>
+                            <button type="button" class="btn" ng-if="dc.macDinh == true" disabled>Mặc định</button>
+                            <button type="button" class="btn btn-light" ng-if="dc.macDinh != true" ng-click="setMacDinh(dc.id)">Đặt làm mặc định</button>
+                        </td>
                         <td>
                             <button data-bs-toggle="modal"
                                     data-bs-target="#diaChiUpdate"
-                                    ng-click="getDiaChi(dc.id)">Edit
+                                    ng-click="getDiaChi(dc.id)">Sửa
                             </button>
                             <button class="btn " ng-click="deleteById(dc.id)">Xóa</button>
                         <td>
@@ -229,8 +234,8 @@
             <div class="modal fade" id="diaChiUpdate" tabindex="-1" role="dialog"
                  aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content ">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Cập nhật địa chỉ</h5>
                         </div>
@@ -278,7 +283,7 @@
                                 <p class="form-text text-danger" id="eXaPhuong"></p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" ng-click="updateDiaChi()">Submit
+                                <button type="button" class="btn btn-danger" ng-click="updateDiaChi()">Cập Nhật
                                 </button>
                             </div>
                         </div>
