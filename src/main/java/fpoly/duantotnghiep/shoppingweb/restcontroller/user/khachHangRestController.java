@@ -5,6 +5,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.KhachHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.NhanVienDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.security.ResetPasswordDto;
 import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
+import fpoly.duantotnghiep.shoppingweb.service.VoucherService;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -25,6 +26,8 @@ public class khachHangRestController {
 
     @Autowired
     private IKhachHangService khachHangService;
+    @Autowired
+    private VoucherService vc;
 //
 //    @GetMapping("/get-all")
 //    public ResponseEntity<Page<KhachHangDtoResponse>> getAllKhachHang(@RequestParam(defaultValue = "0")Integer page,
@@ -57,6 +60,10 @@ public class khachHangRestController {
     public ResponseEntity<?> getUserKhachHang(Authentication authentication){
         String username = authentication.getName();
         return ResponseEntity.ok(khachHangService.findById(username));
+    }
+    @GetMapping("bd")
+    public ResponseEntity<?> getUserKhachHang11(){
+        return ResponseEntity.ok(vc.findById("EYOQIG6S"));
     }
     @PutMapping("update")
     public ResponseEntity<?> updateKhachHang(@Valid @RequestBody KhachHangDTORequest khachHang,

@@ -163,11 +163,12 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         })
         .catch(function (error) {
         });
-    $scope.updateDiaChi = function (id) {
+    $scope.idDiaChi = "";
+    $scope.updateDiaChi = function () {
         let indexCity = $scope.citys.findIndex(c => c.ProvinceID == $scope.thanhPhoCode)
         let indexDistrict = $scope.districts.findIndex(d => d.DistrictID == $scope.quanHuyenCode)
         let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode)
-        var url = "/update" + "/" + id;
+        var url = "/update" + "/" + $scope.idDiaChi;
         var updateDiaChi = {
             thanhPhoCode: $scope.thanhPhoCode,
             thanhPhoName: $scope.citys[indexCity].ProvinceName,
@@ -178,6 +179,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
             diaChiChiTiet: $scope.diaChiChiTiet
         }
         $http.put(url, updateDiaChi).then(function (r) {
+            $scope.idDiaChi = ""
             location.reload();
             alert("Update Thành công")
         }).catch(error => {
@@ -204,6 +206,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         var data = {
             id: id
         }
+        $scope.idDiaChi = id;
         $http.post("/dia-chi-by-id",data).then(function (response) {
             let diaChi = response.data;
             $scope.diaChiChiTiet = diaChi.diaChiChiTiet;

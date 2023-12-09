@@ -86,11 +86,12 @@ DiaChiRestController {
     }
     @PutMapping("update/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody DiaChiDTORequest diaChi,
-                                    BindingResult result, @PathVariable Long id) {
+                                    BindingResult result, @PathVariable Long id,Authentication authentication) {
         diaChi.setId(id);
         if (result.hasErrors()){
             return ValidateUtil.getErrors(result);
         }
+        diaChi.setTaiKhoan(authentication.getName());
         return ResponseEntity.ok(diaChiService.update(diaChi));
     }
     @GetMapping("/chi-tiet/{id}")
