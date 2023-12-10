@@ -227,14 +227,18 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
 
         },getAvgRate(){
             $http.get("/nhan-xet/avg-by-sanpham?maSP="+maSP.substring(1)).then(r => {
-                try {
-                    this.avg = r.data.toFixed(1)
-                }
-                catch(err) {
-                    this.avg = r.data
-                }
+                // try {
+                    if(!Number.isInteger(r.data)) {
+                        this.avg = r.data.toFixed(1)
+                    }else this.avg = r.data
+
+                // }
+                // catch(err) {
+                //     this.avg = r.data
+                // }
+                // if(this.avg.length == 0) this.avg=0
                 raterJs({
-                    rating: Number.parseFloat(this.avg),
+                    rating: Number.parseFloat(this.avg+""),
                     starSize: 22, step: .1, element: document.querySelector("#rater-step"), rateCallback: function (e, t) {
                         this.setRating(e), t()
                     }

@@ -20,6 +20,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
     $scope.form = {}
     $scope.items = []
     $scope.diaChi = {};
+    $scope.diaChiByTaiKhoan = []
 
     const labelAddImg = '<label for="pro-image" id="labelAddImg" class="addImg d-flex align-items-center justify-content-center" >' +
         '<i class="bx bxs-image-add"></i>' +
@@ -51,6 +52,11 @@ app.controller('diaChiCtrl', function ($scope, $http) {
     }
     $scope.create = function () {
 
+        if($scope.diaChiByTaiKhoan.length>=5){
+            alertify.error("Chỉ được tối đa 5 địa chỉ")
+            return
+        }
+
         let indexCity = $scope.citys.findIndex(c => c.ProvinceID == $scope.thanhPhoCode)
         let indexDistrict = $scope.districts.findIndex(d => d.DistrictID == $scope.quanHuyenCode)
         let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode)
@@ -64,14 +70,16 @@ app.controller('diaChiCtrl', function ($scope, $http) {
             diaChiChiTiet: $scope.diaChiChiTiet
         }
         $http.post("http://localhost:8080/add", diaChi).then(r => {
-            location.reload();
-
+            $scope.diaChiByTaiKhoan.push(r.data)
+            $("#addDiaChi").modal("hide")
+            $scope.diaChi = {}
+            alertify.success("Thêm địa chỉ thành công")
         }).catch(error => {
             console.log(error)
-            $scope.errDiaChiChiTiet = error.data.diaChiChiTiet
-            $scope.eThanhPho = error.data.thanhPhoCode
-            $scope.eQuanHuyen = error.data.quanHuyenCode
-            $scope.eXaPhuong = error.data.xaPhuongCode
+            $scope.errDiaChiChiTiet = error.data.diaChiChiTiet == undefined ? "" : error.data.diaChiChiTiet
+            $scope.eThanhPho = error.data.thanhPhoCode ? "" : error.data.thanhPhoCode
+            $scope.eQuanHuyen = error.data.quanHuyenCode ? "" : error.data.quanHuyenCode
+            $scope.eXaPhuong = error.data.xaPhuongCode ? "" : error.data.xaPhuongCode
 
         })
     }
@@ -110,9 +118,9 @@ app.controller('diaChiCtrl', function ($scope, $http) {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         }).then(r => {
-            location.reload();
-            alert("Cập nhật thành công")
-            document.getElementById("imgUser").src = "/image/loadImageUser/" + r.data.username
+            // location.reload();
+            alertify.success("Cập nhật thành công")
+            // document.getElementById("imgUser").src = "/image/loadImageUser/" + r.data.username
         }).catch(e => {
             document.getElementById("hoVaTenER").innerText = e.data.hoVaTen == undefined ? "" : e.data.hoVaTen;
             document.getElementById("soDienThoaiER").innerText = e.data.soDienThoai == undefined ? "" : e.data.soDienThoai;
@@ -158,7 +166,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
 
     $http.get("/dia-chi-khach-hang")
         .then(function (response) {
-            console.log("dia-chi:s" + response.data)
+            console.log("dia-chi:s" , response.data)
             $scope.diaChiByTaiKhoan = response.data;
         })
         .catch(function (error) {
@@ -179,10 +187,15 @@ app.controller('diaChiCtrl', function ($scope, $http) {
             diaChiChiTiet: $scope.diaChiChiTiet
         }
         $http.put(url, updateDiaChi).then(function (r) {
+            let index = $scope.diaChiByTaiKhoan.findIndex(d => d.id == $scope.idDiaChi)
+            $scope.diaChiByTaiKhoan[index] = r.data
+            console.log($scope.diaChiByTaiKhoan[index])
             $scope.idDiaChi = ""
-            location.reload();
-            alert("Update Thành công")
+            alertify.success("Cập nhật địa chỉ thành công")
+            $scope.diaChi = {}
+            $("#diaChiUpdate").modal("hide")
         }).catch(error => {
+
             console.log(error)
             $scope.errDiaChiChiTiet = error.data.diaChiChiTiet
             $scope.eThanhPho = error.data.thanhPhoCode
@@ -219,14 +232,15 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         })
     }
     $scope.deleteById = function (id) {
-        if (confirm("Xóa địa chỉ " + id)) {
+        alertify.confirm("Xóa địa chỉ?", function () {
             $http.delete("/deleteDC/" + id).then(r => {
-                location.reload();
-                alert("Xóa thành công");
+                let index = $scope.diaChiByTaiKhoan.findIndex(d => d.id == id)
+                $scope.diaChiByTaiKhoan.splice(index,1)
+                alertify.success("Xóa địa chỉ thành công")
             }).catch(e => {
-                alert("Xóa thất bại!")
+                alertify.error("Thêm địa chỉ thành công")
             })
-        }
+        },function (){})
     }
 
     $scope.setMacDinh = function (id){

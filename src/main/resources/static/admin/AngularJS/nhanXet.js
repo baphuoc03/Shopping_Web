@@ -32,14 +32,16 @@ app.controller("ctrl", function($scope, $http){
 
         },getAvgRate(){
             $http.get("/admin/nhan-xet/avg-by-sanpham?maSP="+maSP.substring(1)+"&pheDuyet="+this.pheDuyet).then(r => {
-                try {
-                    this.avg = r.data.toFixed(1)
+                console.log(r.data)
+                if(r.data.length == 0) this.avg=0
+                else {
+                    if (!Number.isInteger(r.data)) {
+                        this.avg = r.data.toFixed(1)
+                    } else this.avg = r.data
                 }
-                catch(err) {
-                    this.avg = r.data
-                }
+
                 raterJs({
-                    rating: Number.parseFloat(this.avg),
+                    rating: Number.parseFloat(this.avg+""),
                     starSize: 22, step: .1, element: document.querySelector("#rater-step"), rateCallback: function (e, t) {
                         this.setRating(e), t()
                     }

@@ -38,6 +38,7 @@ public class DiaChiServiceImpl implements IDiaChiService {
 
     @Override
     public void addDiaChi(DiaChiModel diaChiModel) {
+
         this. repository.save(diaChiModel);
     }
 
@@ -63,7 +64,11 @@ public class DiaChiServiceImpl implements IDiaChiService {
 
     @Override
     public DiaChiDTOResponse add(DiaChiDTORequest diaChi) {
-       DiaChiModel diaChiModel = diaChiRepository.save(diaChi.mapToModel());
+        DiaChiModel model = diaChi.mapToModel();
+        List<DiaChiModel> lst = diaChiRepository.getAllByTaiKhoan(model.getTaiKhoan());
+        if(lst.size()==0) model.setMacDinh(true);
+        else model.setMacDinh(false);
+       DiaChiModel diaChiModel = diaChiRepository.save(model);
         return new DiaChiDTOResponse(diaChiModel);
     }
 
