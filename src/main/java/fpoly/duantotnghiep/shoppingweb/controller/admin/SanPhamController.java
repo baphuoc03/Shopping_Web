@@ -71,6 +71,13 @@ public class SanPhamController {
             request.setAttribute("erImg","Sản phẩm chỉ tối đa 5 ảnh");
             result.addError(new FieldError("1","1","1"));
         }
+        if(sanPham.getMa()!=null||!sanPham.getMa().isBlank()){
+            System.out.println(sanPhamService.existsById(sanPham.getMa()));
+            if(sanPhamService.existsById(sanPham.getMa())){
+                request.setAttribute("erMa","Mã sản phẩm đã tồn tại");
+                result.addError(new FieldError("2","2","2"));
+            }
+        }
 
         if (result.hasErrors()) {
             request.setAttribute("method", "add");

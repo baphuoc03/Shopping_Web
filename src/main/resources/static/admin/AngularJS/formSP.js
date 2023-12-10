@@ -5,6 +5,7 @@ app.controller("ctrl", function ($scope, $http) {
     var thuocTinhSL = undefined;
     var filesTransfer = new DataTransfer();
     var checkViewModal = false;
+    $scope.tenThuocTinh = ""
     $scope.er = {}
     document.getElementById("pro-image").files = filesTransfer.files
 
@@ -63,16 +64,27 @@ app.controller("ctrl", function ($scope, $http) {
         }
     }
     $scope.addThuocTinh = function () {
+        if (thuocTinhSL.id == "dongSP"){
+            if($scope.thuongHieu == undefined){
+                document.getElementById('erAddDongSP').innerText = "Vui lòng chọn thương hiệu"
+                return;
+            }
+        }
+        if($scope.tenThuocTinh.length==0){
+            document.getElementById('etenThuocTinh').innerText = "Vui lòng nhập tên"
+            return
+        }
+
         $http.post(httpThuocTinh, {thuongHieu: $scope.thuongHieu, ten: $scope.tenThuocTinh}).then(r => {
             // document.getElementById("viewAddThuongHieu").style.display = "none"
-            if (thuocTinhSL.id == "dongSP") $scope.addOtpInDongSP(r.data)
-            else {
+            // if (thuocTinhSL.id == "dongSP") $scope.addOtpInDongSP(r.data)
+            // else {
                 var option = document.createElement("option");
                 option.text = r.data.ten;
                 option.value = r.data.id == undefined ? r.data.ma : r.data.id
                 thuocTinhSL.add(option, thuocTinhSL[thuocTinhSL.length - 1]);
                 thuocTinhSL.value = option.value;
-            }
+            // }
 
             $scope.tenThuocTinh = "";
             checkViewModal = true

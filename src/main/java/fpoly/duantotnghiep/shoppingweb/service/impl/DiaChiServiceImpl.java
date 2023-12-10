@@ -74,7 +74,10 @@ public class DiaChiServiceImpl implements IDiaChiService {
 
     @Override
     public DiaChiDTOResponse update(DiaChiDTORequest diaChi) {
-        DiaChiModel diaChiModel = diaChiRepository.save(diaChi.mapToModel());
+        Boolean macDinh = diaChiRepository.findById(diaChi.getId()).get().getMacDinh();
+        DiaChiModel model = diaChi.mapToModel();
+        model.setMacDinh(macDinh);
+        DiaChiModel diaChiModel = diaChiRepository.save(model);
         return new DiaChiDTOResponse(diaChiModel);
     }
 
