@@ -28,7 +28,9 @@ import org.thymeleaf.context.Context;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -232,9 +234,12 @@ public class DonHangService implements IDonHangService {
         if(donHangOld.getLoai()==0){
             if (phuongThucThanhToan) {
                 model.setTrangThai(2);
+                System.out.println("ASDASDASDASDASD");
             } else {
                 model.setTrangThai(5);
             }
+        }else{
+            model.setTrangThai(donHangOld.getTrangThai());
         }
 //        model.setPhuongThucThanhToan(donHangOld.getPhuongThucThanhToan());
 
@@ -448,5 +453,17 @@ public class DonHangService implements IDonHangService {
 //        donHangModel.setTrangThai(trangThai);
 //        return new DonHangDtoResponse(donHangResponsitory.saveAndFlush(donHangModel));
 //    }
+
+    @Override
+    public Map<String,Long> getQuantityProductInOrderDetailWithDate(Date firstDate, Date lastDate){
+        Long hoaDonOnline = donHangResponsitory.getTotalQauntityInOrdersWithDateAndLoai(firstDate,lastDate,0)
+                            == null ? 0L :  donHangResponsitory.getTotalQauntityInOrdersWithDateAndLoai(firstDate,lastDate,0);
+        Long hoaDonTaiQuay = donHangResponsitory.getTotalQauntityInOrdersWithDateAndLoai(firstDate,lastDate,1)
+                == null ? 0L :  donHangResponsitory.getTotalQauntityInOrdersWithDateAndLoai(firstDate,lastDate,1);
+        Map<String,Long> result = new HashMap<>();
+        result.put("hoaDonOnline",hoaDonOnline);
+        result.put("hoaDonTaiQuay",hoaDonTaiQuay);
+        return result;
+    }
 }
 

@@ -359,8 +359,8 @@
                                 <button type="submit" ng-click="sortFiles()" th:text="${method == 'put' ? 'Cập nhật' : 'Thêm'}"
                                         class="btn btn-primary waves-effect waves-light">
                                 </button>
-                                <input type="reset" value="Làm mới"
-                                        class="btn btn-secondary waves-effect waves-light">
+                                <a type="reset" href="/admin/san-pham/add" th:if="${method != 'put'}"
+                                   class="btn btn-secondary waves-effect waves-light">Làm mới</a>
                             </div>
 
                         </div>

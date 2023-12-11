@@ -2,7 +2,9 @@ var app = angular.module("banhang-app", [])
 app.controller("banhang-ctrl", function ($scope, $http) {
     $scope.donHang = {}
     $scope.donHangAdd = {
-        phuongThucThanhToan: "0"
+        phuongThucThanhToan: "0",
+        tenNguoiNhan : "Khách lẻ",
+        soDienThoai : "0000000000"
     }
     $scope.chiTietDonHang = []
     $scope.sanPham = [];
@@ -70,56 +72,74 @@ app.controller("banhang-ctrl", function ($scope, $http) {
 
     ////////////////////////
     $scope.themDonHang = function (trangThai){
-        let chiTietDonHang = [];
-        $scope.chiTietDonHang.forEach(c => {
-            chiTietDonHang.push({
-                id: c.id,
-                donHangID: $scope.chuaXacNhan.detail.ma,
-                sanPhamCT: c.idChiTietSanPham,
-                soLuong: c.soLuong,
-                donGia: c.donGia,
-                donGiaSauGiam: c.donGiaSauGiam
+        alertify.confirm("Tạo đơn hàng?", function () {
+            let chiTietDonHang = [];
+            $scope.chiTietDonHang.forEach(c => {
+                chiTietDonHang.push({
+                    id: c.id,
+                    donHangID: $scope.chuaXacNhan.detail.ma,
+                    sanPhamCT: c.idChiTietSanPham,
+                    soLuong: c.soLuong,
+                    donGia: c.donGia,
+                    donGiaSauGiam: c.donGiaSauGiam
+                })
             })
-        })
-        $scope.donHangAdd.email = "baphuoc03@gmail.com"
-        $scope.donHangAdd.thanhPhoName = "a"
-        $scope.donHangAdd.thanhPhoCode = 1
-        $scope.donHangAdd.quanHuyenName = "a"
-        $scope.donHangAdd.quanHuyenCode = 1
-        $scope.donHangAdd.xaPhuongName = "a"
-        $scope.donHangAdd.xaPhuongCode = "12"
-        $scope.donHangAdd.diaChiChiTiet =  "a"
-        $scope.donHangAdd.loai = 1
-        $scope.donHangAdd.trangThai = trangThai;
-        $scope.donHangAdd.tongTien = $scope.getTotalPrice()*100
-        let formData = new FormData();
-        formData.append("donHang", new Blob([JSON.stringify($scope.donHangAdd)], {
-            type: 'application/json'
-        }))
-        formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
-            type: 'application/json'
-        }))
-        $http.post("/admin/don-hang", formData, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        }).then(r => {
-            $scope.chuaXacNhan.init()
-            $scope.chuaXacNhan.getList($scope.chuaXacNhan.page)
-            if (r.data.vnPayUrl != undefined){
-                location.href = r.data.vnPayUrl
-            }
-            $scope.donHangAdd = {
-                phuongThucThanhToan : "0"
-            }
-            $scope.chiTietDonHang.length = 0
-            $('#mySelect2').val('null').trigger('change');
-            $('#add').modal('hide')
-            alertify.success("Thêm thành công")
-        }).catch(e => {
-            $scope.erAdd = e.data
-            console.log(e)
-            alertify.error("Thêm thất bại")
-        })
+            $scope.donHangAdd.email = "baphuoc03@gmail.com"
+            $scope.donHangAdd.thanhPhoName = "a"
+            $scope.donHangAdd.thanhPhoCode = 1
+            $scope.donHangAdd.quanHuyenName = "a"
+            $scope.donHangAdd.quanHuyenCode = 1
+            $scope.donHangAdd.xaPhuongName = "a"
+            $scope.donHangAdd.xaPhuongCode = "12"
+            $scope.donHangAdd.diaChiChiTiet =  "a"
+            $scope.donHangAdd.loai = 1
+            $scope.donHangAdd.trangThai = trangThai;
+            $scope.donHangAdd.tongTien = $scope.getTotalPrice()*100
+            let formData = new FormData();
+            formData.append("donHang", new Blob([JSON.stringify($scope.donHangAdd)], {
+                type: 'application/json'
+            }))
+            formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
+                type: 'application/json'
+            }))
+            $http.post("/admin/don-hang", formData, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).then(r => {
+                $scope.chuaXacNhan.init()
+                $scope.chuaXacNhan.getList($scope.chuaXacNhan.page)
+                if (r.data.vnPayUrl != undefined){
+                    location.href = r.data.vnPayUrl
+                }
+                $scope.donHangAdd = {
+                    phuongThucThanhToan : "0",
+                    tenNguoiNhan : "Khách lẻ",
+                    soDienThoai : "0000000000"
+                }
+                $scope.chiTietDonHang.length = 0
+                $scope.getSanPham()
+                $scope.inputProduct = ""
+                $('#mySelect2').val('null').trigger('change');
+                document.getElementById("khachHangSL").value = "null"
+                $('#add').modal('hide')
+                alertify.success("Thêm thành công")
+            }).catch(e => {
+                $scope.erAdd = e.data
+                console.log(e)
+                alertify.error("Thêm thất bại")
+            })
+        },function (){})
+    }
+    $scope.clearFormAdd=function (){
+        $scope.donHangAdd = {
+            phuongThucThanhToan : "0",
+            tenNguoiNhan : "Khách lẻ",
+            soDienThoai : "0000000000"
+        }
+        $scope.chiTietDonHang.length = 0
+        $('#mySelect2').val('null').trigger('change');
+        document.getElementById("khachHangSL").value = "null"
+        document.getElementById("btnAddKh").style.display = "block";
     }
     /////////////////////////////////////////
     ///////////////////////////////////////
@@ -146,12 +166,10 @@ app.controller("banhang-ctrl", function ($scope, $http) {
             }
             document.getElementById("btnAddKh").style.display = "none";
         }else{
-            $scope.donHangAdd = {
-                phuongThucThanhToan : $scope.donHangAdd.phuongThucThanhToan,
-                tenNguoiNhan : "Khách lẻ",
-                soDienThoai : "0000000000"
-            }
-            document.getElementById("btnAddKh").style.display = "block";
+            // $scope.donHangAdd.tenNguoiNhan = "Khách lẻ"
+            // $scope.donHangAdd.soDienThoai = "0000000000"
+            $scope.clearFormAdd()
+
         }
     }
     $scope.addKhachHang = function (){
@@ -301,6 +319,8 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                 $('#closeHuy').click()
                 document.getElementById('checkAllChuaXacNhan').checked = false
                 alertify.success("Hủy đơn hàng thành công")
+                $scope.getSanPham()
+                $scope.inputProduct = ""
             }).catch(e => {
                 alertify.error("Hủy đơn hàng thất bại")
                 console.log(e)
@@ -354,6 +374,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                 formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
                     type: 'application/json'
                 }))
+                console.log(data)
                 $http.put("/admin/don-hang", formData, {
                     transformRequest: angular.identity,
                     headers: {'Content-Type': undefined}
@@ -361,6 +382,8 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                     let index = $scope.chuaXacNhan.list.findIndex(d => d.ma == $scope.chuaXacNhan.detail.ma)
                     $scope.chuaXacNhan.list[index] = $scope.chuaXacNhan.detail
                     alertify.success("Cập nhật thành công")
+                    $scope.getSanPham()
+                    $scope.inputProduct = ""
                     $scope.chuaXacNhan.init()
                     $scope.chuaXacNhan.getList($scope.chuaXacNhan.page)
                 }).catch(e => {
@@ -418,7 +441,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
             let soLuong = chiTietDonHang.soLuong - 1
 
 
-            $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + chiTietDonHang.idChiTietSanPham + "?soLuong=" + soLuong + "&idCTDH=" + "").then(r => {
+            $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + chiTietDonHang.idChiTietSanPham + "?soLuong=" + soLuong + "&idCTDH=" + (chiTietDonHang.id == undefined ? "" : chiTietDonHang.id)).then(r => {
                 $scope.chiTietDonHang[index].soLuong = soLuong
             }).catch(e => {
                 alertify.error("số lượng sản phẩm đã đạt giá trị tối thiểu")
@@ -429,7 +452,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         addSoLuong(idCTSP) {
             let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP)
             let chiTietDonHang = $scope.chiTietDonHang[index]
-            let soLuong = chiTietDonHang.soLuong + 1
+            let soLuong = parseInt(chiTietDonHang.soLuong) + 1
 
             $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + chiTietDonHang.idChiTietSanPham + "?soLuong=" + soLuong + "&idCTDH=" + (chiTietDonHang.id == undefined ? "" : chiTietDonHang.id)).then(r => {
                 $scope.chiTietDonHang[index].soLuong = soLuong

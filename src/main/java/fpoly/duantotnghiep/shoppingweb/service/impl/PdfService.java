@@ -33,7 +33,7 @@ public class PdfService {
     private void writeTableHeader(PdfPTable table) {
         PdfPCell cell = new PdfPCell();
         cell.setBackgroundColor(Color.white);
-        cell.setPadding(6);
+        cell.setPadding(7);
 
         com.lowagie.text.Font font = FontFactory.getFont(FontFactory.HELVETICA);
         font.setColor(Color.BLACK);
@@ -52,6 +52,10 @@ public class PdfService {
 
         cell.setPhrase(new Phrase("Don gia", font));
         table.addCell(cell);
+
+        cell.setPhrase(new Phrase("Don gia sau giam", font));
+        table.addCell(cell);
+
         cell.setPhrase(new Phrase("Thanh tien", font));
         table.addCell(cell);
     }
@@ -61,9 +65,10 @@ public class PdfService {
         Integer i = 1;
         for (ChiTietDonHangDtoResponse d : donHangReponseUser.getChiTietDonHang()) {
             table.addCell(i+"");
-            table.addCell(d.getSanPham());
+            table.addCell(RemoveAccent.removeAccent(d.getSanPham()));
             table.addCell(d.getSize()+"");
             table.addCell(d.getSoLuong()+"");
+            table.addCell((numberFM.format(d.getDonGia()))+" đ");
             table.addCell((numberFM.format(d.getDonGiaSauGiam()))+" đ");
             table.addCell((numberFM.format(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong()))))+" đ");
         }
@@ -87,7 +92,9 @@ public class PdfService {
         title1.setAlignment(Element.ALIGN_CENTER);
         Paragraph title2 = new Paragraph("\nHYDARA SNEAKER", new Font(Font.HELVETICA, 20, Font.BOLD));
         title2.setAlignment(Element.ALIGN_CENTER);
-        Paragraph title3 = new Paragraph("So 67, duong Lang Doai, Lien Ha, Dan Phuong, Ha Noi\n------------------------------------------",
+        Paragraph title3 = new Paragraph("So dien thoai: 0963852399"+
+                "\nEmail: hydrasneaker@gmail.com" +
+                "\nDia chi: So 67, duong Lang Doai, Lien Ha, Dan Phuong, Ha Noi\n------------------------------------------",
                 new Font(Font.HELVETICA, 13));
         title3.setAlignment(Element.ALIGN_CENTER);
         Image image1 = Image.getInstance("src/main/resources/static/admin/images/logo.jpeg");
@@ -96,14 +103,18 @@ public class PdfService {
 
         Paragraph thongtinHD = new Paragraph("\n\nNhan Vien: " + (donHangReponseUser.getNhanVienDtoResponse() == null ? "Khong xac dinh" : donHangReponseUser.getNhanVienDtoResponse().getUsername())
                 + " - " +( donHangReponseUser.getNhanVienDtoResponse() == null ? "" : RemoveAccent.removeAccent(donHangReponseUser.getNhanVienDtoResponse().getHoVaTen()))
-                + "\nKhach Hang: " + RemoveAccent.removeAccent(donHangReponseUser.getTenNguoiNhan()) + "\nNgày: " + simpleDateFormat.format(donHangReponseUser.getNgayDatHang())
+                + "\nKhach Hang: " + RemoveAccent.removeAccent(donHangReponseUser.getTenNguoiNhan()) + "\nNgay mua: " + simpleDateFormat.format(donHangReponseUser.getNgayDatHang())
+                + "\nHinh thuc thanh toan: " + (donHangReponseUser.getPhuongThucThanhToan()=="Thanh toán khi nhận hàng"?"Tien mat":"VN PAY")
                 + "\n\n------------------------------------------------------------------------------------------------------------------------",
                 new Font(Font.HELVETICA, 13));
         title3.setAlignment(Element.ALIGN_CENTER);
 
-        PdfPTable table = new PdfPTable(6);
+        Paragraph titleTable = new Paragraph("\nDanh Sach San Pham\n\n", new Font(Font.HELVETICA, 15, Font.BOLD));
+        titleTable.setAlignment(Element.ALIGN_CENTER);
+
+        PdfPTable table = new PdfPTable(7);
         table.setWidthPercentage(100f);
-        table.setWidths(new float[] {1f, 4f, 1f, 1f, 1.5f,1.5f});
+        table.setWidths(new float[] {1f, 3f, 1f, 1f, 1.5f,1.5f,1.5f});
         table.setSpacingBefore(0);
 
         writeTableHeader(table);
@@ -121,6 +132,7 @@ public class PdfService {
         document.add(image1);
         document.add(title3);
         document.add(thongtinHD);
+        document.add(titleTable);
         document.add(table);
         document.add(thongtinTT);
 //            document.add(tableTT);

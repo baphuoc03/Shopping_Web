@@ -52,5 +52,10 @@ public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String
     @Query("SELECT dh FROM DonHangModel dh WHERE dh.ngayDatHang <= :cutoffTime and dh.trangThai = 5 ")
     List<DonHangModel> findDonHangWithOlderStock(@Param("cutoffTime") Date cutoffTime);
 
+    @Query("""
+                SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c 
+                WHERE c.donHang.ngayDatHang between ?1 and ?2 AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5 AND c.donHang.loai = ?3
+            """)
+    Long getTotalQauntityInOrdersWithDateAndLoai(Date firstDate, Date lastDate,Integer loai);
 
 }

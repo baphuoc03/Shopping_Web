@@ -183,23 +183,25 @@ public class ThongKeEntityManager {
         return result;
     }
 
-    public Map<String,String> getDoanhThuDetailByDate(Date firstDate, Date lastDate){
+    public Map<String,String> getDoanhThuDetailByDate(Date firstDate, Date lastDate,Integer loai){
         Map<String,String> result = new HashMap<>();
         BigDecimal tongTien = (BigDecimal) entityManager
                 .createQuery("""
                                 SELECT SUM(c.donGia*c.soLuong) FROM ChiTietDonHangModel c  
-                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
+                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.loai = :loai AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
                             """)
                 .setParameter("firstDate",firstDate)
                 .setParameter("lastDate",lastDate)
+                .setParameter("loai",loai)
                 .getSingleResult();
         BigDecimal tienGiam = (BigDecimal) entityManager
                 .createQuery("""
                                                 SELECT SUM((c.donGia-c.donGiaSauGiam)*c.soLuong) + SUM(c.donHang.tienGiam) FROM ChiTietDonHangModel c  
-                                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
+                                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.loai = :loai AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
                                             """)
                 .setParameter("firstDate",firstDate)
                 .setParameter("lastDate",lastDate)
+                .setParameter("loai",loai)
                 .getSingleResult();
         result.put("tongTien",tongTien == null ? "0" : tongTien+"");
         result.put("tienGiam",tienGiam == null ? "0" : tienGiam+"");
