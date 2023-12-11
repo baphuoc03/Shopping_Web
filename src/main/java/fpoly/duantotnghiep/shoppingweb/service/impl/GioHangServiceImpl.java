@@ -37,8 +37,6 @@ public class GioHangServiceImpl implements IGioHangService {
             Integer soLuongHienCo = sanPhamTrongGio.get(idCTSP);
             //Cộng số lượng
             Integer soLuongMoi = soLuongHienCo + sl;
-            System.out.println("oke");
-            System.out.println(soLuongMoi);
             //Cập nhật lại giỏ hàng
             sanPhamTrongGio.put(idCTSP,soLuongMoi);
         }else{

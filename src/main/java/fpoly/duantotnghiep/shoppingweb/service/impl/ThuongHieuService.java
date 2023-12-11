@@ -54,8 +54,9 @@ public class ThuongHieuService implements IThuongHieuService {
 
     @Override
     public List<ThuongHieuDtoResponse> getThuongHieuBanChay(){
+//        System.out.println("1111"+iThuongHieuRepository.getAllOrderByBanChay());
         return iThuongHieuRepository.getAllOrderByBanChay().stream().limit(4)
-                .map(id -> new ThuongHieuDtoResponse(iThuongHieuRepository.findById(id).get()))
+                .map(id -> new ThuongHieuDtoResponse(iThuongHieuRepository.findById(id).orElse(new ThuongHieuModel())))
                 .collect(Collectors.toList());
     }
 }

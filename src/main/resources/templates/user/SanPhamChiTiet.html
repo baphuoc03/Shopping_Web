@@ -234,7 +234,12 @@
                                                 class="flex-c-m stext-80 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
                                             Thêm vào giỏ hàng
                                         </button>
+                                        <button ng-click="muaNgay()"
+                                                class="flex-c-m stext-80 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+                                            Mua Ngay
+                                        </button>
                                     </div>
+
                                     <div class="col-2" style="font-size: 30px">
                                         <i ng-if="maSpInDSYT.includes(product.ma) == false" id="{{product.ma}}"
                                            class="far fa-heart" ng-click="addDSYT(product.ma)"></i>
