@@ -49,6 +49,7 @@ public class ThongKeRestController {
         result.put("sanPhamDaBan",thongKeEntityManager.getSanPhamDaBanWithDate(firstDate,lastDate));
         result.put("doanhThuDetail",thongKeEntityManager.getDoanhThuDetailByDate(firstDate,lastDate));
         result.put("ordersDetail",thongKeEntityManager.getDetailOrdersByDate(firstDate,lastDate));
+        result.put("ordersTaiQuayDetail",thongKeEntityManager.getDetailOrdersTaiQuayByDate(firstDate,lastDate));
 
         return ResponseEntity.ok(result);
     }

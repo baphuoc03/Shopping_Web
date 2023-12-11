@@ -40,6 +40,7 @@ public class DonHangDtoResponse {
     private Date ngayHuy;
     private BigDecimal tongTien;
 
+    private NhanVienDtoResponse nhanVienDtoResponse;
 
     public DonHangDtoResponse(DonHangModel model) {
         this.ma = model.getMa();
@@ -73,5 +74,8 @@ public class DonHangDtoResponse {
             voucherName = model.getVoucher().getMota();
         }
         this.tongTien = model.getTongTien();
+        if(model.getNhanVien()!=null){
+            nhanVienDtoResponse = new NhanVienDtoResponse(model.getNhanVien());
+        }
     }
 }

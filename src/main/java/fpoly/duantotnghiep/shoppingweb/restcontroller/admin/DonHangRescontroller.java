@@ -5,12 +5,15 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
+import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
+import fpoly.duantotnghiep.shoppingweb.service.impl.VnPayServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +26,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -34,13 +39,20 @@ public class DonHangRescontroller {
     private IDonHangService donHangService;
     @Autowired
     private DonHangEntityManager donHangEntityManager;
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+    @Autowired
+    private VnPayServiceImpl vnPayService;
+    @Autowired
+    private IDonHangResponsitory donHangResponsitory;
 
     @GetMapping("get-by-trangthai")
     public Page<DonHangDtoResponse> getChuaXacNhan(@RequestParam("trangThai") Integer trangThai,
                                                    @RequestParam(defaultValue = "0") Integer pageNumber,
                                                    @RequestParam(defaultValue = "10") Integer limit,
-                                                   @RequestParam(required = false)String sdt) {
-        return donHangEntityManager.getDonHangByTrangThai(trangThai, pageNumber , limit, sdt);
+                                                   @RequestParam(required = false)String sdt,
+                                                   @RequestParam(defaultValue = "0")Integer loai) {
+        return donHangEntityManager.getDonHangByTrangThai(trangThai, pageNumber , limit, sdt,loai);
     }
 
 
@@ -54,11 +66,23 @@ public class DonHangRescontroller {
     }
 
     @GetMapping("update-trang-thai/{ma}")
-    public ResponseEntity<Integer> updatTrangThai(@PathVariable("ma") String ma, @RequestParam("trangThai") Integer trangThai) throws MessagingException {
+    public ResponseEntity<?> updatTrangThai(@PathVariable("ma") String ma, @RequestParam("trangThai") Integer trangThai) throws MessagingException {
         if (!donHangService.existsByMa(ma)) {
             return ResponseEntity.notFound().build();
         }
         donHangService.updateTrangThai(ma, trangThai);
+
+        DonHangModel donHangModel = donHangResponsitory.findById(ma).get();
+            if(donHangModel.getLoai()==1 && trangThai==4){
+                if (donHangModel.getPhuongThucThanhToan() == false) {
+                    String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort();
+                    String vnpayUrl = vnPayService.createOrder(donHangModel.getMa(), baseUrl, donHangModel.getTongTien().multiply(BigDecimal.valueOf(100)).intValue()+"");
+                    Map<String, String> vnPayUrl = new HashMap<>();
+                    vnPayUrl.put("vnPayUrl", vnpayUrl);
+                    return ResponseEntity.ok(vnPayUrl);
+                }
+            }
+
         return ResponseEntity.ok().build();
     }
 
@@ -101,7 +125,8 @@ public class DonHangRescontroller {
     @Transactional(rollbackFor = {Exception.class, Throwable.class})
     public ResponseEntity<?> themDonHang(@Valid @RequestPart("donHang") DonHangDTORequest request,
                                            BindingResult result,
-                                           @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products) {
+                                           @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products,
+                                            Authentication authentication) {
         if(products.size()<=0){
             result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn hàng"));
         }
@@ -118,8 +143,26 @@ public class DonHangRescontroller {
                 break;
             }
         }
+        if(request.getLoai()!=null){
+            if(request.getLoai()==1){
+                request.setNhanVien(authentication.getName());
+            }
+        }
         request.setMa(maDH);
         donHangService.themDonHangAdmin(request,products);
+
+        if(request.getLoai()!=null){
+            if(request.getLoai()==1 && request.getTrangThai()==4){
+                if (request.getPhuongThucThanhToan() == 1) {
+                    String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort();
+                    String vnpayUrl = vnPayService.createOrder(maDH, baseUrl, request.getTongTien());
+                    Map<String, String> vnPayUrl = new HashMap<>();
+                    vnPayUrl.put("vnPayUrl", vnpayUrl);
+                    return ResponseEntity.ok(vnPayUrl);
+                }
+            }
+        }
+
         return ResponseEntity.ok().build();
     }
     private String codeDonHang() {

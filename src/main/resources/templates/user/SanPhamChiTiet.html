@@ -87,7 +87,7 @@
 			</span>
     </div>
     <!-- Product Detail -->
-    <section class="sec-product-detail bg0 p-t-65 p-b-60">
+    <section class="sec-product-detail bg0 p-t-65 ">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-lg-7 p-b-30">
@@ -139,7 +139,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 col-lg-5 p-b-30">
+                <div class="col-md-6 col-lg-5 ">
                     <div class="p-r-50 p-t-5 p-lr-0-lg">
                         <div class="d-flex align-content-center">
                             <h4 class="mtext-105 cl2 js-name-detail p-b-14 me-2">
@@ -153,18 +153,18 @@
                             </span>
                         </div>
                         <div class="row">
-                            <div class="col-6 d-flex justify-content-around align-items-center"
-                                 style="border-right: 1px solid #000;">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                            </div>
-                            <div class="col-6 m-t-10">
-                                <p ng-if="product.soLuong >0">Hàng trong kho: {{product.soLuong}}</p>
+<!--                            <div class="col-6 d-flex justify-content-around align-items-center"-->
+<!--                                 style="border-right: 1px solid #000;">-->
+<!--                                <i class="bi bi-star-fill"></i>-->
+<!--                                <i class="bi bi-star-fill"></i>-->
+<!--                                <i class="bi bi-star-fill"></i>-->
+<!--                                <i class="bi bi-star-fill"></i>-->
+<!--                                <i class="bi bi-star-fill"></i>-->
+<!--                            </div>-->
+<!--                            <div class="col-6 m-t-10">-->
+<!--                                <p ng-if="product.soLuong >0">Hàng trong kho: {{product.soLuong}}</p>-->
                                 <p ng-if="product.soLuong <=0" class="text-danger">Hết hàng</p>
-                            </div>
+<!--                            </div>-->
                         </div>
                         <br>
 
@@ -175,14 +175,14 @@
                                 <b style="color: red">{{product.giaNiemYet | currency: "" : 1}}đ</b>
 						</span>
 
-                        <p class="m-t-10">
-                            Kiểu dáng: {{product.kieuDang}}
+                        <p class="m-t-10" ng-if="product.mauSac.length>0">
+                            Màu sắc: {{product.mauSac}}
                         </p>
 
-                        <p>
+                        <p ng-if="product.thuongHieu.length>0">
                             Thương hiệu: {{product.thuongHieu}}
                         </p>
-                        <p>
+                        <p ng-if="product.dongSanPham.length>0">
                             Dòng sản phẩm: {{product.dongSanPham}}
                         </p>
                         <!--Size  -->
@@ -268,7 +268,7 @@
                 </div>
             </div>
 
-            <div class="bor10 m-t-50 p-t-43 p-b-40">
+            <div class="bor10 p-t-43 p-b-40">
                 <!-- Tab01 -->
                 <div class="tab01">
                     <!-- Nav tabs -->
@@ -290,29 +290,33 @@
                             <div class="how-pos2 p-lr-15-md">
                                 <table class="table mb-0 table-bordered">
                                     <tbody>
-                                    <tr>
+                                    <tr ng-if="product.thuongHieu.length>0">
                                         <th scope="row" style="width: 400px;">Thương hiệu</th>
                                         <td>{{product.thuongHieu}}</td>
                                     </tr>
-                                    <tr>
+                                    <tr ng-if="product.dongSanPham.length>0">
                                         <th scope="row">Dòng sản phẩm</th>
                                         <td>{{product.dongSanPham}}</td>
                                     </tr>
-                                    <tr>
+                                    <tr ng-if="product.mauSac.length>0">
                                         <th scope="row">Màu sắc</th>
                                         <td>{{product.mauSac}}</td>
                                     </tr>
-                                    <tr>
+                                    <tr ng-if="product.xuatXu.length>0">
                                         <th scope="row">Xuất xứ</th>
                                         <td>{{product.xuatXu}}</td>
                                     </tr>
-                                    <tr>
+                                    <tr ng-if="product.chatLieu.length>0">
                                         <th scope="row">Chất liệu</th>
                                         <td>{{product.chatLieu}}</td>
                                     </tr>
-                                    <tr>
+                                    <tr ng-if="product.kieuDang.length>0">
                                         <th scope="row">Kiểu dáng</th>
                                         <td>{{product.kieuDang}}</td>
+                                    </tr>
+                                    <tr ng-if="product.moTa.length>0">
+                                        <th scope="row">Mô tả</th>
+                                        <td>{{product.moTa}}</td>
                                     </tr>
                                     </tbody>
                                 </table>

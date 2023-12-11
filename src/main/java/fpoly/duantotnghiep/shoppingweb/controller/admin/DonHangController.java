@@ -11,4 +11,8 @@ public class DonHangController {
     public String donHang(){
         return "admin/donHang";
     }
+    @GetMapping("ban-hang")
+    public String banHang(){
+        return "admin/BanHangTaiQuay";
+    }
 }

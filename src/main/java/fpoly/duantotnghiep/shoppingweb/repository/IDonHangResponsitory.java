@@ -46,7 +46,7 @@ public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String
             """)
     BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate);
 
-    @Query("SELECT dh FROM DonHangModel dh where dh.nguoiSoHuu.username = ?1 and dh.trangThai = ?2 ORDER BY dh.ngayDatHang DESC")
+    @Query("SELECT dh FROM DonHangModel dh where dh.nguoiSoHuu.username = ?1 and dh.trangThai = ?2 AND dh.loai = 0 ORDER BY dh.ngayDatHang DESC")
     List<DonHangModel> findAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai);
 
     @Query("SELECT dh FROM DonHangModel dh WHERE dh.ngayDatHang <= :cutoffTime and dh.trangThai = 5 ")

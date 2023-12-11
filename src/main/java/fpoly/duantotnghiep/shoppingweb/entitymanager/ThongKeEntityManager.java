@@ -209,7 +209,25 @@ public class ThongKeEntityManager {
         return entityManager.createQuery("""
                 SELECT d.trangThai, COUNT(d)
                 FROM DonHangModel d
-                WHERE d.ngayDatHang between :firstDate AND :lastDate 
+                WHERE d.ngayDatHang between :firstDate AND :lastDate AND d.loai=0
+                GROUP BY d.trangThai
+            """, Tuple.class)
+                .setParameter("firstDate",firstDate)
+                .setParameter("lastDate",lastDate)
+                .getResultList()
+                .stream()
+                .collect(
+                        Collectors.toMap(
+                                tuple -> "TH" + (((Number) tuple.get(0)).intValue()),
+                                tuple -> ((Number) tuple.get(1)).longValue()
+                        )
+                );
+    }
+    public Map<String, Long> getDetailOrdersTaiQuayByDate(Date firstDate, Date lastDate){
+        return entityManager.createQuery("""
+                SELECT d.trangThai, COUNT(d)
+                FROM DonHangModel d
+                WHERE d.ngayDatHang between :firstDate AND :lastDate AND d.loai=1
                 GROUP BY d.trangThai
             """, Tuple.class)
                 .setParameter("firstDate",firstDate)

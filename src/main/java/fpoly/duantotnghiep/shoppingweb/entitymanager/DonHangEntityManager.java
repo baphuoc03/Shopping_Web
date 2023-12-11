@@ -18,23 +18,27 @@ public class DonHangEntityManager {
     @Autowired
     private EntityManager entityManager;
 
-    public Page<DonHangDtoResponse> getDonHangByTrangThai(Integer trangThai,Integer page, Integer limit, String sdt){
+    public Page<DonHangDtoResponse> getDonHangByTrangThai(Integer trangThai,Integer page, Integer limit, String sdt,Integer loai){
         Pageable pageable = PageRequest.of(page,limit);
-        StringBuilder jpql = new StringBuilder("SELECT d FROM DonHangModel d WHERE d.trangThai ="+trangThai);
+        StringBuilder jpql = new StringBuilder("SELECT d FROM DonHangModel d WHERE d.trangThai ="+trangThai+" AND d.loai = "+loai);
 
         if(sdt != null){
             jpql.append(" And (d.soDienThoai  like '%"+sdt+"%' OR d.ma like '%"+sdt+"%')");
         }
 
-        if(trangThai == 0){
-            jpql.append(" ORDER BY d.ngayHuy DESC ");
-        }else if(trangThai == 1){
-            jpql.append(" ORDER BY d.ngayXacNhan DESC ");
-        }else if(trangThai == 3){
-            jpql.append(" ORDER BY d.ngayGiaoHang DESC ");
-        }else if(trangThai == 4){
-            jpql.append(" ORDER BY d.ngayHoanThanh DESC ");
-        }else{
+        if(loai==0){
+            if(trangThai == 0){
+                jpql.append(" ORDER BY d.ngayHuy DESC ");
+            }else if(trangThai == 1){
+                jpql.append(" ORDER BY d.ngayXacNhan DESC ");
+            }else if(trangThai == 3){
+                jpql.append(" ORDER BY d.ngayGiaoHang DESC ");
+            }else if(trangThai == 4){
+                jpql.append(" ORDER BY d.ngayHoanThanh DESC ");
+            }else{
+                jpql.append(" ORDER BY d.ngayDatHang DESC ");
+            }
+        }else {
             jpql.append(" ORDER BY d.ngayDatHang DESC ");
         }
         List<DonHangModel> resultModel = entityManager.createQuery(jpql.toString()).getResultList();

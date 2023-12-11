@@ -27,6 +27,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
 
     $http.get("/san-pham" + maSP).then(r => {
         $scope.product = r.data
+        console.log($scope.product.thuongHieu.length)
         if (r.data.anh.length > 0) {
             for (let i = 1; i < r.data.anh.length; i++) {
                 $scope.images = $scope.images.concat(r.data.anh[i]);

@@ -1,6 +1,8 @@
 package fpoly.duantotnghiep.shoppingweb.controller.user;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
+import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.impl.ChiTietSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.DonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VnPayServiceImpl;
@@ -19,6 +21,8 @@ public class VNPayController {
     private VnPayServiceImpl vnPayService;
     @Autowired
     private DonHangService donHangService;
+    @Autowired
+    private IDonHangResponsitory donHangResponsitory;
     @GetMapping("/vnpay-payment")
     public String GetMappings(HttpServletRequest request,
                               Authentication authentication,
@@ -28,17 +32,30 @@ public class VNPayController {
         String oderInfo = request.getParameter("vnp_OrderInfo");
         model.addAttribute("totalPrice", totalPrice);
         String url = "";
-        if(authentication == null){
-            url = "redirect:/gio-hang";
+
+        Integer loaiDonHang = donHangResponsitory.findById(oderInfo).get().getLoai();
+        if(loaiDonHang==1){
+            url = "admin/thanhToan/thanhCong";
         }else {
-            url = "redirect:/lich-su-mua-hang1";
+            if(authentication == null){
+                url = "redirect:/gio-hang";
+            }else {
+                url = "redirect:/lich-su-mua-hang1";
+            }
         }
+        System.out.println(paymentStatus);
         if(paymentStatus == 1){
-                           donHangService.updateTrangThai(oderInfo,1);
+            if(loaiDonHang!=1) donHangService.updateTrangThai(oderInfo,1);
             return url;
         }else{
-            donHangService.updateTrangThai(oderInfo, 5);
-            return "user/authen/thanhToanFail";
+            if(loaiDonHang==1){
+                donHangService.updateTrangThai(oderInfo, 5);
+                return "redirect:/admin/don-hang/ban-hang";
+            }
+            else {
+                donHangService.updateTrangThai(oderInfo, 5);
+                return "user/authen/thanhToanFail";
+            }
         }
 //        return paymentStatus == 1 ? url : "user/authen/thanhToanFail";
     }

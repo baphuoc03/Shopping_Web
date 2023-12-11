@@ -50,6 +50,15 @@ public class NhanVienModel {
     @Column(name = "anhdaidien")
     private String anhDaiDien;
 
+    @OneToMany(mappedBy = "nhanVien")
+    @ToString.Exclude
+    private List<DonHangModel> donHangModels;
+
+    @PreRemove
+    private void preRemove(){
+        donHangModels.forEach(s -> s.setNhanVien(null));
+    }
+
 //    @Transient
 //    private Token token;
 //

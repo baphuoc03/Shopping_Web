@@ -13,12 +13,15 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.erAdd = {}
 
 
+
+
     $scope.closeModal = function (id) {
         $(id).modal('hide')
         $scope.donHang = {}
     }
     $("#chuaXacNhanDetail").on('hide.bs.modal', function () {
         $scope.donHangChuaXacNhan = {}
+        console.log("11")
         $scope.chiTietDonHang.length = 0
     });
     $("#donHangDetail").on('hide.bs.modal', function () {
@@ -238,8 +241,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             alertify.success("Thêm thành công")
             $scope.chuaThanhToan.init()
             $scope.chuaXacNhan.init()
-            $scope.chuaXacNhan.getList($scope.chuaXacNhan.page)
             $scope.chuaThanhToan.getList($scope.chuaThanhToan.page)
+            $scope.chuaXacNhan.getList($scope.chuaXacNhan.page)
             $scope.donHangAdd = {
                 phuongThucThanhToan : "0"
             }

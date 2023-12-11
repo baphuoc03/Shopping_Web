@@ -49,6 +49,7 @@ public class DonHangReponseUser {
     private Date ngayHuy;
     private BigDecimal tongTien;
     private List<ChiTietDonHangDtoResponse> chiTietDonHang;
+    private NhanVienDtoResponse nhanVienDtoResponse;
 
 
     public DonHangReponseUser(DonHangModel model) {
@@ -82,7 +83,9 @@ public class DonHangReponseUser {
             voucherCode = model.getVoucher().getMa();
             voucherName = model.getVoucher().getMota();
         }
-
+        if(model.getNhanVien()!=null){
+            nhanVienDtoResponse = new NhanVienDtoResponse(model.getNhanVien());
+        }
         this.chiTietDonHang = model.getDanhSachSanPham().stream().map(s -> new ChiTietDonHangDtoResponse(s)).collect(Collectors.toList());
 
     }

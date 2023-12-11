@@ -74,6 +74,7 @@ public class DonHangService implements IDonHangService {
     @Override
     public DonHangDtoResponse checkOut(DonHangDTORequest donHangDTORequest) {
         DonHangModel model = donHangDTORequest.mapModel();
+        model.setLoai(0);
         donHangResponsitory.saveAndFlush(model);
         return new DonHangDtoResponse(donHangResponsitory.findById(model.getMa()).get());
     }
@@ -99,55 +100,57 @@ public class DonHangService implements IDonHangService {
         DonHangModel model = donHangResponsitory.findById(maDonHang).get();
         model.setTrangThai(trangThai);
 
-        String subject = "";
-        String messeger = "";
-        String title = "";
-        if (trangThai == 2) {
-            subject = "Tạo đơn hàng!";
-            title = "Tạo đơn hàng thành công";
-            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được tạo. Cảm ơn bạn đã mua hàng";
-        } else if (trangThai == 1) {
-            subject = "Xác nhận đơn hàng!";
-            title = "Xác nhận hàng thành công";
-            model.setNgayXacNhan(new Date());
-            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận. Cảm ơn bạn đã mua hàng. Đơn hàng đang được đóng gói và sẽ đến tay bạn trong vài ngày tới";
-        } else if (trangThai == 3) {
-            subject = "Chuyển giao đơn hàng!";
-            title = "Đơn hàng đang được giao";
-            model.setNgayGiaoHang(new Date());
-            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được giao. Cảm ơn bạn đã mua hàng. Đơn hàng đang được giao và sẽ đến tay bạn trong vài ngày tới";
-        } else if (trangThai == 4) {
-            subject = "Hoàn thành đơn hàng!";
-            title = "Đơn hàng đã giao thành công";
-            model.setNgayHoanThanh(new Date());
-            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn được giao thành công. Cảm ơn bạn đã mua hàng.";
-        }else if (trangThai == 5) {
-            subject = "Đơn hàng chưa đuọc thanh toán!";
-            title = "Đơn hàng của bạn chưa được thanh toán";
-            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn chưa được thanh toán.Vui lòng thanh toán đơn hàng của bạn.";
-        }
-
-
-        List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(maDonHang);
-        BigDecimal tongTien = BigDecimal.valueOf(0);
-        for (ChiTietDonHangDtoResponse d : lstSanPham) {
-            tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
-        }
-
-        Context context = new Context();
-        context.setVariable("donHang", new DonHangDtoResponse(model));
-        context.setVariable("products", lstSanPham);
-        context.setVariable("totalPrice", tongTien);
-        context.setVariable("mess", messeger);
-        context.setVariable("title", title);
-        String finalSubject = subject;
-        new Thread(() -> {
-            try {
-                sendEmailDonHang(model.getEmail(), finalSubject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
-            } catch (MessagingException e) {
-                e.printStackTrace();
+        if (model.getLoai() == 0) {
+            String subject = "";
+            String messeger = "";
+            String title = "";
+            if (trangThai == 2) {
+                subject = "Tạo đơn hàng!";
+                title = "Tạo đơn hàng thành công";
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được tạo. Cảm ơn bạn đã mua hàng";
+            } else if (trangThai == 1) {
+                subject = "Xác nhận đơn hàng!";
+                title = "Xác nhận hàng thành công";
+                model.setNgayXacNhan(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận. Cảm ơn bạn đã mua hàng. Đơn hàng đang được đóng gói và sẽ đến tay bạn trong vài ngày tới";
+            } else if (trangThai == 3) {
+                subject = "Chuyển giao đơn hàng!";
+                title = "Đơn hàng đang được giao";
+                model.setNgayGiaoHang(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được giao. Cảm ơn bạn đã mua hàng. Đơn hàng đang được giao và sẽ đến tay bạn trong vài ngày tới";
+            } else if (trangThai == 4) {
+                subject = "Hoàn thành đơn hàng!";
+                title = "Đơn hàng đã giao thành công";
+                model.setNgayHoanThanh(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn được giao thành công. Cảm ơn bạn đã mua hàng.";
+            } else if (trangThai == 5) {
+                subject = "Đơn hàng chưa đuọc thanh toán!";
+                title = "Đơn hàng của bạn chưa được thanh toán";
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn chưa được thanh toán.Vui lòng thanh toán đơn hàng của bạn.";
             }
-        }).start();
+
+
+            List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(maDonHang);
+            BigDecimal tongTien = BigDecimal.valueOf(0);
+            for (ChiTietDonHangDtoResponse d : lstSanPham) {
+                tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
+            }
+
+            Context context = new Context();
+            context.setVariable("donHang", new DonHangDtoResponse(model));
+            context.setVariable("products", lstSanPham);
+            context.setVariable("totalPrice", tongTien);
+            context.setVariable("mess", messeger);
+            context.setVariable("title", title);
+            String finalSubject = subject;
+            new Thread(() -> {
+                try {
+                    sendEmailDonHang(model.getEmail(), finalSubject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
 
 
         donHangResponsitory.saveAndFlush(model);
@@ -174,26 +177,28 @@ public class DonHangService implements IDonHangService {
             });
 
 
-            List<ChiTietDonHangDtoResponse> lstSanPham = ctdhModel.stream().map(m -> new ChiTietDonHangDtoResponse(m)).collect(Collectors.toList());
-            BigDecimal tongTien = BigDecimal.valueOf(0);
-            for (ChiTietDonHangDtoResponse d : lstSanPham) {
-                tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
-            }
-
-            Context context = new Context();
-            context.setVariable("donHang", new DonHangDtoResponse(model));
-            context.setVariable("products", lstSanPham);
-            context.setVariable("totalPrice", tongTien);
-            context.setVariable("mess", messeger);
-            context.setVariable("title", subject);
-            context.setVariable("lyDo", lyDo);
-            new Thread(() -> {
-                try {
-                    sendEmailDonHang(model.getEmail(), subject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
-                } catch (MessagingException e) {
-                    e.printStackTrace();
+            if (model.getLoai() == 0) {
+                List<ChiTietDonHangDtoResponse> lstSanPham = ctdhModel.stream().map(m -> new ChiTietDonHangDtoResponse(m)).collect(Collectors.toList());
+                BigDecimal tongTien = BigDecimal.valueOf(0);
+                for (ChiTietDonHangDtoResponse d : lstSanPham) {
+                    tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
                 }
-            }).start();
+
+                Context context = new Context();
+                context.setVariable("donHang", new DonHangDtoResponse(model));
+                context.setVariable("products", lstSanPham);
+                context.setVariable("totalPrice", tongTien);
+                context.setVariable("mess", messeger);
+                context.setVariable("title", subject);
+                context.setVariable("lyDo", lyDo);
+                new Thread(() -> {
+                    try {
+                        sendEmailDonHang(model.getEmail(), subject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+            }
 
             donHangResponsitory.saveAndFlush(model);
         });
@@ -219,11 +224,17 @@ public class DonHangService implements IDonHangService {
     public DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products) {
         DonHangModel donHangOld = donHangResponsitory.findById(request.getMa()).orElse(null);
         DonHangModel model = request.mapModel();
+        if (donHangOld.getLoai() == 1) {
+            model.setEmail(null);
+        }
+        model.setLoai(donHangOld.getLoai());
         Boolean phuongThucThanhToan = model.getPhuongThucThanhToan();
-        if(phuongThucThanhToan){
-            model.setTrangThai(2);
-        }else{
-            model.setTrangThai(5);
+        if(donHangOld.getLoai()==0){
+            if (phuongThucThanhToan) {
+                model.setTrangThai(2);
+            } else {
+                model.setTrangThai(5);
+            }
         }
 //        model.setPhuongThucThanhToan(donHangOld.getPhuongThucThanhToan());
 
@@ -266,6 +277,9 @@ public class DonHangService implements IDonHangService {
             model.setNguoiSoHuu(null);
         }
 
+        if (model.getLoai() == 1) {
+            return new DonHangDtoResponse(donHangResponsitory.save(model));
+        }
 
         String subject = "Cập nhật thông tin đơn hàng!";
         String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn vừa cập nhật thông tin!";
@@ -342,69 +356,91 @@ public class DonHangService implements IDonHangService {
     public BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate) {
         return donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate) == null ? BigDecimal.valueOf(0) : donHangResponsitory.getTotalPriceInOrdersWithDate(firstDate, lastDate);
     }
+
     @Override
-    public DonHangDtoResponse updateTrangThai1(String maDonHang,Integer trangThai){
+    public DonHangDtoResponse updateTrangThai1(String maDonHang, Integer trangThai) {
         DonHangModel donHangModel = donHangResponsitory.findById(maDonHang).get();
         donHangModel.setTrangThai(trangThai);
         return new DonHangDtoResponse(donHangResponsitory.saveAndFlush(donHangModel));
     }
+
     @Override
-    public void themDonHangAdmin(DonHangDTORequest donHangDTORequest, List<ChiTietDonHangDTORequest> chiTietDonHang){
+    public void themDonHangAdmin(DonHangDTORequest donHangDTORequest, List<ChiTietDonHangDTORequest> chiTietDonHang) {
+
+        if (donHangDTORequest.getLoai() == null) donHangDTORequest.setLoai(0);
+        if (donHangDTORequest.getLoai() == 1) {
+            donHangDTORequest.setEmail(null);
+        }
 
         DonHangModel model = donHangDTORequest.mapModel();
-        if(model.getPhuongThucThanhToan()){
-            model.setTrangThai(2);
+
+        if (donHangDTORequest.getLoai() == 0){
+            if (model.getPhuongThucThanhToan()) {
+                model.setTrangThai(2);
+            } else {
+                model.setTrangThai(5);
+            }
         }else{
-            model.setTrangThai(5);
+            model.setTrangThai(donHangDTORequest.getTrangThai());
         }
-         model = donHangResponsitory.saveAndFlush(model);
+        model = donHangResponsitory.saveAndFlush(model);
+
+
         DonHangModel finalModel = model;
-        List<ChiTietDonHangModel> lstCTDHModel = chiTietDonHang.stream().map(c ->{
+        List<ChiTietDonHangModel> lstCTDHModel = chiTietDonHang.stream().map(c -> {
             ChiTietDonHangModel chiTietDonHangModel = c.mapModel();
             chiTietDonHangModel.setDonHang(finalModel);
             return chiTietDonHangModel;
         }).collect(Collectors.toList());
         chiTietDonHangRepository.saveAllAndFlush(lstCTDHModel);
 
-        String subject = "";
-        String messeger = "";
-        String title = "";
-        if (model.getTrangThai() == 2) {
-            subject = "Tạo đơn hàng thành công!";
-            title = "Tạo đơn hàng thành công";
-            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được tạo. Cảm ơn bạn đã mua hàng";
-        } else if (model.getTrangThai() == 5) {
-            subject = "Thanh toán đơn hàng!";
-            title = "Đơn hàng của bạn chưa được thanh toán";
-            messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn chưa được thanh toán.Vui lòng thanh toán đơn hàng của bạn.";
-        }
+        lstCTDHModel.forEach(c ->{
+            ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
+            chiTietSanPhamModel.setSoLuong(chiTietSanPhamModel.getSoLuong()-c.getSoLuong());
+            chiTietSanPhamRepository.saveAndFlush(chiTietSanPhamModel);
+        });
 
-
-        DonHangDtoResponse donHangDtoResponse = new DonHangDtoResponse(donHangResponsitory.findById(model.getMa()).get());
-        List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangRepository.findAllByDonHang(model).stream().map(m -> {
-            m.setChiTietSanPham(chiTietSanPhamRepository.findById(m.getChiTietSanPham().getId()).get());
-            ChiTietDonHangDtoResponse chiTietDonHangDtoResponse = new ChiTietDonHangDtoResponse(m);
-            return chiTietDonHangDtoResponse;
-        }).collect(Collectors.toList());
-
-        BigDecimal tongTien = BigDecimal.valueOf(0);
-        for (ChiTietDonHangDtoResponse d : lstSanPham) {
-            tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
-        }
-        Context context = new Context();
-        context.setVariable("donHang", donHangDtoResponse);
-        context.setVariable("products", lstSanPham);
-        context.setVariable("totalPrice", tongTien);
-        context.setVariable("mess", messeger);
-        context.setVariable("title", title);
-        String finalSubject = subject;
-        new Thread(() -> {
-            try {
-                sendEmailDonHang(finalModel.getEmail(), finalSubject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
-            } catch (MessagingException e) {
-                e.printStackTrace();
+        if (model.getLoai() == 0) {
+            String subject = "";
+            String messeger = "";
+            String title = "";
+            if (model.getTrangThai() == 2) {
+                subject = "Tạo đơn hàng thành công!";
+                title = "Tạo đơn hàng thành công";
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được tạo. Cảm ơn bạn đã mua hàng";
+            } else if (model.getTrangThai() == 5) {
+                subject = "Thanh toán đơn hàng!";
+                title = "Đơn hàng của bạn chưa được thanh toán";
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn chưa được thanh toán.Vui lòng thanh toán đơn hàng của bạn.";
             }
-        }).start();
+
+
+            DonHangDtoResponse donHangDtoResponse = new DonHangDtoResponse(donHangResponsitory.findById(model.getMa()).get());
+            List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangRepository.findAllByDonHang(model).stream().map(m -> {
+                m.setChiTietSanPham(chiTietSanPhamRepository.findById(m.getChiTietSanPham().getId()).get());
+                ChiTietDonHangDtoResponse chiTietDonHangDtoResponse = new ChiTietDonHangDtoResponse(m);
+                return chiTietDonHangDtoResponse;
+            }).collect(Collectors.toList());
+
+            BigDecimal tongTien = BigDecimal.valueOf(0);
+            for (ChiTietDonHangDtoResponse d : lstSanPham) {
+                tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
+            }
+            Context context = new Context();
+            context.setVariable("donHang", donHangDtoResponse);
+            context.setVariable("products", lstSanPham);
+            context.setVariable("totalPrice", tongTien);
+            context.setVariable("mess", messeger);
+            context.setVariable("title", title);
+            String finalSubject = subject;
+            new Thread(() -> {
+                try {
+                    sendEmailDonHang(finalModel.getEmail(), finalSubject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
     }
 //    @Override
 //    public DonHangDtoResponse updateTrangThai1(String maDonHang,Integer trangThai){

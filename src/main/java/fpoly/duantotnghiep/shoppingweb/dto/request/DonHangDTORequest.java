@@ -1,9 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
-import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
-import fpoly.duantotnghiep.shoppingweb.model.DongSanPhamModel;
-import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
-import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
+import fpoly.duantotnghiep.shoppingweb.model.*;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -51,6 +48,8 @@ public class DonHangDTORequest {
     //    @NotBlank(message = "Nhập lý do hủy đơn")
     private String lyDoHuy;
     private String tongTien;
+    private Integer loai;
+    private String nhanVien;
 
     public DonHangModel mapModel() {
         DonHangModel donHangModel = new DonHangModel();
@@ -76,8 +75,16 @@ public class DonHangDTORequest {
         donHangModel.setTrangThai(2);
         donHangModel.setGhiChu(ghiChu);
         donHangModel.setTienGiam(tienGiam == null ? BigDecimal.valueOf(0) : tienGiam);
-        donHangModel.setPhiGiaoHang(phiGiaoHang);
+        donHangModel.setPhiGiaoHang(phiGiaoHang == null? BigDecimal.valueOf(0) : phiGiaoHang);
         donHangModel.setPhuongThucThanhToan(phuongThucThanhToan == 1 ? false : true);
+        if(loai!=null){
+            donHangModel.setLoai(this.loai);
+        }
+        if(nhanVien!=null){
+            NhanVienModel nhanVienModel = new NhanVienModel();
+            nhanVienModel.setUsername(nhanVien);
+            donHangModel.setNhanVien(nhanVienModel);
+        }
         return donHangModel;
     }
 }

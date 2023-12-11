@@ -72,6 +72,7 @@ app.controller("ctrl", function ($scope, $http) {
         }
         if($scope.tenThuocTinh.length==0){
             document.getElementById('etenThuocTinh').innerText = "Vui lòng nhập tên"
+
             return
         }
 

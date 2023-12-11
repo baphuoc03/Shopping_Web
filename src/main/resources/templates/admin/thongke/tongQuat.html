@@ -67,6 +67,8 @@
                                      data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="bottom"
                                      data-bs-custom-class="custom-tooltip"
                                      title="<div>
+                                                <b>Đơn online</b>
+                                                <br>
                                                 <b>Chưa xác nhận: {{tongQuat.ordersDetail.TH2 == null ? 0 : tongQuat.ordersDetail.TH2}}</b>
                                                 <br>
                                                 <b>Đã xác nhận: {{tongQuat.ordersDetail.TH1 == null ? 0 : tongQuat.ordersDetail.TH1}}</b>
@@ -78,6 +80,14 @@
                                                 <b>Hủy: {{tongQuat.ordersDetail.TH0 == null ? 0 : tongQuat.ordersDetail.TH0}}</b>
                                                 <br>
                                                 <b>Chưa thanh toán: {{tongQuat.ordersDetail.TH5 == null ? 0 : tongQuat.ordersDetail.TH5}}</b>
+                                                <hr>
+                                                <b>Đơn tại quầy</b>
+                                                <br>
+                                                <b>Chờ thanh toán: {{tongQuat.ordersTaiQuayDetail.TH5 == null ? 0 : tongQuat.ordersTaiQuayDetail.TH5}}</b>
+                                                <br>
+                                                <b>Đã Thanh toán: {{tongQuat.ordersTaiQuayDetail.TH4 == null ? 0 : tongQuat.ordersTaiQuayDetail.TH4}}</b>
+                                                <br>
+                                                <b>Hủy: {{tongQuat.ordersTaiQuayDetail.TH0 == null ? 0 : tongQuat.ordersTaiQuayDetail.TH0}}</b>
                                                 </div>">
                                     <span class="text-muted mb-3 d-block text-truncate" style="font-weight: bold;font-size: 15px">Số lượng đơn hàng</span>
                                     <div class="d-flex align-items-center">
