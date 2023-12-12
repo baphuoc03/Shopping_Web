@@ -8,9 +8,8 @@
 </head>
 <body>
 
-<div layout:fragment="contentUser" class="bg0 p-b-140" ng-app="index-app" ng-controller="index-ctrl">
+<div layout:fragment="contentUser" class="bg0" ng-app="index-app" ng-controller="index-ctrl">
     <link rel="stylesheet" th:href="@{/user/css/products.css}">
-
     <!--    cart-->
     <div class="wrap-header-cart js-panel-cart">
         <div class="s-full js-hide-cart"></div>
@@ -120,7 +119,7 @@
                             <div class="cl2 p-b-15">
                                 Màu sắc
                                 <select class="form-control" ng-model="filterData.mauSac">
-                                    <option value=""  selected>Tất cả</option>
+                                    <option value="" selected>Tất cả</option>
                                     <option ng-repeat="m in mauSac" value="{{m.ma}}">{{m.ten}}</option>
                                     <option value="khac">Khác</option>
                                 </select>
@@ -131,7 +130,7 @@
                             <div class="cl2 p-b-15">
                                 Dòng sản phẩm
                                 <select class="form-control" ng-model="filterData.dongSanPham">
-                                    <option value=""  selected>Tất cả</option>
+                                    <option value="" selected>Tất cả</option>
                                     <optgroup ng-repeat="t in thuongHieu" label="{{t.ten}}">
                                         <option value="{{t.id}}">tất cả {{t.ten}}</option>
                                         <option ng-repeat="d in t.dongSanPhamResponeseList" value="{{d.id}}">{{d.ten}}
@@ -143,7 +142,7 @@
                             <div class="cl2 p-b-15">
                                 Kiểu dáng
                                 <select class="form-control" ng-model="filterData.kieuDang">
-                                    <option value=""  selected>Tất cả</option>
+                                    <option value="" selected>Tất cả</option>
                                     <option ng-repeat="k in kieuDang" value="{{k.id}}">{{k.ten}}</option>
                                     <option value="khac">Khác</option>
                                 </select>
@@ -156,7 +155,7 @@
                                     Chất liệu
                                     <select class="form-control" ng-model="filterData.chatLieu"
                                     >
-                                        <option value=""  selected>Tất cả</option>
+                                        <option value="" selected>Tất cả</option>
                                         <option ng-repeat="c in chatLieu" value="{{c.id}}">{{c.ten}}</option>
                                         <option value="khac">Khác</option>
                                     </select>
@@ -164,7 +163,7 @@
                                 <div class="cl2 p-b-15 col-6">
                                     Sắp xếp
                                     <select class="form-control" ng-model="filterData.sort">
-                                        <option value="" >Mặc định</option>
+                                        <option value="">Mặc định</option>
                                         <option value="1">Giá bán giảm dần</option>
                                         <option value="2">Giá bán tăng dần</option>
                                         <option value="3">Tên a -> z</option>
@@ -213,8 +212,10 @@
                         <div class="block2-pic hov-img0" style="border-radius: 5px">
                             <div ng-if="p.loaiGiam!=null"
                                  style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
-                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam=='TIEN'">-{{p.mucGiam | currency: "" : 1}}đ</p>
-                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
+                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam=='TIEN'">
+                                    -{{p.mucGiam | currency: "" : 1}}đ</p>
+                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam!='TIEN'">
+                                    -{{p.mucGiam}}%</p>
                             </div>
                             <img src="/image/loadImage/product/{{p.anh[0]}}"
                                  style="width: 100%;height: 273px"
@@ -239,11 +240,13 @@
                                 </a>
 
                                 <span class=" cl3" ng-if="p.mucGiam!=null">
-                                    <span class="cl3" >
+                                    <span class="cl3">
 									    <del>{{p.giaBan | currency: "" : 1}}đ</del>
 								    </span>
-                                    <b ng-if="p.loaiGiam == 'TIEN'" style="font-weight: bold;font-size: 15px;">{{p.giaBan - p.mucGiam  | currency: "" : 1}}đ</b>
-                                    <b ng-if="p.loaiGiam == 'PHAN TRAM'" style="font-weight: bold;font-size: 15px;">{{p.giaBan - ((p.mucGiam/100) * p.giaBan)| currency: "" : 1}}đ</b>
+                                    <b ng-if="p.loaiGiam == 'TIEN'"
+                                       style="font-weight: bold;font-size: 15px;">{{p.giaBan - p.mucGiam | currency: "" : 1}}đ</b>
+                                    <b ng-if="p.loaiGiam == 'PHAN TRAM'"
+                                       style="font-weight: bold;font-size: 15px;">{{p.giaBan - ((p.mucGiam / 100) * p.giaBan) | currency: "" : 1}}đ</b>
 								</span>
                                 <span class=" cl3" ng-if="p.mucGiam==null">
 

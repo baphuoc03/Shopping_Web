@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 import java.util.stream.Collectors;
@@ -39,7 +40,7 @@ public class DiaChiServiceImpl implements IDiaChiService {
     @Override
     public void addDiaChi(DiaChiModel diaChiModel) {
 
-        this. repository.save(diaChiModel);
+        this.repository.save(diaChiModel);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class DiaChiServiceImpl implements IDiaChiService {
         Page<DiaChiModel> pageModel = diaChiRepository.findAll(pageable);
 
         return new PageImpl<>(pageModel.getContent().stream().map(k -> new DiaChiDTOResponse(k)).collect(Collectors.toList()),
-        pageable, pageModel.getTotalElements());
+                pageable, pageModel.getTotalElements());
 
     }
 
@@ -66,15 +67,17 @@ public class DiaChiServiceImpl implements IDiaChiService {
     public DiaChiDTOResponse add(DiaChiDTORequest diaChi) {
         DiaChiModel model = diaChi.mapToModel();
         List<DiaChiModel> lst = diaChiRepository.getAllByTaiKhoan(model.getTaiKhoan());
-        if(lst.size()==0) model.setMacDinh(true);
+        if (lst.size() == 0) model.setMacDinh(true);
         else model.setMacDinh(false);
-       DiaChiModel diaChiModel = diaChiRepository.save(model);
+        DiaChiModel diaChiModel = diaChiRepository.save(model);
         return new DiaChiDTOResponse(diaChiModel);
     }
 
     @Override
     public DiaChiDTOResponse update(DiaChiDTORequest diaChi) {
+        DiaChiModel dcCu = diaChiRepository.findById(diaChi.getId()).get();
         DiaChiModel diaChiModel = diaChiRepository.save(diaChi.mapToModel());
+        diaChiModel.setMacDinh(dcCu.getMacDinh());
         return new DiaChiDTOResponse(diaChiModel);
     }
 
@@ -83,25 +86,30 @@ public class DiaChiServiceImpl implements IDiaChiService {
         diaChiRepository.deleteById(id);
 
     }
+
     @Override
-    public void setMacDinh(String nguoiSoHuu, Long idDiaChi){
+    public void setMacDinh(String nguoiSoHuu, Long idDiaChi) {
         KhachHangModel khachHangModel = new KhachHangModel();
+
         khachHangModel.setUsername(nguoiSoHuu);
-        List<DiaChiModel> lstModel = diaChiRepository.getAllByTaiKhoan(khachHangModel).stream().peek(d -> {
-                                                                                if(d.getId() == idDiaChi){
-                                                                                    d.setMacDinh(true);
-                                                                                }else{
-                                                                                    d.setMacDinh(false);
-                                                                                }
-                                                                            }).collect(Collectors.toList());
+        List<DiaChiModel> lstModel = diaChiRepository.getAllByTaiKhoan(khachHangModel);
+        for (var ls : lstModel) {
+            if (ls.getId().equals(idDiaChi)) {
+                ls.setMacDinh(true);
+            } else {
+                ls.setMacDinh(false);
+            }
+        }
+        ;
         diaChiRepository.saveAll(lstModel);
     }
+
     @Override
-    public DiaChiDTOResponse getDiaChiMacDinh(String nguoiSoHuu, Boolean macDinh){
+    public DiaChiDTOResponse getDiaChiMacDinh(String nguoiSoHuu, Boolean macDinh) {
         KhachHangModel khachHangModel = new KhachHangModel();
         khachHangModel.setUsername(nguoiSoHuu);
-        DiaChiModel model = diaChiRepository.findByTaiKhoanAndMacDinh(khachHangModel,macDinh);
-        if(model == null){
+        DiaChiModel model = diaChiRepository.findByTaiKhoanAndMacDinh(khachHangModel, macDinh);
+        if (model == null) {
             return null;
         }
         return new DiaChiDTOResponse(model);

@@ -16,7 +16,7 @@ public class HomeController {
 
     @GetMapping("trang-chu")
     public String trangChu() {
-        return "/user/trangChu1";
+        return "/user/trangChu";
     }
 
     @GetMapping("san-pham")
@@ -59,19 +59,5 @@ public class HomeController {
     public String danhSa() {
         return "/user/trangChu1";
     }
-
-    @GetMapping("2")
-    public String danhSa1() {
-        return "/user/sanPhamNguoiDung";
-    }
-
-    @GetMapping("3")
-    public String danhSa3() {
-        return "/admin/fromVoucher";
-    }
-
-    @GetMapping("lien-he")
-    public String viewLienHe() {
-        return "/user/lienhe";
-    }
 }
+

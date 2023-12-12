@@ -2,7 +2,7 @@ var app = angular.module("donhang-app", [])
 app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.donHang = {}
     $scope.donHangAdd = {
-        phuongThucThanhToan : "0"
+        phuongThucThanhToan: "0"
     }
     $scope.chiTietDonHang = []
     $scope.sanPham = [];
@@ -68,38 +68,38 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     ///////////////////////////////////////
     //Get Khách Hàng
     $scope.keyWordKhachHang = ""
-    $scope.getAllKhachHang = function (){
-        $http.get("/admin/khach-hang/get-all-khach-hang?limit=1000&&keyWord="+$scope.keyWordKhachHang).then(r =>{
+    $scope.getAllKhachHang = function () {
+        $http.get("/admin/khach-hang/get-all-khach-hang?limit=1000&&keyWord=" + $scope.keyWordKhachHang).then(r => {
             $scope.khachHang = r.data.content;
         }).catch(e => console.log(e))
     }
     $scope.getAllKhachHang()
-    $scope.addKhachHangToDonHang = function (){
+    $scope.addKhachHangToDonHang = function () {
         let value = document.getElementById("khachHangSL").value
-        if(value!='null'){
+        if (value != 'null') {
 
-            $http.get("/admin/khach-hang/detail/"+value).then(r => {
+            $http.get("/admin/khach-hang/detail/" + value).then(r => {
                 $scope.donHangAdd.tenNguoiNhan = r.data.hoVaTen
                 $scope.donHangAdd.email = r.data.email
                 $scope.donHangAdd.soDienThoai = r.data.soDienThoai
                 $scope.getDiaChiKhachHang(value)
             })
 
-            $scope.donHangAdd.nguoiSoHuu={
-                username : value
+            $scope.donHangAdd.nguoiSoHuu = {
+                username: value
 
             }
             document.getElementById("btnAddKh").style.display = "none";
-        }else{
+        } else {
             $scope.donHangAdd = {
-                phuongThucThanhToan : "0"
+                phuongThucThanhToan: "0"
             }
             document.getElementById("btnAddKh").style.display = "block";
         }
     }
-    $scope.getDiaChiKhachHang = function (username){
-        $http.get("/dia-chi/get-mac-dinh/"+username).then(r => {
-            if(r.data.thanhPhoCode == undefined) return
+    $scope.getDiaChiKhachHang = function (username) {
+        $http.get("/dia-chi/get-mac-dinh/" + username).then(r => {
+            if (r.data.thanhPhoCode == undefined) return
             $scope.donHangAdd.thanhPhoCode = r.data.thanhPhoCode + ""
 
             //Lấy quận huyện
@@ -114,7 +114,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             $scope.giaoHangNhanh.getFeeShippedAdd()
         })
     }
-    $scope.addKhachHang = function (){
+    $scope.addKhachHang = function () {
         var data = {
             username: $scope.donHangAdd.soDienThoai,
             password: $scope.donHangAdd.soDienThoai,
@@ -122,7 +122,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             soDienThoai: $scope.donHangAdd.soDienThoai,
             email: $scope.donHangAdd.email
         }
-        $http.post("/admin/khach-hang",data).then(r => {
+        $http.post("/admin/khach-hang", data).then(r => {
             var khachHangSL = document.getElementById("khachHangSL")
             var option = document.createElement("option");
             option.text = data.hoVaTen + ' - ' + data.soDienThoai;
@@ -133,7 +133,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             alertify.success("Lưu khách hàng thành công")
         }).catch(e => {
             alertify.error("Lưu khách hàng thất bại")
-            if(e.data.soDienThoai != undefined) $scope.erAdd.soDienThoai = e.data.soDienThoai
+            if (e.data.soDienThoai != undefined) $scope.erAdd.soDienThoai = e.data.soDienThoai
             $scope.erAdd.tenNguoiNhan = e.data.hoVaTen
             $scope.erAdd.email = e.data.email
         })
@@ -152,7 +152,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             $scope.chuaXacNhan.huyDH();
         } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.huyDH();
-        }else if ($scope.trangThaiDonHang == 5) {
+        } else if ($scope.trangThaiDonHang == 5) {
             $scope.chuaThanhToan.huyDH();
         }
 
@@ -178,7 +178,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             $scope.chuaXacNhan.checkButton()
         } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.checkButton();
-        }else if ($scope.trangThaiDonHang == 5) {
+        } else if ($scope.trangThaiDonHang == 5) {
             $scope.chuaThanhToan.checkButton();
         }
     }
@@ -197,13 +197,13 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             $scope.chuaXacNhan.checkButton()
         } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.checkButton();
-        }else if ($scope.trangThaiDonHang == 5) {
+        } else if ($scope.trangThaiDonHang == 5) {
             $scope.chuaThanhToan.checkButton();
         }
     }
 
     ////////////////////////////////////////
-    $scope.themDonHang = function (){
+    $scope.themDonHang = function () {
         let indexCity = $scope.giaoHangNhanh.citys.findIndex(c => c.ProvinceID == $scope.donHangAdd.thanhPhoCode)
         let indexDistrict = $scope.giaoHangNhanh.districts.findIndex(d => d.DistrictID == $scope.donHangAdd.quanHuyenCode)
         let indexWard = $scope.giaoHangNhanh.wards.findIndex(w => w.WardCode == $scope.donHangAdd.xaPhuongCode)
@@ -211,7 +211,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         $scope.donHangAdd.thanhPhoName = $scope.giaoHangNhanh.citys[indexCity] == undefined ? "" : $scope.giaoHangNhanh.citys[indexCity].ProvinceName;
         $scope.donHangAdd.quanHuyenName = $scope.giaoHangNhanh.districts[indexDistrict] == undefined ? "" : $scope.giaoHangNhanh.districts[indexDistrict].DistrictName;
         $scope.donHangAdd.xaPhuongName = $scope.giaoHangNhanh.wards[indexWard] == undefined ? "" : $scope.giaoHangNhanh.wards[indexWard].WardName
-        console.log($scope.donHangAdd,$scope.chiTietDonHang)
+        console.log($scope.donHangAdd, $scope.chiTietDonHang)
 
         let chiTietDonHang = [];
         $scope.chiTietDonHang.forEach(c => {
@@ -241,7 +241,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             $scope.chuaXacNhan.getList($scope.chuaXacNhan.page)
             $scope.chuaThanhToan.getList($scope.chuaThanhToan.page)
             $scope.donHangAdd = {
-                phuongThucThanhToan : "0"
+                phuongThucThanhToan: "0"
             }
             $scope.chiTietDonHang.length = 0
             $('#mySelect2').val('null').trigger('change');
@@ -336,7 +336,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         page: 0,
         id: [],
         pages: [],
-        sdtSearch : "",
+        sdtSearch: "",
         init() {
             $scope.trangThaiDonHang = 2
             $http.get("/admin/don-hang/get-by-trangthai?trangThai=2").then(r => {
@@ -349,7 +349,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 2
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=2&pageNumber=" + pageNumber+"&sdt="+this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=2&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -482,7 +482,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 let data = {
                     ma: $scope.chuaXacNhan.detail.ma,
                     nguoiSoHuu: {username: $scope.chuaXacNhan.detail.nguoiSoHuu},
-                    voucher : $scope.chuaXacNhan.detail.voucherCode,
+                    voucher: $scope.chuaXacNhan.detail.voucherCode,
                     tenNguoiNhan: $scope.chuaXacNhan.detail.tenNguoiNhan,
                     soDienThoai: $scope.chuaXacNhan.detail.soDienThoai,
                     email: $scope.chuaXacNhan.detail.email,
@@ -499,7 +499,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     tienGiam: $scope.chuaXacNhan.detail.tienGiam,
                     phiGiaoHang: $scope.chuaXacNhan.detail.phiGiaoHang,
                     trangThaiDetail: $scope.chuaXacNhan.detail.trangThai,
-                    phuongThucThanhToan : $scope.chuaXacNhan.detail.phuongThucThanhToan =='true' ? 0 : 1
+                    phuongThucThanhToan: $scope.chuaXacNhan.detail.phuongThucThanhToan == 'true' ? 0 : 1
                 }
                 let chiTietDonHang = [];
                 $scope.chiTietDonHang.forEach(c => {
@@ -544,13 +544,13 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             let numbers = [];
             let i = this.page
             let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
-            let lengthFirst = this.totalPage >=2 ?  this.page - 2 : 0
+            let lengthFirst = this.totalPage >= 2 ? this.page - 2 : 0
 
-            if(lengthLast>this.totalPage){
+            if (lengthLast > this.totalPage) {
                 lengthLast = this.totalPage
                 i = lengthLast - 2
             }
-            if(lengthFirst < 0) lengthFirst = 0
+            if (lengthFirst < 0) lengthFirst = 0
 
             for (lengthFirst; i > lengthFirst; lengthFirst++) {
                 numbers.push(lengthFirst)
@@ -632,7 +632,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         page: 0,
         id: [],
         pages: [],
-        sdtSearch : "",
+        sdtSearch: "",
         init() {
             $scope.trangThaiDonHang = 5
             $http.get("/admin/don-hang/get-by-trangthai?trangThai=5").then(r => {
@@ -644,7 +644,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 5
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=5&pageNumber=" + pageNumber+"&sdt="+this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=5&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -770,13 +770,13 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             let numbers = [];
             let i = this.page
             let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
-            let lengthFirst = this.totalPage >=2 ?  this.page - 2 : 0
+            let lengthFirst = this.totalPage >= 2 ? this.page - 2 : 0
 
-            if(lengthLast>this.totalPage){
+            if (lengthLast > this.totalPage) {
                 lengthLast = this.totalPage
                 i = lengthLast - 2
             }
-            if(lengthFirst < 0) lengthFirst = 0
+            if (lengthFirst < 0) lengthFirst = 0
 
             for (lengthFirst; i > lengthFirst; lengthFirst++) {
                 numbers.push(lengthFirst)
@@ -809,7 +809,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         page: 0,
         pages: [],
         id: [],
-        sdtSearch : "",
+        sdtSearch: "",
         init() {
             $scope.trangThaiDonHang = 1
             $http.get("/admin/don-hang/get-by-trangthai?trangThai=1").then(r => {
@@ -821,7 +821,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 1
             $scope.daXacNhan.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=1&pageNumber=" + pageNumber+"&sdt="+this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=1&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -842,13 +842,13 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             let numbers = [];
             let i = this.page
             let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
-            let lengthFirst = this.totalPage >=2 ?  this.page - 2 : 0
+            let lengthFirst = this.totalPage >= 2 ? this.page - 2 : 0
 
-            if(lengthLast>this.totalPage){
+            if (lengthLast > this.totalPage) {
                 lengthLast = this.totalPage
                 i = lengthLast - 2
             }
-            if(lengthFirst < 0) lengthFirst = 0
+            if (lengthFirst < 0) lengthFirst = 0
 
             for (lengthFirst; i > lengthFirst; lengthFirst++) {
                 numbers.push(lengthFirst)
@@ -974,7 +974,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         page: 0,
         pages: [],
         id: [],
-        sdtSearch : "",
+        sdtSearch: "",
         init() {
             $scope.trangThaiDonHang = 3
             $http.get("/admin/don-hang/get-by-trangthai?trangThai=3").then(r => {
@@ -986,7 +986,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 3
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=3&pageNumber=" + pageNumber+"&sdt="+this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=3&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -997,13 +997,13 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             let numbers = [];
             let i = this.page
             let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
-            let lengthFirst = this.totalPage >=2 ?  this.page - 2 : 0
+            let lengthFirst = this.totalPage >= 2 ? this.page - 2 : 0
 
-            if(lengthLast>this.totalPage){
+            if (lengthLast > this.totalPage) {
                 lengthLast = this.totalPage
                 i = lengthLast - 2
             }
-            if(lengthFirst < 0) lengthFirst = 0
+            if (lengthFirst < 0) lengthFirst = 0
 
             for (lengthFirst; i > lengthFirst; lengthFirst++) {
                 numbers.push(lengthFirst)
@@ -1127,9 +1127,9 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         totalPage: 0,
         page: 0,
         pages: [],
-        sdtSearch : "",
+        sdtSearch: "",
         init() {
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=4&pageNumber=" + this.page+"&sdt="+this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=4&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
@@ -1139,7 +1139,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 0
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=4&pageNumber=" + pageNumber+"&sdt="+this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=4&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -1159,13 +1159,13 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             let numbers = [];
             let i = this.page
             let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
-            let lengthFirst = this.totalPage >=2 ?  this.page - 2 : 0
+            let lengthFirst = this.totalPage >= 2 ? this.page - 2 : 0
 
-            if(lengthLast>this.totalPage){
+            if (lengthLast > this.totalPage) {
                 lengthLast = this.totalPage
                 i = lengthLast - 2
             }
-            if(lengthFirst < 0) lengthFirst = 0
+            if (lengthFirst < 0) lengthFirst = 0
 
             for (lengthFirst; i > lengthFirst; lengthFirst++) {
                 numbers.push(lengthFirst)
@@ -1185,9 +1185,9 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         totalPage: 0,
         page: 0,
         pages: [],
-        sdtSearch : "",
+        sdtSearch: "",
         init() {
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=0&pageNumber=" + this.page+"&sdt="+this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=0&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
@@ -1197,7 +1197,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 0
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=0&pageNumber=" + pageNumber+"&sdt="+this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=0&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -1217,13 +1217,13 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             let numbers = [];
             let i = this.page
             let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
-            let lengthFirst = this.totalPage >=2 ?  this.page - 2 : 0
+            let lengthFirst = this.totalPage >= 2 ? this.page - 2 : 0
 
-            if(lengthLast>this.totalPage){
+            if (lengthLast > this.totalPage) {
                 lengthLast = this.totalPage
                 i = lengthLast - 2
             }
-            if(lengthFirst < 0) lengthFirst = 0
+            if (lengthFirst < 0) lengthFirst = 0
 
             for (lengthFirst; i > lengthFirst; lengthFirst++) {
                 numbers.push(lengthFirst)
@@ -1268,23 +1268,23 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         $http.put("/don-hang/huy-don-hang-user?ma=" + ma, lyDoHuy).then(function (res) {
             // location.reload()
             let index = $scope.donHangChuaXacNhanKh.findIndex(d => d.ma == ma)
-            $scope.donHangChuaXacNhanKh.splice(index,1);
+            $scope.donHangChuaXacNhanKh.splice(index, 1);
             alertify.success("Hủy đơn hàng thành công")
         })
     }
-    $scope.setChiTietDH = function (maCTDH){
+    $scope.setChiTietDH = function (maCTDH) {
         console.log(maCTDH);
         $scope.danhGia.chiTietDonHang = maCTDH
     }
     $scope.danhGia = {}
     $scope.erDanhGia = {}
-    $scope.addDanhGia = function (){
+    $scope.addDanhGia = function () {
         alertify.confirm("Đánh giá sản phẩm?", function () {
             $http.post("/nhan-xet", $scope.danhGia).then(r => {
                 $('#danhGia').modal('hide')
                 $scope.donHangChuaXacNhanKh.forEach(d => {
                     d.chiTietDonHang.forEach(c => {
-                        if(c.id == r.data.idCTDH){
+                        if (c.id == r.data.idCTDH) {
                             c.nhanXet = r.data
                         }
                     })
@@ -1296,30 +1296,30 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 alertify.error("Đánh giá sản phẩm thất bại")
                 $scope.erDanhGia = e.data
             })
-        },function (){
+        }, function () {
             alertify.error("Đánh giá sản phẩm thất bại")
         })
     }
     $scope.danhGiaUpdate = {}
     $scope.erDanhGiaUpdate = {}
-    $scope.viewUpdateDanhGia = function (id){
-        $http.get("/nhan-xet/detail/"+id).then(r => {
+    $scope.viewUpdateDanhGia = function (id) {
+        $http.get("/nhan-xet/detail/" + id).then(r => {
             $scope.danhGiaUpdate = r.data
             console.log($scope.danhGiaUpdate)
             document.getElementById("formDanhGiapdateUpdate").className = "ng-valid ng-dirty ng-valid-parse"
-            document.getElementById("star-"+$scope.danhGiaUpdate.rating+"update").className = "star star-3 ng-untouched ng-valid ng-not-empty ng-dirty ng-valid-parse"
+            document.getElementById("star-" + $scope.danhGiaUpdate.rating + "update").className = "star star-3 ng-untouched ng-valid ng-not-empty ng-dirty ng-valid-parse"
         })
     }
-    $scope.updateDanhGia = function (){
+    $scope.updateDanhGia = function () {
         alertify.confirm("Bạn chỉ được một lần cập nhật đánh giá sản phẩm. Bạn có chắc muốn chỉnh sửa?", function () {
             let data = {
-                id : $scope.danhGiaUpdate.id,
-                chiTietDonHang : $scope.danhGiaUpdate.idCTDH,
-                rating : $scope.danhGiaUpdate.rating,
-                tieuDe : $scope.danhGiaUpdate.tieuDe,
-                noiDung : $scope.danhGiaUpdate.noiDung
+                id: $scope.danhGiaUpdate.id,
+                chiTietDonHang: $scope.danhGiaUpdate.idCTDH,
+                rating: $scope.danhGiaUpdate.rating,
+                tieuDe: $scope.danhGiaUpdate.tieuDe,
+                noiDung: $scope.danhGiaUpdate.noiDung
             }
-            $http.put("/nhan-xet",data).then(r => {
+            $http.put("/nhan-xet", data).then(r => {
                 $('#danhGiaUpdate').modal('hide')
                 alertify.success("Cập nhật đánh giá sản phẩm thành công")
                 $scope.danhGia = {}
@@ -1327,15 +1327,37 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 $scope.erDanhGiaUpdate = e.data
                 alertify.error("Cập nhật đánh giá sản phẩm thất bại")
             })
-        },function (){
+        }, function () {
             alertify.error("Cập nhật đánh giá sản phẩm thất bại")
         })
 
     }
-    $scope.thanhToan = function (ma){
-        $http.get("/thanh-toan/"+ma).then(r => {
+    $scope.thanhToan = function (ma) {
+        $http.get("/thanh-toan/" + ma).then(r => {
             location.href = r.data.vnPayUrl
         })
+    }
+
+
+    //    show giỏ hàng
+    $scope.cart = []
+    $scope.getTotal = function () {
+        var totalPrice = 0;
+        for (let i = 0; i < $scope.cart.length; i++) {
+            totalPrice += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+        }
+        return totalPrice;
+    }
+    $http.get("/cart/find-all").then(r => {
+        console.log(r.data)
+        $scope.cart = r.data;
+        console.log("soLuong:")
+    }).catch(e => console.log(e))
+
+    $scope.login = function () {
+        var expires = (new Date(Date.now() + 60 * 1000)).toUTCString();
+        document.cookie = "url=" + window.location.href + "; expires=" + expires;
+        location.href = "/dang-nhap";
     }
 })
 $('#khachHangSL').select2({

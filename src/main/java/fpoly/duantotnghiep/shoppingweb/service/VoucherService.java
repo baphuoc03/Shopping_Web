@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
+import fpoly.duantotnghiep.shoppingweb.dto.filter.VoucherDTOFiler;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
@@ -12,11 +13,12 @@ import java.util.List;
 
 public interface VoucherService {
 
-    public List<VoucherReponse> findVoucherSort(String sort);
 
     public List<VoucherReponse> voucherEligible();
 
-    public Page<VoucherReponse> findAll(int pageNumber, int pageSize, int TrangThai);
+    public Page<VoucherReponse> findAll(int pageNumber, int pageSize);
+
+    Page<VoucherReponse> locVC(VoucherDTOFiler voucherDTOFiler, int pageNumber, int pageSize);
 
     public List<VoucherReponse> findAll();
 
@@ -37,6 +39,9 @@ public interface VoucherService {
     public void deleteVouchers(List<String> ids);
 
     void mailThongBao();
+
+    @Scheduled(cron = "0 * * * * *")
+    void mailThongBaoHetHan();
 
     void updateKichHoat();
 

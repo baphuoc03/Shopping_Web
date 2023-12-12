@@ -1,7 +1,9 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.filter.VoucherDTOFiler;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
+import fpoly.duantotnghiep.shoppingweb.entitymanager.VoucherEntityManager;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
@@ -35,6 +37,9 @@ public class VoucherServiceImpl implements VoucherService {
     @Autowired
     private IKhachHangRepository khachHangRepository;
 
+    @Autowired
+    private VoucherEntityManager voucherEntityManager;
+
 
     public void deleteVoucherKhachHang(String username, String voucher) {
         VoucherModel voucherModel = repository.findById(voucher).get();
@@ -45,42 +50,21 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public List<VoucherReponse> findVoucherSort(String sort) {
-//        if ("tenDes".equals(sort)) {
-//            return repository.findAllByOrderByTenDesc().stream().map(c -> new VoucherReponse(c)).collect(Collectors.toList());
-//        } else if ("tenAsc".equals(sort)) {
-//            return repository.findAllByOrderByTenAsc().stream().map(c -> new VoucherReponse(c)).collect(Collectors.toList());
-//        } else if ("mucGiamDes".equals(sort)) {
-//            return repository.findAllByOrderByMucGiamDesc().stream().map(c -> new VoucherReponse(c)).collect(Collectors.toList());
-//        } else if ("mucGiamAsc".equals(sort)) {
-//            return repository.findAllByOrderByMucGiamAsc().stream().map(c -> new VoucherReponse(c)).collect(Collectors.toList());
-//        } else if ("ngayBDDes".equals(sort)) {
-//            return repository.findAllByOrderByNgayBatDauDesc().stream().map(c -> new VoucherReponse(c)).collect(Collectors.toList());
-//        } else if ("ngayBDAsc".equals(sort)) {
-//            return repository.findAllByOrderByNgayBatDauAsc().stream().map(c -> new VoucherReponse(c)).collect(Collectors.toList());
-//        } else if ("ngayBDDes".equals(sort)) {
-//            return repository.findAllByOrderByNgayBatDauDesc().stream().map(c -> new VoucherReponse(c)).collect(Collectors.toList());
-//        } else if ("soLuongDes".equals(sort)) {
-//            return repository.findAllByOrderBySoLuongDesc().stream().map(c -> new VoucherReponse(c)).collect(Collectors.toList());
-//        } else if ("soLuongAsc".equals(sort)) {
-//            return repository.findAllByOrderBySoLuongAsc().stream().map(c -> new VoucherReponse(c)).collect(Collectors.toList());
-//        } else if("giamAsc".equals("")){
-//
-//        }
-        return null;
-    }
-
-    @Override
     public List<VoucherReponse> voucherEligible() {
         return repository.findVoucherHienThi().stream()
                 .map(c -> new VoucherReponse(c)).collect(Collectors.toList());
     }
 
     @Override
-    public Page<VoucherReponse> findAll(int pageNumber, int pageSize, int trangThai) {
+    public Page<VoucherReponse> findAll(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<VoucherModel> pageModel = repository.findAllVoucher(pageable, trangThai);
+        Page<VoucherModel> pageModel = repository.findAllVoucher(pageable);
         return pageModel.map(x -> new VoucherReponse(x));
+    }
+
+    @Override
+    public Page<VoucherReponse> locVC(VoucherDTOFiler voucherDTOFiler, int pageNumber, int pageSize) {
+        return voucherEntityManager.filterVoucherEntity(voucherDTOFiler, pageNumber, pageSize);
     }
 
     @Override
@@ -90,7 +74,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public Page<VoucherReponse> findByName(String keyword, Pageable pageable) {
-        Page<VoucherModel> page = repository.findByMotaLike(keyword, pageable);
+        Page<VoucherModel> page = repository.findByMaLikeAndAndTrangThaiXoa(keyword, 0, pageable);
         return page.map(x -> new VoucherReponse(x));
     }
 
@@ -228,6 +212,58 @@ public class VoucherServiceImpl implements VoucherService {
                             new Thread(() -> {
                                 try {
                                     EmailUtil.sendEmailWithHtml(mail.getEmail(), "HYDRA SNEAKER tặng bạn voucher giảm giá", "email/voucherTang", context);
+                                } catch (MessagingException e) {
+                                    e.printStackTrace();
+                                }
+                            }).start();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    @Scheduled(cron = "0 * * * * *")
+    public void mailThongBaoHetHan() {
+        for (var vc : repository.findAll()) {
+            if (vc.getDoiTuongSuDung() == 1 && vc.getTrangThaiXoa() == 0) {
+                String ngayBatDauStr = repository.findById(vc.getMa()).get().getNgayKetThuc().toString();  // Thay thế bằng ngày thực tế của bạn
+
+                // Định dạng cho chuỗi ngày
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                // Chuyển đổi chuỗi ngày thành đối tượng Date
+                Date ngayBatDau = null;
+                Date ngayHienTai = new Date();
+                try {
+                    ngayBatDau = dateFormat.parse(ngayBatDauStr);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(ngayBatDau);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                ngayBatDau = calendar.getTime();
+
+                calendar.setTime(ngayHienTai);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                ngayHienTai = calendar.getTime();
+                // Tính khoảng cách giữa hai ngày
+                long khoangCach = (ngayHienTai.getTime() - ngayBatDau.getTime()) / (24 * 60 * 60 * 1000);
+                System.out.println("Khoảng cách hết hạn: " + khoangCach);
+                // Kiểm tra xem khoảng cách có bằng 1 ngày không
+                if (khoangCach == -1) {
+                    if (vc.getKhachHang() != null) {
+                        for (var mail : vc.getKhachHang()) {
+                            Context context = new Context();
+                            context.setVariable("voucher", vc);
+                            new Thread(() -> {
+                                try {
+                                    EmailUtil.sendEmailWithHtml(mail.getEmail(), "HYDRA SNEAKER Voucher của bạn sắp hết hạn", "email/voucherTangHetHan", context);
                                 } catch (MessagingException e) {
                                     e.printStackTrace();
                                 }
