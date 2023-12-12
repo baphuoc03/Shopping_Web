@@ -102,4 +102,22 @@ app.controller("ctrl", function($scope, $http){
     }
     $scope.nhanXet.init()
     $scope.nhanXet.getAvgRate()
+
+    $scope.donHang= {}
+    $scope.chiTietDonHang = []
+    $scope.getDetailDonHang =  function (ma) {
+        $http.get("/admin/don-hang/" + ma).then(r => {
+            $scope.donHang = r.data;
+            $('#donHangDetail').modal('show')
+        }).catch(e => console.log(e))
+
+        $http.get("/admin/chi-tiet-don-hang/" + ma).then(r => {
+            $scope.chiTietDonHang = r.data;
+        }).catch(e => console.log(e))
+    }
+    $scope.getTotalPrice = function () {
+        let total = 0;
+        $scope.chiTietDonHang.forEach(c => total += (c.donGiaSauGiam * c.soLuong))
+        return total
+    }
 })

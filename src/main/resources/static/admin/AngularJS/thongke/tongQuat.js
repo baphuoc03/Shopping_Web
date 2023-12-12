@@ -55,6 +55,7 @@ app.controller("ctrl", function ($scope, $http){
             donHang = r.data.quantityOrders
             doanhThu = r.data.revenue
             months = r.data.months
+            console.log(r.data)
 
             var options = {
                 series: [{

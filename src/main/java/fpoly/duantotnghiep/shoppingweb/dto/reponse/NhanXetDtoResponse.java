@@ -21,6 +21,7 @@ public class NhanXetDtoResponse {
     private Date thoiGian;
     private Boolean pheDuyet;
     private Boolean chinhSua;
+    private String donHang;
 
     public NhanXetDtoResponse(NhanXetModel model) {
         this.id = model.getId();
@@ -33,5 +34,6 @@ public class NhanXetDtoResponse {
         this.pheDuyet = model.getPheDuyet();
         this.chinhSua = model.getChinhSua();
         this.idCTDH = model.getChiTietDonHangModel().getId();
+        this.donHang = model.getChiTietDonHangModel().getDonHang().getMa();
     }
 }
