@@ -160,7 +160,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         // }
         let sl = parseInt(document.getElementById("soLuong").value)
         console.log("sốluong: " + sl)
-        let alertify;
+        // let alertify;
         alertify.confirm("Bạn Có Muốn Mua Ngay Không ?", function () {
             $http.post("/cart/mua-ngay?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
                 console.log(response.data)

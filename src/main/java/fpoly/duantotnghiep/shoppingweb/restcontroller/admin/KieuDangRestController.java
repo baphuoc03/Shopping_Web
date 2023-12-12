@@ -30,7 +30,7 @@ public class KieuDangRestController {
     private IKieuDangService service;
     @GetMapping("find-all")
     public List<KieuDangDTOResponse> findAll(@RequestParam(name = "pageNumber", required = false, defaultValue = "1") int number){
-        Page<KieuDangDTOResponse> page = service.findAll(number-1, 5);
+        Page<KieuDangDTOResponse> page = service.findAll(number-1, 1000);
         List<KieuDangDTOResponse> list = page.getContent();
         return list;
     }
