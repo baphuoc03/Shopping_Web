@@ -130,6 +130,7 @@
                                         <span th:if="${method == 'put'}" th:text="*{ma}" id="ma"
                                               class="form-control"></span>
                                         <i th:errors="*{ma}" class="er"></i>
+                                        <i th:if="${erMa != null}" class="er" th:text="${erMa}"></i>
                                     </div>
                                     <div class="mb-3">
                                         <label for="productname">Tên Sản Phẩm</label>
@@ -264,16 +265,19 @@
                                 <div class="col-sm-6">
                                     <div class="mb-3">
                                         <label for="ma">Mã Sản Phẩm</label>
-                                        <input th:if="${method != 'put'}" th:field="*{ma}" id="ma"
+                                        <input th:if="${method != 'put'}" onfocus="document.getElementById('erMa').innerText=''"
+                                               th:field="*{ma}" id="ma"
                                                class="form-control">
                                         <span th:if="${method == 'put'}" th:text="*{ma}" id="ma"
                                               class="form-control"></span>
-                                        <i th:errors="*{ma}" class="er"></i>
+                                        <i th:if="${erMa == null}" th:errors="*{ma}" id="erMa" class="er"></i>
+                                        <i th:if="${erMa != null}" id="erMa" class="er" th:text="${erMa}"></i>
                                     </div>
                                     <div class="mb-3">
                                         <label for="productname">Tên Sản Phẩm</label>
-                                        <input id="productname" th:field="*{ten}" class="form-control">
-                                        <i th:errors="*{ten}" class="er"></i>
+                                        <input id="productname" onfocus="document.getElementById('erTen').innerText=''"
+                                               th:field="*{ten}" class="form-control">
+                                        <i th:errors="*{ten}" id="erTen" class="er"></i>
                                     </div>
                                     <div class="mb-3">
                                         <label class="control-label">Màu Sắc</label>
@@ -286,8 +290,9 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="manufacturerbrand">Giá Bán</label>
-                                        <input id="manufacturerbrand" th:field="*{giaBan}" class="form-control">
-                                        <i th:errors="*{giaBan}" class="er"></i>
+                                        <input id="manufacturerbrand" onfocus="document.getElementById('erGiaBan').innerText=''"
+                                               type="number" th:field="*{giaBan}" class="form-control">
+                                        <i th:errors="*{giaBan}" id="erGiaBan" class="er"></i>
                                     </div>
 <!--                                    <div class="mb-3">-->
 <!--                                        <label>Trạng thái</label>-->
@@ -354,8 +359,8 @@
                                 <button type="submit" ng-click="sortFiles()" th:text="${method == 'put' ? 'Cập nhật' : 'Thêm'}"
                                         class="btn btn-primary waves-effect waves-light">
                                 </button>
-                                <input type="reset" value="Làm mới"
-                                        class="btn btn-secondary waves-effect waves-light">
+                                <a type="reset" href="/admin/san-pham/add" th:if="${method != 'put'}"
+                                   class="btn btn-secondary waves-effect waves-light">Làm mới</a>
                             </div>
 
                         </div>
@@ -379,9 +384,10 @@
 
                             <div class="col-10 mb-3" id="viewAddThuongHieu" style="display: none">
                                 <label class="control-label">Thương hiệu</label>
-                                <select class="form-control " ng-model="thuongHieu" >
+                                <select class="form-control " ng-model="thuongHieu" onchange="document.getElementById('erAddDongSP').innerText =''" >
                                     <option th:each="t :${thuongHieu}" th:value="${t.id}">[[${t.ten}]]</option>
                                 </select>
+                                <i class="er" id="erAddDongSP"></i>
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">

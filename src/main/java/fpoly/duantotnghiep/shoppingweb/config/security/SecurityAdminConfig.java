@@ -32,9 +32,9 @@ public class SecurityAdminConfig {
                 "/admin/quen-mat-khau", "/image/**", "/admin/dat-lai-mat-khau/**","/admin/quen-mat-khau/xac-nhan",
                 "/admin/AngularJS/CheckOut.js","/admin/AngularJS/DonHang.js","/admin/AngularJS/DanhSachYeuThichJS.js",
                 "/admin/mau-sac/find-all","/admin/chat-lieu/find-all","/admin/thuong-hieu/find-all","/admin/xuat-xu/find-all","/admin/kieu-dang/find-all"};
-        String[] adminUrl = {"/admin/san-pham/add","/admin/san-pham/update/**","/admin/nhan-xet/**","/admin/san-pham/delete/**"
+        String[] adminUrl = {"/admin/san-pham/add","/admin/san-pham/update/**","/admin/san-pham/delete/**"
                             ,"/admin/san-pham/update-TrangThai-HienThi/**","/admin/nhan-vien/**","/admin/kieu-dang/**",
-                            "/admin/mau-sac/**","/admin/dong-san-pham/**","/admin/thuong-hieu/**","/admin/thong-ke/**"};
+                            "/admin/mau-sac/**","/admin/dong-san-pham/**","/admin/thuong-hieu/**","/admin/thong-ke/**","/admin/nhan-xet/phe-duyet/**"};
         http    .securityMatcher("/admin/**")
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
@@ -45,7 +45,7 @@ public class SecurityAdminConfig {
                                 .hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
 
                                 .requestMatchers(adminUrl).hasAuthority(Roles.ADMIN.name())
-                                .requestMatchers("/admin/**","/admin/nhan-vien/thong-tin-ca-nhan").hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
+                                .requestMatchers("/admin/**","/admin/nhan-vien/thong-tin-ca-nhan","/admin/nhan-xet/**").hasAnyAuthority(Roles.ADMIN.name(),Roles.STAFF.name())
                                 .anyRequest().permitAll()
                 )
                 .userDetailsService(userAdminService)

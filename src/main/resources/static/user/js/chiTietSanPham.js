@@ -27,6 +27,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
 
     $http.get("/san-pham" + maSP).then(r => {
         $scope.product = r.data
+        console.log($scope.product.thuongHieu.length)
         if (r.data.anh.length > 0) {
             for (let i = 1; i < r.data.anh.length; i++) {
                 $scope.images = $scope.images.concat(r.data.anh[i]);
@@ -142,7 +143,6 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
                     alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
                 } else {
                     alertify.success("Thêm thành công vào giỏ hàng")
-
                     $scope.cartShow()
                 }
             }).catch(e => {
@@ -150,6 +150,35 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
                 alertify.error("Thêm sản phẩm vào giỏ hàng thất bại!!!")
                 console.log(e)
             })
+        },function (){})
+    }
+    //Mua Ngay
+    $scope.muaNgay = function () {
+        let idCtsp = form.elements["ctsp"].value
+        // if (idCtsp == null) {
+        //     return;
+        // }
+        let sl = parseInt(document.getElementById("soLuong").value)
+        console.log("sốluong: " + sl)
+        // let alertify;
+        alertify.confirm("Bạn Có Muốn Mua Ngay Không ?", function () {
+            $http.post("/cart/mua-ngay?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
+                console.log(response.data)
+                if (response.data == null || response.data.length == 0) {
+                    alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
+                } else {
+                    alertify.success("Thêm thành công vào giỏ hàng")
+                    $scope.cartShow()
+                    location.href = "/thanh-toan";
+                }
+
+            }).catch(e => {
+                document.getElementById("eSize").innerText = e.data.eSize = undefined ? "" : e.data.eSize
+                alertify.error("Mua Ngay thất bại!!!")
+                console.log(e)
+            })
+
+
         },function (){})
     }
 

@@ -92,11 +92,17 @@ public class ChiTietSanPhamRestController {
     public ResponseEntity<?> kiemTraSoLuong(@PathVariable("id") String id,
                                             @RequestParam("soLuong")Long soLuong,
                                             @RequestParam(value = "idCTDH",required = false)String idCTDH){
+        if(soLuong<=0){
+            return ResponseEntity.badRequest().build();
+        }
+
         if(idCTDH.length()>0){
             ChiTietDonHangDtoResponse chiTietDonHangDtoResponse = chiTietDonHangService.findById(idCTDH);
             soLuong -= chiTietDonHangDtoResponse.getSoLuong();
+            System.out.println("asad");
         }
-        System.out.println(soLuong);
+        System.out.println("so luong"+soLuong);
+
         if(!chiTietSanPhamService.checkSoLuongSP(id,soLuong)){
             return ResponseEntity.badRequest().build();
         }

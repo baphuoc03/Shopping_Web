@@ -80,7 +80,7 @@
                                                     <div class="col-md-6">
                                                         <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
                                                             <div data-toggle="modal" data-target="#add">
-                                                                <a href="#" class="btn btn-light"><i
+                                                                <a class="btn btn-light"><i
                                                                         class="bx bx-plus me-1"></i>Thêm mới</a>
                                                             </div>
 <!--                                                            <div class="dropdown">-->
@@ -1152,12 +1152,13 @@
                             <div class="col-sm-12">
                                 <div class="dropdown">
                                     <input data-toggle="dropdown" ng-keyup="searchSanPham()" ng-model="inputProduct"
+                                           ng-focus="er.soLuongSP=''"
                                            placeholder="Thêm sản phẩm" class="form-control"
                                            style="width: 200px;float: right">
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"
                                         style="margin-top: 40px;margin-left: 190px;width: 530px;max-height: 500px;overflow-y: auto;">
                                         <li ng-repeat="s in sanPham">
-                                            <div ng-if="checkSanPhamInDonHang(s.id)==false" style="cursor: pointer"
+                                            <div ng-if="checkSanPhamInDonHang(s.id)==false && s.soLuong>0" style="cursor: pointer"
                                                  class="row d-flex justify-content-start align-items-center"
                                                  ng-click="addChiTietDonHang(s)">
                                                 <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0"><img
@@ -1186,7 +1187,7 @@
                                                 </div>
                                             </div>
                                             <!--                                            /////////////////////////////////////////-->
-                                            <div ng-if="checkSanPhamInDonHang(s.id)==true"
+                                            <div ng-if="checkSanPhamInDonHang(s.id)==true || s.soLuong<=0"
                                                  class="row d-flex justify-content-start align-items-center dropdown-item disabled"
                                                  style="background-color: gainsboro">
                                                 <!--                                                <div style="position: absolute" class="d-flex justify-content-center">-->
@@ -1447,7 +1448,7 @@
                             <div class="row">
                                 <div class="mb-3 col-6">
                                     <label>Địa chỉ chi tiết</label>
-                                    <textarea class="form-control" rows="2" ng-focus="er.diaChiChiTiet=''"
+                                    <textarea class="form-control" rows="2" ng-focus="erAdd.diaChiChiTiet=''"
                                               ng-model="donHangAdd.diaChiChiTiet"></textarea>
                                     <i class="er">{{erAdd.diaChiChiTiet == undefined ? '' : erAdd.diaChiChiTiet}}</i>
                                 </div>
@@ -1467,12 +1468,13 @@
                             <div class="col-sm-12">
                                 <div class="dropdown">
                                     <input data-toggle="dropdown" ng-keyup="searchSanPham()" ng-model="inputProduct"
+                                           ng-focus="erAdd.soLuongSP=''"
                                            placeholder="Thêm sản phẩm" class="form-control"
                                            style="width: 200px;float: right">
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"
                                         style="margin-top: 40px;margin-left: 190px;width: 530px;max-height: 500px;overflow-y: auto;">
                                         <li ng-repeat="s in sanPham">
-                                            <div ng-if="checkSanPhamInDonHang(s.id)==false" style="cursor: pointer"
+                                            <div ng-if="checkSanPhamInDonHang(s.id)==false && s.soLuong>0" style="cursor: pointer"
                                                  class="row d-flex justify-content-start align-items-center"
                                                  ng-click="addChiTietDonHang(s)">
                                                 <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0"><img
@@ -1501,7 +1503,7 @@
                                                 </div>
                                             </div>
                                             <!--                                            /////////////////////////////////////////-->
-                                            <div ng-if="checkSanPhamInDonHang(s.id)==true"
+                                            <div ng-if="checkSanPhamInDonHang(s.id)==true || s.soLuong<=0"
                                                  class="row d-flex justify-content-start align-items-center dropdown-item disabled"
                                                  style="background-color: gainsboro">
                                                 <!--                                                <div style="position: absolute" class="d-flex justify-content-center">-->
@@ -1617,15 +1619,6 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Khuyễn mại</td>
-                                    <td colspan="4">
-                                        <div class="d-flex justify-content-end">
-                                            {{donHangAdd.tienGiam == null ? 0 : donHangAdd.tienGiam | currency: "" : 1}}
-                                            đ
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td>Phí giao hàng</td>
                                     <td colspan="4">
                                         <div class="d-flex justify-content-end">
@@ -1637,7 +1630,7 @@
                                     <td>Thành tiền</td>
                                     <td colspan="4">
                                         <div class="d-flex justify-content-end">
-                                            {{(getTotalPrice() + donHangAdd.phiGiaoHang) - donHangAdd.tienGiam | currency: "" : 1}}
+                                            {{(getTotalPrice() + donHangAdd.phiGiaoHang) | currency: "" : 1}}
                                             đ
                                         </div>
                                     </td>
@@ -1648,6 +1641,7 @@
 
                     </div>
                     <div class="modal-footer">
+                        <button class="btn btn-secondary" ng-click="clearFormAdd()">Làm mới</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                 ng-click="closeModal('#add')">Đóng
                         </button>
@@ -1685,7 +1679,7 @@
                             </div>
                             <div class="mb-3 col-4">
                                 <label>Phương thức thanh toán</label>
-                                <span class="form-control">{{donHang.phuongThucThanhToan}}</span>
+                                <span class="form-control">{{donHang.phuongThucThanhToan=='true'?'Khi nhận hàng':'VNPAY'}}</span>
                             </div>
                         </div>
                         <div class="row">

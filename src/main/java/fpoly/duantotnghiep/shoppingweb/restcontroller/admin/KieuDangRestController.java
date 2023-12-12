@@ -3,6 +3,7 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 import fpoly.duantotnghiep.shoppingweb.ResponseEntity.ResponseObject;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KieuDangDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.MauSacDTOResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.NhanVienDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KieuDangDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.MauSacDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.KieuDangModel;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -28,12 +30,27 @@ public class KieuDangRestController {
     private IKieuDangService service;
     @GetMapping("find-all")
     public List<KieuDangDTOResponse> findAll(@RequestParam(name = "pageNumber", required = false, defaultValue = "1") int number){
-        Page<KieuDangDTOResponse> page = service.findAll(number-1, 5);
+        Page<KieuDangDTOResponse> page = service.findAll(number-1, 1000);
         List<KieuDangDTOResponse> list = page.getContent();
         return list;
     }
+    @GetMapping("get-all")
+    public ResponseEntity<Page<KieuDangDTOResponse>> getAll(@RequestParam(defaultValue = "0")Integer page,
+                                                                     @RequestParam(defaultValue = "5")Integer limit,
+                                                                     @RequestParam(required = false)String keyWord){
+        if(keyWord!=null){
+            return ResponseEntity.ok(service.search(keyWord,page,limit));
+        }
+        return ResponseEntity.ok(service.findAll(page,limit));
+    }
     @PostMapping("")
     public ResponseEntity<?> add(@Valid @RequestBody KieuDangDtoRequest kieudang, BindingResult result){
+        if(kieudang.getTen()!=null && !kieudang.getTen().isBlank()){
+            if(service.existsById(kieudang.getTen())){
+                result.addError(new FieldError("username","username","Tên đã tồn tại"));
+                if(!result.hasErrors()) return ValidateUtil.getErrors(result);
+            }
+        }
         if(result.hasErrors()){
             return ValidateUtil.getErrors(result);
         }

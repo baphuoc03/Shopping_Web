@@ -44,11 +44,14 @@ public class ThongKeRestController {
 
         Map<String,Object> result = new HashMap<>();
         result.put("quantityProducts",donHangService.getTotalQauntityInOrdersWithDate(firstDate, lastDate).toString());
+        result.put("quantityProductsDetail",donHangService.getQuantityProductInOrderDetailWithDate(firstDate, lastDate));
         result.put("quantityOrders",donHangService.getQuantityOrdersWithDate(firstDate,lastDate).toString());
-        result.put("totalPrice",donHangService.getTotalPriceInOrdersWithDate(firstDate,lastDate).toString());
+        result.put("totalPrice",thongKeEntityManager.getTotalDoanhThuByDate(firstDate,lastDate));
         result.put("sanPhamDaBan",thongKeEntityManager.getSanPhamDaBanWithDate(firstDate,lastDate));
-        result.put("doanhThuDetail",thongKeEntityManager.getDoanhThuDetailByDate(firstDate,lastDate));
+        result.put("doanhThuDetail",thongKeEntityManager.getDoanhThuDetailByDate(firstDate,lastDate,0));
+        result.put("doanhThuTaiQuayDetail",thongKeEntityManager.getDoanhThuDetailByDate(firstDate,lastDate,1));
         result.put("ordersDetail",thongKeEntityManager.getDetailOrdersByDate(firstDate,lastDate));
+        result.put("ordersTaiQuayDetail",thongKeEntityManager.getDetailOrdersTaiQuayByDate(firstDate,lastDate));
 
         return ResponseEntity.ok(result);
     }

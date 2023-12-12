@@ -28,6 +28,10 @@ public class DonHangModel {
     private KhachHangModel nguoiSoHuu;
 
     @ManyToOne
+    @JoinColumn(name = "nhanvien")
+    private NhanVienModel nhanVien;
+
+    @ManyToOne
     @JoinColumn(name = "voucher")
     private VoucherModel voucher;
 
@@ -95,6 +99,9 @@ public class DonHangModel {
 
     @Column(name = "ngayhuy")
     private Date ngayHuy;
+
+    @Column(name = "loai",columnDefinition = "INT default 0")
+    private Integer loai;
 
     @Formula("(SELECT SUM(c.dongiasaugiam*c.SoLuong) + d.phigiaohang - d.tiengiam FROM donhang d Join chitietdonhang c on c.DonHang = d.Ma where d.Ma = ma)")
     private BigDecimal tongTien;

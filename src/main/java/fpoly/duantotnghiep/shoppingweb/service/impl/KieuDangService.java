@@ -1,13 +1,16 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KieuDangDTOResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.NhanVienDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ThuongHieuDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KieuDangDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.KieuDangModel;
+import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IKieuDangRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IKieuDangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,10 +24,19 @@ public class KieuDangService implements IKieuDangService {
     private IKieuDangRepository iKieuDangRepository;
 
 
-    public Page<KieuDangDTOResponse> findAll(Integer pageNumber, Integer pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    @Override
+    public Page<KieuDangDTOResponse> findAll(Integer page, Integer limit) {
+        Pageable pageable = PageRequest.of(page,limit);
         Page<KieuDangModel> pageModel = iKieuDangRepository.findAll(pageable);
-        return pageModel.map(x -> new KieuDangDTOResponse(x));
+        return new PageImpl<>(pageModel.getContent().stream().map(n -> new KieuDangDTOResponse(n)).collect(Collectors.toList()),
+                pageable,pageModel.getTotalElements());
+    }
+    @Override
+    public Page<KieuDangDTOResponse> search(String keyWord, Integer page, Integer limit) {
+        Pageable pageable = PageRequest.of(page,limit);
+        Page<KieuDangModel> pageModel = iKieuDangRepository.search(keyWord,pageable);
+        return new PageImpl<>(pageModel.getContent().stream().map(n -> new KieuDangDTOResponse(n)).collect(Collectors.toList()),
+                pageable,pageModel.getTotalElements());
     }
 
     @Override
@@ -42,8 +54,7 @@ public class KieuDangService implements IKieuDangService {
 
 
     public KieuDangDTOResponse findById(String s) {
-        KieuDangModel model = iKieuDangRepository.findById(s).get();
-        return new KieuDangDTOResponse(model);
+        return new KieuDangDTOResponse(iKieuDangRepository.findById(s).get());
     }
 
 

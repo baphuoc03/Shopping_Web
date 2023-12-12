@@ -117,7 +117,12 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     @Override
     public Boolean checkSoLuongSP(String id, Long soLuong){
         ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(id).get();
-        if(soLuong > chiTietSanPhamModel.getSoLuong() || soLuong<=0){
+
+//        if(soLuong==0){
+//            return false;
+//        }
+
+        if(soLuong > chiTietSanPhamModel.getSoLuong()){
             return false;
         }
         return true;

@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface IDonHangService {
     List<DonHangDtoResponse> getAllByTrangThai(Integer trangThai);
@@ -52,4 +53,6 @@ public interface IDonHangService {
     DonHangDtoResponse updateTrangThai1(String maDonHang, Integer trangThai);
 
     void themDonHangAdmin(DonHangDTORequest donHangDTORequest, List<ChiTietDonHangDTORequest> chiTietDonHang);
+
+    Map<String,Long> getQuantityProductInOrderDetailWithDate(Date firstDate, Date lastDate);
 }

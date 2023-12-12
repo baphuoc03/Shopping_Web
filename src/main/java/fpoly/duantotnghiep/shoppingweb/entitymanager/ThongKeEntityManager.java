@@ -49,8 +49,13 @@ public class ThongKeEntityManager {
     }
 
     public Map<Integer, BigDecimal> getRevenueInOrderByYear(String year){
-        return entityManager.createQuery("""
-                SELECT MONTH(d.donHang.ngayDatHang) AS month, SUM(d.soLuong*d.donGiaSauGiam) - SUM(d.donHang.tienGiam)  AS revenue
+
+        Map<Integer, BigDecimal> mapTongTien = new HashMap<>();
+        Map<Integer, BigDecimal> mapTienGiam = new HashMap<>();
+        Map<Integer, BigDecimal> result = new HashMap<>();
+
+        mapTongTien = entityManager.createQuery("""
+                SELECT MONTH(d.donHang.ngayDatHang) AS month, SUM(d.soLuong*d.donGiaSauGiam) AS revenue
                 FROM ChiTietDonHangModel d
                 WHERE YEAR(d.donHang.ngayDatHang) = :year AND d.donHang.trangThai <> 0 AND  d.donHang.trangThai <> 5
                 GROUP BY MONTH(d.donHang.ngayDatHang)
@@ -64,6 +69,28 @@ public class ThongKeEntityManager {
                                 tuple -> BigDecimal.valueOf(((Number) tuple.get("revenue")).doubleValue())
                         )
                 );
+        mapTienGiam = entityManager.createQuery("""
+                SELECT MONTH(d.ngayDatHang) AS month,  SUM(d.tienGiam)  AS revenue
+                FROM DonHangModel d
+                WHERE YEAR(d.ngayDatHang) = :year AND d.trangThai <> 0 AND  d.trangThai <> 5
+                GROUP BY MONTH(d.ngayDatHang)
+            """, Tuple.class)
+                .setParameter("year",year)
+                .getResultList()
+                .stream()
+                .collect(
+                        Collectors.toMap(
+                                tuple -> ((Number) tuple.get("month")).intValue(),
+                                tuple -> BigDecimal.valueOf(((Number) tuple.get("revenue")).doubleValue())
+                        )
+                );
+        Map<Integer, BigDecimal> finalMapTienGiam = mapTienGiam;
+        result = mapTongTien.entrySet().stream().peek(m -> {
+            finalMapTienGiam.entrySet().stream().forEach(m1 -> {
+                if (m.getKey() == m1.getKey()) m.setValue(m.getValue().subtract(m1.getValue()));
+            });
+        }).collect(Collectors.toMap(k -> k.getKey(),v -> v.getValue()));
+        return result;
     }
 
     public Map<Integer, Long> getTotalProductsByYear(String year){
@@ -183,33 +210,65 @@ public class ThongKeEntityManager {
         return result;
     }
 
-    public Map<String,String> getDoanhThuDetailByDate(Date firstDate, Date lastDate){
+    public Map<String,String> getDoanhThuDetailByDate(Date firstDate, Date lastDate,Integer loai){
         Map<String,String> result = new HashMap<>();
         BigDecimal tongTien = (BigDecimal) entityManager
                 .createQuery("""
                                 SELECT SUM(c.donGia*c.soLuong) FROM ChiTietDonHangModel c  
-                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
+                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.loai = :loai AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
                             """)
                 .setParameter("firstDate",firstDate)
                 .setParameter("lastDate",lastDate)
+                .setParameter("loai",loai)
                 .getSingleResult();
         BigDecimal tienGiam = (BigDecimal) entityManager
                 .createQuery("""
-                                                SELECT SUM((c.donGia-c.donGiaSauGiam)*c.soLuong) + SUM(c.donHang.tienGiam) FROM ChiTietDonHangModel c  
-                                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
+                                                SELECT SUM((c.donGia-c.donGiaSauGiam)*c.soLuong) + (SElECT SUM(d.tienGiam) FROM DonHangModel d WHERE d.ngayDatHang between :firstDate AND :lastDate AND d.loai = :loai AND d.trangThai <> 0 AND  d.trangThai <> 5  ) 
+                                                FROM ChiTietDonHangModel c  
+                                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.loai = :loai AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
                                             """)
                 .setParameter("firstDate",firstDate)
                 .setParameter("lastDate",lastDate)
+                .setParameter("loai",loai)
                 .getSingleResult();
         result.put("tongTien",tongTien == null ? "0" : tongTien+"");
         result.put("tienGiam",tienGiam == null ? "0" : tienGiam+"");
         return result;
     }
+    public String getTotalDoanhThuByDate(Date firstDate, Date lastDate){
+        BigDecimal tongTien = (BigDecimal) entityManager
+                .createQuery("""
+                                SELECT SUM(c.donGiaSauGiam*c.soLuong) - (SElECT SUM(d.tienGiam) FROM DonHangModel d WHERE d.ngayDatHang between :firstDate AND :lastDate  AND d.trangThai <> 0 AND  d.trangThai <> 5  ) FROM ChiTietDonHangModel c  
+                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate  AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
+                            """)
+                .setParameter("firstDate",firstDate)
+                .setParameter("lastDate",lastDate)
+                .getSingleResult();
+        return tongTien == null ? "0" : tongTien+"";
+    }
     public Map<String, Long> getDetailOrdersByDate(Date firstDate, Date lastDate){
         return entityManager.createQuery("""
                 SELECT d.trangThai, COUNT(d)
                 FROM DonHangModel d
-                WHERE d.ngayDatHang between :firstDate AND :lastDate 
+                WHERE d.ngayDatHang between :firstDate AND :lastDate AND d.loai=0
+                GROUP BY d.trangThai
+            """, Tuple.class)
+                .setParameter("firstDate",firstDate)
+                .setParameter("lastDate",lastDate)
+                .getResultList()
+                .stream()
+                .collect(
+                        Collectors.toMap(
+                                tuple -> "TH" + (((Number) tuple.get(0)).intValue()),
+                                tuple -> ((Number) tuple.get(1)).longValue()
+                        )
+                );
+    }
+    public Map<String, Long> getDetailOrdersTaiQuayByDate(Date firstDate, Date lastDate){
+        return entityManager.createQuery("""
+                SELECT d.trangThai, COUNT(d)
+                FROM DonHangModel d
+                WHERE d.ngayDatHang between :firstDate AND :lastDate AND d.loai=1
                 GROUP BY d.trangThai
             """, Tuple.class)
                 .setParameter("firstDate",firstDate)
