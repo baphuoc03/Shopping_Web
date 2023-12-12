@@ -29,13 +29,13 @@ app.controller("kieudang-ctrl", function ($scope, $http) {
     $scope.getAll()
 // xóa
     $scope.delete = function (id) {
-        if(confirm("Bạn muốn xóa sản phẩm này?")){
+        if(confirm("Bạn muốn xóa Kiểu Dáng này?")){
         var urlWithId = getUrlWithId(id)
         $http.delete(urlWithId).then(function (res) {
             location.reload();
-            alert("Delete success");
+            alertify.success("Xóa Kiểu Dáng thành công")
         }).catch(error =>{
-        alert("Lỗi Xóa Sản Phẩm !")
+            alertify.error("Xóa Kiểu Dáng thất bại")
             console.log("error", error);
         })
     }
@@ -49,10 +49,11 @@ app.controller("kieudang-ctrl", function ($scope, $http) {
             $http.post(url, kieuDang).then(function (response) {
                 // location.reload();
                 $scope.itemss.push(response.data)
-                alert("Create success");
+                alertify.success("Thêm Kiểu Dáng thành công")
             }).catch(error =>{
                 console.log(error)
-                $scope.erTen = error.data.ten
+                alertify.error("Thêm nhân viên thất bại")
+                document.getElementById("usernameAddER").innerText = e.data.username == undefined ? "" : e.data.username;
             });
 
     };

@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface IKieuDangService {
-    public Page<KieuDangDTOResponse> findAll(Integer pageNumber, Integer pageSize);
+    public Page<KieuDangDTOResponse> findAll(Integer page, Integer limit);
     public List<KieuDangDTOResponse> getAll();
     public KieuDangDTOResponse save( KieuDangDtoRequest kieuDangDtoRequest);
     public KieuDangDTOResponse findById(String s);
@@ -15,5 +15,5 @@ public interface IKieuDangService {
     public void deleteById(String s);
     public void deleteByIds(List<String> s);
     public int update( String id, String ten);
-
+    public Page<KieuDangDTOResponse> search(String keyWord, Integer page, Integer limit);
 }
