@@ -6,7 +6,7 @@
 <head>
 
     <meta charset="utf-8"/>
-    <title>Hydra | Chất liệu</title>
+    <title>Hydra Sneaker | Chất liệu</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
     <meta content="Themesbrand" name="author"/>
@@ -68,6 +68,8 @@
                                         <th>Tên</th>
                                         <th>Ngày Tạo</th>
                                         <th>Ngày Cập Nhật</th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                     </thead>
 
@@ -76,18 +78,19 @@
                                     <tr ng-repeat="cl in items">
                                         <td></td>
                                         <td>{{cl.ten}}</td>
-                                        <td>{{cl.ngayTao}}</td>
-                                        <td>{{cl.ngayCapNhat}}</td>
+                                        <td>{{cl.ngayTao | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>{{cl.ngayCapNhat | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                         <td>
-                                            <button ng-click="delete(cl.id)">
-                                                Delete
+                                            <button ng-click="delete(cl.id)" class="btn btn-danger">
+                                                Xóa
                                             </button>
                                         </td>
                                         <td>
-                                            <button data-bs-toggle="modal"
+                                            <button class="btn btn-primary"
+                                                    data-bs-toggle="modal"
                                                     data-bs-target="#chatLieuUpdate"
                                                     ng-click="getChatLieu(cl.id)"
-                                            >Update</button>
+                                            >Cập nhật</button>
                                         </td>
                                     </tr>
                                     </tbody>

@@ -6,7 +6,7 @@
 <head>
 
     <meta charset="utf-8"/>
-    <title>Hydra | Dòng sản phẩm</title>
+    <title>Hydra Sneaker | Dòng sản phẩm</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
     <meta content="Themesbrand" name="author"/>
@@ -72,7 +72,7 @@
                                     <th>Thương Hiệu</th>
                                     <th>Ngày Tạo</th>
                                     <th>Ngày Cập Nhật</th>
-                                    <th>Action</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
 
@@ -81,15 +81,16 @@
                                 <tr ng-repeat="d in items">
                                     <td>{{d.ten}}</td>
                                     <td>{{d.thuongHieu}}</td>
-                                    <td>{{d.ngayTao}}</td>
-                                    <td>{{d.ngayCapNhat}}</td>
+                                    <td>{{d.ngayTao | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    <td>{{d.ngayCapNhat | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                     <td>
                                         <button data-bs-toggle="modal"
                                                 data-bs-target="#update"
+                                                class="btn btn-primary"
                                                 ng-click="getDongSanPham(d.id)"
-                                        >Edit
+                                        >Cập nhật
                                         </button>
-                                        <button ng-click="delete(d.id)">Xóa</button>
+                                        <button class="btn btn-danger" ng-click="delete(d.id)">Xóa</button>
                                     </td>
                                     </td>
                                 </tr>

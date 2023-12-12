@@ -120,7 +120,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         }).then(r => {
             // location.reload();
             alertify.success("Cập nhật thành công")
-            // document.getElementById("imgUser").src = "/image/loadImageUser/" + r.data.username
+            document.getElementById("imgUser").src = "/image/loadImageKhachHang/" + r.data.username
         }).catch(e => {
             document.getElementById("hoVaTenER").innerText = e.data.hoVaTen == undefined ? "" : e.data.hoVaTen;
             document.getElementById("soDienThoaiER").innerText = e.data.soDienThoai == undefined ? "" : e.data.soDienThoai;

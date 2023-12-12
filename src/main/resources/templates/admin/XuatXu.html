@@ -4,6 +4,7 @@
       layout:decorate="~{/admin/index}">
 
 <head>
+    <title>Hydra Sneaker | Xuất Xứ</title>
 </head>
 
 <body data-topbar="dark">
@@ -62,7 +63,7 @@
                                         <th>Xuất Xứ</th>
                                         <th>Ngày Tạo</th>
                                         <th>Ngày Cập Nhật</th>
-                                        <th>Action</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
 
@@ -71,15 +72,16 @@
                                     <tr ng-repeat="m in items">
 
                                         <td>{{m.ten}}</td>
-                                        <td>{{m.ngayTao}}</td>
-                                        <td>{{m.ngayCapNhat}}</td>
+                                        <td>{{m.ngayTao | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>{{m.ngayCapNhat | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                         <td>
-                                            <button data-bs-toggle="modal"
+                                            <button class="btn btn-primary"
+                                                    data-bs-toggle="modal"
                                                     data-bs-target="#update"
                                                     ng-click="getXuatXu(m.id)"
-                                            >Edit
+                                            >Cập nhật
                                             </button>
-                                            <button ng-click="delete(m.id)">Xóa</button>
+                                            <button class="btn btn-danger" ng-click="delete(m.id)">Xóa</button>
                                         </td>
                                     </tr>
                                     </tbody>

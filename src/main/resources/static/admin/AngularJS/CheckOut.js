@@ -175,6 +175,10 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 console.log("lỗi")
             });
     };
+    $scope.huyVoucher = function (){
+        $scope.giaGiam = 0;
+        $scope.voucherDH = "";
+    }
 
     $http.get("/cart/find-all").then(r => {
         console.log(r.data)

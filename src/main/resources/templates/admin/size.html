@@ -2,7 +2,9 @@
 <html lang="en" xmlns:th="http:/www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/admin/index}">
-
+<head>
+    <title>Hydra Sneaker | Kích Thước</title>
+</head>
 <body data-topbar="dark">
 
 <!-- ============================================================== -->
@@ -46,7 +48,7 @@
                                         <form action="" class="d-flex">
                                             <input class="form-control me-2" name="name" type="text"
                                                    placeholder="Search">
-                                            <button class="btn btn-primary" type="submit">Search</button>
+                                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                                         </form>
                                     </div>
                                 </div>
@@ -68,19 +70,20 @@
                                     <tr ng-repeat="stu in items">
                                         <td>{{stu.ma}}</td>
                                         <td>{{stu.chieuDai}}</td>
-                                        <td>{{stu.ngayTao}}</td>
-                                        <td>{{stu.ngayCapNhat}}</td>
+                                        <td>{{stu.ngayTao | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>{{stu.ngayCapNhat | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                         <td>
 
-                                            <button
+                                            <button class="btn btn-danger"
                                                     ng-click="delete(stu.ma)"
-                                            >Delete</button>
+                                            >Xóa</button>
                                         </td>
                                         <td>
-                                            <button data-bs-toggle="modal"
+                                            <button class="btn btn-primary"
+                                                    data-bs-toggle="modal"
                                                     data-bs-target="#sizeUpdate"
                                                     ng-click="getSize(stu.ma)"
-                                            >Update</button>
+                                            >Cập nhật</button>
                                         </td>
                                     </tr>
                                     </tbody>

@@ -9,7 +9,8 @@ app.controller("voucher-ctrl", function ($scope, $http) {
 
 
         $scope.voucherAdd = {
-            danhSachKhach: []
+            danhSachKhach: [],
+            loaiMucGiam : "TIEN"
         }
 
         //    chi tiet

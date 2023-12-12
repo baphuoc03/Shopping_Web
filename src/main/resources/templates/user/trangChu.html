@@ -80,7 +80,7 @@
                         <li class="label1" data-label1="Hot">
                             <a href="/trang-chu">Trang chủ</a>
                         </li>
-                        <li style="cursor: pointer">
+                        <li style="cursor: pointer" data-bs-toggle="collapse" data-bs-target="#branchsSP">
                             <a href="/san-pham">Sản phẩm</a>
                         </li>
 
@@ -92,13 +92,13 @@
 
                 <!-- Icon header -->
                 <div class="wrap-icon-header flex-w flex-r-m">
-                    <a href="/danh-sach-yeu-thich"
-                       class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-                       data-notify="0">
+                    <a href="/danh-sach-yeu-thich" th:if="${request.remoteUser}"
+                       class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 "
+                    >
                         <i class="zmdi zmdi-favorite-outline" style="color: white"></i>
                     </a>
-                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-                         data-notify="2">
+                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11  js-show-cart"
+                    >
                         <i class="zmdi zmdi-shopping-cart" style="color: white"></i>
                     </div>
 
@@ -114,6 +114,7 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" th:if="${request.remoteUser}">
                             <a class="dropdown-item" href="/thong-tin-ca-nhan">Tài khoản</a>
                             <a class="dropdown-item" href="/lich-su-mua-hang1">Đơn hàng</a>
+                            <a class="dropdown-item" href="/doi-mat-khau">Đổi mật khẩu</a>
                             <a class="dropdown-item" href="/logout">Đăng xuất</a>
                         </div>
 
@@ -125,6 +126,31 @@
                     </div>
                 </div>
             </nav>
+            <div class="col-12 collapse" id="branchsSP" style="background-color: whitesmoke">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="container row pt-4">
+                        <a class="col-4 mb-4" style="color: #666666;font-size: 20px;cursor: pointer" href="/san-pham">Tất
+                            cả sản phẩm</a>
+                        <div th:each="b : ${branches}" class="col-4 mb-4">
+                            <span class="" data-bs-toggle="collapse" th:attr="data-bs-target=${'#c'+b.id}"
+                                  th:text="${b.ten}" style="font-size: 20px;cursor: pointer"></span>
+                            <div class="collapse " th:id="${'c'+ b.id}" style="padding-left: 20px">
+                                <div>
+                                    <div class="mt-2"><a style="color: #666666"
+                                                         th:href="|/san-pham/thuong-hieu/${b.id}|">Tất cả
+                                        [[${b.ten}]]</a></div>
+                                    <div th:each="d :${b.dongSanPhamResponeseList}" class="mt-2">
+                                        <a style="color: #666666" th:href="|/san-pham/thuong-hieu/${d.id}|"
+                                           th:text="${d.ten}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="col-4 mb-4" style="color: #666666;font-size: 20px;cursor: pointer"
+                           href="/san-pham/thuong-hieu/khac">Khác</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

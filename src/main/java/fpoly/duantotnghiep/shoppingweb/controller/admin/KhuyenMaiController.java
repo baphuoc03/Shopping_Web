@@ -63,7 +63,6 @@ public class KhuyenMaiController {
 
     @GetMapping("/form-add")
     public String form(Model model) {
-        getThuocTinhSanPham(model);
         getFormAdd(model, new KhuyenMaiRequest());
         return "/admin/formKhuyenMai";
     }
@@ -173,13 +172,6 @@ public class KhuyenMaiController {
         return "redirect:/admin/khuyen-mai";
     }
 
-    @PostMapping("/them/loc-san-pham")
-    public String locSanPham(@ModelAttribute("SanPhamDtoFilter") SanPhamDtoFilter sanPhamDtoFilter, Model model) {
-        Page<SanPhamDtoResponse> sanPham = sanPhamService.filter(sanPhamDtoFilter, 0, 1000);
-        model.addAttribute("sanPham", sanPham);
-        return "/admin/formKhuyenMai";
-    }
-
     private static String code() {
         final String ALLOWED_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -239,7 +231,6 @@ public class KhuyenMaiController {
 
     private void getFormAdd(Model model, KhuyenMaiRequest khuyenMaiRequest) {
 
-        model.addAttribute("sanPhamDtoFilter", new SanPhamDtoFilter());
         model.addAttribute("khuyenMai", khuyenMaiRequest);
 
         model.addAttribute("sanPham", sanPhamService.findAll());

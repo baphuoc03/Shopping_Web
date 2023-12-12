@@ -54,6 +54,10 @@ public class HomeController {
         return "/user/dsyt";
     }
 
+    @GetMapping("lien-he")
+    public String lienHe(){
+        return "/user/lienhe";
+    }
 
     @GetMapping("1")
     public String danhSa() {

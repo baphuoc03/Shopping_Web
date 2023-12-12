@@ -6,7 +6,7 @@
 <head>
 
     <meta charset="utf-8"/>
-    <title>Dashboard | Dason - Admin & Dashboard Template</title>
+    <title>Hydra Sneaker | Kiểu Dáng</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
     <meta content="Themesbrand" name="author"/>
@@ -73,7 +73,7 @@
                                         <th>Tên</th>
                                         <th>Ngày Tạo</th>
                                         <th>Ngày Cập Nhật</th>
-                                        <th>Thao Tác</th>
+                                        <th></th>
 
                                     </tr>
                                     </thead>
@@ -83,8 +83,8 @@
                                     <tr ng-repeat="p in itemss">
                                         <td>{{p.id}}</td>
                                         <td>{{p.ten}}</td>
-                                        <td>{{p.ngayTao}}</td>
-                                        <td>{{p.ngayCapNhat}}</td>
+                                        <td>{{p.ngayTao | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>{{p.ngayCapNhat | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                         <td>
                                             <a href="" class="edit" data-bs-toggle="modal" data-bs-target="#kieuDang"
                                                ng-click=findById(p.id)>

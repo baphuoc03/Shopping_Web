@@ -6,7 +6,7 @@
 <head>
 
     <meta charset="utf-8"/>
-    <title>Dashboard | Dason - Admin & Dashboard Template</title>
+    <title>Hydra Sneaker | Màu Sắc</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
     <meta content="Themesbrand" name="author"/>
@@ -69,7 +69,7 @@
                                         <th>Tên Màu</th>
                                         <th>Ngày Tạo</th>
                                         <th>Ngày Cập Nhật</th>
-                                        <th>Action</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
 
@@ -78,14 +78,15 @@
                                     <tr ng-repeat="m in items">
 
                                         <td>{{m.ten}}</td>
-                                        <td>{{m.ngayTao}}</td>
-                                        <td>{{m.ngayCapNhat}}</td>
+                                        <td>{{m.ngayTao | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>{{m.ngayCapNhat | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                         <td>
                                             <button data-bs-toggle="modal"
+                                                    class="btn btn-primary"
                                                     data-bs-target="#update"
-                                                    ng-click="getMauSacs(m.ma)">Edit
+                                                    ng-click="getMauSacs(m.ma)">Cập nhật
                                             </button>
-                                            <button ng-click="delete(m.ma)">Xóa</button>
+                                            <button class="btn btn-danger" ng-click="delete(m.ma)">Xóa</button>
                                         </td>
                                     </tr>
                                     </tbody>

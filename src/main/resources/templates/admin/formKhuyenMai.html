@@ -19,12 +19,12 @@
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                         <h4 class="mb-sm-0 font-size-18"></h4>
 
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                                <li class="breadcrumb-item active">Add Product</li>
-                            </ol>
-                        </div>
+<!--                        <div class="page-title-right">-->
+<!--                            <ol class="breadcrumb m-0">-->
+<!--                                <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>-->
+<!--                                <li class="breadcrumb-item active">Add Product</li>-->
+<!--                            </ol>-->
+<!--                        </div>-->
 
                     </div>
                 </div>
@@ -110,95 +110,6 @@
                                     <div class="col-6">
                                         <h4 class="card-title mb-0">Sản Phẩm Áp Dụng</h4>
                                     </div>
-                                    <div class="col-6 flex-r">
-                                        <div class="dropdown">
-                                            <span data-bs-toggle="dropdown" aria-expanded="false"
-                                                  class="btn btn-primary">
-                                                <i data-feather="filter"></i>
-                                                <span class="badge bg-primary ms-1 ml-2"
-                                                      style="font-size: 11px;font-weight: bold"
-                                                      id="lengthFilter"></span>
-                                            </span>
-                                            <ul class="dropdown-menu" style="width: 500px;padding: 20px">
-                                                <form th:action="@{/admin/khuyen-mai/them/loc-san-pham}"
-                                                      th:object="${sanPhamDtoFilter}" method="post">
-                                                    <li>
-                                                        <b>Phân loại</b>
-                                                        <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="mb-3">
-                                                                    <label>Tên hoặc mã</label>
-                                                                    <input th:field="*{ten}" type="text"
-                                                                           class="form-control"/>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label>Giá min</label>
-                                                                    <input th:field="*{giaBan}" type="text"
-                                                                           class="form-control"/>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label>Giá Max</label>
-                                                                    <input th:field="*{giaMax}" type="text"
-                                                                           class="form-control"/>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="mb-3">
-                                                                    <label>Màu sắc</label>
-                                                                    <select th:field="*{mauSac}" class="form-control">
-                                                                        <option value="" selected>Tất cả</option>
-                                                                        <option th:each="m: ${mauSac}"
-                                                                                th:value="${m.ma}"
-                                                                                th:text="${m.ten}">
-                                                                        </option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label>Dòng sản phẩm</label>
-                                                                    <select th:field="*{dongSanPham}"
-                                                                            class="form-control">
-                                                                        <option value="" selected>Tất cả</option>
-                                                                        <optgroup th:each="t : ${thuongHieu}"
-                                                                                  th:label="${t.ten}">
-                                                                            <option th:value="${t.id}"
-                                                                                    th:text="'Tất cả ' + ${t.ten}">
-                                                                            </option>
-                                                                            <option th:each="d : ${t.dongSanPhamResponeseList}"
-                                                                                    th:value="${d.id}"
-                                                                                    th:text="${d.ten}">
-                                                                            </option>
-                                                                        </optgroup>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label>Xuất xứ</label>
-                                                                    <select th:field="*{xuatXu}" class="form-control">
-                                                                        <option value="" selected>Tất cả</option>
-                                                                        <option th:each="k : ${xuatXu}"
-                                                                                th:value="${k.id}"
-                                                                                th:text="${k.ten}">
-                                                                        </option>
-                                                                        <option value="khac">Khác</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <div class="dropdown-divider"></div>
-                                                    <li>
-                                                        <button class="btn btn-danger" type="button"
-                                                                style="float: left">Bỏ
-                                                            lọc
-                                                        </button>
-                                                        <button class="btn btn-primary" type="submit"
-                                                                style="float: right">
-                                                            Lọc
-                                                        </button>
-                                                    </li>
-                                                </form>
-                                            </ul>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -223,8 +134,12 @@
                                                        th:disabled="${#lists.contains(sanPhamKhuyenMai, sp.ma)}">
                                             </td>
                                             <td>
-                                                <img ng-if="p.anh[0] != null"
+                                                <img th:if="${sp.anh.size >0}"
                                                      th:src="@{'/image/loadImage/product/' + ${sp.anh[0]}}"
+                                                     class="imgProduct"
+                                                     style="border-radius: 15px; width: 100px; height: 100px">
+                                                <img th:if="${sp.anh.size <=0}"
+                                                     th:src="@{'/image/loadImage/product/envato.png'}"
                                                      class="imgProduct"
                                                      style="border-radius: 15px; width: 100px; height: 100px">
                                             </td>
