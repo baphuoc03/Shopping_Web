@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/admin/images/hydra.png">
-    <script src="https://kit.fontawesome.com/dbed6b6114.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
@@ -47,6 +46,7 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" th:href="@{/userStyle/css/util.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/userStyle/css/main.css}">
+    <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>
     <!--===============================================================================================-->
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -56,6 +56,7 @@
     <!-- alertifyjs Css -->
     <link href="/admin/assets/libs/alertifyjs/build/css/alertify.min.css" rel="stylesheet" type="text/css"/>
     <link href="/admin/assets/libs/alertifyjs/build/css/themes/default.min.css" rel="stylesheet" type="text/css"/>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700;900&display=swap');
 
@@ -392,30 +393,21 @@
                 <!-- Menu desktop -->
                 <div class="menu-desktop">
                     <ul class="main-menu">
-                        <li style="cursor: pointer" data-bs-toggle="collapse" data-bs-target="#branchsSP">
-                            <a>Sản Phẩm</a>
-                        </li>
-
                         <li class="label1" data-label1="Hot">
-                            <a href="#">Khuyến mãi</a>
+                            <a href="/trang-chu">Trang chủ</a>
+                        </li>
+                        <li style="cursor: pointer" data-bs-toggle="collapse" data-bs-target="#branchsSP">
+                            <a href="/san-pham">Sản phẩm</a>
                         </li>
 
                         <li class="label1" data-label1="new">
-                            <a href="shoping-cart.html">Hàng mới</a>
-                        </li>
-
-                        <li>
-                            <a href="blog.html">Tin tức</a>
-                        </li>
-
-                        <li>
                             <a href="/lien-he">Liên hệ</a>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Icon header -->
-                <div class="wrap-icon-header flex-w flex-r-m" >
+                <div class="wrap-icon-header flex-w flex-r-m">
                     <a href="/danh-sach-yeu-thich"
                        class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
                        data-notify="0">
@@ -427,7 +419,8 @@
                     </div>
 
                     <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 dropdown">
-                        <a class="dropdown-toggle d-flex align-items-center" id="dropdownMenuButton" style="color: white" data-toggle="dropdown" th:if="${request.remoteUser}"
+                        <a class="dropdown-toggle d-flex align-items-center" id="dropdownMenuButton"
+                           style="color: white" data-toggle="dropdown" th:if="${request.remoteUser}"
                            aria-haspopup="true" aria-expanded="false">
                             <img class="rounded-circle header-profile-user" id="imgUser"
                                  style="width: 40px;height: 40px"
@@ -440,7 +433,8 @@
                             <a class="dropdown-item" href="/logout">Đăng xuất</a>
                         </div>
 
-                        <a style="color: white;font-weight: bold;font-size: 15px" href="/dang-nhap"  th:unless="${request.remoteUser}">
+                        <a style="color: white;font-weight: bold;font-size: 15px" href="/dang-nhap"
+                           th:unless="${request.remoteUser}">
                             Đăng nhập
                             <i class="fa-sharp fa-solid fa-right-to-bracket fa-flip-horizontal"></i>
                         </a>
@@ -467,7 +461,8 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="col-4 mb-4" style="color: #666666;font-size: 20px;cursor: pointer" href="/san-pham/thuong-hieu/khac">Khác</a>
+                        <a class="col-4 mb-4" style="color: #666666;font-size: 20px;cursor: pointer"
+                           href="/san-pham/thuong-hieu/khac">Khác</a>
                     </div>
                 </div>
             </div>
@@ -709,8 +704,8 @@
 </div>
 
 <!-- Product -->
-<div class="container-fuild" ng-app="trangChu-app" ng-controller="ctrl">
-<!--    cart-->
+<div class="container-fuild" ng-app="trangChu-app" ng-controller="ctrl" layout:fragment="contentUser">
+    <!--    cart-->
     <div class="header-cart flex-col-l p-l-65 p-r-25">
         <div class="header-cart-title flex-w flex-sb-m p-b-8">
 				<span class="mtext-103 cl2">
@@ -806,9 +801,12 @@
                                             <div>
                                                 <div class="block2-pic hov-img0" style="border-radius: 5px">
                                                     <div ng-if="p.loaiGiam!=null"
-                                                            style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
-                                                        <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam=='TIEN'">-{{p.mucGiam | currency: "" : 1}}đ</p>
-                                                        <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
+                                                         style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
+                                                        <p style="color: white;font-weight: bold;padding: 5px"
+                                                           ng-if="p.loaiGiam=='TIEN'">
+                                                            -{{p.mucGiam | currency: "" : 1}}đ</p>
+                                                        <p style="color: white;font-weight: bold;padding: 5px"
+                                                           ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
                                                     </div>
                                                     <img src="/image/loadImage/product/{{p.anh[0]}}"
                                                          style="width: 100%;height: 273px"
@@ -909,8 +907,11 @@
                                                         <div class="block2-pic hov-img0" style="border-radius: 5px">
                                                             <div ng-if="p.loaiGiam!=null"
                                                                  style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
-                                                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam=='TIEN'">-{{p.mucGiam | currency: "" : 1}}đ</p>
-                                                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
+                                                                <p style="color: white;font-weight: bold;padding: 5px"
+                                                                   ng-if="p.loaiGiam=='TIEN'">
+                                                                    -{{p.mucGiam | currency: "" : 1}}đ</p>
+                                                                <p style="color: white;font-weight: bold;padding: 5px"
+                                                                   ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
                                                             </div>
                                                             <img src="/image/loadImage/product/{{p.anh[0]}}"
                                                                  style="width: 100%;height: 273px"
@@ -942,9 +943,11 @@
                                                             </div>
 
                                                             <div class="block2-txt-child2 flex-r p-t-3">
-                                                                <i ng-if="maSpInDSYT.includes(p.ma) == false" id="{{p.ma}}"
+                                                                <i ng-if="maSpInDSYT.includes(p.ma) == false"
+                                                                   id="{{p.ma}}"
                                                                    class="far fa-heart" ng-click="addDSYT(p.ma)"></i>
-                                                                <i ng-if="maSpInDSYT.includes(p.ma) == true" id="{{p.ma}}"
+                                                                <i ng-if="maSpInDSYT.includes(p.ma) == true"
+                                                                   id="{{p.ma}}"
                                                                    class="fas fa-heart" ng-click="addDSYT(p.ma)"></i>
                                                             </div>
                                                         </div>
@@ -1022,8 +1025,11 @@
                                                         <div class="block2-pic hov-img0" style="border-radius: 5px">
                                                             <div ng-if="p.loaiGiam!=null"
                                                                  style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
-                                                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam=='TIEN'">-{{p.mucGiam | currency: "" : 1}}đ</p>
-                                                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
+                                                                <p style="color: white;font-weight: bold;padding: 5px"
+                                                                   ng-if="p.loaiGiam=='TIEN'">
+                                                                    -{{p.mucGiam | currency: "" : 1}}đ</p>
+                                                                <p style="color: white;font-weight: bold;padding: 5px"
+                                                                   ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
                                                             </div>
                                                             <img src="/image/loadImage/product/{{p.anh[0]}}"
                                                                  style="width: 100%;height: 273px"
@@ -1055,9 +1061,11 @@
                                                             </div>
 
                                                             <div class="block2-txt-child2 flex-r p-t-3">
-                                                                <i ng-if="maSpInDSYT.includes(p.ma) == false" id="{{p.ma}}"
+                                                                <i ng-if="maSpInDSYT.includes(p.ma) == false"
+                                                                   id="{{p.ma}}"
                                                                    class="far fa-heart" ng-click="addDSYT(p.ma)"></i>
-                                                                <i ng-if="maSpInDSYT.includes(p.ma) == true" id="{{p.ma}}"
+                                                                <i ng-if="maSpInDSYT.includes(p.ma) == true"
+                                                                   id="{{p.ma}}"
                                                                    class="fas fa-heart" ng-click="addDSYT(p.ma)"></i>
                                                             </div>
                                                         </div>
@@ -1133,8 +1141,11 @@
                                                         <div class="block2-pic hov-img0" style="border-radius: 5px">
                                                             <div ng-if="p.loaiGiam!=null"
                                                                  style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
-                                                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam=='TIEN'">-{{p.mucGiam | currency: "" : 1}}đ</p>
-                                                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
+                                                                <p style="color: white;font-weight: bold;padding: 5px"
+                                                                   ng-if="p.loaiGiam=='TIEN'">
+                                                                    -{{p.mucGiam | currency: "" : 1}}đ</p>
+                                                                <p style="color: white;font-weight: bold;padding: 5px"
+                                                                   ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
                                                             </div>
                                                             <img src="/image/loadImage/product/{{p.anh[0]}}"
                                                                  style="width: 100%;height: 273px"
@@ -1166,9 +1177,11 @@
                                                             </div>
 
                                                             <div class="block2-txt-child2 flex-r p-t-3">
-                                                                <i ng-if="maSpInDSYT.includes(p.ma) == false" id="{{p.ma}}"
+                                                                <i ng-if="maSpInDSYT.includes(p.ma) == false"
+                                                                   id="{{p.ma}}"
                                                                    class="far fa-heart" ng-click="addDSYT(p.ma)"></i>
-                                                                <i ng-if="maSpInDSYT.includes(p.ma) == true" id="{{p.ma}}"
+                                                                <i ng-if="maSpInDSYT.includes(p.ma) == true"
+                                                                   id="{{p.ma}}"
                                                                    class="fas fa-heart" ng-click="addDSYT(p.ma)"></i>
                                                             </div>
                                                         </div>
@@ -1194,7 +1207,8 @@
 
     </div>
     <!--    /////////Modal đăng nhập-->
-    <div class="modal fade" id="dangNhap" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="dangNhap" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1207,7 +1221,9 @@
                     Đăng nhập để sử dụng tính năng!
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#dangNhap').modal('hide')">Trở về</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            onclick="$('#dangNhap').modal('hide')">Trở về
+                    </button>
                     <button ng-click="login()" class="btn btn-primary text-white">Đăng nhập</button>
                 </div>
             </div>
@@ -1234,37 +1250,37 @@
                 </ul>
             </div>
 
-<!--            <div class="col-sm-6 col-lg-3 p-b-50">-->
-<!--                <h4 class="stext-301 cl0 p-b-30">-->
-<!--                    Help-->
-<!--                </h4>-->
+            <!--            <div class="col-sm-6 col-lg-3 p-b-50">-->
+            <!--                <h4 class="stext-301 cl0 p-b-30">-->
+            <!--                    Help-->
+            <!--                </h4>-->
 
-<!--                <ul>-->
-<!--                    <li class="p-b-10">-->
-<!--                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">-->
-<!--                            Track Order-->
-<!--                        </a>-->
-<!--                    </li>-->
+            <!--                <ul>-->
+            <!--                    <li class="p-b-10">-->
+            <!--                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">-->
+            <!--                            Track Order-->
+            <!--                        </a>-->
+            <!--                    </li>-->
 
-<!--                    <li class="p-b-10">-->
-<!--                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">-->
-<!--                            Returns-->
-<!--                        </a>-->
-<!--                    </li>-->
+            <!--                    <li class="p-b-10">-->
+            <!--                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">-->
+            <!--                            Returns-->
+            <!--                        </a>-->
+            <!--                    </li>-->
 
-<!--                    <li class="p-b-10">-->
-<!--                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">-->
-<!--                            Shipping-->
-<!--                        </a>-->
-<!--                    </li>-->
+            <!--                    <li class="p-b-10">-->
+            <!--                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">-->
+            <!--                            Shipping-->
+            <!--                        </a>-->
+            <!--                    </li>-->
 
-<!--                    <li class="p-b-10">-->
-<!--                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">-->
-<!--                            FAQs-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </div>-->
+            <!--                    <li class="p-b-10">-->
+            <!--                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">-->
+            <!--                            FAQs-->
+            <!--                        </a>-->
+            <!--                    </li>-->
+            <!--                </ul>-->
+            <!--            </div>-->
 
             <div class="col-sm-6 col-lg-4 p-b-50">
                 <h4 class="stext-301 cl0 p-b-30">
@@ -1274,44 +1290,47 @@
                 <p class="stext-107 cl7 size-201">
                     Số 67, Đường Làng Đoài, Liên Hà, Đan Phượng, Hà Nội
                     <br>
-                    Số điện thoại:	0963852399
+                    Số điện thoại: 0963852399
                 </p>
 
                 <div class="p-t-27">
-                    <a href="https://www.facebook.com/profile.php?id=100063785403897" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                    <a href="https://www.facebook.com/profile.php?id=100063785403897"
+                       class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
                         <i class="fa fa-facebook"></i>
                     </a>
 
-<!--                    <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">-->
-<!--                        <i class="fa fa-instagram"></i>-->
-<!--                    </a>-->
+                    <!--                    <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">-->
+                    <!--                        <i class="fa fa-instagram"></i>-->
+                    <!--                    </a>-->
 
-<!--                    <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">-->
-<!--                        <i class="fa fa-pinterest-p"></i>-->
-<!--                    </a>-->
+                    <!--                    <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">-->
+                    <!--                        <i class="fa fa-pinterest-p"></i>-->
+                    <!--                    </a>-->
                 </div>
             </div>
 
             <div class="col-sm-6 col-lg-4 p-b-50">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1790.7367985920657!2d105.71632638858712!3d21.111825847318748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3134558a29cf9f57%3A0x308d1801a26b65c7!2zNjcgRC4gTMOgbmcgxJBvw6BpLCBMacOqbiBIw6AsIMSQYW4gUGjGsOG7o25nLCBIw6AgTuG7mWksIFZpZXRuYW0!5e1!3m2!1sen!2s!4v1700826759069!5m2!1sen!2s" style="border:0;width: 100%;height: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1790.7367985920657!2d105.71632638858712!3d21.111825847318748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3134558a29cf9f57%3A0x308d1801a26b65c7!2zNjcgRC4gTMOgbmcgxJBvw6BpLCBMacOqbiBIw6AsIMSQYW4gUGjGsOG7o25nLCBIw6AgTuG7mWksIFZpZXRuYW0!5e1!3m2!1sen!2s!4v1700826759069!5m2!1sen!2s"
+                        style="border:0;width: 100%;height: 100%;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
 
                 <!--                <h4 class="stext-301 cl0 p-b-30">-->
-<!--                    Newsletter-->
-<!--                </h4>-->
+                <!--                    Newsletter-->
+                <!--                </h4>-->
 
-<!--                <form>-->
-<!--                    <div class="wrap-input1 w-full p-b-4">-->
-<!--                        <input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"-->
-<!--                               placeholder="email@example.com">-->
-<!--                        <div class="focus-input1 trans-04"></div>-->
-<!--                    </div>-->
+                <!--                <form>-->
+                <!--                    <div class="wrap-input1 w-full p-b-4">-->
+                <!--                        <input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"-->
+                <!--                               placeholder="email@example.com">-->
+                <!--                        <div class="focus-input1 trans-04"></div>-->
+                <!--                    </div>-->
 
-<!--                    <div class="p-t-18">-->
-<!--                        <button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">-->
-<!--                            Subscribe-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </form>-->
+                <!--                    <div class="p-t-18">-->
+                <!--                        <button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">-->
+                <!--                            Subscribe-->
+                <!--                        </button>-->
+                <!--                    </div>-->
+                <!--                </form>-->
             </div>
         </div>
 
@@ -1410,6 +1429,7 @@
             scrollingThreshold: 1000,
             wheelPropagation: false,
         });
+
         $(window).on('resize', function () {
             ps.update();
         })
@@ -1417,25 +1437,34 @@
 </script>
 <!--star-->
 <script src="https://use.fontawesome.com/f4e64b7c17.js"></script>
+<!-- rater-js plugin -->
+<script src="/admin/assets/libs/rater-js/index.js"></script>
+<!-- rating init -->
+<!--<script src="/admin/assets/js/pages/rating.init.js"></script>-->
 
 <!-- alertifyjs js -->
 <script src="/admin/assets/libs/alertifyjs/build/alertify.min.js"></script>
 
-<!--===============================================================================================-->
+<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+<!--<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>-->
 <script th:src="@{/userStyle/js/main.js}"></script>
 <!--===============================================================================================-->
 <script th:src="@{/user/js/product.js}"></script>
 <script th:src="@{/user/js/trangChu.js}"></script>
 <script th:src="@{/user/js/chiTietSanPham.js}"></script>
 <script th:src="@{/user/js/chiTietDonHang.js}"></script>
+<script th:src="@{/user/js/DiaChi.js}"></script>
 <script th:src="@{/user/js/cart.js}"></script>
+<script th:src="@{/user/js/VnPay.js}"></script>
 <script th:src="@{/admin/AngularJS/CheckOut.js}"></script>
 <script th:src="@{/admin/AngularJS/DonHang.js}"></script>
+<script th:src="@{/admin/js/uploadfile.js}"></script>
+<script th:src="@{/admin/AngularJS/DanhSachYeuThichJS.js}"></script>
 <script th:src="@{/user/js/ChiTietDonHang.js}"></script>
+<script th:src="@{/user/js/productFilter.js}"></script>
+<script th:src="@{/user/js/resetPass.js}"></script>
+
 <!--===============================================================================================-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </body>
-
-<!-- pace js -->
-<script src="/admin/assets/libs/pace-js/pace.min.js"></script>
 </html>

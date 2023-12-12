@@ -161,7 +161,7 @@
                                 <td class="column-5">
                                     <div>{{c.donGiaSauGiam * c.soLuong | currency: "" : 1}}đ</div>
                                 </td>
-                                <i id="sl"  class="text-danger"></i>
+                                <i id="sl" class="text-danger"></i>
                             </tr>
                         </table>
                         <div>
@@ -207,23 +207,27 @@
                         </div>
                     </div>
                     <div class="row flex-w flex-t bor12 p-t-15 p-b-30">
-                        <div ng-repeat="voucher in vouchers" class="voucher-container col-6 m-t-10" ng-mouseenter="showDetails($index)"
+                        <div ng-repeat="voucher in vouchers" class="voucher-container col-6 m-t-10"
+                             ng-mouseenter="showDetails($index)"
                              ng-mouseleave="hideDetails()">
                             <p class="voucher-name flex-c-m stext-100 cl0 btn-danger p-lr-15 trans-04 pointer"
                                style="color: #fff; height: 40px; text-align: center" ng-if="voucher.loai == 'TIEN'">
                                 Giảm {{voucher.mucGiam}}đ
                             </p>
                             <p class="voucher-name flex-c-m stext-100 cl0 btn-danger p-lr-15 trans-04 pointer"
-                               style="color: #fff; height: 40px; text-align: center" ng-if="voucher.loai == 'PHAN TRAM'">
+                               style="color: #fff; height: 40px; text-align: center"
+                               ng-if="voucher.loai == 'PHAN TRAM'">
                                 Giảm {{voucher.mucGiam}}%
                             </p>
 
                             <div class="voucher-details" style="width: 200px; height: 100px; background-color: #ccc;"
                                  ng-if="selectedVoucher === voucher">
-                                <p style="text-align: center;" ng-if="voucher.loai == 'TIEN'">Giảm {{voucher.mucGiam}}đ cho đơn hàng
+                                <p style="text-align: center;" ng-if="voucher.loai == 'TIEN'">Giảm {{voucher.mucGiam}}đ
+                                    cho đơn hàng
                                     trên {{voucher.giaTriToiThieu}}
                                 </p>
-                                <p style="text-align: center;" ng-if="voucher.loai == 'PHAN TRAM'">Giảm {{voucher.mucGiam}}% cho đơn
+                                <p style="text-align: center;" ng-if="voucher.loai == 'PHAN TRAM'">Giảm
+                                    {{voucher.mucGiam}}% cho đơn
                                     hàng trên
                                     {{voucher.giaTriToiThieu}}, giảm tối thiệu {{voucher.mucGiamToiDa}}</p>
                             </div>

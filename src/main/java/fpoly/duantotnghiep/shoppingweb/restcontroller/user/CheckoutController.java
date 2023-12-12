@@ -132,7 +132,7 @@ public class CheckoutController {
         donHangDTORequest.setMa(codeDonHang());
         DonHangDtoResponse response = donHangService.checkOut(donHangDTORequest);
 
-        if (authentication != null && donHangDTORequest.getVoucher() != null) {
+        if (authentication != null && (donHangDTORequest.getVoucher() != null && !donHangDTORequest.getVoucher().isBlank())) {
             if (voucherService.findById1(donHangDTORequest.getVoucher()).getDoiTuongSuDung() == 1) {
                 voucherService.deleteVoucherKhachHang(authentication.getName(), donHangDTORequest.getVoucher());
             }

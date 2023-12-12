@@ -134,7 +134,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                     title: 'Đặt hàng thành công',
                     text: 'Cảm ơn bạn đã mua hàng tại hydra sneaker!!!',
                     icon: 'success',
-                    timer: 1700,
+                    timer: 1200,
                     showConfirmButton: false
                 }).then(() => {
                     window.location.href = "http://localhost:8080/gio-hang";
@@ -215,6 +215,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 $scope.quanHuyenCode = diaChi.quanHuyenCode + "";
                 $scope.districtChange(diaChi.quanHuyenCode)
                 $scope.xaPhuongCode = diaChi.xaPhuongCode;
+                $scope.getFeeShipped(diaChi.quanHuyenCode, diaChi.xaPhuongCode)
                 console.log(response.data)
             })
     }
@@ -227,6 +228,17 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         $scope.email = khachByThanhToan.email;
     })
 
+    $http.get("/thanh-toan/dia-chi-mac-dinh").then(function (resp) {
+        const diaChiMacDinh = resp.data
+        $scope.diaChiChiTiet = diaChiMacDinh.diaChiChiTiet;
+        $scope.thanhPhoCode = diaChiMacDinh.thanhPhoCode + "";
+        $scope.cityChange(diaChiMacDinh.thanhPhoCode)
+        $scope.quanHuyenCode = diaChiMacDinh.quanHuyenCode + "";
+        $scope.districtChange(diaChiMacDinh.quanHuyenCode)
+        $scope.xaPhuongCode = diaChiMacDinh.xaPhuongCode;
+        $scope.getFeeShipped(diaChiMacDinh.quanHuyenCode, diaChiMacDinh.xaPhuongCode)
+    })
+
     $scope.login = function () {
         var expires = (new Date(Date.now() + 60 * 1000)).toUTCString();
         document.cookie = "url=" + window.location.href + "; expires=" + expires;
@@ -237,4 +249,21 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     $scope.isStartDateGreaterThanCurrentDate = function (startDate) {
         return new Date(startDate) > new Date();
     };
+
+    //    show giỏ hàng
+    $scope.cart = []
+    $scope.getTotal = function () {
+        var totalPrice = 0;
+        for (let i = 0; i < $scope.cart.length; i++) {
+            totalPrice += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+        }
+        return totalPrice;
+    }
+    $http.get("/cart/find-all").then(r => {
+        console.log(r.data)
+        $scope.cart = r.data;
+        console.log("soLuong:")
+    }).catch(e => console.log(e))
+
+
 });

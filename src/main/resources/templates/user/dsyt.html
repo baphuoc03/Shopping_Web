@@ -71,13 +71,15 @@
         <div class="container p-t-10 p-b-10" ng-repeat="i in items">
             <div class="row">
                 <div class="col-2">
-                    <img src="/image/loadImage/product/{{i.sanPhamm.anh[0]}}" style="width: 100px; height: 150px; border-radius: 20%;"
+                    <img src="/image/loadImage/product/{{i.sanPhamm.anh[0]}}"
+                         style="width: 100px; height: 150px; border-radius: 20%;"
                          alt="">
                 </div>
                 <div class="col-8">
                     <div class="row">
                         <div class="col-8">
-                            <a href="/chi-tiet-san-pham/{{i.sanPhamm.ma}}" style="color: black"><h5>{{i.sanPhamm.ten}}</h5></a>
+                            <a href="/chi-tiet-san-pham/{{i.sanPhamm.ma}}" style="color: black"><h5>
+                                {{i.sanPhamm.ten}}</h5></a>
                         </div>
                         <div class="col-2">
                             <img src="images/icons/icon-close2.png" alt="">
@@ -89,12 +91,14 @@
                                    placeholder="Số lượng" aria-describedby="emailHelp">
                         </div>
                         <div class="col-3 d-flex">
-                            <select class="form-select" id="{{i.sanPhamm.ma}}" style=" width: 80px;" onchange="angular.element(this).scope().getSoLuong(this.value,this.id)"
+                            <select class="form-select" id="{{i.sanPhamm.ma}}" style=" width: 80px;"
+                                    onchange="angular.element(this).scope().getSoLuong(this.value,this.id)"
                                     aria-label="Default select example">
-                                <option  selected>Size</option>
+                                <option selected>Size</option>
                                 <option ng-repeat="s in i.chietTietSanPham" value="{{s.id}}">{{s.size}}</option>
                             </select>
-                            <span style="display: flex;align-items: center;padding-left: 10px" id="soLuong{{i.sanPhamm.ma}}"></span>
+                            <span style="display: flex;align-items: center;padding-left: 10px"
+                                  id="soLuong{{i.sanPhamm.ma}}"></span>
                         </div>
                     </div>
                     <div class="row m-t-20">
@@ -107,7 +111,9 @@
 						</span>
                         </div>
                         <div class="col-6 d-flex justify-content-end">
-                            <button type="button" class="btn btn-secondary" ng-click="addToCart(i.sanPhamm.ma,'soLuongInPut'+i.sanPhamm.ma)">Thêm vào giỏ hàng</button>
+                            <button type="button" class="btn btn-secondary"
+                                    ng-click="addToCart(i.sanPhamm.ma,'soLuongInPut'+i.sanPhamm.ma)">Thêm vào giỏ hàng
+                            </button>
                         </div>
                     </div>
                 </div>

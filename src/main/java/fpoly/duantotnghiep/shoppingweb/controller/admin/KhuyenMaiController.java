@@ -1,13 +1,14 @@
 package fpoly.duantotnghiep.shoppingweb.controller.admin;
 
+import fpoly.duantotnghiep.shoppingweb.dto.filter.SanPhamDtoFilter;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhuyenMaiResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KhuyenMaiRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.KhuyenMaiRepository;
-import fpoly.duantotnghiep.shoppingweb.service.impl.KhuyenMaiServiceImpl;
-import fpoly.duantotnghiep.shoppingweb.service.impl.SanPhamServiceImpl;
+import fpoly.duantotnghiep.shoppingweb.service.impl.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,7 +34,14 @@ public class KhuyenMaiController {
     SanPhamServiceImpl sanPhamService;
     @Autowired
     KhuyenMaiServiceImpl khuyenMaiService;
-
+    @Autowired
+    XuatXuServiceImpl xuatXuService;
+    @Autowired
+    DongSanPhamServiceImpl dongSanPhamService;
+    @Autowired
+    ThuongHieuService thuongHieuService;
+    @Autowired
+    MauSacServiceImpl mauSacService;
     @Autowired
     KhuyenMaiRepository kmTs;
 
@@ -42,7 +50,7 @@ public class KhuyenMaiController {
     public String hienThi(Model model,
                           @RequestParam(name = "pageNumber", required = false, defaultValue = "1") int pageNumber) {
 
-        Page<KhuyenMaiResponse> page = khuyenMaiService.findAll(pageNumber - 1, 1);
+        Page<KhuyenMaiResponse> page = khuyenMaiService.findAll(pageNumber - 1, 8);
 
         List<KhuyenMaiResponse> list = page.getContent();
 
@@ -55,6 +63,7 @@ public class KhuyenMaiController {
 
     @GetMapping("/form-add")
     public String form(Model model) {
+        getThuocTinhSanPham(model);
         getFormAdd(model, new KhuyenMaiRequest());
         return "/admin/formKhuyenMai";
     }
@@ -65,19 +74,27 @@ public class KhuyenMaiController {
                       Model model,
                       @RequestParam(value = "ids", required = false) List<String> sanPham) {
 
-        result = validateNhap(result, khuyenMaiRequest);
+        validateNhap(result, khuyenMaiRequest);
+        if (sanPham != null && khuyenMaiRequest.getMucGiam() != null) {
+            List<SanPhamModel> sanPhamModel = repository.findByMaIn(sanPham);
+            sanPhamModel.forEach(x -> {
+                if (khuyenMaiRequest.getMucGiam().compareTo(x.getGiaBan()) > 0) {
+                    result.rejectValue("mucGiam", "mucGiamErro", "Mức giảm không thể áp dụng cho một số sản phẩm");
 
+                }
+            });
+            khuyenMaiRequest.setSanPham(sanPhamModel);
+        }
         if (result.hasErrors()) {
             getFormAdd(model, khuyenMaiRequest);
             return "/admin/formKhuyenMai";
         }
-
-
-        khuyenMaiRequest.setMa(code());
         if (sanPham != null) {
             List<SanPhamModel> sanPhamModel = repository.findByMaIn(sanPham);
             khuyenMaiRequest.setSanPham(sanPhamModel);
         }
+        khuyenMaiRequest.setMa(code());
+
 
         khuyenMaiService.save(khuyenMaiRequest);
 
@@ -156,6 +173,13 @@ public class KhuyenMaiController {
         return "redirect:/admin/khuyen-mai";
     }
 
+    @PostMapping("/them/loc-san-pham")
+    public String locSanPham(@ModelAttribute("SanPhamDtoFilter") SanPhamDtoFilter sanPhamDtoFilter, Model model) {
+        Page<SanPhamDtoResponse> sanPham = sanPhamService.filter(sanPhamDtoFilter, 0, 1000);
+        model.addAttribute("sanPham", sanPham);
+        return "/admin/formKhuyenMai";
+    }
+
     private static String code() {
         final String ALLOWED_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -214,6 +238,8 @@ public class KhuyenMaiController {
     }
 
     private void getFormAdd(Model model, KhuyenMaiRequest khuyenMaiRequest) {
+
+        model.addAttribute("sanPhamDtoFilter", new SanPhamDtoFilter());
         model.addAttribute("khuyenMai", khuyenMaiRequest);
 
         model.addAttribute("sanPham", sanPhamService.findAll());
@@ -226,7 +252,14 @@ public class KhuyenMaiController {
         model.addAttribute("sanPhamOn", new ArrayList<>());
     }
 
-    private BindingResult validateNhap(BindingResult result, KhuyenMaiRequest khuyenMaiRequest) {
+    private void getThuocTinhSanPham(Model model) {
+        model.addAttribute("dongSP", dongSanPhamService.findAll());
+        model.addAttribute("mauSac", mauSacService.findAll());
+        model.addAttribute("xuatXu", xuatXuService.findAll());
+        model.addAttribute("thuongHieu", thuongHieuService.findAll());
+    }
+
+    private static void validateNhap(BindingResult result, KhuyenMaiRequest khuyenMaiRequest) {
         if (khuyenMaiRequest.getLoai().equals("TIEN")) {
             if (khuyenMaiRequest.getMucGiam() != null) {
                 if (khuyenMaiRequest.getMucGiam().compareTo(new BigDecimal("1000")) < 0) {
@@ -249,7 +282,5 @@ public class KhuyenMaiController {
 //                result.rejectValue("ngayBatDau", "", "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại ");
 //            }
         }
-
-        return result;
     }
 }
