@@ -94,11 +94,12 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             }
             document.getElementById("btnAddKh").style.display = "none";
         }else{
-            // $scope.donHangAdd = {
-            //     phuongThucThanhToan : "0"
-            // }
-            // document.getElementById("btnAddKh").style.display = "block";
-            $scope.clearFormAdd()
+            $scope.donHangAdd = {
+                phuongThucThanhToan : $scope.donHangAdd.phuongThucThanhToan,
+                tenNguoiNhan : "Khách lẻ",
+                soDienThoai : "0000000000"
+            }
+            document.getElementById("btnAddKh").style.display = "block";
         }
     }
     $scope.getDiaChiKhachHang = function (username) {

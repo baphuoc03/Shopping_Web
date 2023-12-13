@@ -229,6 +229,15 @@ public class SanPhamServiceImpl implements ISanPhamService {
     }
 
     @Override
+    public Page<SanPhamDtoResponse> getKhuyenMai(Integer limit, Integer page) {
+        Page<SanPhamModel> lst = sanPhamRepository.getKhuyenMai(PageRequest.of(page, limit));
+        Pageable pageable = PageRequest.of(page, limit);
+        Page<SanPhamDtoResponse> pageDto = new PageImpl<>(lst.stream().map(s -> new SanPhamDtoResponse(s)).collect(Collectors.toList())
+                , pageable, lst.getTotalElements());
+        return pageDto;
+    }
+
+    @Override
     public List<SanPhamDtoResponse> getSanPhamMoi(Integer limit) {
         List<SanPhamDtoResponse> lst = sanPhamRepository.getSanPhamMoi(PageRequest.of(0, limit))
                 .getContent().stream()

@@ -58,6 +58,10 @@ public class HomeController {
     public String lienHe(){
         return "/user/lienhe";
     }
+    @GetMapping("san-pham-khuyen-mai")
+    public String sanPhamKhuyenMai(){
+        return "/user/sanPhamKhuyenMai";
+    }
 
     @GetMapping("1")
     public String danhSa() {

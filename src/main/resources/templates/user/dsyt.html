@@ -4,7 +4,7 @@
       layout:decorate="~{/user/trangChu}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Danh Sách Yêu Thích</title>
 </head>
 <body>
 <div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140 container-fluid" ng-app="danh-sach-yeu-thich"
@@ -67,6 +67,7 @@
     <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
 
     </div>
+    <h3 class="text-center" ng-if="items.length == 0">Không có sản phẩm trong danh sách yêu thích</h3>
     <form class="bg0 p-t-10 p-b-85">
         <div class="container p-t-10 p-b-10" ng-repeat="i in items">
             <div class="row">

@@ -59,6 +59,13 @@ public class SanPhamRestController {
         return ResponseEntity.ok(sanPhamService.getKhuyenMai(limit));
     }
 
+    @GetMapping("sp-khuyen-mai")
+    public ResponseEntity<?> getKhuyenMaiPhanTrang(@RequestParam(defaultValue = "8")Integer limit,
+                                                   @RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber){
+        return ResponseEntity.ok(sanPhamService.getKhuyenMai(limit,pageNumber));
+    }
+
+
     @GetMapping("san-pham-moi")
     public ResponseEntity<?> getSanPhamMoi(@RequestParam(defaultValue = "4")Integer limit){
         return ResponseEntity.ok(sanPhamService.getSanPhamMoi(limit));

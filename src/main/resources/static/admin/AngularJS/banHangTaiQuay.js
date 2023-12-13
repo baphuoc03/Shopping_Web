@@ -166,9 +166,12 @@ app.controller("banhang-ctrl", function ($scope, $http) {
             }
             document.getElementById("btnAddKh").style.display = "none";
         }else{
-            // $scope.donHangAdd.tenNguoiNhan = "Khách lẻ"
-            // $scope.donHangAdd.soDienThoai = "0000000000"
-            $scope.clearFormAdd()
+            $scope.donHangAdd = {
+                phuongThucThanhToan : $scope.donHangAdd.phuongThucThanhToan,
+                tenNguoiNhan : "Khách lẻ",
+                soDienThoai : "0000000000"
+            }
+            document.getElementById("btnAddKh").style.display = "block";
 
         }
     }

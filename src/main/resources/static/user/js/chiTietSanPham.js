@@ -146,7 +146,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
                     $scope.cartShow()
                 }
             }).catch(e => {
-                document.getElementById("eSize").innerText = e.data.eSize = undefined ? "" : e.data.eSize
+                document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
                 alertify.error("Thêm sản phẩm vào giỏ hàng thất bại!!!")
                 console.log(e)
             })
@@ -173,7 +173,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
                 }
 
             }).catch(e => {
-                document.getElementById("eSize").innerText = e.data.eSize = undefined ? "" : e.data.eSize
+                document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
                 alertify.error("Mua Ngay thất bại!!!")
                 console.log(e)
             })

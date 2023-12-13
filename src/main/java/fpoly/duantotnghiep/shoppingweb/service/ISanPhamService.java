@@ -56,6 +56,8 @@ public interface ISanPhamService {
 
     List<SanPhamDtoResponse> getKhuyenMai(Integer limit);
 
+    Page<SanPhamDtoResponse> getKhuyenMai(Integer limit, Integer page);
+
     List<SanPhamDtoResponse> getSanPhamMoi(Integer limit);
 
 //    public void updateGiaGiam(SanPhamModel sanPhamModel);
