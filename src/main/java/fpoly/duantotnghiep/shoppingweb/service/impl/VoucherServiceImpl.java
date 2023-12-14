@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +47,6 @@ public class VoucherServiceImpl implements VoucherService {
         List<KhachHangModel> lstKH = voucherModel.getKhachHang().stream().filter(k -> !k.getUsername().equals(username)).collect(Collectors.toList());
         voucherModel.setKhachHang(lstKH);
         repository.save(voucherModel);
-
     }
 
     @Override
@@ -315,7 +315,13 @@ public class VoucherServiceImpl implements VoucherService {
                     }
                     if (dateToCompareKT.equals(currentDate)) {
                         VoucherModel voucherUp = repository.findById(vc.getMa()).get();
-                        voucherUp.setTrangThai(1);
+                        if (voucherUp.getDoiTuongSuDung() == 1) {
+                            voucherUp.setTrangThaiXoa(1);
+                            List<KhachHangModel> listTrong = new ArrayList<>();
+                            voucherUp.setKhachHang(listTrong);
+                        } else {
+                            voucherUp.setTrangThai(1);
+                        }
                         repository.save(voucherUp);
                     }
                 } catch (ParseException e) {

@@ -1,10 +1,12 @@
 package fpoly.duantotnghiep.shoppingweb.controller.admin;
 
+import fpoly.duantotnghiep.shoppingweb.dto.filter.KhuyenMaiDTOFilter;
 import fpoly.duantotnghiep.shoppingweb.dto.filter.SanPhamDtoFilter;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhuyenMaiResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KhuyenMaiRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
+import fpoly.duantotnghiep.shoppingweb.model.KhuyenMaiModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.KhuyenMaiRepository;
@@ -55,6 +57,7 @@ public class KhuyenMaiController {
         List<KhuyenMaiResponse> list = page.getContent();
 
         model.addAttribute("khuyenMai", list);
+        model.addAttribute("khuyenMaiDTOFilter", new KhuyenMaiDTOFilter());
 
         model.addAttribute("totalPage", page.getTotalPages());
 
@@ -88,20 +91,17 @@ public class KhuyenMaiController {
             getFormAdd(model, khuyenMaiRequest);
             return "/admin/formKhuyenMai";
         }
-        if (sanPham != null) {
-            List<SanPhamModel> sanPhamModel = repository.findByMaIn(sanPham);
-            khuyenMaiRequest.setSanPham(sanPhamModel);
+
+        if (khuyenMaiRequest.getNgayBatDau().equals(new Date()) || khuyenMaiRequest.getNgayBatDau().before(new Date())) {
+            khuyenMaiRequest.setTrangThai(0);
+        } else if (khuyenMaiRequest.getNgayBatDau().after(new Date())) {
+            khuyenMaiRequest.setTrangThai(1);
         }
         khuyenMaiRequest.setMa(code());
 
 
         khuyenMaiService.save(khuyenMaiRequest);
 
-        KhuyenMaiResponse khuyenMai = khuyenMaiService.findById(khuyenMaiRequest.getMa());
-        List<SanPhamModel> sanPhamUpdate = khuyenMaiService.findById(khuyenMaiRequest.getMa()).getSanPham();
-        if (sanPhamUpdate != null) {
-            updateGiaKhiGiam(khuyenMai, sanPhamUpdate);
-        }
         return "redirect:/admin/khuyen-mai";
     }
 
@@ -115,6 +115,16 @@ public class KhuyenMaiController {
                 .map(SanPhamModel::getMa).collect(Collectors.toList());
 
         model.addAttribute("khuyenMai", khuyenMaiService.findById(id));
+        model.addAttribute("id", khuyenMaiService.findById(id).getMa());
+        model.addAttribute("ct", "aaa");
+        model.addAttribute("tt", khuyenMaiService.findById(id).getTrangThai());
+        int dis = 0;
+        if (khuyenMaiService.findById(id).getNgayBatDau().after(new Date()) ||
+                khuyenMaiService.findById(id).getNgayKetThuc().before(new Date())) {
+            dis = 0;
+        }
+        model.addAttribute("dis", dis);
+        System.out.println(dis +"dddd");
 
         model.addAttribute("sanPham", sanPhamService.findAll());
 
@@ -136,29 +146,34 @@ public class KhuyenMaiController {
                          @PathVariable String id,
                          @RequestParam(value = "ids", required = false) List<String> sanPham) {
         validateNhap(result, khuyenMaiRequest);
+        if (sanPham != null && khuyenMaiRequest.getMucGiam() != null) {
+            List<SanPhamModel> sanPhamModel = repository.findByMaIn(sanPham);
+            sanPhamModel.forEach(x -> {
+                if (khuyenMaiRequest.getMucGiam().compareTo(x.getGiaBan()) > 0) {
+                    result.rejectValue("mucGiam", "mucGiamErro", "Mức giảm không thể áp dụng cho một số sản phẩm");
+
+                }
+            });
+            khuyenMaiRequest.setSanPham(sanPhamModel);
+        }
+        if (khuyenMaiRequest.getNgayBatDau().equals(new Date()) || khuyenMaiRequest.getNgayBatDau().before(new Date())) {
+            khuyenMaiRequest.setTrangThai(0);
+        } else if (khuyenMaiRequest.getNgayBatDau().after(new Date())) {
+            khuyenMaiRequest.setTrangThai(1);
+        }
+        KhuyenMaiResponse km = khuyenMaiService.findById(id);
+        khuyenMaiRequest.setTrangThai(km.getTrangThai());
         if (result.hasErrors()) {
             getFormAdd(model, khuyenMaiRequest);
             return "/admin/formKhuyenMai";
         }
         khuyenMaiRequest.setMa(id);
 
-        if (sanPham != null) {
-            List<SanPhamModel> sanPhamModel = repository.findByMaIn(sanPham);
-            khuyenMaiRequest.setSanPham(sanPhamModel);
-        }
         if (result.hasErrors()) {
             getFormAdd(model, khuyenMaiRequest);
             return "/admin/formKhuyenMai";
         }
         khuyenMaiService.save(khuyenMaiRequest);
-
-        KhuyenMaiResponse khuyenMai = khuyenMaiService.findById(khuyenMaiRequest.getMa());
-
-        List<SanPhamModel> sanPhamUpdate = khuyenMaiService.findById(khuyenMaiRequest.getMa()).getSanPham();
-
-        if (sanPhamUpdate != null) {
-            updateGiaKhiGiam(khuyenMai, sanPhamUpdate);
-        }
 
         return "redirect:/admin/khuyen-mai";
 
@@ -170,6 +185,35 @@ public class KhuyenMaiController {
         khuyenMaiService.delete(id);
 
         return "redirect:/admin/khuyen-mai";
+    }
+
+    @PostMapping("/loc-khuyen-mai")
+    public String loc(@ModelAttribute("khuyenMaiDTOFilter") KhuyenMaiDTOFilter khuyenMaiDTOFilter,
+                      @RequestParam(defaultValue = "1", name = "pageNumber", required = false) Integer pageNumber,
+                      Model model) {
+        Page<KhuyenMaiResponse> page = khuyenMaiService.locKM(khuyenMaiDTOFilter, pageNumber - 1, 8);
+        List<KhuyenMaiResponse> list = page.getContent();
+        model.addAttribute("khuyenMai", list);
+        model.addAttribute("totalPage", page.getTotalPages());
+        return "/admin/khuyenMai";
+    }
+
+    @GetMapping("/kich-hoat/{id}")
+    public String capKichHoat(
+            @PathVariable("id") String id) {
+        KhuyenMaiModel khuyenMaiModel = khuyenMaiService.findById1(id);
+        khuyenMaiModel.setTrangThai(0);
+        khuyenMaiService.capNhatTrangThai(khuyenMaiModel);
+        return "redirect:/admin/khuyen-mai/" + id;
+    }
+
+    @GetMapping("/dung-kich-hoat/{id}")
+    public String capDungKichHoat(
+            @PathVariable("id") String id) {
+        KhuyenMaiModel khuyenMaiModel = khuyenMaiService.findById1(id);
+        khuyenMaiModel.setTrangThai(1);
+        khuyenMaiService.capNhatTrangThai(khuyenMaiModel);
+        return "redirect:/admin/khuyen-mai/" + id;
     }
 
     private static String code() {

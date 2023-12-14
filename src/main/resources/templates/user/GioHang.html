@@ -123,10 +123,11 @@
                                 <th class="column-3">Giá</th>
                                 <th class="column-4">Số Lượng</th>
                                 <th class="column-5">Tổng Tiền</th>
+                                <th class="column-5"></th>
                             </tr>
 
                             <tr class="table_row" ng-repeat="c in cart">
-                                <td class="column-1" ng-click="removeProductIncart(c.id)">
+                                <td class="column-1">
                                     <div class="how-itemcart1">
                                         <img src="/image/loadImage/product/{{c.anh}}"
                                              style="width: 100px; height: 100px" alt="IMG">
@@ -161,12 +162,18 @@
                                 <td class="column-5">
                                     <div>{{c.donGiaSauGiam * c.soLuong | currency: "" : 1}}đ</div>
                                 </td>
-                                <i id="sl" class="text-danger"></i>
+                                <td>
+                                    <a href="#">
+                                        <img src="/userStyle/images/icons/icon-close2.png"
+                                             ng-click="removeProductIncart(c.id)">
+                                    </a>
+                                </td>
                             </tr>
                         </table>
-                        <div>
-                            <button ng-click="removeAllProductIncart()" class="btn btn-primary">
-                                Xóa ALL
+                        <div class="">
+                            <button style="width: 100%" ng-click="removeAllProductIncart()"
+                                    class="btn btn-outline-danger">
+                                Xóa tất cả
                             </button>
                         </div>
                     </div>

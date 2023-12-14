@@ -1,10 +1,12 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
+import fpoly.duantotnghiep.shoppingweb.dto.filter.KhuyenMaiDTOFilter;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhuyenMaiResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KhuyenMaiRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
+import fpoly.duantotnghiep.shoppingweb.model.KhuyenMaiModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import org.springframework.data.domain.Page;
 
@@ -15,7 +17,13 @@ public interface KhuyenMaiService {
 
     public KhuyenMaiResponse findById(String id);
 
+    KhuyenMaiModel findById1(String id);
+
+    Page<KhuyenMaiResponse> locKM(KhuyenMaiDTOFilter khuyenMaiDTOFilter, Integer pageNumber, Integer limit);
+
     public void save(KhuyenMaiRequest khuyenMai);
+
+    void capNhatTrangThai(KhuyenMaiModel km);
 
     public void delete(String id);
 

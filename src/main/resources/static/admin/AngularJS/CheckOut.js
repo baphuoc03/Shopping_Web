@@ -137,7 +137,11 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                     timer: 1200,
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "http://localhost:8080/gio-hang";
+                    if ($scope.loginIn == false) {
+                        window.location.href = "http://localhost:8080/gio-hang";
+                    } else {
+                        window.location.href = "http://localhost:8080/lich-su-mua-hang1";
+                    }
                 });
             } else {
                 location.href = r.data.vnPayUrl
@@ -175,7 +179,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 console.log("lỗi")
             });
     };
-    $scope.huyVoucher = function (){
+    $scope.huyVoucher = function () {
         $scope.giaGiam = 0;
         $scope.voucherDH = "";
     }

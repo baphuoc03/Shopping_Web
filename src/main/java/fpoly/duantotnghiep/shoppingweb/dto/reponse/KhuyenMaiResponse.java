@@ -32,6 +32,7 @@ public class KhuyenMaiResponse {
     private Date ngayKetThuc;
 
     private Date ngayTao;
+    private Integer trangThai;
 
     private Date ngayCapNhat;
 
@@ -45,6 +46,8 @@ public class KhuyenMaiResponse {
         this.ngayBatDau = model.getNgayBatDau();
         this.ngayKetThuc = model.getNgayKetThuc();
         this.ngayTao = model.getNgayTao();
+        this.trangThai = model.getTrangThai();
+        this.ngayCapNhat = model.getNgayCapNhat();
         this.ngayCapNhat = model.getNgayCapNhat();
         this.sanPham = model.getSanPham();
     }

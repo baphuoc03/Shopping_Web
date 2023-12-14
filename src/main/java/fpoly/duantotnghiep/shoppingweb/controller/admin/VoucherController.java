@@ -12,10 +12,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Controller
 @RequestMapping("${admin.domain}/voucher")
@@ -39,22 +44,9 @@ public class VoucherController {
     @PostMapping("/loc")
     public String loc(@ModelAttribute("voucherDTOFiler") VoucherDTOFiler voucherDTOFiler,
                       @RequestParam(defaultValue = "1", name = "pageNumber", required = false) Integer pageNumber,
-                      Model model) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String ngayBatDau = voucherDTOFiler.getNgayBatDau().toString();
-        String ngayKetThuc = voucherDTOFiler.getNgayKetThuc().toString();
-        // Chuyển đổi chuỗi thành đối tượng Date
-        try {
-            Date dateToCompareBD = sdf.parse(ngayBatDau);
-            Date dateToCompareKT = sdf.parse(ngayKetThuc);
-            voucherDTOFiler.setNgayBatDau(dateToCompareBD);
-            voucherDTOFiler.setNgayBatDau(dateToCompareKT);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Page<VoucherReponse> page = service.locVC(voucherDTOFiler, pageNumber - 1, 5);
+                      Model model) throws ParseException {
+        Page<VoucherReponse> page = service.locVC(voucherDTOFiler, pageNumber - 1, 8);
         List<VoucherReponse> listVC = page.getContent();
-        listVC.forEach(x -> System.out.println(x.getMa()));
         int totalPage = page.getTotalPages();
         model.addAttribute("listVoucher0", listVC);
         model.addAttribute("totalPage0", totalPage);

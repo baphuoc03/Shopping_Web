@@ -151,7 +151,6 @@ public class CheckoutController {
             if (voucherUpdateSL.getDoiTuongSuDung() == 0) {
                 int soLuong = voucherService.findById(donHangDTORequest.getVoucher()).getSoLuong() - 1;
                 Integer soLuongKiemTra = voucherService.upddateSoLuong(soLuong, donHangDTORequest.getVoucher());
-                System.out.println("soLuong:" + soLuongKiemTra);
                 if (soLuongKiemTra == 0) {
                     voucherService.updateTrangThai(1, donHangDTORequest.getVoucher());
                 }

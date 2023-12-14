@@ -43,7 +43,7 @@ public class KhuyenMaiRequest {
     @Temporal(TemporalType.DATE)
     private Date ngayKetThuc;
 
-    private Boolean trangThai;
+    private Integer trangThai;
 
     private Date ngayTao;
 
@@ -62,6 +62,7 @@ public class KhuyenMaiRequest {
         model.setNgayTao(ngayTao);
         model.setNgayCapNhat(ngayCapNhat);
         model.setSanPham(sanPham);
+        model.setTrangThai(trangThai);
         return model;
     }
 
