@@ -1,10 +1,12 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.filter.KhuyenMaiDTOFilter;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhuyenMaiResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KhuyenMaiRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
+import fpoly.duantotnghiep.shoppingweb.entitymanager.KhuyenMaiEntityManager;
 import fpoly.duantotnghiep.shoppingweb.model.KhuyenMaiModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
@@ -27,6 +29,8 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
     @Autowired
     KhuyenMaiRepository repository;
     @Autowired
+    KhuyenMaiEntityManager khuyenMaiEntityManager;
+    @Autowired
     ISanPhamRepository sanPhamRepository;
 
     @Override
@@ -44,8 +48,24 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
     }
 
     @Override
+    public KhuyenMaiModel findById1(String id) {
+        KhuyenMaiModel getById = repository.findById(id).get();
+        return getById;
+    }
+
+    @Override
+    public Page<KhuyenMaiResponse> locKM(KhuyenMaiDTOFilter khuyenMaiDTOFilter, Integer pageNumber, Integer limit) {
+        return khuyenMaiEntityManager.filterKhuyenMaiEntity(khuyenMaiDTOFilter, pageNumber, limit);
+    }
+
+    @Override
     public void save(KhuyenMaiRequest khuyenMai) {
         repository.save(khuyenMai.mapToModel());
+    }
+
+    @Override
+    public void capNhatTrangThai(KhuyenMaiModel km) {
+        repository.save(km);
     }
 
     @Override
@@ -56,34 +76,19 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
     @Override
     @Scheduled(cron = "0 0 0 * * *")
     public void updateGiamGiaWithNgayBD() {
-//        for (var i : repository.findAllSanPhamWithKmWhereNgayBatDau()) {
-//            for (var j : i.getSanPham()) {
-//                BigDecimal giaUpdate = null;
-//                if (i.getLoai().equals("TIEN")) {
-//                    giaUpdate = j.getGiaNiemYet().subtract(i.getMucGiam());
-//                } else if (i.getLoai().equals("PHAN TRAM")) {
-//                    giaUpdate = j.getGiaNiemYet().subtract(j.getGiaNiemYet().multiply(i.getMucGiam().divide(new BigDecimal("100"))));
-//                }
-//                SanPhamModel sanPham = sanPhamRepository.findById(j.getMa()).get();
-//                sanPham.setMa(j.getMa());
-//                sanPham.setGiaBan(giaUpdate);
-//                sanPhamRepository.save(sanPham);
-//            }
-//        }
-//        System.out.println("Thành công");
+        for (var i : repository.findAllSanPhamWithKmWhereNgayBatDau()) {
+            i.setTrangThai(0);
+            repository.save(i);
+        }
+        System.out.println("Thành công");
     }
 
     @Override
     @Scheduled(cron = "0 0 0 * * *")
     public void updateGiamGiaWithNgayKT() {
-//        for (var i : repository.findAllSanPhamWithKmWhereNgayKetThuc()) {
-//            for (var j : i.getSanPham()) {
-//                SanPhamModel sanPham = sanPhamRepository.findById(j.getMa()).get();
-//                sanPham.setMa(j.getMa());
-//                sanPham.setGiaBan(sanPham.getGiaNiemYet());
-//                sanPhamRepository.save(sanPham);
-//            }
-//        }
-//        System.out.println("Thành công1");
+        for (var i : repository.findAllSanPhamWithKmWhereNgayKetThuc()) {
+            i.setTrangThai(1);
+            repository.save(i);
+        }
     }
 }

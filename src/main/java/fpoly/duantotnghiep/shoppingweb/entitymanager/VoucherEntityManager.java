@@ -29,39 +29,45 @@ public class VoucherEntityManager {
 
     public Page<VoucherReponse> filterVoucherEntity(VoucherDTOFiler voucherDTOFiler, Integer pageNumber, Integer limit) {
         StringBuilder jpql = new StringBuilder("select v FROM VoucherModel v WHERE v.trangThaiXoa = 0");
-        if (voucherDTOFiler.getMa() != null) {
+        if (voucherDTOFiler.getMa() != null && voucherDTOFiler.getMa().isEmpty()) {
             jpql.append(" And (v.ma like '%" + voucherDTOFiler.getMa() + "')");
         }
         if (voucherDTOFiler.getTrangThai() != null) {
-            System.out.println("trạng thái:::: " + voucherDTOFiler.getTrangThai());
             jpql.append(" And v.trangThai =" + voucherDTOFiler.getTrangThai());
         }
-//        if (voucherDTOFiler.getLoaiMucGiam() != null) {
-//            jpql.append(" And v.loaiMucGiam =" + voucherDTOFiler.getLoaiMucGiam());
-//        }
+        if (voucherDTOFiler.getLoaiMucGiam() != null) {
+            if (voucherDTOFiler.getLoaiMucGiam() == 0)
+                jpql.append(" And v.loaiMucGiam = 'PHAN TRAM'");
+            if (voucherDTOFiler.getLoaiMucGiam() == 1)
+                jpql.append(" And v.loaiMucGiam = 'TIEN'");
+        }
+        if (voucherDTOFiler.getGiaTriDonHang() != null)
+            jpql.append(" And v.giaTriDonHang >= " + voucherDTOFiler.getGiaTriDonHang());
+        if (voucherDTOFiler.getMucGiam() != null && voucherDTOFiler.getMucGiamMax() == null) {
+            jpql.append(" And v.mucGiam >= " + voucherDTOFiler.getMucGiam());
+        }
         if (voucherDTOFiler.getMucGiam() != null)
             jpql.append(" And v.mucGiam >= " + voucherDTOFiler.getMucGiam());
         if (voucherDTOFiler.getMucGiamMax() != null)
             jpql.append(" And v.mucGiam <= " + voucherDTOFiler.getMucGiamMax());
-        if (voucherDTOFiler.getDoiTuongSuDung() != 0)
+        if (voucherDTOFiler.getDoiTuongSuDung() != null)
             jpql.append(" And v.doiTuongSuDung = " + voucherDTOFiler.getDoiTuongSuDung());
-        if (voucherDTOFiler.getHinhThucThanhToan() != 0)
+        if (voucherDTOFiler.getHinhThucThanhToan() != null)
             jpql.append(" And v.hinhThucThanhToan = " + voucherDTOFiler.getHinhThucThanhToan());
 //        if (voucherDTOFiler.getNgayBatDau() != null && voucherDTOFiler.getNgayKetThuc() != null) {
 //            jpql.append(" AND v.ngayBatDau BETWEEN :startDate AND :endDate");
 //        }
-        if (voucherDTOFiler.getNgayBatDau() != null && voucherDTOFiler.getNgayKetThuc() == null)
-            jpql.append(" And v.ngayBatDau = " + voucherDTOFiler.getNgayBatDau());
+//        if (voucherDTOFiler.getNgayBatDau() != null)
+//            jpql.append(" And v.ngayBatDau = TO_DATE('" + voucherDTOFiler.getNgayBatDau() + "', 'yyyy-MM-dd HH:mm')");
+//        System.out.println(jpql);
 
-        if (voucherDTOFiler.getNgayBatDau() == null && voucherDTOFiler.getNgayKetThuc() != null)
-            jpql.append(" And v.ngayKetThuc = " + voucherDTOFiler.getNgayKetThuc());
+//        if (voucherDTOFiler.getNgayBatDau() == null && voucherDTOFiler.getNgayKetThuc() != null)
+//            jpql.append(" And v.ngayKetThuc  =" + voucherDTOFiler.getNgayKetThuc());
         if (voucherDTOFiler.getSort() != null) {
-            if (voucherDTOFiler.getSort() == 1) jpql.append("ORDER BY v.mucGiam DESC");
-            else if (voucherDTOFiler.getSort() == 2) jpql.append(" ORDER BY v.mucGiam");
-            else if (voucherDTOFiler.getSort() == 3) jpql.append(" ORDER BY v.ngayBatDau DESC");
-            else if (voucherDTOFiler.getSort() == 4) jpql.append(" ORDER BY v.ngayBatDau");
-            else if (voucherDTOFiler.getSort() == 5) jpql.append("ORDER BY v.ngayKetThuc DESC");
-            else if (voucherDTOFiler.getSort() == 6) jpql.append("ORDER BY v.ngayKetThuc");
+            if (voucherDTOFiler.getSort() == 3) jpql.append("ORDER BY v.mucGiam ASC");
+            else if (voucherDTOFiler.getSort() == 4) jpql.append(" ORDER BY v.mucGiam DESC");
+            else if (voucherDTOFiler.getSort() == 0) jpql.append(" ORDER BY v.ngayBatDau DESC");
+            else if (voucherDTOFiler.getSort() == 2) jpql.append("ORDER BY v.ngayKetThuc ASC");
         }
         Query query = entityManager.createQuery(String.valueOf(jpql));
         List<VoucherModel> listContent = query.getResultList();

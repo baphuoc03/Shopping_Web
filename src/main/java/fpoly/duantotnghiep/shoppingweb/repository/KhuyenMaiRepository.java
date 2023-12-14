@@ -11,6 +11,6 @@ public interface KhuyenMaiRepository extends JpaRepository<KhuyenMaiModel, Strin
     @Query("SELECT km  FROM KhuyenMaiModel km where km.ngayBatDau = current_date")
     List<KhuyenMaiModel> findAllSanPhamWithKmWhereNgayBatDau();
 
-    @Query("SELECT km  FROM KhuyenMaiModel km where km.ngayKetThuc < current_date")
+    @Query("SELECT km  FROM KhuyenMaiModel km where km.ngayKetThuc = current_date")
     List<KhuyenMaiModel> findAllSanPhamWithKmWhereNgayKetThuc();
 }

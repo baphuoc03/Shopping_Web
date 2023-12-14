@@ -54,8 +54,8 @@
     <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>
 
     <!-- alertifyjs Css -->
-    <link href="/admin/assets/libs/alertifyjs/build/css/alertify.min.css" rel="stylesheet" type="text/css" />
-    <link href="/admin/assets/libs/alertifyjs/build/css/themes/default.min.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/assets/libs/alertifyjs/build/css/alertify.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/admin/assets/libs/alertifyjs/build/css/themes/default.min.css" rel="stylesheet" type="text/css"/>
     <!-- App Css-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"
             crossorigin="anonymous"></script>
@@ -66,7 +66,7 @@
           href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/css/fileinput.min.css'/>
 
 
-<!--    toast-->
+    <!--    toast-->
 
     <link rel="stylesheet" type="text/css" th:href="@{/userStyle/fonts/iconic/css/material-design-iconic-font.min.css}">
 
@@ -222,12 +222,15 @@
                         <ul class="sub-menu" aria-expanded="false">
                             <li th:if="${hasAdmin}"><a th:href="@{/admin/mau-sac}">Màu Sắc</a></li>
                             <li th:if="${hasAdmin}"><a th:href="@{/admin/xuat-xu}">Xuất xứ</a></li>
-                            <li th:if="${hasAdmin}"><a th:href="@{/admin/dong-san-pham}" data-key="t-product-detail">Dòng Sản
+                            <li th:if="${hasAdmin}"><a th:href="@{/admin/dong-san-pham}" data-key="t-product-detail">Dòng
+                                Sản
                                 Phẩm</a></li>
-                            <li th:if="${hasAdmin}"><a th:href="@{/admin/kieu-dang}" data-key="t-orders">Kiểu Dáng</a></li>
+                            <li th:if="${hasAdmin}"><a th:href="@{/admin/kieu-dang}" data-key="t-orders">Kiểu Dáng</a>
+                            </li>
                             <li><a th:href="@{/admin/chat-lieu}" data-key="t-customers">Chất Liệu</a></li>
                             <li><a th:href="@{/admin/size}" data-key="t-cart">Size</a></li>
-                            <li th:if="${hasAdmin}"><a th:href="@{/admin/thuong-hieu}" data-key="t-cart">Thương Hiệu</a></li>
+                            <li th:if="${hasAdmin}"><a th:href="@{/admin/thuong-hieu}" data-key="t-cart">Thương Hiệu</a>
+                            </li>
                         </ul>
                     </li>
 

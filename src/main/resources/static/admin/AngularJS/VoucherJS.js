@@ -10,8 +10,9 @@ app.controller("voucher-ctrl", function ($scope, $http) {
 
         $scope.voucherAdd = {
             danhSachKhach: [],
-            loaiMucGiam : "TIEN"
+            loaiMucGiam: 'TIEN'
         }
+        $scope.voucherAdd.loaiMucGiam = 'TIEN';
 
         //    chi tiet
         $http.get("http://localhost:8080/admin/voucher" + id).then(function (res) {

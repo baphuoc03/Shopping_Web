@@ -35,17 +35,17 @@ public class KhuyenMaiModel {
     @Column(name = "loai")
     private String loai;
 
-//    @NotNull(message = "Vui lòng nhập dữ liệu")
+    //    @NotNull(message = "Vui lòng nhập dữ liệu")
     @Column(name = "mucgiam")
     private BigDecimal mucGiam;
 
-//    @NotEmpty(message = "Vui lòng nhập dữ liệu")
+    //    @NotEmpty(message = "Vui lòng nhập dữ liệu")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     @Column(name = "ngaybatdau")
     private Date ngayBatDau;
 
-//    @NotEmpty(message = "Vui lòng nhập dữ liệu")
+    //    @NotEmpty(message = "Vui lòng nhập dữ liệu")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "ngayketthuc")
@@ -60,7 +60,7 @@ public class KhuyenMaiModel {
     private Date ngayCapNhat;
 
     @Column(name = "trangthai")
-    private Boolean trangThai;
+    private Integer trangThai;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "khuyenmai_sanpham",
