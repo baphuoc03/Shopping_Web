@@ -40,6 +40,8 @@ public class ThuongHieuRestController {
 //        return ResponseEntity.ok(model);
         boolean exitst = service.existsById(id);
         if (exitst) {
+            ThuongHieuDtoResponse thuongHieuDtoResponse = service.findById(id);
+            thuonghieu.setNgayTao(thuongHieuDtoResponse.getNgayTao());
             thuonghieu.setId(id);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("Oke", "Sửa thành công", service.save(thuonghieu))

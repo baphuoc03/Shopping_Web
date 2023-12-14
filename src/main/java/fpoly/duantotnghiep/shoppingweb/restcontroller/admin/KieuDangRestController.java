@@ -61,6 +61,8 @@ public class KieuDangRestController {
             if(result.hasErrors()){
                 return ValidateUtil.getErrors(result);
             }
+            KieuDangDTOResponse kieuDangDTOResponse = service.findById(id);
+            kieudang.setNgayTao(kieuDangDTOResponse.getNgayTao());
             kieudang.setId(id);
             return ResponseEntity.ok(service.save(kieudang));
     }

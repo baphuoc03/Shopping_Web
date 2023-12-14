@@ -59,6 +59,9 @@ public class MauSacRestController {
 
     @PutMapping("update/{id}")
     public ResponseEntity<?> update(@RequestBody MauSacDTORequest mausac, @PathVariable("id") String id){
+
+        MauSacDTOResponse mauSacOld = service.findById(id);
+        mausac.setNgayTao(mauSacOld.getNgayTao());
         service.findById(id);
         MauSacDTOResponse mauSacDTOResponse = service.save(mausac);
         return ResponseEntity.ok(mauSacDTOResponse);

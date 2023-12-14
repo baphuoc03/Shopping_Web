@@ -51,6 +51,8 @@ public class XuatXuRestController {
 
     @PutMapping("update/{id}")
     public ResponseEntity<?> update(@RequestBody XuatXuRequest xuatxu, @PathVariable("id") String id){
+        XuatXuResponse xuatXuOld = service.findById(id);
+        xuatxu.setNgayTao(xuatXuOld.getNgayTao());
         service.findById(id);
         XuatXuResponse xuatXuResponse = service.save(xuatxu);
         return ResponseEntity.ok(xuatXuResponse);

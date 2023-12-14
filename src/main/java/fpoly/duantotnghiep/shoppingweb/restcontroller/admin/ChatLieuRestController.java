@@ -47,6 +47,8 @@ public class ChatLieuRestController {
 
     @PutMapping("update/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody ChatLieuDTORequest chatLieu, @PathVariable String id) {
+        ChatLieuDTOResponse chatLieuDTOResponse = service.findById(id);
+        chatLieu.setNgayTao(chatLieuDTOResponse.getNgayTao());
         chatLieu.setId(id);
         return ResponseEntity.ok(service.save(chatLieu));
     }

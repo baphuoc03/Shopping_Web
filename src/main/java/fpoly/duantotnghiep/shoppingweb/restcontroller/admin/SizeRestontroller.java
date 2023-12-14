@@ -60,6 +60,8 @@ public class SizeRestontroller {
         if(result.hasErrors()){
             return ValidateUtil.getErrors(result);
         }
+        SizeDTOResponse sizeDTOResponse = service.findById(ma);
+        size.setNgayTao(sizeDTOResponse.getNgayTao());
         size.setMa(ma);
         return ResponseEntity.ok(service.save(size));
     }

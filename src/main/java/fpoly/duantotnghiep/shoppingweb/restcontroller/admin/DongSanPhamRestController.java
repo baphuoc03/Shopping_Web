@@ -47,7 +47,8 @@ public class DongSanPhamRestController {
 
     @PutMapping("update/{id}")
     public ResponseEntity<?> update(@RequestBody DongSanPhamRequest dong, @PathVariable("id") String id){
-        service.findById(id);
+        DongSanPhamResponese dongSanPhamOld = service.findById(id);
+        dong.setNgayTao(dongSanPhamOld.getNgayTao());
         DongSanPhamResponese dongSanPhamResponese = service.save(dong);
         return ResponseEntity.ok(dongSanPhamResponese);
     }
