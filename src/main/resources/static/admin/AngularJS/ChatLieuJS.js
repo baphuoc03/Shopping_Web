@@ -13,7 +13,14 @@ app.controller("chat-lieu-ctrl", function ($scope, $http){
     $scope.findALL()
 
     $scope.create = function (){
-        document.getElementById("eTen").innerText = "Vui lòng nhập tên"
+        if($scope.ten==undefined || $scope.ten.length==0) {
+            document.getElementById("eTen").innerText = "Vui lòng nhập tên"
+            return
+        }
+        if($scope.ten.length>100){
+            document.getElementById("eTen").innerText = "Tên tối đa 100 ký tự"
+            return
+        }
         var chatLieu = {
             ten: $scope.ten,
         }
@@ -42,6 +49,14 @@ app.controller("chat-lieu-ctrl", function ($scope, $http){
     }
 
     $scope.update = function (id){
+        if($scope.ten==undefined || $scope.ten.length==0) {
+            document.getElementById("eTenUd").innerText = "Vui lòng nhập tên"
+            return
+        }
+        if($scope.ten.length>100){
+            document.getElementById("eTenUd").innerText = "Tên tối đa 100 ký tự"
+            return
+        }
         var url = "/admin/chat-lieu/update" + "/" + id;
         var updateChatLieu = {
             id: $scope.id,
@@ -51,7 +66,7 @@ app.controller("chat-lieu-ctrl", function ($scope, $http){
         }
         $http.put(url, updateChatLieu).then(function (r){
             location.reload();
-            alert("Update Thành công")
+            alert("Cập nhật Thành công")
         })
     }
 })

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Date;
 public class MauSacDTORequest {
     private String ma;
     @NotBlank(message = "Không được để trống tên!!!")
+    @Length(max = 100, message = "Tên tối đa 100 ký tự")
     private String ten;
     private Date ngayTao;
     private Date ngayCapNhat;

@@ -56,7 +56,10 @@ public class SizeRestontroller {
     }
 
     @PutMapping("update/{ma}")
-    public ResponseEntity<?> update(@Valid @RequestBody SizeDTORequest size, @PathVariable Float ma) {
+    public ResponseEntity<?> update(@Valid @RequestBody SizeDTORequest size,BindingResult result, @PathVariable Float ma) {
+        if(result.hasErrors()){
+            return ValidateUtil.getErrors(result);
+        }
         size.setMa(ma);
         return ResponseEntity.ok(service.save(size));
     }

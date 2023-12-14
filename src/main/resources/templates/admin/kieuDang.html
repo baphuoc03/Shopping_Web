@@ -169,15 +169,15 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Tên Kiểu Dáng</label>
-                                <input type="text" class="form-control" ng-model="ten">
-                                <div ng-show="data.error" class="form-text text-danger ">{{ data.error }}</div>
+                                <input type="text" class="form-control" ng-model="ten" ng-focus="erTenUd=''">
+                                <p  class="form-text text-danger ">{{erTenUd}}</p>
                                 <!--                                <p class="form-text text-danger" id="erTen"></p>-->
 
                             </div>
                         </div>
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="button" ng-click="update(id)" class="btn btn-danger">Submit</button>
+                            <button type="button" ng-click="update(id)" class="btn btn-danger">Cập nhật</button>
                         </div>
                     </form>
 
@@ -191,7 +191,7 @@
 
                     <!-- Modal Header -->
                     <div class="modal-header">
-                        <h4 class="modal-title">Modal Heading</h4>
+                        <h4 class="modal-title">Thêm kiểu dáng</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <form>
@@ -200,14 +200,14 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Tên Kiểu Dáng</label>
-                                <input type="text" class="form-control" ng-model="ten">
+                                <input type="text" class="form-control" ng-model="ten" ng-focus="erTen=''">
                                 <!--<div ng-show="formData.tenError" class="form-text text-danger ">{{ formData.tenError }}</div>-->
                                 <p class="form-text text-danger">{{erTen}}</p>
                             </div>
                         </div>
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="button" ng-click="create()" class="btn btn-danger">Submit</button>
+                            <button type="button" ng-click="create()" class="btn btn-danger">Thêm</button>
                         </div>
                     </form>
 

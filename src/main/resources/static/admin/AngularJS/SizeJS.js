@@ -12,9 +12,9 @@ app.controller("size-ctrl" ,function ($scope, $http){
     }
         $scope.findAll()
 
+
     $scope.create = function () {
-        document.getElementById("eSizeMa").innerText = "Vui lòng nhập mã"
-        document.getElementById("eSizeChieuDai").innerText = "Vui lòng nhập chiều dài"
+
             var size = {
                 ma: $scope.ma,
                 chieuDai: $scope.chieuDai,
@@ -22,6 +22,9 @@ app.controller("size-ctrl" ,function ($scope, $http){
             $http.post("http://localhost:8080/admin/size/add", size).then(r => {
                 location.reload();
                 alert("Thêm thành công")
+            }).catch(e => {
+                document.getElementById("eSizeMa").innerText = e.data.ma == undefined ? "" : e.data.ma
+                document.getElementById("eSizeChieuDai").innerText = e.data.chieuDai == undefined ? "" : e.data.chieuDai
             })
         }
 
@@ -54,8 +57,13 @@ app.controller("size-ctrl" ,function ($scope, $http){
         }
         $http.put(url, updateSize).then(function (r){
             location.reload();
-            alert("Update Thành công")
+            alert("Cập nhật Thành công")
+        }).catch(e => {
+            document.getElementById("eSizeChieuDaiUd").innerText = e.data.chieuDai == undefined ? "" : e.data.chieuDai
         })
    }
+    $scope.removeER = function (id) {
+        document.getElementById(id).innerText = "";
+    }
 })
 

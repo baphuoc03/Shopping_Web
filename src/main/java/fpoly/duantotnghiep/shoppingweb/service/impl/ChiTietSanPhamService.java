@@ -24,7 +24,9 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
 
     @Override
     public List<ChiTietSanPhamDtoResponse> fillAllChiTietSP() {
-        return chiTietSanPhamRepository.findAll().stream().map(c -> new ChiTietSanPhamDtoResponse(c)).collect(Collectors.toList());
+        return chiTietSanPhamRepository.findAll().stream()
+                .filter(ct -> ct.getSanPham().getHienThi() == true && ct.getSanPham().getTrangThai()==true)
+                .map(c -> new ChiTietSanPhamDtoResponse(c)).collect(Collectors.toList());
     }
 
     @Override
@@ -137,6 +139,7 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     @Override
     public List<ChiTietSanPhamDtoResponse> getBySanPhamIdOrNameContais(String keyWord){
         return chiTietSanPhamRepository.getBySanPhamIdOrNameContais(keyWord).stream()
+                .filter(ct -> ct.getSanPham().getHienThi() == true && ct.getSanPham().getTrangThai()==true)
                 .map(s -> new ChiTietSanPhamDtoResponse(s)).collect(Collectors.toList());
     }
 

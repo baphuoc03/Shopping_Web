@@ -70,9 +70,12 @@ app.controller("ctrl", function ($scope, $http) {
                 return;
             }
         }
-        if($scope.tenThuocTinh.length==0){
+        if($scope.tenThuocTinh==undefined || $scope.tenThuocTinh.length==0){
             document.getElementById('etenThuocTinh').innerText = "Vui lòng nhập tên"
-
+            return
+        }
+        if($scope.tenThuocTinh.length>100){
+            document.getElementById('etenThuocTinh').innerText = "Tên tối đa 100 ký tự"
             return
         }
 

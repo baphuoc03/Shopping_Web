@@ -40,8 +40,12 @@ app.controller("mau-sac-ctrl", function($scope, $http){
             ngayTao: $scope.ngayTao,
             ngayCapNhat: $scope.ngayCapNhat
         }
-        if($scope.ten == undefined) {
+        if($scope.ten == undefined || $scope.ten.length==0) {
             document.getElementById("eTenMau").innerText = "Vui lòng nhập tên!!!";
+            return
+        }
+        if($scope.ten.length>100) {
+            document.getElementById("eTenMau").innerText = "Tên tối đa 100 ký tự!!!";
             return
         }
         else {
@@ -53,6 +57,14 @@ app.controller("mau-sac-ctrl", function($scope, $http){
     }
 
     $scope.update = function (ma) {
+        if($scope.ten == undefined || $scope.ten.length==0) {
+            document.getElementById("eTenMauUd").innerText = "Vui lòng nhập tên!!!";
+            return
+        }
+        if($scope.ten.length>100) {
+            document.getElementById("eTenMauUd").innerText = "Tên tối đa 100 ký tự!!!";
+            return
+        }
         var url = "/admin/mau-sac/update" +"/"+ ma;
         var updateMau = {
             ma: $scope.ma,

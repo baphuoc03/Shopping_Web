@@ -1157,6 +1157,7 @@
                                            style="width: 200px;float: right">
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"
                                         style="margin-top: 40px;margin-left: 190px;width: 530px;max-height: 500px;overflow-y: auto;">
+                                        <h5 ng-if="sanPham.length ==0" style="text-align: center;padding: 5px">Không có sản phẩm liên quan</h5>
                                         <li ng-repeat="s in sanPham">
                                             <div ng-if="checkSanPhamInDonHang(s.id)==false && s.soLuong>0" style="cursor: pointer"
                                                  class="row d-flex justify-content-start align-items-center"
@@ -1473,6 +1474,7 @@
                                            style="width: 200px;float: right">
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"
                                         style="margin-top: 40px;margin-left: 190px;width: 530px;max-height: 500px;overflow-y: auto;">
+                                        <h5 ng-if="sanPham.length ==0" style="text-align: center;padding: 5px">Không có sản phẩm liên quan</h5>
                                         <li ng-repeat="s in sanPham">
                                             <div ng-if="checkSanPhamInDonHang(s.id)==false && s.soLuong>0" style="cursor: pointer"
                                                  class="row d-flex justify-content-start align-items-center"

@@ -31,7 +31,7 @@ app.controller("dong-san-pham-ctrl",function ($scope, $http){
     $scope.delete = function (id){
         var url = "/admin/dong-san-pham/delete" +"/"+ id;
         $http.delete(url).then(function (r){
-            alert("Dlete thành công!!!")
+            alert("Xóa thành công!!!")
             location.reload();
         })
     }
@@ -43,8 +43,16 @@ app.controller("dong-san-pham-ctrl",function ($scope, $http){
             ngayTao: $scope.ngayTao,
             ngayCapNhat: $scope.ngayCapNhat
         }
-        if($scope.ten == undefined) {
+        if($scope.thuongHieu == undefined){
+            document.getElementById('erAddDongSP').innerText = "Vui lòng chọn thương hiệu"
+            return;
+        }
+        if($scope.ten == undefined || $scope.ten.length==0) {
             document.getElementById("eTenDong").innerText = "Vui lòng nhập tên!!!";
+            return
+        }
+        if($scope.ten.length>100){
+            document.getElementById("eTenDong").innerText = "Tên tối đa 100 ký tự!!!";
             return
         }
             else{
@@ -56,8 +64,17 @@ app.controller("dong-san-pham-ctrl",function ($scope, $http){
     }
 
     $scope.update = function (id) {
+        if($scope.ten == undefined || $scope.ten.length==0) {
+            document.getElementById("eTenDongUd").innerText = "Vui lòng nhập tên!!!";
+            return
+        }
+        if($scope.ten.length>100){
+            document.getElementById("eTenDongUd").innerText = "Tên tối đa 100 ký tự!!!";
+            return
+        }
         var url = "/admin/dong-san-pham/update" +"/"+ id;
         var updateDong = {
+            id : id,
             ten: $scope.ten,
             thuongHieu: $scope.thuongHieu,
             ngayTao: $scope.ngayTao,
@@ -65,7 +82,7 @@ app.controller("dong-san-pham-ctrl",function ($scope, $http){
         }
         $http.put(url,updateDong).then(function (r){
             location.reload();
-            alert("Update thành công")
+            alert("Cập nhật thành công")
         })
     }
 

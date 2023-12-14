@@ -43,11 +43,20 @@ app.controller("thuonghieu-ctrl", function ($scope, $http) {
     $scope.create = function (){
 
         console.log("add")
+        if($scope.ten == undefined ||$scope.ten.length ==0){
+            document.getElementById('erTen').innerText = "Vui lòng nhập tên thương hiệu"
+            return;
+        }
+        if($scope.ten.length > 100){
+            document.getElementById('erTen').innerText = "Tên thương hiệu tối đa 100 ký tự"
+            return;
+        }
         var thuonghieu = {
             ten:$scope.ten
         }
         $http.post(url, thuonghieu).then(function (response){
             // location.reload();
+            $scope.ten = ""
             $scope.itemss.push(response.data)
             alert("Thêm Thành Công !");
         }).catch(error =>{
@@ -56,6 +65,14 @@ app.controller("thuonghieu-ctrl", function ($scope, $http) {
     }
     //update
     $scope.update = function (id){
+        if($scope.ten == undefined || $scope.ten.length ==0){
+            document.getElementById('erTenUd').innerText = "Vui lòng nhập tên thương hiệu"
+            return;
+        }
+        if($scope.ten.length > 100){
+            document.getElementById('erTenUd').innerText = "Tên thương hiệu tối đa 100 ký tự"
+            return;
+        }
         var urlWithId = getUrlWithId(id)
         var thuonghieu = {
             ten: $scope.ten

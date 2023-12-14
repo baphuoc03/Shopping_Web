@@ -155,27 +155,27 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Modal Heading</h4>
+                    <h4 class="modal-title">Thêm dòng sản phẩm</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form>
                     <!-- Modal body -->
                     <div class="modal-body">
 
-                        <select class="form-select" ng-model="thuongHieu"  data-placeholder="Chọn thương hiệu"  >
+                        <select class="form-select" ng-model="thuongHieu"  data-placeholder="Chọn thương hiệu"  onchange="document.getElementById('erAddDongSP').innerText = ''">
                             <option ng-repeat="s in thuongHieus" value="{{s.id}}" style="border-bottom: 1px" >{{s.ten}}</option>
                         </select>
-
+                        <i id="erAddDongSP" class="er"></i>
                         <div class="mb-3">
-                            <label class="form-label">Tên Dòng</label>
-                            <input type="text" class="form-control" ng-model="ten">
+                            <label class="form-label">Tên dòng sản phẩm</label>
+                            <input type="text" class="form-control" ng-model="ten" onfocus="document.getElementById('eTenDong').innerText = ''">
                             <i id="eTenDong" class="er"></i>
                             <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                         </div>
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" ng-click="create()">Submit</button>
+                        <button type="button" class="btn btn-danger" ng-click="create()">Thêm</button>
                     </div>
                 </form>
 
@@ -188,7 +188,7 @@
 
                     <!-- Modal Header -->
                     <div class="modal-header">
-                        <h4 class="modal-title">Modal Heading</h4>
+                        <h4 class="modal-title">Cập nhật</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <form>
@@ -204,24 +204,14 @@
                             </select>
                             <div class="mb-3">
                                 <label class="form-label">Tên Dòng</label>
-                                <input type="text" ng-model="ten" class="form-control">
+                                <input type="text" ng-model="ten" class="form-control" onfocus="document.getElementById('eTenDongUd').innerText = ''">
+                                <i id="eTenDongUd" class="er"></i>
                                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label">Ngày Tạo</label>
-                                <input type="text" ng-model="ngayTao" class="form-control" readonly>
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Ngày Cập Nhật</label>
-                                <input type="text" ng-model="ngayCapNhat" class="form-control" readonly>
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-                            </div>
-
                         </div>
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" ng-click="update(id)">Update</button>
+                            <button type="button" class="btn btn-danger" ng-click="update(id)">Cập nhật</button>
                         </div>
                     </form>
                 </div>

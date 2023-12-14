@@ -85,9 +85,8 @@
                                         <div class="d-flex justify-content-center">
                                             <div class="mb-3 col-10 " ng-click="removeER('eSize')">
                                                 <label >Size</label>
-                                                <select class="form-select" ng-model="form.sizes" id="sizeSL" data-placeholder="Chọn size" multiple th:disabled="${!hasAdmin}"
-                                                onchange="angular.element(this).scope().selectAllSize()">
-                                                    <option >Chọn tất cả</option>
+                                                <select class="form-select" ng-model="form.sizes" id="sizeSL" data-placeholder="Chọn size" multiple th:disabled="${!hasAdmin}">
+<!--                                                    <option >Chọn tất cả</option>-->
                                                     <option ng-repeat="s in sizes" value="{{s.ma}}" style="border-bottom: 1px" >{{s.ma}}</option>
                                                 </select>
                                                 <i id="eSize"  class="er"></i>

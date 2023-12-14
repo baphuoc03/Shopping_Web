@@ -40,8 +40,12 @@ app.controller("xuat-xu-ctrl",function ($scope,$http){
             ngayTao: $scope.ngayTao,
             ngayCapNhat: $scope.ngayCapNhat
         }
-        if($scope.ten == undefined) {
+        if($scope.ten == undefined || $scope.ten.length==0) {
             document.getElementById("eTenXX").innerText = "Vui lòng nhập tên!!!";
+            return
+        }
+        if($scope.ten.length>100){
+            document.getElementById("eTenXX").innerText = "Tên tối đa 100 ký tự!!!";
             return
         }
         else {
@@ -53,6 +57,14 @@ app.controller("xuat-xu-ctrl",function ($scope,$http){
     }
 
     $scope.update = function (ma) {
+        if($scope.ten == undefined || $scope.ten.length==0) {
+            document.getElementById("eTenXXUd").innerText = "Vui lòng nhập tên!!!";
+            return
+        }
+        if($scope.ten.length>100){
+            document.getElementById("eTenXXUd").innerText = "Tên tối đa 100 ký tự!!!";
+            return
+        }
         var url = "/admin/xuat-xu/update" +"/"+ ma;
         var updateMau = {
             id: $scope.id,

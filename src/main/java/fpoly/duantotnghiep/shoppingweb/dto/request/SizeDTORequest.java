@@ -1,10 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.SizeModel;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -16,9 +13,11 @@ import java.util.Date;
 public class SizeDTORequest {
     @NotNull(message = "Không để trống mã")
     @Max(value = 50, message = "Mã không quá 50 ")
+    @Min(value = 20,message = "Mã tối thiểu 20")
     private Float ma;
     @NotNull(message = "Không để trống chiều dài")
-    @Max(value = 50, message = "Chiều dài không quá 50 ")
+    @Max(value = 70, message = "Chiều dài không quá 70 ")
+    @Min(value = 20,message = "Chiều dài tối thiểu 20")
     private Float chieuDai;
     private Date ngayTao;
     private Date ngayCapNhat;

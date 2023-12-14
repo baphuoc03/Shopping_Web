@@ -42,22 +42,25 @@ app.controller("kieudang-ctrl", function ($scope, $http) {
     }
 
     //add
+    $scope.erTen = ''
     $scope.create = function () {
         var kieuDang = {
                 ten: $scope.ten
             }
             $http.post(url, kieuDang).then(function (response) {
                 // location.reload();
+                $scope.ten = ''
                 $scope.itemss.push(response.data)
                 alertify.success("Thêm Kiểu Dáng thành công")
-            }).catch(error =>{
-                console.log(error)
-                alertify.error("Thêm nhân viên thất bại")
-                document.getElementById("usernameAddER").innerText = e.data.username == undefined ? "" : e.data.username;
+            }).catch(e =>{
+                console.log(e)
+                alertify.error("Thêm Kiểu dáng thất bại")
+                $scope.erTen = e.data.ten == undefined ? "" : e.data.ten;
             });
 
     };
     //update
+    $scope.erTenUd = ''
     $scope.update = function (id) {
         var urlWithId = getUrlWithId(id)
         var kieudang = {
@@ -65,10 +68,9 @@ app.controller("kieudang-ctrl", function ($scope, $http) {
         }
         $http.put(urlWithId, kieudang).then(function (resp) {
             location.reload();
-            alert("Update success");
-        }).catch(error =>{
-            console.log(error)
-            $scope.erTenUd = error.data.ten
+            alert("Cập nhật thành công");
+        }).catch(e =>{
+            $scope.erTenUd = e.data.ten == undefined ? "" : e.data.ten
         });
     };
 

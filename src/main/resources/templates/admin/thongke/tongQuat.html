@@ -6,7 +6,7 @@
 <head>
 
     <meta charset="utf-8"/>
-    <title>Dashboard | Dason - Admin & Dashboard Template</title>
+    <title>Hydra | Thống Kê</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
     <meta content="Themesbrand" name="author"/>
@@ -219,7 +219,10 @@
                                     <td style="width: 300px">
                                         <div>
                                             <h5 class="font-size-15 nameProduct"><a class="text-dark">{{s.sanPham.ten}}</a></h5>
-                                            <span class="text-muted">{{s.sanPham.giaBan | currency : "" : 1}}đ</span>
+                                            <span >
+                                                <del ng-if="s.sanPham.giaBan>s.sanPham.giaNiemYet" style="font-size: 11px">{{s.sanPham.giaBan | currency: "" : 1}}đ</del>
+                                                <span class="text-muted">{{s.sanPham.giaNiemYet | currency: "" : 1}}đ</span>
+                                            </span>
                                         </div>
                                     </td>
 
@@ -273,7 +276,10 @@
                                     <td style="width: 200px">
                                         <div>
                                             <h5 class="font-size-15 nameProduct"><a href="/admin/san-pham/{{s.ma}}" class="text-dark">{{s.ten}}</a></h5>
-                                            <span class="text-muted">{{s.giaBan | currency : "" : 1}}đ</span>
+                                            <span >
+                                                <del ng-if="s.giaBan>s.giaNiemYet" style="font-size: 11px">{{s.giaBan | currency: "" : 1}}đ</del>
+                                                <span class="text-muted">{{s.giaNiemYet | currency: "" : 1}}đ</span>
+                                            </span>
                                         </div>
                                     </td>
                                     <td>
@@ -387,7 +393,10 @@
                                 <div class="col-6 d-flex justify-content-start">
                                     <div>
                                         <h5 class="font-size-15 nameProduct"><a href="/admin/san-pham/{{s.sanPham.sanPham.ma}}" class="text-dark">{{s.sanPham.sanPham.ten}}</a></h5>
-                                        <span class="text-muted">{{s.sanPham.sanPham.giaBan | currency : "" : 1}}đ</span>
+                                        <span >
+                                            <del ng-if="s.sanPham.sanPham.giaBan>s.sanPham.sanPham.giaNiemYet" style="font-size: 11px">{{s.sanPham.sanPham.giaBan | currency: "" : 1}}đ</del>
+                                            <span class="text-muted">{{s.sanPham.sanPham.giaNiemYet | currency: "" : 1}}đ</span>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-2 d-flex justify-content-center">

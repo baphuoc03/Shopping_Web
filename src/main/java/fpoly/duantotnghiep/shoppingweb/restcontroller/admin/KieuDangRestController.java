@@ -47,7 +47,7 @@ public class KieuDangRestController {
     public ResponseEntity<?> add(@Valid @RequestBody KieuDangDtoRequest kieudang, BindingResult result){
         if(kieudang.getTen()!=null && !kieudang.getTen().isBlank()){
             if(service.existsById(kieudang.getTen())){
-                result.addError(new FieldError("username","username","Tên đã tồn tại"));
+                result.addError(new FieldError("Tên kiểu dáng","Tên kiểu dáng","Tên đã tồn tại"));
                 if(!result.hasErrors()) return ValidateUtil.getErrors(result);
             }
         }
@@ -57,7 +57,7 @@ public class KieuDangRestController {
         return  ResponseEntity.ok(service.save(kieudang));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody KieuDangDtoRequest kieudang, @PathVariable("id") String id, BindingResult result){
+    public ResponseEntity<?> update(@Valid @RequestBody KieuDangDtoRequest kieudang, BindingResult result, @PathVariable("id") String id){
             if(result.hasErrors()){
                 return ValidateUtil.getErrors(result);
             }
