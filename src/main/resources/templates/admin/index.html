@@ -227,7 +227,7 @@
                                 Phẩm</a></li>
                             <li th:if="${hasAdmin}"><a th:href="@{/admin/kieu-dang}" data-key="t-orders">Kiểu Dáng</a>
                             </li>
-                            <li><a th:href="@{/admin/chat-lieu}" data-key="t-customers">Chất Liệu</a></li>
+                            <li th:if="${hasAdmin}"><a th:href="@{/admin/chat-lieu}" data-key="t-customers">Chất Liệu</a></li>
                             <li><a th:href="@{/admin/size}" data-key="t-cart">Size</a></li>
                             <li th:if="${hasAdmin}"><a th:href="@{/admin/thuong-hieu}" data-key="t-cart">Thương Hiệu</a>
                             </li>

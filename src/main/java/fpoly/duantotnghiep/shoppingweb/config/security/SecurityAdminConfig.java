@@ -34,7 +34,8 @@ public class SecurityAdminConfig {
                 "/admin/mau-sac/find-all","/admin/chat-lieu/find-all","/admin/thuong-hieu/find-all","/admin/xuat-xu/find-all","/admin/kieu-dang/find-all"};
         String[] adminUrl = {"/admin/san-pham/add","/admin/san-pham/update/**","/admin/san-pham/delete/**"
                             ,"/admin/san-pham/update-TrangThai-HienThi/**","/admin/nhan-vien/**","/admin/kieu-dang/**",
-                            "/admin/mau-sac/**","/admin/dong-san-pham/**","/admin/thuong-hieu/**","/admin/thong-ke/**","/admin/nhan-xet/phe-duyet/**"};
+                            "/admin/mau-sac/**","/admin/dong-san-pham/**","/admin/thuong-hieu/**","/admin/thong-ke/**","/admin/nhan-xet/phe-duyet/**",
+                            "/admin/chat-lieu/**"};
         http    .securityMatcher("/admin/**")
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())
