@@ -7,13 +7,24 @@ app.controller("voucher-ctrl", function ($scope, $http) {
         const pathName = location.pathname;
         const id = pathName.substring(pathName.lastIndexOf("/"))
 
-
         $scope.voucherAdd = {
             danhSachKhach: [],
             loaiMucGiam: 'TIEN'
         }
         $scope.voucherAdd.loaiMucGiam = 'TIEN';
+        $scope.khachHangVoucher = function (dieuKien) {
+            $http.get("http://localhost:8080/admin/khach-hang/khach-hang-voucher?dieuKien=" + dieuKien).then(function (res) {
+                console.log("k",res.data)
+                $scope.findAllKhachHang = res.data
+                $scope.findAllKhachHang.forEach(k => $scope.voucherAdd.danhSachKhach.forEach(k1 => {
+                    if (k.username == k1.username) {
+                        k.selected = true
+                    }
+                }))
+            }).catch(err => console.log(err))
+            console.log("khách ")
 
+        }
         //    chi tiet
         $http.get("http://localhost:8080/admin/voucher" + id).then(function (res) {
             const voucher = res.data;
@@ -31,23 +42,18 @@ app.controller("voucher-ctrl", function ($scope, $http) {
             $scope.voucherAdd.danhSachKhach = voucher.danhSachKhachHang;
             $scope.voucherAdd.trangThai = voucher.trangThai
             $scope.ngayHienTai = new Date();
+
+            console.log("khách 1", voucher.danhSachKhachHang)
+            $scope.khachHangVoucher(3)
+
         });
         $scope.findAllKhachHang = []
-        $scope.khachHangVoucher = function (dieuKien) {
-            $http.get("http://localhost:8080/admin/khach-hang/khach-hang-voucher?dieuKien=" + dieuKien).then(function (res) {
-                $scope.findAllKhachHang = res.data
-                $scope.findAllKhachHang.forEach(k => $scope.voucherAdd.danhSachKhach.forEach(k1 => {
-                    if (k.username == k1.username) {
-                        k.selected = true
-                    }
-                }))
-            }).catch(err => console.log(err))
-        }
-        $scope.khachHangVoucher(3)
+
         $scope.locKhach = "";
         $scope.handleOptionChange = function (optionValue) {
             $scope.khachHangVoucher(optionValue)
         };
+
 
         //update trangj thasi
         $scope.updateTrangThai = function (trangThai) {
@@ -63,7 +69,7 @@ app.controller("voucher-ctrl", function ($scope, $http) {
 
                 setTimeout(function () {
                     window.location.href = "http://localhost:8080/admin/voucher";
-                }, 2000);
+                }, 1000);
             })
         }
 
@@ -80,7 +86,6 @@ app.controller("voucher-ctrl", function ($scope, $http) {
 
 //add
         $scope.create = function () {
-            console.log($scope.danhSachKhach)
             let formData = new FormData();
             formData.append("voucher", new Blob([JSON.stringify($scope.voucherAdd)], {
                 type: 'application/json'
@@ -102,6 +107,7 @@ app.controller("voucher-ctrl", function ($scope, $http) {
                 $scope.erMoTa = error.data.moTa
                 $scope.erMucGiam = error.data.mucGiam
                 $scope.erMucGiamToiDa = error.data.mucGiamToiDa
+                $scope.erLoaiMucGiam = error.data.loaiMucGiam
                 $scope.erGiaTriDonHang = error.data.giaTriDonHang
                 $scope.erNgayBatDau = error.data.ngayBatDau
                 $scope.erNgayKetThuc = error.data.ngayKetThuc

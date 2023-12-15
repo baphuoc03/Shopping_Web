@@ -72,7 +72,7 @@ public class CheckoutController {
         List<VoucherModel> voucherInKhach = khRepository.findById(authen.getName()).get().getVoucher();
         List<VoucherModel> voucherHT = new ArrayList<>();
         voucherInKhach.forEach(x -> {
-            if (x.getTrangThaiXoa() == 0 || x.getNgayKetThuc().before(new Date())) {
+            if (x.getTrangThaiXoa() == 0 && x.getTrangThai() == 0) {
                 voucherHT.add(x);
             }
         });

@@ -8,14 +8,15 @@
 </head>
 <body>
 <style>
-    .nameProduct{
-        width:200px;
+    .nameProduct {
+        width: 200px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 </style>
-<div layout:fragment="contentUser" class="bg0 p-b-140" ng-app="sanPhamKhuyenMai-app" ng-controller="sanPhamKhuyenMai-ctrl">
+<div layout:fragment="contentUser" class="bg0 p-b-140" ng-app="sanPhamKhuyenMai-app"
+     ng-controller="sanPhamKhuyenMai-ctrl">
     <link rel="stylesheet" th:href="@{/user/css/products.css}">
 
     <!--    cart-->
@@ -113,8 +114,10 @@
                         <div class="block2-pic hov-img0" style="border-radius: 5px">
                             <div ng-if="p.loaiGiam!=null"
                                  style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
-                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam=='TIEN'">-{{p.mucGiam | currency: "" : 1}}đ</p>
-                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
+                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam=='TIEN'">
+                                    -{{p.mucGiam | currency: "" : 1}}đ</p>
+                                <p style="color: white;font-weight: bold;padding: 5px" ng-if="p.loaiGiam!='TIEN'">
+                                    -{{p.mucGiam}}%</p>
                             </div>
                             <img src="/image/loadImage/product/{{p.anh[0]}}"
                                  style="width: 100%;height: 273px"
@@ -139,11 +142,13 @@
                                 </a>
 
                                 <span class=" cl3" ng-if="p.mucGiam!=null">
-                                    <span class="cl3" >
+                                    <span class="cl3">
 									    <del>{{p.giaBan | currency: "" : 1}}đ</del>
 								    </span>
-                                    <b ng-if="p.loaiGiam == 'TIEN'" style="font-weight: bold;font-size: 15px;">{{p.giaBan - p.mucGiam  | currency: "" : 1}}đ</b>
-                                    <b ng-if="p.loaiGiam == 'PHAN TRAM'" style="font-weight: bold;font-size: 15px;">{{p.giaBan - ((p.mucGiam/100) * p.giaBan)| currency: "" : 1}}đ</b>
+                                    <b ng-if="p.loaiGiam == 'TIEN'"
+                                       style="font-weight: bold;font-size: 15px;">{{p.giaBan - p.mucGiam | currency: "" : 1}}đ</b>
+                                    <b ng-if="p.loaiGiam == 'PHAN TRAM'"
+                                       style="font-weight: bold;font-size: 15px;">{{p.giaBan - ((p.mucGiam / 100) * p.giaBan) | currency: "" : 1}}đ</b>
 								</span>
                                 <span class=" cl3" ng-if="p.mucGiam==null">
 
@@ -152,9 +157,9 @@
                             </div>
 
                             <div class="block2-txt-child2 flex-r p-t-3">
-                                <i ng-if="maSpInDSYT.includes(p.ma) == false" id="{{p.ma}}"
+                                <i style="color: red" ng-if="maSpInDSYT.includes(p.ma) == false" id="{{p.ma}}"
                                    class="far fa-heart" ng-click="addDSYT(p.ma)"></i>
-                                <i ng-if="maSpInDSYT.includes(p.ma) == true" id="{{p.ma}}"
+                                <i style="color: red" ng-if="maSpInDSYT.includes(p.ma) == true" id="{{p.ma}}"
                                    class="fas fa-heart" ng-click="addDSYT(p.ma)"></i>
                             </div>
                         </div>

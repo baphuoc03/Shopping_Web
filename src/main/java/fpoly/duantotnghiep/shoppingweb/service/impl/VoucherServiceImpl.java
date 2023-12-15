@@ -173,61 +173,9 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     @Scheduled(cron = "0 * * * * *")
-    public void mailThongBao() {
-        for (var vc : repository.findAll()) {
-            if (vc.getDoiTuongSuDung() == 1) {
-                String ngayBatDauStr = repository.findById(vc.getMa()).get().getNgayBatDau().toString();  // Thay thế bằng ngày thực tế của bạn
-
-                // Định dạng cho chuỗi ngày
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-                // Chuyển đổi chuỗi ngày thành đối tượng Date
-                Date ngayBatDau = null;
-                Date ngayHienTai = new Date();
-                try {
-                    ngayBatDau = dateFormat.parse(ngayBatDauStr);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(ngayBatDau);
-                calendar.set(Calendar.SECOND, 0);
-                calendar.set(Calendar.MILLISECOND, 0);
-                ngayBatDau = calendar.getTime();
-
-                calendar.setTime(ngayHienTai);
-                calendar.set(Calendar.SECOND, 0);
-                calendar.set(Calendar.MILLISECOND, 0);
-                ngayHienTai = calendar.getTime();
-                // Tính khoảng cách giữa hai ngày
-                long khoangCach = (ngayHienTai.getTime() - ngayBatDau.getTime()) / (24 * 60 * 60 * 1000);
-                System.out.println(khoangCach);
-                // Kiểm tra xem khoảng cách có bằng 1 ngày không
-                if (khoangCach == -1) {
-                    if (vc.getKhachHang() != null) {
-                        for (var mail : vc.getKhachHang()) {
-                            Context context = new Context();
-                            context.setVariable("voucher", vc);
-                            new Thread(() -> {
-                                try {
-                                    EmailUtil.sendEmailWithHtml(mail.getEmail(), "HYDRA SNEAKER tặng bạn voucher giảm giá", "email/voucherTang", context);
-                                } catch (MessagingException e) {
-                                    e.printStackTrace();
-                                }
-                            }).start();
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    @Scheduled(cron = "0 * * * * *")
     public void mailThongBaoHetHan() {
         for (var vc : repository.findAll()) {
-            if (vc.getDoiTuongSuDung() == 1 && vc.getTrangThaiXoa() == 0) {
+            if (vc.getDoiTuongSuDung() == 1 && vc.getTrangThaiXoa() == 0 && vc.getTrangThai() == 0) {
                 String ngayBatDauStr = repository.findById(vc.getMa()).get().getNgayKetThuc().toString();  // Thay thế bằng ngày thực tế của bạn
 
                 // Định dạng cho chuỗi ngày
@@ -312,17 +260,26 @@ public class VoucherServiceImpl implements VoucherService {
                         VoucherModel voucherUp = repository.findById(vc.getMa()).get();
                         voucherUp.setTrangThai(0);
                         repository.save(voucherUp);
+                        if (voucherUp.getKhachHang() != null) {
+                            for (var mail : voucherUp.getKhachHang()) {
+                                Context context = new Context();
+                                context.setVariable("voucher", voucherUp);
+                                new Thread(() -> {
+                                    try {
+                                        EmailUtil.sendEmailWithHtml(mail.getEmail(), "HYDRA SNEAKER tặng bạn voucher giảm giá", "email/voucherTang", context);
+                                    } catch (MessagingException e) {
+                                        e.printStackTrace();
+                                    }
+                                }).start();
+                            }
+                        }
+                        System.out.println("hếconf");
                     }
                     if (dateToCompareKT.equals(currentDate)) {
                         VoucherModel voucherUp = repository.findById(vc.getMa()).get();
-                        if (voucherUp.getDoiTuongSuDung() == 1) {
-                            voucherUp.setTrangThaiXoa(1);
-                            List<KhachHangModel> listTrong = new ArrayList<>();
-                            voucherUp.setKhachHang(listTrong);
-                        } else {
-                            voucherUp.setTrangThai(1);
-                        }
+                        voucherUp.setTrangThai(1);
                         repository.save(voucherUp);
+                        System.out.println("còn");
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
