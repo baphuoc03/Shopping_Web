@@ -78,13 +78,13 @@ public class SanPhamModel {
     @Formula("""
             (SELECT k.MucGiam FROM khuyenmai_sanpham ks join sanpham s on s.Ma = ks.SanPham
              									join KhuyenMai k on k.Ma = ks.KhuyenMai
-             where k.NgayBatDau <= NOW() And k.NgayKetThuc >=NOW() and s.Ma = ma AND k.TrangThai = 0)
+             where k.NgayBatDau <= current_date And k.NgayKetThuc >=current_date and s.Ma = ma AND k.TrangThai = 0)
             """)
     private Float mucGiam;
     @Formula("""
             (SELECT k.Loai FROM khuyenmai_sanpham ks join sanpham s on s.Ma = ks.SanPham
              									join KhuyenMai k on k.Ma = ks.KhuyenMai
-             where k.NgayBatDau <= NOW() And k.NgayKetThuc >=NOW() and s.Ma = ma AND k.TrangThai = 0) 
+             where k.NgayBatDau <= current_date And k.NgayKetThuc >=current_date and s.Ma = ma AND k.TrangThai = 0) 
             """)
     private String loaiGiam;
 

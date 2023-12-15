@@ -14,7 +14,7 @@ public class NhanXetController {
     private ISanPhamService sanPhamService;
     @GetMapping("{maSP}")
     public String show(@PathVariable("maSP")String maSP){
-        if(!sanPhamService.existsById(maSP)){
+        if(!sanPhamService.existsByIdAdmin(maSP)){
             return "admin/authen/notFound";
         }
         return "admin/nhanXet";

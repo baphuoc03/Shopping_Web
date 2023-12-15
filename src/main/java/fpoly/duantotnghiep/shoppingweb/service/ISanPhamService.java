@@ -60,5 +60,9 @@ public interface ISanPhamService {
 
     List<SanPhamDtoResponse> getSanPhamMoi(Integer limit);
 
+    Boolean existsByIdAdmin(String ma);
+
+    Boolean existsByIdUser(String ma);
+
 //    public void updateGiaGiam(SanPhamModel sanPhamModel);
 }

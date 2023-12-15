@@ -100,7 +100,7 @@ public class SanPhamController {
     public String viewUpdate(Model model,
                              @PathVariable("ma") String ma) {
 //        request.setAttribute("sanPham", new SanPhamDtoRequest());
-        if(!sanPhamService.existsById(ma)){
+        if(!sanPhamService.existsByIdAdmin(ma)){
             return "admin/authen/notFound";
         }
 

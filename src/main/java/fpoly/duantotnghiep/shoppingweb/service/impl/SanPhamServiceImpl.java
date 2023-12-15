@@ -245,4 +245,27 @@ public class SanPhamServiceImpl implements ISanPhamService {
 
         return lst;
     }
+
+    @Override
+    public Boolean existsByIdAdmin(String ma){
+        SanPhamModel sanPhamModel = sanPhamRepository.findById(ma).orElse(null);
+        if(sanPhamModel==null){
+            return false;
+        }
+        if(sanPhamModel.getTrangThai()==false) return false;
+
+        return true;
+    }
+
+    @Override
+    public Boolean existsByIdUser(String ma){
+        SanPhamModel sanPhamModel = sanPhamRepository.findById(ma).orElse(null);
+        if(sanPhamModel==null){
+            return false;
+        }
+        if(sanPhamModel.getTrangThai()==false) return false;
+        if(sanPhamModel.getHienThi()==false) return false;
+
+        return true;
+    }
 }

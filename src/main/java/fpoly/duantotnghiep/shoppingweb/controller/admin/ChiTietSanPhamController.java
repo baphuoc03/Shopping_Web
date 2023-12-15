@@ -23,7 +23,7 @@ public class ChiTietSanPhamController {
     @GetMapping
     public String getChiTietSanPhamView(@PathVariable("maSP")String maSP){
 
-        if(!sanPhamService.existsById(maSP)){
+        if(!sanPhamService.existsByIdAdmin(maSP)){
             return "admin/authen/notFound";
         }
         request.setAttribute("sanPham",sanPhamService.findByMa(maSP).getTen());
