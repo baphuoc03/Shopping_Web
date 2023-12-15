@@ -332,12 +332,14 @@
 
                                         <td style="width: 300px">
                                             <div>
-                                                <h5 class="font-size-15 nameProduct"><a class="text-dark">{{s.chiTietSanPham.size}}</a></h5>
+                                                <h5 class="font-size-15 nameProduct"><a class="text-dark">{{s.chiTietSanPham.size == 0 ? 'Đã xóa' : s.chiTietSanPham.size}}</a></h5>
                                             </div>
                                         </td>
 
                                         <td>
-                                            <p class="mb-1 mb-1 d-flex justify-content-center"><a href="" class="text-dark">{{s.chiTietSanPham.soLuong==0?'Hết hàng':s.chiTietSanPham.soLuong}}</a></p>
+                                            <p ng-if="s.chiTietSanPham.size != 0" class="mb-1 mb-1 d-flex justify-content-center"><a href="" class="text-dark">{{s.chiTietSanPham.soLuong==0?'Hết hàng':s.chiTietSanPham.soLuong}}</a></p>
+                                            <p ng-if="s.chiTietSanPham.size == 0" class="mb-1 mb-1 d-flex justify-content-center"><a href="" class="text-dark">Đã xóa</a></p>
+
                                             <!--                                        <span class="text-muted">243K</span>-->
                                         </td>
 
@@ -421,12 +423,14 @@
 
                                             <td style="width: 300px">
                                                 <div>
-                                                    <h5 class="font-size-15 nameProduct"><a class="text-dark">{{s.chiTietSanPham.size}}</a></h5>
+                                                    <h5 class="font-size-15 nameProduct"><a class="text-dark">{{s.chiTietSanPham.size == 0 ? 'Đã xóa' : s.chiTietSanPham.size}}</a></h5>
                                                 </div>
                                             </td>
 
                                             <td>
-                                                <p class="mb-1 mb-1 d-flex justify-content-center"><a href="" class="text-dark">{{s.chiTietSanPham.soLuong==0?'Hết hàng':s.chiTietSanPham.soLuong}}</a></p>
+                                                <p ng-if="s.chiTietSanPham.size != 0" class="mb-1 mb-1 d-flex justify-content-center"><a href="" class="text-dark">{{s.chiTietSanPham.soLuong==0?'Hết hàng':s.chiTietSanPham.soLuong}}</a></p>
+                                                <p ng-if="s.chiTietSanPham.size == 0" class="mb-1 mb-1 d-flex justify-content-center"><a href="" class="text-dark">Đã xóa</a></p>
+
                                                 <!--                                        <span class="text-muted">243K</span>-->
                                             </td>
 

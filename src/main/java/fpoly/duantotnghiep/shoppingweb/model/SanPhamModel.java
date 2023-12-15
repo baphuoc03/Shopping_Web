@@ -72,7 +72,7 @@ public class SanPhamModel {
     private Boolean trangThai;
 
 //    @Transient
-    @Formula("(SELECT SUM(c.soluong) FROM chitietsanpham c WHERE c.sanpham = ma)")
+    @Formula("(SELECT SUM(c.soluong) FROM chitietsanpham c WHERE c.sanpham = ma AND c.TrangThai = 1)")
     private Long soLuong;
 
     @Formula("""

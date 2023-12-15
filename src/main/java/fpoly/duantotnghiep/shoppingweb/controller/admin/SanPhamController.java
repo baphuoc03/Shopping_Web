@@ -72,8 +72,8 @@ public class SanPhamController {
             result.addError(new FieldError("1","1","1"));
         }
         if(sanPham.getMa()!=null||!sanPham.getMa().isBlank()){
-            System.out.println(sanPhamService.existsById(sanPham.getMa()));
-            if(sanPhamService.existsById(sanPham.getMa())){
+            System.out.println(sanPhamService.existsByIdAdmin(sanPham.getMa()));
+            if(sanPhamService.existsByIdAdmin(sanPham.getMa())){
                 request.setAttribute("erMa","Mã sản phẩm đã tồn tại");
                 result.addError(new FieldError("2","2","2"));
             }

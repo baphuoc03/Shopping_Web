@@ -186,7 +186,7 @@ public class SanPhamEntityManager {
         return entityManager.createQuery("""
                                  SELECT s.sanPham.ma AS sanPham, SUM(cd.soLuong) AS soLuong
                                  FROM ChiTietSanPhamModel s JOIN ChiTietDonHangModel cd ON s.id = cd.chiTietSanPham.id
-                                 WHERE cd.donHang.trangThai <> 0 AND  cd.donHang.trangThai <> 5
+                                 WHERE cd.donHang.trangThai <> 0 AND  cd.donHang.trangThai <> 5 AND s.sanPham.trangThai = true
                                  GROUP BY s.sanPham.ma
                                  order by soLuong DESC 
                             """, Tuple.class)
@@ -202,6 +202,7 @@ public class SanPhamEntityManager {
         return entityManager.createQuery("""
                                  SELECT s 
                                  FROM SanPhamModel s 
+                                 where s.trangThai = true
                                  order by s.ngayTao , s.soLuong DESC
                             """, Tuple.class)
                 .getResultList()

@@ -8,6 +8,7 @@ import fpoly.duantotnghiep.shoppingweb.model.AnhModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDongSanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
+import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
 import fpoly.duantotnghiep.shoppingweb.util.ImgUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +36,8 @@ public class SanPhamServiceImpl implements ISanPhamService {
     private SanPhamEntityManager sanPhamEntityManager;
     @Autowired
     private IDongSanPhamRepository dongSanPhamRepository;
+    @Autowired
+    private IChiTietSanPhamService chiTietSanPhamService;
 
     @Override
     public List<SanPhamDtoResponse> findAll() {
@@ -125,6 +129,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
         model.setHienThi(false);
         List<AnhModel> imgs = model.getImages();
         model.setTrangThai(true);
+        model.setNgayTao(new Date());
         model = sanPhamRepository.save(model);
         anhService.saveAll(imgs);
         return new SanPhamDtoResponse(model);
@@ -173,6 +178,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
         } else {
             model.setTrangThai(false);
             sanPhamRepository.save(model);
+            chiTietSanPhamService.deleteBySanPham(s);
         }
 //        anhService.deleteBySanPham(model);
 

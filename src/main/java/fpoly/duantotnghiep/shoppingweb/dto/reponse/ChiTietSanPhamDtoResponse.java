@@ -19,7 +19,7 @@ public class ChiTietSanPhamDtoResponse {
     public ChiTietSanPhamDtoResponse(ChiTietSanPhamModel model) {
         id = model.getId();
         sanPham = model.getSanPham().getTen();
-        size = model.getSize().getMa();
+        size = model.getSize() == null ? 0 : model.getSize().getMa();
         soLuong = model.getSoLuong();
         sanPhamDTO = new SanPhamDtoResponse(model.getSanPham());
     }
