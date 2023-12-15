@@ -38,8 +38,6 @@ public interface VoucherService {
 
     public void deleteVouchers(List<String> ids);
 
-    void mailThongBao();
-
     @Scheduled(cron = "0 * * * * *")
     void mailThongBaoHetHan();
 

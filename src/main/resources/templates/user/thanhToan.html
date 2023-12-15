@@ -279,7 +279,8 @@
                         <div class="col-6">
                             <h6><b>Giảm giá:</b></h6>
                         </div>
-                        <div class="col-2 flex-r"><a ng-click="huyVoucher()" style="color: blue; cursor: pointer">Bỏ
+                        <div class="col-2 flex-r"><a ng-if="giaGiam > 0" ng-click="huyVoucher()"
+                                                     style="color: blue; cursor: pointer">Bỏ
                             voucher</a>
                         </div>
                         <div class="col-4 flex-r">{{giaGiam | currency: "" : 1}}đ</div>
@@ -389,12 +390,14 @@
                                                 Giảm giá {{v.mucGiam | currency: "" : 1}}đ
                                                 Cho đơn hàng trên
                                                 {{v.giaTriDonHang | currency: "" : 1}}đ
+                                                <span>{{v.hinhThucThanhToan}}</span>
                                             </p>
                                             <p class="text-muted mb-0" ng-if="v.loaiMucGiam == 'PHAN TRAM'">
                                                 Giảm giá {{v.mucGiam | currency: "" : 1}}%
                                                 Cho đơn hàng trên
                                                 {{v.giaTriDonHang | currency: "" : 1}}đ tối thiểu
                                                 {{v.mucGiamToiDa | currency: "" : 1}}đ
+                                                <span>{{v.hinhThucThanhToan}}</span>
                                             </p>
                                             <input ng-model="voucher" name="voucher" value="{{v.ma}}"
                                                    class="form-check-input" type="hidden">
@@ -449,12 +452,16 @@
                                                 Giảm giá {{v.mucGiam | currency: "" : 1}}đ
                                                 Cho đơn hàng trên
                                                 {{v.giaTriDonHang | currency: "" : 1}}đ
+                                                <span>{{v.hinhThucThanhToan}}</span>
+
                                             </p>
                                             <p class="text-muted mb-0" ng-if="v.loaiMucGiam == 'PHAN TRAM'">
                                                 Giảm giá {{v.mucGiam | currency: "" : 1}}%
                                                 Cho đơn hàng trên
                                                 {{v.giaTriDonHang | currency: "" : 1}}đ tối thiểu
                                                 {{v.mucGiamToiDa | currency: "" : 1}}đ
+                                                <span>{{v.hinhThucThanhToan}}</span>
+
                                             </p>
                                             <input ng-model="voucher" name="voucher" value="{{v.ma}}"
                                                    class="form-check-input" type="hidden">

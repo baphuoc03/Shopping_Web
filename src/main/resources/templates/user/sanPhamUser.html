@@ -255,9 +255,9 @@
                             </div>
 
                             <div class="block2-txt-child2 flex-r p-t-3">
-                                <i ng-if="maSpInDSYT.includes(p.ma) == false" id="{{p.ma}}"
+                                <i style="color: red" ng-if="maSpInDSYT.includes(p.ma) == false" id="{{p.ma}}"
                                    class="far fa-heart" ng-click="addDSYT(p.ma)"></i>
-                                <i ng-if="maSpInDSYT.includes(p.ma) == true" id="{{p.ma}}"
+                                <i style="color: red" ng-if="maSpInDSYT.includes(p.ma) == true" id="{{p.ma}}"
                                    class="fas fa-heart" ng-click="addDSYT(p.ma)"></i>
                             </div>
                         </div>

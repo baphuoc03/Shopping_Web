@@ -4,8 +4,7 @@ import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,6 +26,7 @@ public class VoucherRequest {
     private Double mucGiam;
 
     @NotNull(message = "Vui lòng nhập dữ liệu")
+    @Min(value = 10000, message = "Giá trị đơn hàng phải lớn hơn 10.000đ ")
     private Double giaTriDonHang;
 
     private Double mucGiamToiDa;

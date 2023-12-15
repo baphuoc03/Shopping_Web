@@ -84,8 +84,7 @@ public class VoucherRestController {
         boolean exitst = service.exitst(id);
         validateNhap(result, voucherRequest);
         if (exitst) {
-            VoucherModel vc = service.findById1(id);
-            if (vc.getDoiTuongSuDung() == 0) {
+            if (voucherRequest.getDoiTuongSuDung() == 0) {
                 voucherRequest.setMa(id);
                 return ResponseEntity.status(HttpStatus.OK).body(
                         new ResponseObject("Oke", "Sửa thành công", service.addVoucher(voucherRequest))
@@ -129,6 +128,7 @@ public class VoucherRestController {
 
     private void validateNhap(BindingResult result, VoucherRequest voucherRequest) {
 
+
         if (voucherRequest.getDoiTuongSuDung() == 0) {
             if (voucherRequest.getSoLuong() == 0) {
                 result.rejectValue("soLuong", "erSoLuong", "Vui lòng nhập dữ liệu");
@@ -141,6 +141,10 @@ public class VoucherRestController {
             result.rejectValue("doiTuongSuDung", "erDoiTuongSuDung", "Vui lòng chọn đối tượng sử dụng");
 
         }
+        if (voucherRequest.getLoaiMucGiam() == null) {
+            result.rejectValue("loaiMucGiam", "erDoiTuongSuDung", "Vui lòng chọn loại mức giảm");
+
+        }
 //        Mức giảm
         if (voucherRequest.getMucGiam() == null) {
             result.rejectValue("mucGiam", "erMucGiam", "Vui lòng nhập dữ liệu");
@@ -148,20 +152,24 @@ public class VoucherRestController {
         } else {
 //        Validate loại mức giảm Tien
             if (voucherRequest.getLoaiMucGiam().equals("TIEN")) {
-
-                if (voucherRequest.getGiaTriDonHang() < voucherRequest.getMucGiam()) {
-                    result.rejectValue("mucGiam", "erMucGiam", "Mức giảm vướt quá giá trị đơn hàng");
+                if (voucherRequest.getMucGiam() != null && voucherRequest.getGiaTriDonHang() != null) {
+                    if (voucherRequest.getGiaTriDonHang() <= voucherRequest.getMucGiam()) {
+                        result.rejectValue("mucGiam", "erMucGiam", "Mức giảm vướt quá giá trị đơn hàng");
+                    }
                 }
 
                 if (voucherRequest.getMucGiam() < 1000) {
-                    result.rejectValue("mucGiam", "erMucGiam", "Mức giảm phải lớn hơn 1000");
+                    result.rejectValue("mucGiam", "erMucGiam", "Mức giảm phải lớn hơn 10.0000 đ");
                 }
             }
 ////        Validate loại mức giảm %
             if (voucherRequest.getLoaiMucGiam().equals("PHAN TRAM")) {
                 if (voucherRequest.getMucGiamToiDa() == null) {
                     result.rejectValue("mucGiamToiDa", "erMucGiamToiDa", "Vui lòng nhập dữ liệu");
+                } else if (voucherRequest.getMucGiamToiDa() <= 10000) {
+                    result.rejectValue("mucGiamToiDa", "erMucGiamToiDa", "Mức giảm tối đa phải lớn hơn 10.000 đ");
                 }
+
                 if (voucherRequest.getMucGiam() < 1 || voucherRequest.getMucGiam() >= 99) {
                     result.rejectValue("mucGiam", "erMucGiam", "Mức giảm phải trong khoảng 1-99");
                 }
@@ -172,19 +180,19 @@ public class VoucherRestController {
         }
         if (voucherRequest.getNgayKetThuc() == null) {
             result.rejectValue("ngayKetThuc", "", "Vui lòng nhập dữ liệu");
-        } else {
-            if (voucherRequest.getNgayKetThuc().before(new Date())) {
-                result.rejectValue("ngayKetThuc", "", "Vui lòng nhập ngày kết thúc trước ngày hiện tại");
-            }
+
         }
-
-
-        if (voucherRequest.getNgayBatDau() != null && voucherRequest.getNgayKetThuc() != null)
+        if (voucherRequest.getNgayBatDau() != null && voucherRequest.getNgayKetThuc() != null) {
             if (voucherRequest.getNgayBatDau().after(voucherRequest.getNgayKetThuc())) {
                 result.rejectValue("ngayBatDau", "", "Ngày bắt đầu và kết thúc không hợp lệ");
                 result.rejectValue("ngayKetThuc", "", "Ngày bắt đầu và kết thúc không hợp lệ");
 //
+            } else {
+                if (voucherRequest.getNgayKetThuc().before(new Date())) {
+                    result.rejectValue("ngayKetThuc", "", "Ngày kết thúc không hợp lệ, phải lớn hơn ngày hiện tại");
+                }
             }
+        }
     }
 }
 

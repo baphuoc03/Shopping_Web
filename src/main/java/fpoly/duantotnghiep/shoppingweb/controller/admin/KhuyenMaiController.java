@@ -118,13 +118,12 @@ public class KhuyenMaiController {
         model.addAttribute("id", khuyenMaiService.findById(id).getMa());
         model.addAttribute("ct", "aaa");
         model.addAttribute("tt", khuyenMaiService.findById(id).getTrangThai());
-        int dis = 0;
+        int dis = 1;
         if (khuyenMaiService.findById(id).getNgayBatDau().after(new Date()) ||
                 khuyenMaiService.findById(id).getNgayKetThuc().before(new Date())) {
             dis = 0;
         }
         model.addAttribute("dis", dis);
-        System.out.println(dis +"dddd");
 
         model.addAttribute("sanPham", sanPhamService.findAll());
 
@@ -164,7 +163,7 @@ public class KhuyenMaiController {
         KhuyenMaiResponse km = khuyenMaiService.findById(id);
         khuyenMaiRequest.setTrangThai(km.getTrangThai());
         if (result.hasErrors()) {
-            getFormUpdate(model, khuyenMaiRequest,id);
+            getFormUpdate(model, khuyenMaiRequest, id);
             return "/admin/formKhuyenMai";
         }
         khuyenMaiRequest.setMa(id);
@@ -282,7 +281,8 @@ public class KhuyenMaiController {
 
         model.addAttribute("sanPhamOn", new ArrayList<>());
     }
-    private void getFormUpdate(Model model, KhuyenMaiRequest khuyenMaiRequest,String id) {
+
+    private void getFormUpdate(Model model, KhuyenMaiRequest khuyenMaiRequest, String id) {
 
         model.addAttribute("khuyenMai", khuyenMaiRequest);
 
@@ -301,7 +301,7 @@ public class KhuyenMaiController {
             dis = 0;
         }
         model.addAttribute("dis", dis);
-        System.out.println(dis +"dddd");
+        System.out.println(dis + "dddd");
 
         model.addAttribute("sanPham", sanPhamService.findAll());
 
