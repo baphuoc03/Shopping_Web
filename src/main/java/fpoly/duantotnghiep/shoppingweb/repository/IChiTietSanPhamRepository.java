@@ -53,4 +53,6 @@ public interface IChiTietSanPhamRepository extends JpaRepository<ChiTietSanPhamM
     Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
 
     List<ChiTietSanPhamModel> getAllBySize(SizeModel sizeModel);
+
+    List<ChiTietSanPhamModel> getAllBySanPham(SanPhamModel sanPhamModel);
 }

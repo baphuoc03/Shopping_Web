@@ -103,6 +103,7 @@ public class ChiTietSanPhamRestController {
         }
         System.out.println("so luong"+soLuong);
 
+
         if(!chiTietSanPhamService.checkSoLuongSP(id,soLuong)){
             return ResponseEntity.badRequest().build();
         }

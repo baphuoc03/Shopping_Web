@@ -27,7 +27,7 @@ public class ChiTietDonHangDtoResponse {
         this.id = model.getId();
         this.sanPham = model.getChiTietSanPham().getSanPham().getTen();
         this.anh = model.getChiTietSanPham().getSanPham().getImages().size()>0 ? model.getChiTietSanPham().getSanPham().getImages().get(0).getTen() : "default.png";
-        this.size = model.getChiTietSanPham().getSize().getMa();
+        this.size = model.getChiTietSanPham().getSize() == null ? 0 : model.getChiTietSanPham().getSize().getMa();
         this.soLuong = model.getSoLuong();
         this.donGia = model.getDonGia();
         this.donGiaSauGiam = model.getDonGiaSauGiam();

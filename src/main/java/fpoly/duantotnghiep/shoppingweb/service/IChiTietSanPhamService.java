@@ -39,4 +39,6 @@ public interface IChiTietSanPhamService {
     Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
 
     void deleteBySize(float size);
+
+    void deleteBySanPham(String maSanPham);
 }
