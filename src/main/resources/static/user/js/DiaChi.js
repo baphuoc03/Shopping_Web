@@ -73,6 +73,9 @@ app.controller('diaChiCtrl', function ($scope, $http) {
             $scope.diaChiByTaiKhoan.push(r.data)
             $("#addDiaChi").modal("hide")
             $scope.diaChi = {}
+            $scope.thanhPhoCode = ""
+            $scope.quanHuyenCode = ""
+            $scope.xaPhuongCode = ""
             alertify.success("Thêm địa chỉ thành công")
         }).catch(error => {
             console.log(error)

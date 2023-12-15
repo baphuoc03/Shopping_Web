@@ -81,7 +81,7 @@ public class KhuyenMaiController {
             List<SanPhamModel> sanPhamModel = repository.findByMaIn(sanPham);
             sanPhamModel.forEach(x -> {
                 if (khuyenMaiRequest.getMucGiam().compareTo(x.getGiaBan()) > 0) {
-                    result.rejectValue("mucGiam", "mucGiamErro", "Mức giảm không thể áp dụng cho một số sản phẩm");
+                    result.rejectValue("mucGiam", "mucGiamErro", "Mức giảm không thể áp dụng cho sản phẩm " + x.getMa() + " - " + x.getTen());
 
                 }
             });

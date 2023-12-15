@@ -140,7 +140,9 @@ app.controller('ctrl', function ($scope, $http) {
                     return
                 }else{
                     if(filterData.giaBan != undefined){
-                        if(!isNaN(filterData.giaBan) && filterData.giaBan > filterData.giaMax){
+                        if(parseFloat(filterData.giaBan) > parseFloat(filterData.giaMax)){
+                            console.log("max",parseFloat(filterData.giaMax))
+                            console.log("min",parseFloat(filterData.giaBan))
                             alertify.error("Giá max phải > giá min!!")
                             return
                         }

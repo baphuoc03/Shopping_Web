@@ -27,7 +27,7 @@
 
 <!-- <body data-layout="horizontal"> -->
 <div class="page-content" ng-app="khachhang-user" ng-controller="ctrl">
-2<div class="auth-page">
+<div class="auth-page">
     <div class="container-fluid p-0">
         <div class="row g-0 d-flex justify-content-center">
             <div class="col-xxl-4 col-lg-4 col-md-5 mt-5">
@@ -91,13 +91,13 @@
                                                 <input id="verifyPassNew" ng-model="khachHangAdd.password" class="form-control inputInInputgroup"
                                                        type="password"
                                                        ng-focus="removeErrors('verifyPassNewER')">
-                                                <p ng-if="checkPassRe === true" class="text-danger">Không trùng mật khẩu</p>
                                                 <button class="btn show-pass">
                                                     <i class="bx bxs-show" id="iVerifyPassNew"
                                                        style="font-size: 25px;align-items: center;display: flex;"
                                                        ng-click="showPassword('verifyPassNew','iVerifyPassNew')"></i>
                                                 </button>
                                             </div>
+                                            <p ng-if="checkPassRe === true" class="text-danger">Nhập lại mật khẩu không chính xác</p>
                                             <i class="er text-danger" id="verifyPassNewER"></i>
                                         </div>
                                     </div>

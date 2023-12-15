@@ -148,6 +148,7 @@
                                        placeholder="Địa chỉ: ví dụ(193 Phú Diễn)">
                                 <p class="form-text text-danger">{{errDiaChiChiTiet}}</p>                            </div>
                             <div class="mb-3">
+                                <label>Tỉnh/Thành phố</label>
                                 <select title="Country" id="city" ng-model="thanhPhoCode"
                                         onchange="angular.element(this).scope().cityChange(this.value)"
                                         class="form-select  rounded-4">
@@ -159,6 +160,7 @@
                                 <p class="form-text text-danger" id="eThanhPho"></p>
                             </div>
                             <div class="mb-3">
+                                <label>Quận huyện</label>
                                 <select id="district" data-placeholder="Quận huyện"
                                         ng-model="quanHuyenCode"
                                         onchange="angular.element(this).scope().districtChange(this.value)"
@@ -172,6 +174,7 @@
                                 <p class="form-text text-danger" id="eQuanHuyen"></p>
                             </div>
                             <div class="mb-3">
+                                <label>Xã phường</label>
                                 <select title="Country" id="ward" ng-model="xaPhuongCode"
                                         onchange="angular.element(this).scope().getFeeShipped(getElementById('district').value,this.value)"
                                         class="form-select  rounded-4">

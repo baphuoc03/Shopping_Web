@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/user/trangChu1}">
+      layout:decorate="~{/user/trangChu}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -273,7 +273,7 @@
                             </div>
                             <div class="col-7">
                                 <div class="text" style="margin-left: 10px;">
-                                    <h8>{{ct.sanPham}}</h8>
+                                    <h8><a style="color: #666;" href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
                                     <p>size: {{ct.size}}</p>
                                 </div>
                             </div>
