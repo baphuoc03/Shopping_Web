@@ -96,6 +96,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         let indexCity = $scope.citys.findIndex(c => c.ProvinceID == $scope.thanhPhoCode)
         let indexDistrict = $scope.districts.findIndex(d => d.DistrictID == $scope.quanHuyenCode)
         let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode)
+        console.log(indexWard)
 
         var donHang = {
             tenNguoiNhan: $scope.nguoiNhan,
@@ -104,11 +105,11 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             phuongThucThanhToan: $scope.phuongThucThanhToan,
             voucher: $scope.voucherDH,
             thanhPhoCode: $scope.thanhPhoCode,
-            thanhPhoName: $scope.citys[indexCity].ProvinceName,
+            thanhPhoName: $scope.citys[indexCity] == undefined ? "" : $scope.citys[indexCity].ProvinceName,
             quanHuyenCode: $scope.quanHuyenCode,
-            quanHuyenName: $scope.districts[indexDistrict].DistrictName,
+            quanHuyenName: $scope.districts[indexDistrict] == undefined ? "" : $scope.districts[indexDistrict].DistrictName,
             xaPhuongCode: $scope.xaPhuongCode,
-            xaPhuongName: $scope.wards[indexWard].WardName,
+            xaPhuongName: $scope.wards[indexWard] == undefined ? "" : $scope.wards[indexWard].WardName,
             diaChiChiTiet: $scope.diaChiChiTiet,
             ghiChu: $scope.ghiChu,
             phiGiaoHang: $scope.feeShipped,
@@ -117,11 +118,11 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         }
         var diaChi = {
             thanhPhoCode: $scope.thanhPhoCode,
-            thanhPhoName: $scope.citys[indexCity].ProvinceName,
+            thanhPhoName: $scope.citys[indexCity] == undefined ? "" : $scope.citys[indexCity].ProvinceName,
             quanHuyenCode: $scope.quanHuyenCode,
-            quanHuyenName: $scope.districts[indexDistrict].DistrictName,
+            quanHuyenName: $scope.districts[indexDistrict] == undefined ? "" : $scope.districts[indexDistrict].DistrictName,
             xaPhuongCode: $scope.xaPhuongCode,
-            xaPhuongName: $scope.wards[indexWard].WardName,
+            xaPhuongName: $scope.wards[indexWard] == undefined ? "" : $scope.wards[indexWard].WardName,
             diaChiChiTiet: $scope.diaChiChiTiet
         }
         if ($scope.isSelectSaveDC) {

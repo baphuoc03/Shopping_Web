@@ -62,11 +62,11 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode)
         var diaChi = {
             thanhPhoCode: $scope.thanhPhoCode,
-            thanhPhoName: $scope.citys[indexCity].ProvinceName,
+            thanhPhoName: $scope.citys[indexCity] == undefined ? "" : $scope.citys[indexCity].ProvinceName,
             quanHuyenCode: $scope.quanHuyenCode,
-            quanHuyenName: $scope.districts[indexDistrict].DistrictName,
+            quanHuyenName: $scope.districts[indexDistrict] == undefined ? "" : $scope.districts[indexDistrict].DistrictName,
             xaPhuongCode: $scope.xaPhuongCode,
-            xaPhuongName: $scope.wards[indexWard].WardName,
+            xaPhuongName: $scope.wards[indexWard] == undefined ? "" : $scope.wards[indexWard].WardName,
             diaChiChiTiet: $scope.diaChiChiTiet
         }
         $http.post("http://localhost:8080/add", diaChi).then(r => {
@@ -78,11 +78,12 @@ app.controller('diaChiCtrl', function ($scope, $http) {
             $scope.xaPhuongCode = ""
             alertify.success("Thêm địa chỉ thành công")
         }).catch(error => {
+            alertify.error("Vui lòng đầy đủ thông tin địa chỉ")
             console.log(error)
-            $scope.errDiaChiChiTiet = error.data.diaChiChiTiet == undefined ? "" : error.data.diaChiChiTiet
-            $scope.eThanhPho = error.data.thanhPhoCode ? "" : error.data.thanhPhoCode
-            $scope.eQuanHuyen = error.data.quanHuyenCode ? "" : error.data.quanHuyenCode
-            $scope.eXaPhuong = error.data.xaPhuongCode ? "" : error.data.xaPhuongCode
+            // $scope.errDiaChiChiTiet = error.data.diaChiChiTiet == undefined ? "" : error.data.diaChiChiTiet
+            // $scope.eThanhPho = error.data.thanhPhoCode ? "" : error.data.thanhPhoCode
+            // $scope.eQuanHuyen = error.data.quanHuyenCode ? "" : error.data.quanHuyenCode
+            // $scope.eXaPhuong = error.data.xaPhuongCode ? "" : error.data.xaPhuongCode
 
         })
     }
@@ -182,11 +183,11 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         var url = "/update" + "/" + $scope.idDiaChi;
         var updateDiaChi = {
             thanhPhoCode: $scope.thanhPhoCode,
-            thanhPhoName: $scope.citys[indexCity].ProvinceName,
+            thanhPhoName: $scope.citys[indexCity] == undefined ? "" : $scope.citys[indexCity].ProvinceName,
             quanHuyenCode: $scope.quanHuyenCode,
-            quanHuyenName: $scope.districts[indexDistrict].DistrictName,
+            quanHuyenName: $scope.districts[indexDistrict] == undefined ? "" : $scope.districts[indexDistrict].DistrictName,
             xaPhuongCode: $scope.xaPhuongCode,
-            xaPhuongName: $scope.wards[indexWard].WardName,
+            xaPhuongName: $scope.wards[indexWard] == undefined ? "" : $scope.wards[indexWard].WardName,
             diaChiChiTiet: $scope.diaChiChiTiet
         }
         $http.put(url, updateDiaChi).then(function (r) {
@@ -198,12 +199,12 @@ app.controller('diaChiCtrl', function ($scope, $http) {
             $scope.diaChi = {}
             $("#diaChiUpdate").modal("hide")
         }).catch(error => {
-
-            console.log(error)
-            $scope.errDiaChiChiTiet = error.data.diaChiChiTiet
-            $scope.eThanhPho = error.data.thanhPhoCode
-            $scope.eQuanHuyen = error.data.quanHuyenCode
-            $scope.eXaPhuong = error.data.xaPhuongCode
+            alertify.error("Vui lòng đầy đủ thông tin địa chỉ")
+            // console.log(error)
+            // $scope.errDiaChiChiTiet = error.data.diaChiChiTiet
+            // $scope.eThanhPho = error.data.thanhPhoCode
+            // $scope.eQuanHuyen = error.data.quanHuyenCode
+            // $scope.eXaPhuong = error.data.xaPhuongCode
         })
     }
     // $scope.getDiaChi = function (id){
