@@ -44,6 +44,14 @@ app.controller("danh-sach-yeu-thich-ctrl", function($scope, $http){
 
     $scope.addToCart = function (idSlCTSP, idInputSoLuong){
         var soLuong = document.getElementById(idInputSoLuong).value
+        if(soLuong.length == 0){
+            alertify.error("Vui lòng nhập số lượng")
+            return
+        }
+        if(parseInt(soLuong) < 1){
+            alertify.error("Số lượng phải > 0")
+            return
+        }
         var ctsp = document.getElementById(idSlCTSP).value
         console.log(soLuong,ctsp)
         alertify.confirm("Bạn có muốn thêm sản phẩm vào giỏ hàng ?", function () {

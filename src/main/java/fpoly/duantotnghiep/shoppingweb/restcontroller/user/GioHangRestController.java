@@ -43,6 +43,7 @@ public class GioHangRestController {
             er.put("eSize","Vui lòng chọn size");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
         }
+        System.out.println(idCTSP);
         if(service.checkSanPhamTrongGio(idCTSP)){
             soLuongCheck += service.getSoLuong(idCTSP);
         }

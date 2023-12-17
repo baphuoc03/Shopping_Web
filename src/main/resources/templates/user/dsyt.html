@@ -95,7 +95,7 @@
                             <select class="form-select" id="{{i.sanPhamm.ma}}" style=" width: 80px;"
                                     onchange="angular.element(this).scope().getSoLuong(this.value,this.id)"
                                     aria-label="Default select example">
-                                <option selected>Size</option>
+                                <option selected value="">Size</option>
                                 <option ng-repeat="s in i.chietTietSanPham" value="{{s.id}}">{{s.size}}</option>
                             </select>
                             <span style="display: flex;align-items: center;padding-left: 10px"
@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <div class="col-2">
-                    <button ng-click="delete(i.sanPhamm.ma)" class="btn-close" aria-label="Close"></button>
+                    <button type="button" ng-click="delete(i.sanPhamm.ma)" class="btn-close" aria-label="Close"></button>
                 </div>
             </div>
             <hr>
