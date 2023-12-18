@@ -166,11 +166,11 @@
                                 {{product.ten}}
                             </h4>
                             <span class="stext-105 cl3"
-                                  ng-if="product.giaBan > product.giaNiemYet && p.loaiGiam == 'TIEN'">
+                                  ng-if="product.giaBan > product.giaNiemYet && p.loaiGiam != 'PHAN TRAM'">
 									- {{product.mucGiam | currency: "" : 1}}đ
                             </span>
                             <span class="stext-105 cl3"
-                                  ng-if="product.giaBan > product.giaNiemYet && p.loaiGiam != 'TIEN'">
+                                  ng-if="product.giaBan > product.giaNiemYet && p.loaiGiam == 'PHAN TRAM'">
 									- {{product.mucGiam}}%
                             </span>
                         </div>

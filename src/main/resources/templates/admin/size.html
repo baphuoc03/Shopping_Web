@@ -39,7 +39,7 @@
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-6">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        <button th:disabled="${!hasAdmin}" type="button" class="btn btn-primary" data-bs-toggle="modal"
                                                 data-bs-target="#sizeModal">
                                             Thêm Size
                                         </button>
