@@ -4,7 +4,7 @@
       layout:decorate="~{/user/trangChu}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Lịch Sử Mua Hàng</title>
     <link rel='stylesheet prefetch' href='https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css'>
 
     <style>
@@ -263,7 +263,8 @@
                                 <h5 style="color: white">Đơn hàng: {{d.ma}}</h5>
                             </div>
                             <div class="col-6 m-t-3">
-                                <h5 class="flex-r m-t-10" style="color: white;">Chờ xác nhận</h5>
+                                <h5 ng-if="d.trangThai == 2" class="flex-r m-t-10" style="color: white;">Chờ xác nhận</h5>
+                                <h5 ng-if="d.trangThai == 5" class="flex-r m-t-10" style="color: white;">Chưa thanh toán</h5>
                             </div>
                         </div>
                         <div class="row m-r-10 m-l-10 m-t-10" ng-repeat="ct in d.chiTietDonHang">
