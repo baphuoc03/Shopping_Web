@@ -357,7 +357,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                     trangThai: $scope.chuaXacNhan.detail.trangThai,
                     diaChiChiTiet : "a",
                     phuongThucThanhToan : $scope.chuaXacNhan.detail.phuongThucThanhToan =='true' ? 0 : 1,
-                    nhanVien : $scope.chuaXacNhan.detail.nhanVienDtoResponse.username
+                    nhanVien : $scope.chuaXacNhan.detail.nhanVienDtoResponse == null ? null :  $scope.chuaXacNhan.detail.nhanVienDtoResponse.username
                 }
                 let chiTietDonHang = [];
                 $scope.chiTietDonHang.forEach(c => {
