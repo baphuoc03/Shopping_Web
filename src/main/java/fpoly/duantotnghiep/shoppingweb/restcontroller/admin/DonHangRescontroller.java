@@ -2,6 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
@@ -9,6 +10,7 @@ import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VnPayServiceImpl;
+import fpoly.duantotnghiep.shoppingweb.service.impl.VoucherServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.mail.MessagingException;
@@ -27,10 +29,8 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.text.NumberFormat;
+import java.util.*;
 
 @RestController("don-hang-restCtrl-admin")
 @RequestMapping("${admin.domain}/don-hang")
@@ -45,6 +45,8 @@ public class DonHangRescontroller {
     private VnPayServiceImpl vnPayService;
     @Autowired
     private IDonHangResponsitory donHangResponsitory;
+    @Autowired
+    private VoucherServiceImpl voucherService;
 
     @GetMapping("get-by-trangthai")
     public Page<DonHangDtoResponse> getChuaXacNhan(@RequestParam("trangThai") Integer trangThai,
@@ -111,6 +113,19 @@ public class DonHangRescontroller {
                                            @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products) {
         if(products.size()<=0){
             result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn hàng"));
+        }else{
+            if(request.getVoucher() != null && !request.getVoucher().isBlank()){
+                VoucherReponse voucherReponse = voucherService.findById(request.getVoucher());
+                BigDecimal tongTien = BigDecimal.valueOf(0);
+                for (var p: products ) {
+                    tongTien = tongTien.add(p.getDonGiaSauGiam());
+                }
+
+                if(tongTien.compareTo(BigDecimal.valueOf(voucherReponse.getGiaTriDonHang())) < 0){
+                    NumberFormat numberFM = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                    result.addError(new FieldError("soLuongSP","soLuongSP","Voucher đã sử dụng chỉ áp dụng cho đơn hàng từ " + numberFM.format(voucherReponse.getGiaTriDonHang()) + " đ" ) );
+                }
+            }
         }
 
         if(result.hasErrors()){
