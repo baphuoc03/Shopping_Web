@@ -70,7 +70,6 @@ public class DonHangRescontroller {
         if (!donHangService.existsByMa(ma)) {
             return ResponseEntity.notFound().build();
         }
-        donHangService.updateTrangThai(ma, trangThai);
 
         DonHangModel donHangModel = donHangResponsitory.findById(ma).get();
             if(donHangModel.getLoai()==1 && trangThai==4){
@@ -82,6 +81,7 @@ public class DonHangRescontroller {
                     return ResponseEntity.ok(vnPayUrl);
                 }
             }
+        donHangService.updateTrangThai(ma, trangThai);
 
         return ResponseEntity.ok().build();
     }

@@ -46,6 +46,7 @@ public class VNPayController {
         System.out.println(paymentStatus);
         if(paymentStatus == 1){
             if(loaiDonHang!=1) donHangService.updateTrangThai(oderInfo,1);
+            else donHangService.updateTrangThai(oderInfo,4);
             return url;
         }else{
             if(loaiDonHang==1){

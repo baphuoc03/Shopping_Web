@@ -77,6 +77,11 @@ public class DonHangService implements IDonHangService {
     public DonHangDtoResponse checkOut(DonHangDTORequest donHangDTORequest) {
         DonHangModel model = donHangDTORequest.mapModel();
         model.setLoai(0);
+        if (model.getPhuongThucThanhToan()) {
+            model.setTrangThai(2);
+        } else {
+            model.setTrangThai(5);
+        }
         donHangResponsitory.saveAndFlush(model);
         return new DonHangDtoResponse(donHangResponsitory.findById(model.getMa()).get());
     }
@@ -386,7 +391,11 @@ public class DonHangService implements IDonHangService {
                 model.setTrangThai(5);
             }
         }else{
-            model.setTrangThai(donHangDTORequest.getTrangThai());
+            if(model.getPhuongThucThanhToan()){
+                model.setTrangThai(donHangDTORequest.getTrangThai());
+            }else {
+                model.setTrangThai(5);
+            }
         }
         model = donHangResponsitory.saveAndFlush(model);
 

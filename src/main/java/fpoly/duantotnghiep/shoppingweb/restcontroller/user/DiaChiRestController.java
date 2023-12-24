@@ -138,8 +138,8 @@ DiaChiRestController {
 
     @GetMapping("/thanh-toan/dia-chi-mac-dinh")
     public ResponseEntity<?> findDiaChiMacDinhByKhach(Authentication authentication) {
-        if (authentication.getName() == null) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND);
+        if (authentication == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(diaChiService.getDiaChiMacDinh(authentication.getName(), true));
     }
