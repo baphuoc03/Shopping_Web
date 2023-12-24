@@ -164,15 +164,11 @@ public class KhuyenMaiController {
         KhuyenMaiResponse km = khuyenMaiService.findById(id);
         khuyenMaiRequest.setTrangThai(km.getTrangThai());
         if (result.hasErrors()) {
-            getFormAdd(model, khuyenMaiRequest);
+            getFormUpdate(model, khuyenMaiRequest,id);
             return "/admin/formKhuyenMai";
         }
         khuyenMaiRequest.setMa(id);
 
-        if (result.hasErrors()) {
-            getFormAdd(model, khuyenMaiRequest);
-            return "/admin/formKhuyenMai";
-        }
         khuyenMaiService.save(khuyenMaiRequest);
 
         return "redirect:/admin/khuyen-mai";
@@ -285,6 +281,36 @@ public class KhuyenMaiController {
         model.addAttribute("action", "/admin/khuyen-mai/add");
 
         model.addAttribute("sanPhamOn", new ArrayList<>());
+    }
+    private void getFormUpdate(Model model, KhuyenMaiRequest khuyenMaiRequest,String id) {
+
+        model.addAttribute("khuyenMai", khuyenMaiRequest);
+
+        List<String> sanPhamOn = khuyenMaiService.findById(id).getSanPham().stream()
+                .map(SanPhamModel::getMa).collect(Collectors.toList());
+
+        List<String> sanPhamKhuyenMai = sanPhamService.findByAllSanPhamWithKM().stream()
+                .map(SanPhamModel::getMa).collect(Collectors.toList());
+
+        model.addAttribute("id", khuyenMaiService.findById(id).getMa());
+        model.addAttribute("ct", "aaa");
+        model.addAttribute("tt", khuyenMaiService.findById(id).getTrangThai());
+        int dis = 0;
+        if (khuyenMaiService.findById(id).getNgayBatDau().after(new Date()) ||
+                khuyenMaiService.findById(id).getNgayKetThuc().before(new Date())) {
+            dis = 0;
+        }
+        model.addAttribute("dis", dis);
+        System.out.println(dis +"dddd");
+
+        model.addAttribute("sanPham", sanPhamService.findAll());
+
+        model.addAttribute("action", "/admin/khuyen-mai/update/" + id);
+
+        model.addAttribute("sanPhamOn", sanPhamOn);
+
+        model.addAttribute("sanPhamKhuyenMai",
+                listSanPhamKhuyenMaiById(sanPhamKhuyenMai, sanPhamOn));
     }
 
     private void getThuocTinhSanPham(Model model) {

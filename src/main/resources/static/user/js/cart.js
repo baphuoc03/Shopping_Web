@@ -32,7 +32,7 @@ app.controller("cart-ctrl", function ($scope, $http) {
         })
     }
     $scope.removeProductIncart = function (idCTSP) {
-        if (confirm("Xóa sản phẩm khỏi giỏ hàng?")) {
+        alertify.confirm("Xóa sản phẩm khỏi giỏ hàng? ", function () {
             $http.delete("/cart/remove/" + idCTSP).then(function (response) {
                 // alert("Success")
                 $scope.cart = response.data;
@@ -40,16 +40,16 @@ app.controller("cart-ctrl", function ($scope, $http) {
                 // let index = $scope.cart.findIndex(c => c.id == idCTSP);
                 // $scope.cart.slice(index,1)
             })
-        }
+        }, function () {})
     }
     $scope.removeAllProductIncart = function () {
-        if (confirm("Bạn có muốn xóa tất cả sản phẩm trong giỏ")) {
+        alertify.confirm("Xóa hết giỏ hàng? ", function () {
             $http.delete("/cart/removeAll").then(function (response) {
                 // alert("Success")
                 $scope.cart = response.data;
                 console.log(response.data())
             })
-        }
+        }, function () {})
     }
     $scope.getTotal = function () {
         var totalPrice = 0;

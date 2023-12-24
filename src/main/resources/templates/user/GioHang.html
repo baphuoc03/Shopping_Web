@@ -127,7 +127,7 @@
                             </tr>
 
                             <tr class="table_row" ng-repeat="c in cart">
-                                <td class="column-1">
+                                <td class="column-1" style="padding-left: 20px">
                                     <div class="how-itemcart1">
                                         <img src="/image/loadImage/product/{{c.anh}}"
                                              style="width: 100px; height: 100px" alt="IMG">
@@ -163,19 +163,19 @@
                                     <div>{{c.donGiaSauGiam * c.soLuong | currency: "" : 1}}đ</div>
                                 </td>
                                 <td>
-                                    <a href="#">
-                                        <img src="/userStyle/images/icons/icon-close2.png"
-                                             ng-click="removeProductIncart(c.id)">
-                                    </a>
+                                    <span style="cursor: pointer" ng-click="removeProductIncart(c.id)">
+                                        <img src="/userStyle/images/icons/icon-close2.png">
+                                    </span>
                                 </td>
                             </tr>
                         </table>
-                        <div class="">
-                            <button style="width: 100%" ng-click="removeAllProductIncart()"
-                                    class="btn btn-outline-danger">
-                                Xóa tất cả
-                            </button>
-                        </div>
+
+                    </div>
+                    <div class="" ng-if="cart.length > 0">
+                        <button type="button" style="width: 100%" ng-click="removeAllProductIncart()"
+                                class="btn btn-outline-danger">
+                            Xóa tất cả
+                        </button>
                     </div>
                 </div>
             </div>

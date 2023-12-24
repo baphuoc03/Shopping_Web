@@ -93,9 +93,8 @@
                                     <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu khuyến
                                         mại
                                     </button>
-                                    <button th:href="@{/admin/khuyen-mai/kich-hoat/{id}(id=${id})}"
+                                    <button th:attr="onclick='location.href=\''+@{/admin/khuyen-mai/kich-hoat/{id}(id=${id})}+'\''"
                                             th:if="${ct == 'aaa' && tt == 1}" type="button"
-                                            th:disabled="${dis == 0}"
                                             class="btn btn-primary waves-effect waves-light">Kích hoạt
                                     </button>
                                     <button th:href="@{/admin/khuyen-mai/dung-kich-hoat/{id}(id=${id})}"
