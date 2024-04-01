@@ -7,7 +7,6 @@
 </head>
 <body data-topbar="dark">
 <div class="main-content" layout:fragment="content">
-
     <style>
         .modal-Big {
             width: 80%;
@@ -16,6 +15,12 @@
         .er {
             color: red;
             font-size: 13px;
+        }
+        .nameProduct{
+            width:200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
     <div class="page-content" ng-app="donhang-app" ng-controller="donhang-ctrl">
@@ -482,8 +487,8 @@
                                                             </td>
                                                             <td style="width: 200px">
                                                                 <button class="btn btn-danger me-1"
-                                                                        data-toggle="modal" data-target="#lyDo"
-                                                                        ng-click="daXacNhan.setIdDonHang(d.ma)">Hủy
+                                                                        data-toggle="modal"
+                                                                        ng-click="daXacNhan.huy(d.ma)">Hủy
                                                                 </button>
                                                                 <button class="btn btn-primary"
                                                                         ng-click="daXacNhan.chuyenGiao(d.ma)">Chuyển
@@ -882,6 +887,7 @@
                                                             <th scope="col">Tên người nhận</th>
                                                             <th scope="col">Số điện thoại</th>
                                                             <th scope="col">Ngày hủy</th>
+                                                            <th scope="col">Lý do hủy</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -908,6 +914,10 @@
                                                             <!--                                                                <button class="btn btn-danger me-1">Hủy</button>-->
                                                             <!--                                                                <button class="btn btn-primary">Xác nhận</button>-->
                                                             <!--                                                            </td>-->
+                                                            <td style="cursor: pointer"
+                                                                ng-click="daXacNhan.getDetail(d.ma)">
+                                                                <p class="nameProduct">{{d.lyDoHuy}}</p>
+                                                            </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -1316,7 +1326,8 @@
                                     <td>Phí giao hàng</td>
                                     <td colspan="4">
                                         <div class="d-flex justify-content-end">
-                                            {{chuaXacNhan.detail.phiGiaoHang | currency: "" : 1}} đ
+<!--                                            {{chuaXacNhan.detail.phiGiaoHang | currency: "" : 1}} đ-->
+                                            <input min="0" class="form-control" type="number" style="width: 150px" ng-model="chuaXacNhan.detail.phiGiaoHang" > đ
                                         </div>
                                     </td>
                                 </tr>
@@ -1818,7 +1829,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Phí giao hàng</td>
+                                    <td>Phí giao hàng </td>
                                     <td colspan="4">
                                         <div class="d-flex justify-content-end">
                                             {{donHang.phiGiaoHang | currency: "" : 1}} đ

@@ -23,11 +23,13 @@ public class GioHangDtoReponse {
     private String maSanPham;
     private Float size;
     private Integer soLuong;
+    private Long soLuongSanPham;
 
     public GioHangDtoReponse(ChiTietSanPhamModel model, Integer sl) {
         id = model.getId();
         tenSanPham = model.getSanPham() == null ? "" : model.getSanPham().getTen();
         maSanPham = model.getSanPham() == null ? "" : model.getSanPham().getMa();
+        soLuongSanPham = model.getSoLuong();
         donGia = model.getSanPham().getGiaBan();
         donGiaSauGiam = model.getSanPham().getDonGiaSauGiam();
         size = model.getSize().getMa();

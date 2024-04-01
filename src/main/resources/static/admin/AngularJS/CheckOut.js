@@ -92,73 +92,76 @@ app.controller('checkOutCtrl', function ($scope, $http) {
 //    check-out
 
     $scope.create = function () {
-        // let tongTien = document.getElementById("tongTien").value
-        let indexCity = $scope.citys.findIndex(c => c.ProvinceID == $scope.thanhPhoCode)
-        let indexDistrict = $scope.districts.findIndex(d => d.DistrictID == $scope.quanHuyenCode)
-        let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode)
-        console.log(indexWard)
+        alertify.confirm("Xác nhận thanh toán", function () {
+            // let tongTien = document.getElementById("tongTien").value
+            let indexCity = $scope.citys.findIndex(c => c.ProvinceID == $scope.thanhPhoCode)
+            let indexDistrict = $scope.districts.findIndex(d => d.DistrictID == $scope.quanHuyenCode)
+            let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode)
+            console.log(indexWard)
 
-        var donHang = {
-            tenNguoiNhan: $scope.nguoiNhan,
-            soDienThoai: $scope.soDienThoai,
-            email: $scope.email,
-            phuongThucThanhToan: $scope.phuongThucThanhToan,
-            voucher: $scope.voucherDH,
-            thanhPhoCode: $scope.thanhPhoCode,
-            thanhPhoName: $scope.citys[indexCity] == undefined ? "" : $scope.citys[indexCity].ProvinceName,
-            quanHuyenCode: $scope.quanHuyenCode,
-            quanHuyenName: $scope.districts[indexDistrict] == undefined ? "" : $scope.districts[indexDistrict].DistrictName,
-            xaPhuongCode: $scope.xaPhuongCode,
-            xaPhuongName: $scope.wards[indexWard] == undefined ? "" : $scope.wards[indexWard].WardName,
-            diaChiChiTiet: $scope.diaChiChiTiet,
-            ghiChu: $scope.ghiChu,
-            phiGiaoHang: $scope.feeShipped,
-            tienGiam: $scope.giaGiam,
-            tongTien: ($scope.sumTotal + $scope.feeShipped) * 100
-        }
-        var diaChi = {
-            thanhPhoCode: $scope.thanhPhoCode,
-            thanhPhoName: $scope.citys[indexCity] == undefined ? "" : $scope.citys[indexCity].ProvinceName,
-            quanHuyenCode: $scope.quanHuyenCode,
-            quanHuyenName: $scope.districts[indexDistrict] == undefined ? "" : $scope.districts[indexDistrict].DistrictName,
-            xaPhuongCode: $scope.xaPhuongCode,
-            xaPhuongName: $scope.wards[indexWard] == undefined ? "" : $scope.wards[indexWard].WardName,
-            diaChiChiTiet: $scope.diaChiChiTiet
-        }
-        if ($scope.isSelectSaveDC) {
-            $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
-            })
-        }
-        $http.post("http://localhost:8080/check-out", donHang).then(r => {
-            if (r.data.vnPayUrl == undefined) {
-                Swal.fire({
-                    title: 'Đặt hàng thành công',
-                    text: 'Cảm ơn bạn đã mua hàng tại hydra sneaker!!!',
-                    icon: 'success',
-                    timer: 1200,
-                    showConfirmButton: false
-                }).then(() => {
-                    if ($scope.loginIn == false) {
-                        window.location.href = "http://localhost:8080/gio-hang";
-                    } else {
-                        window.location.href = "http://localhost:8080/lich-su-mua-hang1";
-                    }
-                });
-            } else {
-                location.href = r.data.vnPayUrl
+            var donHang = {
+                tenNguoiNhan: $scope.nguoiNhan,
+                soDienThoai: $scope.soDienThoai,
+                email: $scope.email,
+                phuongThucThanhToan: $scope.phuongThucThanhToan,
+                voucher: $scope.voucherDH,
+                thanhPhoCode: $scope.thanhPhoCode,
+                thanhPhoName: $scope.citys[indexCity] == undefined ? "" : $scope.citys[indexCity].ProvinceName,
+                quanHuyenCode: $scope.quanHuyenCode,
+                quanHuyenName: $scope.districts[indexDistrict] == undefined ? "" : $scope.districts[indexDistrict].DistrictName,
+                xaPhuongCode: $scope.xaPhuongCode,
+                xaPhuongName: $scope.wards[indexWard] == undefined ? "" : $scope.wards[indexWard].WardName,
+                diaChiChiTiet: $scope.diaChiChiTiet,
+                ghiChu: $scope.ghiChu,
+                phiGiaoHang: $scope.feeShipped,
+                tienGiam: $scope.giaGiam,
+                tongTien: ($scope.sumTotal + $scope.feeShipped) * 100
             }
+            var diaChi = {
+                thanhPhoCode: $scope.thanhPhoCode,
+                thanhPhoName: $scope.citys[indexCity] == undefined ? "" : $scope.citys[indexCity].ProvinceName,
+                quanHuyenCode: $scope.quanHuyenCode,
+                quanHuyenName: $scope.districts[indexDistrict] == undefined ? "" : $scope.districts[indexDistrict].DistrictName,
+                xaPhuongCode: $scope.xaPhuongCode,
+                xaPhuongName: $scope.wards[indexWard] == undefined ? "" : $scope.wards[indexWard].WardName,
+                diaChiChiTiet: $scope.diaChiChiTiet
+            }
+            if ($scope.isSelectSaveDC) {
+                $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
+                })
+            }
+            $http.post("http://localhost:8080/check-out", donHang).then(r => {
+                if (r.data.vnPayUrl == undefined) {
+                    Swal.fire({
+                        title: 'Đặt hàng thành công',
+                        text: 'Cảm ơn bạn đã mua hàng tại hydra sneaker!!!',
+                        icon: 'success',
+                        timer: 1200,
+                        showConfirmButton: false
+                    }).then(() => {
+                        if ($scope.loginIn == false) {
+                            window.location.href = "http://localhost:8080/gio-hang";
+                        } else {
+                            window.location.href = "http://localhost:8080/lich-su-mua-hang1";
+                        }
+                    });
+                } else {
+                    location.href = r.data.vnPayUrl
+                }
 
-        }).catch(err => {
-            console.log(err)
-            $scope.errNguoiNhan = err.data.tenNguoiNhan
-            $scope.errTienGiam = err.data.tienGiam
-            $scope.errSoDienThoai = err.data.soDienThoai
-            $scope.errEmail = err.data.email
-            $scope.errThanhPhoCode = err.data.thanhPhoCode
-            $scope.errQuanHuyenCode = err.data.quanHuyenCode
-            $scope.errXaPhuongCode = err.data.xaPhuongCode
-            $scope.errDiaChiChiTiet = err.data.diaChiChiTiet
-            alertify.error(err.data.tienGiam)
+            }).catch(err => {
+                console.log(err)
+                $scope.errNguoiNhan = err.data.tenNguoiNhan
+                $scope.errTienGiam = err.data.tienGiam
+                $scope.errSoDienThoai = err.data.soDienThoai
+                $scope.errEmail = err.data.email
+                $scope.errThanhPhoCode = err.data.thanhPhoCode
+                $scope.errQuanHuyenCode = err.data.quanHuyenCode
+                $scope.errXaPhuongCode = err.data.xaPhuongCode
+                $scope.errDiaChiChiTiet = err.data.diaChiChiTiet
+                alertify.error(err.data.tienGiam)
+            })
+        }, function () {
         })
     }
 

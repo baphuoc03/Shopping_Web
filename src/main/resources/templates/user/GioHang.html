@@ -158,6 +158,9 @@
                                             <i class="fs-16 zmdi zmdi-plus"></i>
                                         </div>
                                     </div>
+                                    <div ng-if="c.soLuongSanPham < c.soLuong">
+                                        <i style="color: red">Số lượng sản phẩm còn lại không đủ</i>
+                                    </div>
                                 </td>
                                 <td class="column-5">
                                     <div>{{c.donGiaSauGiam * c.soLuong | currency: "" : 1}}đ</div>

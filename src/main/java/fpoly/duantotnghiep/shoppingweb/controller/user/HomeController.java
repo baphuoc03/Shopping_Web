@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.controller.user;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.GioHangDtoReponse;
+import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.IGioHangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import java.util.List;
 public class HomeController {
     @Autowired
     IGioHangService gioHangService;
+    @Autowired
+    private IChiTietSanPhamService chiTietSanPhamService;
 
     @GetMapping("trang-chu")
     public String trangChu() {
@@ -39,6 +42,11 @@ public class HomeController {
         List<GioHangDtoReponse> giohang = gioHangService.laySpTrongGio();
         if (giohang.size() == 0) {
             return "/user/gioHang";
+        }
+        for (var item: giohang) {
+            if(chiTietSanPhamService.finById(item.getId()).getSoLuong() <= 0){
+                return "redirect:/gio-hang";
+            }
         }
         return "/user/thanhToan";
     }

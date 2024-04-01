@@ -47,6 +47,10 @@ public class GioHangRestController {
         if(service.checkSanPhamTrongGio(idCTSP)){
             soLuongCheck += service.getSoLuong(idCTSP);
         }
+        if(sl <= 0){
+            er.put("eSize","Số lượng không hợp lệ!!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
+        }
         if(!chiTietSanPhamService.checkSoLuongSP(idCTSP, Long.valueOf(soLuongCheck))){
             er.put("eSize","Số lượng không hợp lệ!!");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);

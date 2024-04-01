@@ -3,9 +3,11 @@ package fpoly.duantotnghiep.shoppingweb.entitymanager;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fpoly.duantotnghiep.shoppingweb.dto.filter.SanPhamDtoFilter;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.thongKe.SanPhamBanChayDto;
+import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.DongSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDongSanPhamRepository;
@@ -230,5 +232,77 @@ public class SanPhamEntityManager {
                         ((Number) r.get("soLuong")).longValue()
                 )).collect(Collectors.toList());
     }
+
+    public List<ChiTietSanPhamDtoResponse> filterAllCtsp(SanPhamDtoFilter sanPham){
+        StringBuilder jpql = new StringBuilder("select s FROMChiTietSanPhamModel s WHERE s.sanPham.trangThai = true and s.sanPham.hienThi = true");
+
+        if(sanPham.getTen() != null){
+            jpql.append(" And (s.sanPham.ten like '%"+sanPham.getTen()+"%')");
+//            queryBuider.append("And s.ten like '%"+sanPham.getTen()+"%'");
+        }
+
+        if(sanPham.getMauSac()!=null) {
+            if(sanPham.getMauSac().equalsIgnoreCase("khac")){
+                jpql.append(" And s.sanPham.mauSac is null");
+            }else {
+                jpql.append(" And s.sanPham.mauSac.ma = '" + sanPham.getMauSac() + "'");
+            }
+        }
+        if(sanPham.getDongSanPham()!=null) {
+            if(sanPham.getDongSanPham().equalsIgnoreCase("khac")){
+                jpql.append(" And s.sanPham.dongSanPham is null");
+            }else{
+                DongSanPhamModel dongSanPhamModel = dongSanPhamRepository.findById(sanPham.getDongSanPham()).orElse(null);
+                if(dongSanPhamModel==null){
+                    jpql.append(" And s.sanPham.dongSanPham.thuongHieu.id = '" + sanPham.getDongSanPham() + "'");
+                }else {
+                    jpql.append(" And s.sanPham.dongSanPham.id = '" + sanPham.getDongSanPham() + "'");
+                }
+            }
+        }
+        if(sanPham.getKieuDang()!=null) {
+            if(sanPham.getKieuDang().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.sanPham.kieuDang is null");
+            }else{
+                jpql.append(" And s.sanPham.kieuDang.id = '" + sanPham.getKieuDang() + "'");
+            }
+        }
+        if(sanPham.getXuatXu()!=null) {
+            if(sanPham.getXuatXu().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.sanPham.xuatXu is null");
+            }else{
+                jpql.append(" And s.sanPham.xuatXu.id = '" + sanPham.getXuatXu() + "'");
+            }
+        }
+        if(sanPham.getChatLieu()!=null) {
+            if(sanPham.getChatLieu().equalsIgnoreCase("khac")) {
+                jpql.append(" And s.sanPham.chatLieu is null");
+            }else {
+                jpql.append(" And s.sanPham.chatLieu.id = '" + sanPham.getChatLieu() + "'");
+            }
+        }
+        if(sanPham.getGiaBan()!=null) jpql.append(" And s.sanPham.giaBan >= " + sanPham.getGiaBan());
+        if(sanPham.getGiaMax()!=null) jpql.append(" And s.sanPham.giaBan <= " + sanPham.getGiaMax());
+
+        if(sanPham.getSort()!=null){
+            if(sanPham.getSort()==1) jpql.append( "ORDER BY s.sanPham.giaBan DESC");
+            else if(sanPham.getSort()==2) jpql.append(" ORDER BY s.sanPham.giaBan");
+            else if(sanPham.getSort()==3) jpql.append(" ORDER BY s.sanPham.ten DESC");
+            else if(sanPham.getSort()==4) jpql.append(" ORDER BY s.sanPham.ten");
+            else if(sanPham.getSort()==5) jpql.append("ORDER BY s.sanPham.soLuong DESC");
+            else if(sanPham.getSort()==6) jpql.append("ORDER BY s.sanPham.soLuong");
+            else if(sanPham.getSort()==7) jpql.append("ORDER BY s.sanPham.ngayTao DESC");
+            else if(sanPham.getSort()==8) jpql.append("ORDER BY s.sanPham.ngayTao");
+            else if(sanPham.getSort()==9) jpql.append("ORDER BY s.sanPham.ngayCapNhat DESC");
+            else if(sanPham.getSort()==10) jpql.append("ORDER BY s.sanPham.ngayCapNhat");
+        }
+
+        Query query = entityManager.createQuery(String.valueOf(jpql));
+        List<ChiTietSanPhamModel> listContent = query.getResultList();
+        listContent = listContent.stream().filter(s -> s.getSanPham().getHienThi()==true).collect(Collectors.toList());
+
+        return listContent.stream().map(s -> new ChiTietSanPhamDtoResponse(s)).collect(Collectors.toList());
+    }
+
 
 }
