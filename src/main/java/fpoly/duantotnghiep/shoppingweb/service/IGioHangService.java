@@ -20,4 +20,6 @@ public interface IGioHangService {
 
     Integer getSoLuong(String idCTSP);
     public void removeAllProdcutInCart();
+
+    Boolean checkSoLuong();
 }

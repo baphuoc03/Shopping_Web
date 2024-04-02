@@ -151,6 +151,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
 
             }).catch(err => {
                 console.log(err)
+                if(err.data.erSoLuong != undefined) window.location.href = "http://localhost:8080/gio-hang";
                 $scope.errNguoiNhan = err.data.tenNguoiNhan
                 $scope.errTienGiam = err.data.tienGiam
                 $scope.errSoDienThoai = err.data.soDienThoai

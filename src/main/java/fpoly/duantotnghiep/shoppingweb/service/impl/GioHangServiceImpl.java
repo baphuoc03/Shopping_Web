@@ -72,5 +72,19 @@ public class GioHangServiceImpl implements IGioHangService {
     public Integer getSoLuong(String idCTSP){
         return cart.getProductInCart().get(idCTSP);
     }
+    @Override
+    public Boolean checkSoLuong(){
+        Boolean rs = true;
+        List<GioHangDtoReponse> giohang = this.laySpTrongGio();
+
+        for (var item: giohang) {
+            int sl = item.getSoLuong();
+            if(item.getSoLuongSanPham() < sl){
+                rs = false;
+            }
+        }
+
+        return rs;
+    }
 
 }

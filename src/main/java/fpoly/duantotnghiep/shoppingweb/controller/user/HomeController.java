@@ -41,13 +41,9 @@ public class HomeController {
     public String thanhToan() {
         List<GioHangDtoReponse> giohang = gioHangService.laySpTrongGio();
         if (giohang.size() == 0) {
-            return "/user/gioHang";
+            return "redirect:/gio-hang";
         }
-        for (var item: giohang) {
-            if(chiTietSanPhamService.finById(item.getId()).getSoLuong() <= 0){
-                return "redirect:/gio-hang";
-            }
-        }
+        if(!gioHangService.checkSoLuong()) return "redirect:/gio-hang";
         return "/user/thanhToan";
     }
 
