@@ -487,8 +487,8 @@
                                                             </td>
                                                             <td style="width: 200px">
                                                                 <button class="btn btn-danger me-1"
-                                                                        data-toggle="modal"
-                                                                        ng-click="daXacNhan.huy(d.ma)">Hủy
+                                                                        data-toggle="modal" data-target="#lyDo"
+                                                                        ng-click="daXacNhan.setIdDonHang(d.ma)">Hủy
                                                                 </button>
                                                                 <button class="btn btn-primary"
                                                                         ng-click="daXacNhan.chuyenGiao(d.ma)">Chuyển
@@ -1326,8 +1326,7 @@
                                     <td>Phí giao hàng</td>
                                     <td colspan="4">
                                         <div class="d-flex justify-content-end">
-<!--                                            {{chuaXacNhan.detail.phiGiaoHang | currency: "" : 1}} đ-->
-                                            <input min="0" class="form-control" type="number" style="width: 150px" ng-model="chuaXacNhan.detail.phiGiaoHang" > đ
+                                            {{chuaXacNhan.detail.phiGiaoHang | currency: "" : 1}} đ
                                         </div>
                                     </td>
                                 </tr>

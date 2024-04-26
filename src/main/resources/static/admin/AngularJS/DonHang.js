@@ -498,10 +498,10 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         },
         capNhat() {
             alertify.confirm("Cập nhật đơn hàng?", function () {
-                if($scope.chuaXacNhan.detail.phiGiaoHang<0){
-                    alertify.error("Phí giao hàng phải >= 0")
-                    return
-                }
+                // if($scope.chuaXacNhan.detail.phiGiaoHang<0){
+                //     alertify.error("Phí giao hàng phải >= 0")
+                //     return
+                // }
                 let indexCity = $scope.giaoHangNhanh.citys.findIndex(c => c.ProvinceID == $scope.chuaXacNhan.detail.thanhPhoCode)
                 let indexDistrict = $scope.giaoHangNhanh.districts.findIndex(d => d.DistrictID == $scope.chuaXacNhan.detail.quanHuyenCode)
                 let indexWard = $scope.giaoHangNhanh.wards.findIndex(w => w.WardCode == $scope.chuaXacNhan.detail.xaPhuongCode)
